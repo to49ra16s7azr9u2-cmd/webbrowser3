@@ -35,8 +35,8 @@ body.scroll-locked {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
   height: 100vh;
+  height: 100dvh;
 }
 
 /* ---------- Topbar ---------- */
@@ -714,7 +714,7 @@ body.scroll-locked {
   flex: 0 0 auto;
   background: var(--bg-elevated);
   border-top: 1px solid var(--border);
-  padding: 0 8px calc(env(safe-area-inset-bottom, 0px) + 6px);
+  padding: 0 8px calc(env(safe-area-inset-bottom, 0px) + 16px);
 }
 
 .dock-collapse-btn {
@@ -726,7 +726,7 @@ body.scroll-locked {
   font-size: 10px;
   font-weight: 700;
   cursor: pointer;
-  padding: 6px 0;
+  padding: 9px 0;
   text-align: center;
 }
 
@@ -829,7 +829,7 @@ body.scroll-locked {
 }
 
 .app-lock-box .field { width: 100%; }
-.app-lock-box .field input { text-align: center; letter-spacing: 0.3em; }
+.app-lock-box .field input[type="password"] { text-align: center; letter-spacing: 0.3em; }
 .app-lock-box .btn { width: 100%; }
 
 .app-lock-error {
@@ -839,6 +839,25 @@ body.scroll-locked {
 }
 
 .app-lock-error[hidden] { display: none; }
+
+.app-lock-forgot-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.app-lock-recovery {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-lock-recovery[hidden] { display: none; }
 
 .checkbox-field {
   display: flex;

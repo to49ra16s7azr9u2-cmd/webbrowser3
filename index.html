@@ -14,13 +14,46 @@
 
 <div id="appLockScreen" class="app-lock-screen" hidden>
   <div class="app-lock-box">
-    <p id="appLockTitleText" class="app-lock-title">MyHome Browser is locked</p>
-    <label class="field">
-      <span>4-digit PIN</span>
-      <input id="appLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
-    </label>
-    <button id="appLockUnlockBtn" class="btn btn-primary" type="button">Unlock</button>
-    <p id="appLockError" class="app-lock-error" hidden>Incorrect PIN</p>
+    <div id="appLockMain">
+      <p id="appLockTitleText" class="app-lock-title">MyHome Browser is locked</p>
+      <label class="field">
+        <span>4-digit PIN</span>
+        <input id="appLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+      </label>
+      <button id="appLockUnlockBtn" class="btn btn-primary" type="button">Unlock</button>
+      <p id="appLockError" class="app-lock-error" hidden>Incorrect PIN</p>
+      <button id="appLockForgotBtn" class="text-btn app-lock-forgot-btn" type="button">Forgot PIN?</button>
+    </div>
+
+    <div id="appLockRecovery" class="app-lock-recovery" hidden>
+      <div id="appLockRecoveryQuestionStep">
+        <p id="appLockRecoveryQuestionText" class="app-lock-title"></p>
+        <label class="field">
+          <span>Your answer</span>
+          <input id="appLockAnswerInput" type="text" autocomplete="off" />
+        </label>
+        <p id="appLockAnswerError" class="app-lock-error" hidden>That answer doesn't match</p>
+        <div class="modal-actions">
+          <button id="appLockRecoveryCancelBtn" class="btn btn-secondary" type="button">Cancel</button>
+          <button id="appLockRecoveryVerifyBtn" class="btn btn-primary" type="button">Verify</button>
+        </div>
+      </div>
+
+      <div id="appLockRecoveryResetStep" hidden>
+        <p class="app-lock-title">Set a new PIN</p>
+        <label class="field">
+          <span>New 4-digit PIN</span>
+          <input id="appLockNewPinAfterRecovery" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+        </label>
+        <button id="appLockRecoverySaveBtn" class="btn btn-primary" type="button">Save &amp; Unlock</button>
+      </div>
+
+      <div id="appLockRecoveryNoQuestion" hidden>
+        <p class="app-lock-title">No recovery question is set</p>
+        <p class="modal-desc">You didn't set a security question for App Lock, so this PIN can't be recovered from here. To reset it, clear this app's data in your browser/PWA settings — note that this also resets your other MyHome Browser settings.</p>
+        <button id="appLockRecoveryBackBtn" class="btn btn-secondary" type="button">Back</button>
+      </div>
+    </div>
   </div>
 </div>
 <script>
@@ -36,15 +69,45 @@
 
 <div id="onboardingScreen" class="onboarding-screen" hidden>
   <div class="onboarding-box">
-    <div id="onboardingStepLanguage" class="onboarding-step">
-      <p class="onboarding-eyebrow">Step 1 of 4</p>
+    <div id="onboardingStepPin" class="onboarding-step">
+      <p class="onboarding-eyebrow">Step 1 of 5</p>
+      <h2 class="onboarding-title">Set up an app lock (optional)</h2>
+      <p class="modal-desc">Require a PIN to open MyHome Browser. Also set a recovery question, since there's no other way to reset a forgotten PIN. Leave the PIN blank to skip this.</p>
+      <label class="field">
+        <span>4-digit PIN</span>
+        <input id="onboardingPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Security question</span>
+        <select id="onboardingQuestionInput">
+          <option value="">Select a question (optional)</option>
+          <option value="What was your first pet's name?">What was your first pet's name?</option>
+          <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+          <option value="What was the name of your first school?">What was the name of your first school?</option>
+          <option value="What city were you born in?">What city were you born in?</option>
+          <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+          <option value="What is your favorite food?">What is your favorite food?</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Answer</span>
+        <input id="onboardingAnswerInput" type="text" autocomplete="off" />
+      </label>
+      <div class="modal-actions">
+        <button id="onboardingPinSkipBtn" class="btn btn-secondary" type="button">Skip</button>
+        <button id="onboardingPinNextBtn" class="btn btn-primary" type="button">Save &amp; Continue</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepLanguage" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 2 of 5</p>
       <h2 class="onboarding-title">Choose your language</h2>
       <p class="modal-desc">This sets the language for the next step, where you'll write about your interests.</p>
       <div id="onboardingLanguageList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepInterests" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 2 of 4</p>
+      <p class="onboarding-eyebrow">Step 3 of 5</p>
       <h2 id="interestsStepTitle" class="onboarding-title">What are you interested in?</h2>
       <p id="interestsStepDesc" class="modal-desc">Write a few sentences about what you like. We'll pick out topics automatically.</p>
       <textarea id="interestsTextInput" class="interests-textarea" rows="5" placeholder="e.g. I love watching soccer, and I'm really into new phones and gadgets..."></textarea>
@@ -54,7 +117,7 @@
     </div>
 
     <div id="onboardingStepSns" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 3 of 4</p>
+      <p class="onboarding-eyebrow">Step 4 of 5</p>
       <h2 class="onboarding-title">Which social media do you use?</h2>
       <p class="modal-desc">Choose the ones you want to see under Friends.</p>
       <ul id="onboardingSnsList" class="app-candidate-list"></ul>
@@ -64,7 +127,7 @@
     </div>
 
     <div id="onboardingStepLogin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 4 of 4</p>
+      <p class="onboarding-eyebrow">Step 5 of 5</p>
       <h2 class="onboarding-title">Log in to your apps</h2>
       <p class="modal-desc">Open each app to sign in there. You can also do this later.</p>
       <ul id="onboardingLoginList" class="onboarding-login-list"></ul>
@@ -425,6 +488,25 @@
         <input id="newAppLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="New 4-digit PIN" autocomplete="off" />
         <button id="saveAppLockPinBtn" class="btn btn-small" type="button">Save</button>
       </div>
+
+      <p class="modal-desc">Set a recovery question in case you forget your PIN. Optional, but there's no other way to recover a forgotten PIN.</p>
+      <label class="field">
+        <span>Security question</span>
+        <select id="appLockQuestionInput">
+          <option value="">Select a question (optional)</option>
+          <option value="What was your first pet's name?">What was your first pet's name?</option>
+          <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+          <option value="What was the name of your first school?">What was the name of your first school?</option>
+          <option value="What city were you born in?">What city were you born in?</option>
+          <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+          <option value="What is your favorite food?">What is your favorite food?</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Answer</span>
+        <input id="appLockAnswerSetupInput" type="text" autocomplete="off" />
+      </label>
+      <button id="saveAppLockRecoveryBtn" class="btn btn-small" type="button">Save recovery question</button>
     </section>
 
     <section class="settings-section">

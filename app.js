@@ -17,6 +17,8 @@ const STORAGE_KEYS = {
   dockCollapsed: "myhome:dockCollapsed",
   appLockEnabled: "myhome:appLockEnabled",
   appLockPin: "myhome:appLockPin",
+  appLockQuestion: "myhome:appLockQuestion",
+  appLockAnswer: "myhome:appLockAnswer",
   onboardingComplete: "myhome:onboardingComplete",
   interests: "myhome:interests",
   interestsText: "myhome:interestsText",
@@ -137,6 +139,22 @@ function saveAppLockPin(pin) {
   saveJSON(STORAGE_KEYS.appLockPin, pin);
 }
 
+function getAppLockQuestion() {
+  return loadJSON(STORAGE_KEYS.appLockQuestion, "");
+}
+
+function saveAppLockQuestion(question) {
+  saveJSON(STORAGE_KEYS.appLockQuestion, question);
+}
+
+function getAppLockAnswer() {
+  return loadJSON(STORAGE_KEYS.appLockAnswer, "");
+}
+
+function saveAppLockAnswer(answer) {
+  saveJSON(STORAGE_KEYS.appLockAnswer, answer);
+}
+
 const DEFAULT_APP_LOCK_TITLE = "MyHome Browser is locked";
 
 // App Lockの全画面ロックを、設定のON/OFFに関係なく強制的に表示する。
@@ -203,6 +221,96 @@ function initAppLock() {
     input.value = "";
     showToast("App Lock PIN updated");
   });
+
+  document.getElementById("saveAppLockRecoveryBtn").addEventListener("click", () => {
+    const question = document.getElementById("appLockQuestionInput").value.trim();
+    const answer = document.getElementById("appLockAnswerSetupInput").value.trim();
+    if (!question || !answer) {
+      showToast("Enter both a question and an answer");
+      return;
+    }
+    saveAppLockQuestion(question);
+    saveAppLockAnswer(answer);
+    showToast("Recovery question saved");
+  });
+
+  /* ---- "Forgot PIN?" recovery flow on the lock screen ---- */
+  const main = document.getElementById("appLockMain");
+  const recovery = document.getElementById("appLockRecovery");
+  const questionStep = document.getElementById("appLockRecoveryQuestionStep");
+  const resetStep = document.getElementById("appLockRecoveryResetStep");
+  const noQuestionStep = document.getElementById("appLockRecoveryNoQuestion");
+  const answerInput = document.getElementById("appLockAnswerInput");
+  const answerError = document.getElementById("appLockAnswerError");
+
+  function showRecoveryStep(step) {
+    questionStep.hidden = step !== "question";
+    resetStep.hidden = step !== "reset";
+    noQuestionStep.hidden = step !== "noQuestion";
+  }
+
+  document.getElementById("appLockForgotBtn").addEventListener("click", () => {
+    main.hidden = true;
+    recovery.hidden = false;
+    answerInput.value = "";
+    answerError.hidden = true;
+    const question = getAppLockQuestion();
+    if (question) {
+      document.getElementById("appLockRecoveryQuestionText").textContent = question;
+      showRecoveryStep("question");
+      answerInput.focus();
+    } else {
+      showRecoveryStep("noQuestion");
+    }
+  });
+
+  function backToMain() {
+    recovery.hidden = true;
+    main.hidden = false;
+    pinInput.value = "";
+    pinInput.focus();
+  }
+
+  document.getElementById("appLockRecoveryCancelBtn").addEventListener("click", backToMain);
+  document.getElementById("appLockRecoveryBackBtn").addEventListener("click", backToMain);
+
+  function verifyAnswer() {
+    const given = answerInput.value.trim().toLowerCase();
+    const saved = getAppLockAnswer().trim().toLowerCase();
+    if (given && given === saved) {
+      answerError.hidden = true;
+      showRecoveryStep("reset");
+      document.getElementById("appLockNewPinAfterRecovery").focus();
+    } else {
+      answerError.hidden = false;
+    }
+  }
+
+  document.getElementById("appLockRecoveryVerifyBtn").addEventListener("click", verifyAnswer);
+  answerInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") verifyAnswer();
+  });
+
+  function saveNewPinAndUnlock() {
+    const newPinInput = document.getElementById("appLockNewPinAfterRecovery");
+    const value = newPinInput.value.trim();
+    if (!/^\d{4}$/.test(value)) {
+      showToast("PIN must be exactly 4 digits");
+      return;
+    }
+    saveAppLockPin(value);
+    newPinInput.value = "";
+    recovery.hidden = true;
+    main.hidden = false;
+    screen.hidden = true;
+    if (titleEl) titleEl.textContent = DEFAULT_APP_LOCK_TITLE;
+    showToast("PIN reset");
+  }
+
+  document.getElementById("appLockRecoverySaveBtn").addEventListener("click", saveNewPinAndUnlock);
+  document.getElementById("appLockNewPinAfterRecovery").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") saveNewPinAndUnlock();
+  });
 }
 
 // 初回起動時のセットアップ（言語選択 → 興味のある分野を自由記述 → 使うSNSの選択 → 各SNSへのログイン導線）。
@@ -216,6 +324,7 @@ function initOnboarding() {
   }
   screen.hidden = false;
 
+  const stepPin = document.getElementById("onboardingStepPin");
   const stepLanguage = document.getElementById("onboardingStepLanguage");
   const stepInterests = document.getElementById("onboardingStepInterests");
   const stepSns = document.getElementById("onboardingStepSns");
@@ -223,7 +332,42 @@ function initOnboarding() {
 
   let selectedLanguage = DEFAULT_LANGUAGE;
 
-  /* ---- Step 1: language ---- */
+  /* ---- Step 1: app lock PIN + recovery question (optional) ---- */
+  function goToLanguageStep() {
+    stepPin.hidden = true;
+    stepLanguage.hidden = false;
+  }
+
+  document.getElementById("onboardingPinSkipBtn").addEventListener("click", goToLanguageStep);
+
+  document.getElementById("onboardingPinNextBtn").addEventListener("click", () => {
+    const pin = document.getElementById("onboardingPinInput").value.trim();
+    const question = document.getElementById("onboardingQuestionInput").value.trim();
+    const answer = document.getElementById("onboardingAnswerInput").value.trim();
+
+    if (!pin) {
+      goToLanguageStep();
+      return;
+    }
+    if (!/^\d{4}$/.test(pin)) {
+      showToast("PIN must be exactly 4 digits");
+      return;
+    }
+    if (Boolean(question) !== Boolean(answer)) {
+      showToast("Fill in both the question and answer, or leave both blank");
+      return;
+    }
+
+    saveAppLockPin(pin);
+    saveAppLockEnabled(true);
+    if (question && answer) {
+      saveAppLockQuestion(question);
+      saveAppLockAnswer(answer);
+    }
+    goToLanguageStep();
+  });
+
+  /* ---- Step 2: language ---- */
   function applyOnboardingLanguage(code) {
     const t = ONBOARDING_I18N[code] || ONBOARDING_I18N[DEFAULT_LANGUAGE];
     document.getElementById("interestsStepTitle").textContent = t.title;
@@ -250,7 +394,7 @@ function initOnboarding() {
     languageList.appendChild(btn);
   });
 
-  /* ---- Step 2: interests, written freely in the chosen language ---- */
+  /* ---- Step 3: interests, written freely in the chosen language ---- */
   document.getElementById("interestsNextBtn").addEventListener("click", () => {
     const text = document.getElementById("interestsTextInput").value.trim();
     saveInterestsText(text);
@@ -260,7 +404,7 @@ function initOnboarding() {
     renderOnboardingSnsList();
   });
 
-  /* ---- Step 3: which SNS to use ---- */
+  /* ---- Step 4: which SNS to use ---- */
   document.getElementById("onboardingSnsNextBtn").addEventListener("click", () => {
     const checked = Array.from(
       document.querySelectorAll('#onboardingSnsList input[type="checkbox"]:checked')
@@ -271,7 +415,7 @@ function initOnboarding() {
     renderOnboardingLoginList(checked);
   });
 
-  /* ---- Step 4: log in to the chosen SNS ---- */
+  /* ---- Step 5: log in to the chosen SNS ---- */
   document.getElementById("onboardingFinishBtn").addEventListener("click", () => {
     saveOnboardingComplete(true);
     screen.hidden = true;
@@ -380,19 +524,20 @@ const DEFAULT_DURATIONS = [
 
 // スマホにインストール済みのアプリ一覧はWebページから自動取得できないため、
 // あらかじめ用意した候補からユーザーが選ぶ方式にしている。
-// scheme: アプリを直接開くURL、web: アプリが無い場合のフォールバック先、
+// web: タップした時に新しいタブで開くURL（Instagram/Facebook/X/TikTok等は
+// 埋め込み表示をX-Frame-Options等で拒否しているため、常にWeb版を新規タブで開く）、
 // domain: 本物のアイコン(favicon)をその場で読み込むための参照元ドメイン
 // （ロゴ画像ファイル自体は同梱せず、常に公式サイトから直接取得する）。
 const APP_CANDIDATES = [
-  { id: "instagram", name: "Instagram", initial: "I", scheme: "instagram://app", web: "https://www.instagram.com/", domain: "instagram.com" },
-  { id: "x", name: "X", initial: "X", scheme: "twitter://", web: "https://x.com/", domain: "x.com" },
-  { id: "facebook", name: "Facebook", initial: "F", scheme: "fb://", web: "https://www.facebook.com/", domain: "facebook.com" },
-  { id: "youtube", name: "YouTube", initial: "Y", scheme: "youtube://", web: "https://www.youtube.com/", domain: "youtube.com" },
-  { id: "tiktok", name: "TikTok", initial: "T", scheme: "tiktok://", web: "https://www.tiktok.com/", domain: "tiktok.com" },
-  { id: "threads", name: "Threads", initial: "T", scheme: "barcelona://", web: "https://www.threads.net/", domain: "threads.net" },
-  { id: "netflix", name: "Netflix", initial: "N", scheme: "nflx://", web: "https://www.netflix.com/", domain: "netflix.com" },
-  { id: "amazon", name: "Amazon", initial: "A", scheme: "com.amazon.mobile.shopping://", web: "https://www.amazon.co.jp/", domain: "amazon.co.jp" },
-  { id: "slack", name: "Slack", initial: "S", scheme: "slack://", web: "https://slack.com/", domain: "slack.com" },
+  { id: "instagram", name: "Instagram", initial: "I", web: "https://www.instagram.com/", domain: "instagram.com" },
+  { id: "x", name: "X", initial: "X", web: "https://x.com/", domain: "x.com" },
+  { id: "facebook", name: "Facebook", initial: "F", web: "https://www.facebook.com/", domain: "facebook.com" },
+  { id: "youtube", name: "YouTube", initial: "Y", web: "https://www.youtube.com/", domain: "youtube.com" },
+  { id: "tiktok", name: "TikTok", initial: "T", web: "https://www.tiktok.com/", domain: "tiktok.com" },
+  { id: "threads", name: "Threads", initial: "T", web: "https://www.threads.net/", domain: "threads.net" },
+  { id: "netflix", name: "Netflix", initial: "N", web: "https://www.netflix.com/", domain: "netflix.com" },
+  { id: "amazon", name: "Amazon", initial: "A", web: "https://www.amazon.co.jp/", domain: "amazon.co.jp" },
+  { id: "slack", name: "Slack", initial: "S", web: "https://slack.com/", domain: "slack.com" },
 ];
 
 // 公式サイトの実物のアイコン(favicon)をその場で取得するためのURL。
@@ -766,7 +911,9 @@ const ScrollLock = (() => {
   }
 
   function isInsideAllowedArea(target) {
-    return !!(target && target.closest && target.closest(".scrollable-allow"));
+    // モーダル(設定画面など)は「際限なく流れてくるコンテンツ」ではなく単なるUIなので、
+    // スクロールOFF中でも中身をスクロールして閉じるボタン等に到達できるようにする。
+    return !!(target && target.closest && (target.closest(".scrollable-allow") || target.closest(".modal")));
   }
 
   function blockEvent(e) {
@@ -1100,6 +1247,8 @@ function openSettingsModal() {
   populateAppearanceInputs();
   document.getElementById("feedRefreshSelect").value = String(getFeedRefreshHours());
   renderAppInsights();
+  document.getElementById("appLockQuestionInput").value = getAppLockQuestion();
+  document.getElementById("appLockAnswerSetupInput").value = getAppLockAnswer();
   document.getElementById("settingsModal").hidden = false;
 }
 function closeSettingsModal() {
@@ -1564,19 +1713,15 @@ function renderDock() {
   });
 }
 
-// 各SNSの「投稿を作成」画面へのリンク。scheme はアプリの投稿作成画面を試み、
-// 失敗したらwebにフォールバックする（openApp()と同じ仕組みを再利用）。
-// Facebook/Instagram/TikTok/Threadsのアプリ内投稿作成への直接スキームは
-// 各社が公式に保証しているものではないため、うまく開けない端末もあり得る
-// （その場合は自動的にWeb版へフォールバックする）。X/YouTubeのWeb版URLは公式の
-// 投稿・アップロード画面。
+// 各SNSの「投稿を作成」画面へのリンク。常にWeb版を新しいタブで開く
+// （openApp()と同じ仕組みを再利用）。
 const SNS_COMPOSE_LINKS = {
-  instagram: { scheme: "instagram://camera", web: "https://www.instagram.com/" },
-  facebook: { scheme: "fb://composer", web: "https://www.facebook.com/" },
-  x: { scheme: "twitter://post", web: "https://twitter.com/intent/tweet" },
-  youtube: { scheme: "vnd.youtube://upload", web: "https://www.youtube.com/upload" },
-  tiktok: { scheme: "snssdk1233://", web: "https://www.tiktok.com/upload" },
-  threads: { scheme: "barcelona://camera", web: "https://www.threads.net/intent/post" },
+  instagram: { web: "https://www.instagram.com/" },
+  facebook: { web: "https://www.facebook.com/" },
+  x: { web: "https://twitter.com/intent/tweet" },
+  youtube: { web: "https://www.youtube.com/upload" },
+  tiktok: { web: "https://www.tiktok.com/upload" },
+  threads: { web: "https://www.threads.net/intent/post" },
 };
 
 /* ==========================================================================
@@ -1680,27 +1825,11 @@ function initAwaySessionTracking() {
 }
 
 function openApp(app) {
-  // アプリが端末にインストール済みならscheme URLで直接開き、
-  // 既にログイン済みのセッションのままスムーズに開ける。
-  // 未インストールの場合はタイムアウト後にWeb版へフォールバックする。
-  let didHide = false;
-  const onVisibilityChange = () => {
-    if (document.hidden) {
-      didHide = true;
-      startAwaySession(app.id);
-    }
-  };
-  document.addEventListener("visibilitychange", onVisibilityChange);
-
-  window.location.href = app.scheme;
-
-  setTimeout(() => {
-    document.removeEventListener("visibilitychange", onVisibilityChange);
-    if (!didHide) {
-      window.open(app.web, "_blank", "noopener");
-      startAwaySession(app.id);
-    }
-  }, 800);
+  // Instagram/Facebook/X/TikTokは埋め込み表示をX-Frame-Options等で拒否しており、
+  // このアプリからは中身を操作できないため、ネイティブアプリのschemeへ直接遷移する
+  // 従来方式はやめ、常にWeb版を新しいタブで開く（ユーザーの選択に基づく仕様）。
+  window.open(app.web, "_blank", "noopener");
+  startAwaySession(app.id);
 }
 
 /* ==========================================================================
