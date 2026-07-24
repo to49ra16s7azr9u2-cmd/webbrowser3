@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>MyHome Browser</title>
+<meta name="theme-color" content="#0f172a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC" />
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="appLockScreen" class="app-lock-screen" hidden>
+  <div class="app-lock-box">
+    <p id="appLockTitleText" class="app-lock-title">MyHome Browser is locked</p>
+    <label class="field">
+      <span>4-digit PIN</span>
+      <input id="appLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+    </label>
+    <button id="appLockUnlockBtn" class="btn btn-primary" type="button">Unlock</button>
+    <p id="appLockError" class="app-lock-error" hidden>Incorrect PIN</p>
+  </div>
+</div>
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("myhome:appLockEnabled") === "true") {
+        var el = document.getElementById("appLockScreen");
+        if (el) el.hidden = false;
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<div id="onboardingScreen" class="onboarding-screen" hidden>
+  <div class="onboarding-box">
+    <div id="onboardingStepLanguage" class="onboarding-step">
+      <p class="onboarding-eyebrow">Step 1 of 4</p>
+      <h2 class="onboarding-title">Choose your language</h2>
+      <p class="modal-desc">This sets the language for the next step, where you'll write about your interests.</p>
+      <div id="onboardingLanguageList" class="language-list"></div>
+    </div>
+
+    <div id="onboardingStepInterests" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 2 of 4</p>
+      <h2 id="interestsStepTitle" class="onboarding-title">What are you interested in?</h2>
+      <p id="interestsStepDesc" class="modal-desc">Write a few sentences about what you like. We'll pick out topics automatically.</p>
+      <textarea id="interestsTextInput" class="interests-textarea" rows="5" placeholder="e.g. I love watching soccer, and I'm really into new phones and gadgets..."></textarea>
+      <div class="modal-actions">
+        <button id="interestsNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepSns" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 3 of 4</p>
+      <h2 class="onboarding-title">Which social media do you use?</h2>
+      <p class="modal-desc">Choose the ones you want to see under Friends.</p>
+      <ul id="onboardingSnsList" class="app-candidate-list"></ul>
+      <div class="modal-actions">
+        <button id="onboardingSnsNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepLogin" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 4 of 4</p>
+      <h2 class="onboarding-title">Log in to your apps</h2>
+      <p class="modal-desc">Open each app to sign in there. You can also do this later.</p>
+      <ul id="onboardingLoginList" class="onboarding-login-list"></ul>
+      <div class="modal-actions">
+        <button id="onboardingFinishBtn" class="btn btn-primary" type="button">Finish setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("myhome:onboardingComplete") !== "true") {
+        var el = document.getElementById("onboardingScreen");
+        if (el) el.hidden = false;
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<div id="app">
+
+  <header class="topbar">
+    <div class="scroll-control">
+      <button id="scrollToggleBtn" class="scroll-toggle is-off" type="button">
+        <span class="dot"></span>
+        <span id="scrollToggleLabel">Scroll OFF</span>
+      </button>
+      <div id="scrollTimer" class="scroll-timer" hidden></div>
+
+      <div class="focus-timer-wrap">
+        <button id="focusTimerBtn" class="text-btn" type="button" aria-expanded="false" aria-label="Set a timer">Timer</button>
+        <div id="focusTimerPanel" class="tips-panel focus-timer-panel" hidden>
+          <div id="focusTimerSetup">
+            <p class="modal-desc">Use it as a plain timer, or have it lock the app when time's up to limit your phone use.</p>
+            <div class="hms-row">
+              <label class="field hms-field">
+                <span>Hours</span>
+                <input id="focusTimerHours" type="number" min="0" max="23" value="0" inputmode="numeric" />
+              </label>
+              <label class="field hms-field">
+                <span>Minutes</span>
+                <input id="focusTimerMinutes" type="number" min="0" max="59" value="20" inputmode="numeric" />
+              </label>
+              <label class="field hms-field">
+                <span>Seconds</span>
+                <input id="focusTimerSeconds" type="number" min="0" max="59" value="0" inputmode="numeric" />
+              </label>
+            </div>
+            <label class="checkbox-field">
+              <input id="focusTimerLockInput" type="checkbox" />
+              <span>Lock the app when time's up</span>
+            </label>
+            <button id="focusTimerStartBtn" class="btn btn-small" type="button">Start</button>
+          </div>
+          <div id="focusTimerRunning" hidden>
+            <p id="focusTimerRunningText" class="modal-desc"></p>
+            <button id="focusTimerCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel timer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="settingsBtn" class="text-btn" type="button" aria-label="Open settings">Setting</button>
+
+    <div class="tips-wrap">
+      <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
+      <div id="tipsPanel" class="tips-panel" hidden>
+        <ul class="tips-list">
+          <li>You don't need to do anything — just open the app and read. Posts show up on their own.</li>
+          <li>Friends' posts refresh automatically. Change how often in Settings &rarr; Friends Feed Refresh.</li>
+          <li>Want to follow someone new? Open their app from the dock below and follow them there — their posts will then appear under Friends.</li>
+          <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.</li>
+        </ul>
+        <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
+      </div>
+    </div>
+  </header>
+
+  <form id="searchForm" class="search-bar" role="search">
+    <input id="searchInput" type="search" name="q" placeholder="Search the web" autocomplete="off" />
+  </form>
+
+  <div id="insightsBarWrap" class="insights-bar-wrap" hidden>
+    <div id="insightsBarTrack" class="insights-bar-track"></div>
+    <div id="insightsBarLegend" class="insights-bar-legend"></div>
+    <div id="insightsScrollLine" class="insights-scroll-line" hidden></div>
+  </div>
+
+  <main class="content">
+    <nav class="category-tabs" role="tablist" aria-label="Choose content category">
+      <button class="tab is-active" data-cat="interest" type="button">Your Interests</button>
+      <button class="tab" data-cat="noninterest" type="button">Outside Your Bubble</button>
+      <button class="tab" data-cat="top" type="button">Top News</button>
+      <button class="tab" data-cat="friends" type="button">Friends</button>
+    </nav>
+
+    <section id="panel-interest" class="panel is-active" data-panel="interest">
+      <nav class="rw-tabs" role="tablist" aria-label="Read or watch">
+        <button class="rw-tab is-active" data-rw="read" type="button">Read</button>
+        <button class="rw-tab" data-rw="watch" type="button">Watch</button>
+      </nav>
+      <div class="rw-panel is-active" data-rw-panel="read">
+        <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
+        <div class="following-list" id="feed-interest"></div>
+        <div class="search-pagination">
+          <button id="interestPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="interestPageNumbers" class="search-page-numbers"></div>
+          <button id="interestNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div class="rw-panel" data-rw-panel="watch">
+        <div class="following-list" id="feed-interest-watch"></div>
+        <div class="search-pagination">
+          <button id="interestWatchPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="interestWatchPageNumbers" class="search-page-numbers"></div>
+          <button id="interestWatchNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-noninterest" class="panel" data-panel="noninterest">
+      <nav class="rw-tabs" role="tablist" aria-label="Read or watch">
+        <button class="rw-tab is-active" data-rw="read" type="button">Read</button>
+        <button class="rw-tab" data-rw="watch" type="button">Watch</button>
+      </nav>
+      <div class="rw-panel is-active" data-rw-panel="read">
+        <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
+        <div class="following-list" id="feed-noninterest"></div>
+        <div class="search-pagination">
+          <button id="noninterestPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="noninterestPageNumbers" class="search-page-numbers"></div>
+          <button id="noninterestNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div class="rw-panel" data-rw-panel="watch">
+        <div class="following-list" id="feed-noninterest-watch"></div>
+        <div class="search-pagination">
+          <button id="noninterestWatchPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="noninterestWatchPageNumbers" class="search-page-numbers"></div>
+          <button id="noninterestWatchNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-top" class="panel" data-panel="top">
+      <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
+      <div class="following-list" id="feed-top"></div>
+      <div class="search-pagination">
+        <button id="topPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+        <div id="topPageNumbers" class="search-page-numbers"></div>
+        <button id="topNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+      </div>
+    </section>
+
+    <section id="panel-friends" class="panel" data-panel="friends">
+      <nav class="sns-tabs" role="tablist" aria-label="Choose a social network">
+        <button class="sns-tab is-active" data-sns="instagram" type="button">Instagram</button>
+        <button class="sns-tab" data-sns="facebook" type="button">Facebook</button>
+        <button class="sns-tab" data-sns="x" type="button">X</button>
+        <button class="sns-tab" data-sns="youtube" type="button">YouTube</button>
+        <button class="sns-tab" data-sns="tiktok" type="button">TikTok</button>
+        <button class="sns-tab" data-sns="threads" type="button">Threads</button>
+      </nav>
+
+      <div id="friendsEmptyState" class="friends-empty-state" hidden>
+        No social media apps are selected yet. Add one from Edit Apps below to see friends' posts here.
+      </div>
+
+      <div id="sns-instagram" class="sns-panel is-active" data-sns-panel="instagram">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="instagram" type="button">New Post</button>
+        </div>
+        <div class="following-list" id="feed-instagram"></div>
+        <div class="search-pagination">
+          <button id="instagramPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="instagramPageNumbers" class="search-page-numbers"></div>
+          <button id="instagramNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div id="sns-facebook" class="sns-panel" data-sns-panel="facebook">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="facebook" type="button">New Post</button>
+        </div>
+        <div class="following-list" id="feed-facebook"></div>
+        <div class="search-pagination">
+          <button id="facebookPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="facebookPageNumbers" class="search-page-numbers"></div>
+          <button id="facebookNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div id="sns-x" class="sns-panel" data-sns-panel="x">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="x" type="button">New Post</button>
+        </div>
+        <div class="following-list" id="feed-x"></div>
+        <div class="search-pagination">
+          <button id="xPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="xPageNumbers" class="search-page-numbers"></div>
+          <button id="xNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div id="sns-youtube" class="sns-panel" data-sns-panel="youtube">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="youtube" type="button">Upload Video</button>
+        </div>
+        <div class="following-list" id="feed-youtube"></div>
+        <div class="search-pagination">
+          <button id="youtubePrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="youtubePageNumbers" class="search-page-numbers"></div>
+          <button id="youtubeNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div id="sns-tiktok" class="sns-panel" data-sns-panel="tiktok">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="tiktok" type="button">Upload Video</button>
+        </div>
+        <div class="following-list" id="feed-tiktok"></div>
+        <div class="search-pagination">
+          <button id="tiktokPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="tiktokPageNumbers" class="search-page-numbers"></div>
+          <button id="tiktokNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+      <div id="sns-threads" class="sns-panel" data-sns-panel="threads">
+        <div class="sns-panel-header">
+          <button class="btn btn-small sns-post-btn" data-sns="threads" type="button">New Post</button>
+        </div>
+        <div class="following-list" id="feed-threads"></div>
+        <div class="search-pagination">
+          <button id="threadsPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+          <div id="threadsPageNumbers" class="search-page-numbers"></div>
+          <button id="threadsNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section id="searchResultsView" class="search-results" hidden>
+    <div class="search-results-topbar">
+      <button id="closeSearchResults" class="icon-btn" type="button" aria-label="Close search results">✕</button>
+      <div id="searchResultsQuery" class="search-results-query"></div>
+    </div>
+    <nav id="searchTypeTabs" class="result-type-tabs" role="tablist" aria-label="Result type">
+      <button class="result-type-tab is-active" data-type="all" type="button">All</button>
+      <button class="result-type-tab" data-type="videos" type="button">Videos</button>
+      <button class="result-type-tab" data-type="images" type="button">Images</button>
+      <button class="result-type-tab" data-type="maps" type="button">Maps</button>
+      <button class="result-type-tab" data-type="shopping" type="button">Shopping</button>
+    </nav>
+    <div id="aiSummaryBox" class="ai-summary" hidden>
+      <div class="ai-summary-label">AI Summary</div>
+      <p id="aiSummaryText" class="ai-summary-text"></p>
+    </div>
+    <div id="searchResultsList" class="search-results-list"></div>
+    <div class="search-pagination">
+      <button id="searchPrevBtn" class="btn btn-secondary btn-small" type="button">‹ Prev</button>
+      <div id="searchPageNumbers" class="search-page-numbers"></div>
+      <button id="searchNextBtn" class="btn btn-secondary btn-small" type="button">Next ›</button>
+    </div>
+  </section>
+
+  <footer class="app-dock">
+    <button id="dockCollapseBtn" class="dock-collapse-btn" type="button" aria-expanded="true">Hide Apps</button>
+    <div id="dockContent">
+      <div id="dockGrid" class="dock-grid"></div>
+      <button id="editDockBtn" class="dock-edit-btn" type="button">Edit Apps</button>
+    </div>
+  </footer>
+</div>
+
+<!-- Turn scroll on confirmation modal -->
+<div id="scrollOnModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scrollOnTitle">
+    <h2 id="scrollOnTitle">Turn scroll ON</h2>
+    <p class="modal-desc">Choose a reason and a time limit. Scroll will switch back OFF automatically when time is up.</p>
+
+    <label class="field">
+      <span>Reason</span>
+      <select id="reasonSelect"></select>
+    </label>
+
+    <label class="field">
+      <span>Time limit</span>
+      <select id="durationSelect"></select>
+    </label>
+
+    <label class="field">
+      <span>4-digit PIN</span>
+      <input id="scrollPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+    </label>
+
+    <div class="modal-actions">
+      <button id="cancelScrollOn" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="confirmScrollOn" class="btn btn-primary" type="button">Turn ON</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm before opening an app from the dock -->
+<div id="appOpenConfirmModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appOpenConfirmTitle">
+    <h2 id="appOpenConfirmTitle">Open this app?</h2>
+    <p id="appOpenConfirmDesc" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="appOpenCancelBtn" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="appOpenConfirmBtn" class="btn btn-primary" type="button">Open</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div id="settingsModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <h2 id="settingsTitle">Settings</h2>
+
+    <section class="settings-section">
+      <h3>Appearance</h3>
+      <div id="presetRow" class="preset-row">
+        <button type="button" class="preset-swatch" data-accent="#65a30d" data-bg="#ffffff" style="--swatch-a:#65a30d;--swatch-b:#ffffff;">Green</button>
+        <button type="button" class="preset-swatch" data-accent="#2563eb" data-bg="#eef4ff" style="--swatch-a:#2563eb;--swatch-b:#eef4ff;">Blue</button>
+      </div>
+      <div class="color-row">
+        <label class="color-field">
+          <span>Accent color</span>
+          <input id="accentColorInput" type="color" />
+        </label>
+        <label class="color-field">
+          <span>Background color</span>
+          <input id="bgColorInput" type="color" />
+        </label>
+      </div>
+      <label for="bgImageInput" class="btn btn-small file-label">Choose background image</label>
+      <input id="bgImageInput" type="file" accept="image/*" hidden />
+      <div class="modal-actions">
+        <button id="removeBgImageBtn" class="btn btn-secondary" type="button">Remove image</button>
+        <button id="resetAppearanceBtn" class="btn btn-secondary" type="button">Reset colors</button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h3>Scroll PIN</h3>
+      <p class="modal-desc">A 4-digit PIN is required to turn scroll ON. Default PIN is 0000 until you change it.</p>
+      <div class="add-row">
+        <input id="newPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="New 4-digit PIN" autocomplete="off" />
+        <button id="savePinBtn" class="btn btn-small" type="button">Save</button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h3>App Lock</h3>
+      <p class="modal-desc">Require a 4-digit PIN every time the app is opened. Default PIN is 0000 until you change it.</p>
+      <label class="checkbox-field">
+        <input id="appLockEnabledInput" type="checkbox" />
+        <span>Require PIN to open the app</span>
+      </label>
+      <div class="add-row">
+        <input id="newAppLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="New 4-digit PIN" autocomplete="off" />
+        <button id="saveAppLockPinBtn" class="btn btn-small" type="button">Save</button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h3>App Insights</h3>
+      <p class="modal-desc">How often you open each app from the dock, and roughly how long you're away for. Times are estimated from when you leave and come back to this app, not from inside the other app.</p>
+      <ul id="appInsightsList" class="insights-list"></ul>
+    </section>
+
+    <section class="settings-section">
+      <h3>Friends Feed Refresh</h3>
+      <p class="modal-desc">How often the sample posts in the Friends tabs rotate.</p>
+      <label class="field">
+        <span>Refresh interval</span>
+        <select id="feedRefreshSelect">
+          <option value="6">Every 6 hours</option>
+          <option value="12">Every 12 hours</option>
+          <option value="24">Every 24 hours</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h3>Reasons</h3>
+      <ul id="reasonList" class="editable-list"></ul>
+      <div class="add-row">
+        <input id="newReasonInput" type="text" placeholder="Add a new reason" maxlength="40" />
+        <button id="addReasonBtn" class="btn btn-small" type="button">Add</button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h3>Time limits</h3>
+      <ul id="durationList" class="editable-list"></ul>
+      <div class="add-row">
+        <input id="newDurationLabel" type="text" placeholder="Label (e.g. 15 min)" maxlength="20" />
+        <input id="newDurationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+        <button id="addDurationBtn" class="btn btn-small" type="button">Add</button>
+      </div>
+    </section>
+
+    <div class="modal-actions">
+      <button id="closeSettings" class="btn btn-primary" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- App picker modal -->
+<div id="appPickerModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appPickerTitle">
+    <h2 id="appPickerTitle">Choose apps (up to 10)</h2>
+    <p class="modal-desc">The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.</p>
+    <ul id="appCandidateList" class="app-candidate-list"></ul>
+    <div class="modal-actions">
+      <button id="cancelAppPicker" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="saveAppPicker" class="btn btn-primary" type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
