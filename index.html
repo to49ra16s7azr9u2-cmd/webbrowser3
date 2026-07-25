@@ -246,7 +246,6 @@
         <button class="rw-tab" data-rw="watch" type="button">Watch</button>
       </nav>
       <div class="rw-panel is-active" data-rw-panel="read">
-        <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
         <div class="following-list" id="feed-interest"></div>
         <div class="search-pagination">
           <button id="interestPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
@@ -270,7 +269,6 @@
         <button class="rw-tab" data-rw="watch" type="button">Watch</button>
       </nav>
       <div class="rw-panel is-active" data-rw-panel="read">
-        <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
         <div class="following-list" id="feed-noninterest"></div>
         <div class="search-pagination">
           <button id="noninterestPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
@@ -289,7 +287,6 @@
     </section>
 
     <section id="panel-top" class="panel" data-panel="top">
-      <div class="placeholder-note">Note: this is sample data. Replace this section to connect a real news/social API.</div>
       <div class="following-list" id="feed-top"></div>
       <div class="search-pagination">
         <button id="topPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
@@ -391,6 +388,17 @@
       <span>Time limit</span>
       <select id="durationSelect"></select>
     </label>
+
+    <div id="customDurationRow" class="hms-row" hidden>
+      <label class="field hms-field">
+        <span>Hours</span>
+        <input id="customDurationHours" type="number" min="0" max="23" value="0" inputmode="numeric" />
+      </label>
+      <label class="field hms-field">
+        <span>Minutes</span>
+        <input id="customDurationMinutes" type="number" min="0" max="59" value="15" inputmode="numeric" />
+      </label>
+    </div>
 
     <label class="field">
       <span>4-digit PIN</span>

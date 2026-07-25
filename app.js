@@ -121,7 +121,6 @@ const UI_I18N = {
     "Watch": "Assistir",
     "Choose content category": "Escolher categoria de conteúdo",
     "Read or watch": "Ler ou assistir",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "Observação: estes são dados de exemplo. Substitua esta seção para conectar uma API real de notícias/redes sociais.",
     "All time": "Desde o início",
     "Hour": "Hora",
     "Day": "Dia",
@@ -352,6 +351,9 @@ const UI_I18N = {
     "{distance} mi": "{distance} mi",
     "{query} — Item {number}": "{query} — Item {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Tempo esgotado! O MyHome Browser fica bloqueado até você desbloquear.",
+    "Custom…": "Personalizado…",
+    "Set a time limit of at least 1 minute": "Defina um limite de pelo menos 1 minuto",
+    "{hours}h {minutes}m": "{hours} h {minutes} min",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -391,7 +393,6 @@ const UI_I18N = {
     "Watch": "Ansehen",
     "Choose content category": "Inhaltskategorie wählen",
     "Read or watch": "Lesen oder ansehen",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "Hinweis: Dies sind Beispieldaten. Ersetze diesen Abschnitt, um eine echte News-/Social-API anzubinden.",
     "All time": "Gesamt",
     "Hour": "Stunde",
     "Day": "Tag",
@@ -622,6 +623,9 @@ const UI_I18N = {
     "{distance} mi": "{distance} mi",
     "{query} — Item {number}": "{query} — Artikel {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Zeit abgelaufen! MyHome Browser bleibt gesperrt, bis du entsperrst.",
+    "Custom…": "Eigene Dauer…",
+    "Set a time limit of at least 1 minute": "Stelle ein Zeitlimit von mindestens 1 Minute ein",
+    "{hours}h {minutes}m": "{hours} Std. {minutes} Min.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -661,7 +665,6 @@ const UI_I18N = {
     "Watch": "Regarder",
     "Choose content category": "Choisir une catégorie de contenu",
     "Read or watch": "Lire ou regarder",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "Remarque : ce sont des données d'exemple. Remplacez cette section pour connecter une vraie API d'actualités/réseaux sociaux.",
     "All time": "Depuis le début",
     "Hour": "Heure",
     "Day": "Jour",
@@ -892,6 +895,9 @@ const UI_I18N = {
     "{distance} mi": "{distance} mi",
     "{query} — Item {number}": "{query} — Article {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Temps écoulé ! MyHome Browser reste verrouillé jusqu'à ce que vous le déverrouilliez.",
+    "Custom…": "Personnalisé…",
+    "Set a time limit of at least 1 minute": "Choisissez une limite d'au moins 1 minute",
+    "{hours}h {minutes}m": "{hours} h {minutes} min",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -931,7 +937,6 @@ const UI_I18N = {
     "Watch": "보기",
     "Choose content category": "콘텐츠 분류 선택",
     "Read or watch": "읽기 또는 보기",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "참고: 예시 데이터입니다. 실제 뉴스/소셜 API를 연결하려면 이 부분을 교체하세요.",
     "All time": "전체 기간",
     "Hour": "시간",
     "Day": "일",
@@ -1162,6 +1167,9 @@ const UI_I18N = {
     "{distance} mi": "{distance}마일",
     "{query} — Item {number}": "{query} — 상품 {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "시간이 되었습니다. 잠금을 해제할 때까지 MyHome Browser는 잠깁니다.",
+    "Custom…": "직접 입력…",
+    "Set a time limit of at least 1 minute": "제한 시간은 1분 이상으로 설정하세요",
+    "{hours}h {minutes}m": "{hours}시간 {minutes}분",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1201,7 +1209,6 @@ const UI_I18N = {
     "Watch": "观看",
     "Choose content category": "选择内容分类",
     "Read or watch": "阅读或观看",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "注意：这是示例数据。若要接入真实的新闻/社交 API，请替换此部分。",
     "All time": "全部时间",
     "Hour": "小时",
     "Day": "天",
@@ -1432,6 +1439,9 @@ const UI_I18N = {
     "{distance} mi": "{distance} 英里",
     "{query} — Item {number}": "{query} — 商品 {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "时间到了！在你解锁之前，MyHome Browser 将保持锁定。",
+    "Custom…": "自定义…",
+    "Set a time limit of at least 1 minute": "时间限制请设置为至少 1 分钟",
+    "{hours}h {minutes}m": "{hours} 小时 {minutes} 分",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1471,7 +1481,6 @@ const UI_I18N = {
     "Watch": "Ver",
     "Choose content category": "Elegir categoría de contenido",
     "Read or watch": "Leer o ver",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "Nota: estos son datos de ejemplo. Sustituye esta sección para conectar una API real de noticias o redes sociales.",
     "All time": "Todo el tiempo",
     "Hour": "Hora",
     "Day": "Día",
@@ -1702,6 +1711,9 @@ const UI_I18N = {
     "{distance} mi": "{distance} mi",
     "{query} — Item {number}": "{query} — Artículo {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Se acabó el tiempo. MyHome Browser queda bloqueado hasta que lo desbloquees.",
+    "Custom…": "Personalizado…",
+    "Set a time limit of at least 1 minute": "Elige un límite de al menos 1 minuto",
+    "{hours}h {minutes}m": "{hours} h {minutes} min",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1744,7 +1756,6 @@ const UI_I18N = {
     "Watch": "見る",
     "Choose content category": "カテゴリを選ぶ",
     "Read or watch": "読む / 見る",
-    "Note: this is sample data. Replace this section to connect a real news/social API.": "注: これはサンプルデータです。実際のニュース/SNS APIに繋ぐ場合はこの部分を差し替えてください。",
     // ---- インサイト ----
     "All time": "全期間",
     "Hour": "時間",
@@ -1982,6 +1993,9 @@ const UI_I18N = {
     "{distance} mi": "{distance}マイル",
     "{query} — Item {number}": "{query} — 商品{number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "時間になりました。解除するまでMyHome Browserはロックされます。",
+    "Custom…": "自由に決める…",
+    "Set a time limit of at least 1 minute": "制限時間は1分以上にしてください",
+    "{hours}h {minutes}m": "{hours}時間{minutes}分",
   },
 };
 
@@ -2658,7 +2672,6 @@ const APP_CANDIDATES = [
   { id: "threads", name: "Threads", initial: "T", web: "https://www.threads.net/", domain: "threads.net" },
   { id: "netflix", name: "Netflix", initial: "N", web: "https://www.netflix.com/", domain: "netflix.com" },
   { id: "amazon", name: "Amazon", initial: "A", web: "https://www.amazon.co.jp/", domain: "amazon.co.jp" },
-  { id: "slack", name: "Slack", initial: "S", web: "https://slack.com/", domain: "slack.com" },
 ];
 
 // 公式サイトの実物のアイコン(favicon)をその場で取得するためのURL。
@@ -3376,6 +3389,38 @@ function populateScrollOnModal() {
     opt.textContent = t(d.label);
     durationSelect.appendChild(opt);
   });
+
+  // よく使う候補のほかに、その場で好きな長さを入れられる選択肢を用意する。
+  const customOpt = document.createElement("option");
+  customOpt.value = CUSTOM_DURATION_VALUE;
+  customOpt.textContent = t("Custom…");
+  durationSelect.appendChild(customOpt);
+
+  applyCustomDurationVisibility();
+}
+
+// 「自由に決める」を選んでいる間だけ、時間・分の入力欄を出す。
+const CUSTOM_DURATION_VALUE = "custom";
+
+function applyCustomDurationVisibility() {
+  const durationSelect = document.getElementById("durationSelect");
+  const row = document.getElementById("customDurationRow");
+  if (!durationSelect || !row) return;
+  row.hidden = durationSelect.value !== CUSTOM_DURATION_VALUE;
+}
+
+// 入力された時間・分を分単位にまとめる。範囲外の値は入力欄ごと丸める。
+function readCustomDurationMinutes() {
+  const hoursInput = document.getElementById("customDurationHours");
+  const minutesInput = document.getElementById("customDurationMinutes");
+  const clamp = (input, max) => {
+    const value = Math.min(max, Math.max(0, parseInt(input.value, 10) || 0));
+    input.value = String(value);
+    return value;
+  };
+  const hours = clamp(hoursInput, 23);
+  const minutes = clamp(minutesInput, 59);
+  return hours * 60 + minutes;
 }
 
 function openScrollOnModal() {
@@ -3394,10 +3439,30 @@ function pickScrollOnReasonDuration() {
   const reasonSelect = document.getElementById("reasonSelect");
   const durationSelect = document.getElementById("durationSelect");
   const reason = reasonSelect.value;
+  if (!reason) return null;
+
+  if (durationSelect.value === CUSTOM_DURATION_VALUE) {
+    const minutes = readCustomDurationMinutes();
+    if (minutes < 1) {
+      showToast(t("Set a time limit of at least 1 minute"));
+      return null;
+    }
+    return { reason, minutes, durationLabel: formatDurationLabel(minutes) };
+  }
+
   const minutes = Number(durationSelect.value);
-  const durationLabel = durationSelect.selectedOptions[0]?.dataset.label || tf("{minutes} min", { minutes });
-  if (!reason || !minutes) return null;
+  if (!minutes) return null;
+  const durationLabel = durationSelect.selectedOptions[0]?.dataset.label || formatDurationLabel(minutes);
   return { reason, minutes, durationLabel };
+}
+
+// 分数を「1時間30分」「45分」のように表示用の文字列にする。
+function formatDurationLabel(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours && minutes) return tf("{hours}h {minutes}m", { hours, minutes });
+  if (hours) return tf("{hours}h", { hours });
+  return tf("{minutes} min", { minutes });
 }
 
 /* ==========================================================================
@@ -4956,6 +5021,9 @@ function init() {
       openScrollOnModal();
     }
   });
+
+  // 選択肢は開くたびに作り直すが、select自体は使い回すのでここで一度だけ繋ぐ。
+  document.getElementById("durationSelect").addEventListener("change", applyCustomDurationVisibility);
 
   document.getElementById("cancelScrollOn").addEventListener("click", closeScrollOnModal);
   document.getElementById("confirmScrollOn").addEventListener("click", () => {
