@@ -1,4 +1,4 @@
-const CACHE_NAME = "myhome-browser-v1";
+const CACHE_NAME = "myhome-browser-v3";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -23,20 +23,20 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// ネットワーク優先: 常に最新のファイルを取得しようとし、オフライン時のみ
+// キャッシュにフォールバックする。このアプリは頻繁に更新されるため、
+// 「キャッシュ優先＋裏で更新」だと更新が1回遅れて反映されてしまうのを避けるため。
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
