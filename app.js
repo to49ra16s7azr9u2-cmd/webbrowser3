@@ -324,6 +324,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "Me avise a cada 10 minutos enquanto estou navegando em uma aba",
     "Still browsing": "Ainda navegando",
     "Keep browsing": "Continuar navegando",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} não permite ser exibido dentro de outra página, então foi aberto no seu navegador.",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "A busca usa o Bing. Sites grandes que não permitem ser exibidos dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) abrem no seu navegador padrão — isso é uma política do próprio site, algo que este app não pode mudar.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -579,6 +581,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "Erinnere mich alle 10 Minuten, während ich einen Tab durchstöbere",
     "Still browsing": "Du browst noch",
     "Keep browsing": "Weiter browsen",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} erlaubt keine eingebettete Anzeige und wurde deshalb im Browser geöffnet.",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "Die Suche läuft über Bing. Große Seiten, die eine eingebettete Anzeige verweigern (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), werden stattdessen in deinem normalen Browser geöffnet – das ist eine Richtlinie der jeweiligen Seite, die diese App nicht ändern kann.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -834,6 +838,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "Me le rappeler toutes les 10 minutes pendant que je navigue dans un onglet",
     "Still browsing": "Navigation en cours",
     "Keep browsing": "Continuer à naviguer",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} n'autorise pas l'affichage intégré, elle s'est donc ouverte dans votre navigateur.",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La recherche utilise Bing. Les grands sites qui refusent d'être affichés dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) s'ouvrent à la place dans votre navigateur habituel — c'est une politique propre à ces sites, que cette appli ne peut pas changer.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1089,6 +1095,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "탭을 둘러보는 동안 10분마다 알려주기",
     "Still browsing": "계속 둘러보는 중",
     "Keep browsing": "계속 둘러보기",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain}은(는) 다른 페이지 안에 표시하는 것을 허용하지 않아 브라우저에서 열었습니다.",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "검색은 Bing을 사용합니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)는 대신 기본 브라우저에서 열립니다. 이는 해당 사이트 자체의 정책이며, 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1344,6 +1352,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "浏览标签页时，每10分钟提醒我一次",
     "Still browsing": "仍在浏览",
     "Keep browsing": "继续浏览",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} 不允许被嵌入显示，因此已在你的浏览器中打开。",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "搜索使用 Bing。拒绝在其他页面内显示的大型网站（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）会改为在你的常规浏览器中打开——这是这些网站自身的策略，本应用无法更改。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1599,6 +1609,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "Avísame cada 10 minutos mientras navego por una pestaña",
     "Still browsing": "Sigues navegando",
     "Keep browsing": "Seguir navegando",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} no permite mostrarse dentro de otra página, así que se abrió en tu navegador.",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La búsqueda usa Bing. Los sitios grandes que no permiten mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) se abren en tu navegador habitual en su lugar; es una política del propio sitio, no algo que esta app pueda cambiar.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1864,6 +1876,8 @@ const UI_I18N = {
     "Check in with me every 10 minutes while I'm browsing a tab": "タブを閲覧している間、10分ごとに声をかける",
     "Still browsing": "閲覧中",
     "Keep browsing": "閲覧を続ける",
+    "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} は埋め込み表示を許可していないため、ブラウザで開きました。",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "検索にはBingを使っています。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
   },
 };
 
@@ -4602,6 +4616,20 @@ function isAdBlockedUrl(url) {
   return AD_BLOCK_DOMAINS.some((domain) => host === domain || host.endsWith(`.${domain}`));
 }
 
+// X-Frame-Options / CSP frame-ancestors で埋め込み表示そのものを拒否することが
+// 確認できている主要サイト。iframeで開こうとしても壊れた表示になるだけなので、
+// ドックアプリと同じくOSの実ブラウザで新しいタブとして開く。
+const NON_EMBEDDABLE_DOMAINS = [
+  "google.com", "duckduckgo.com", "instagram.com", "facebook.com",
+  "x.com", "twitter.com", "youtube.com", "tiktok.com",
+];
+
+function isNonEmbeddableUrl(url) {
+  const host = hostnameOf(url).toLowerCase();
+  if (!host) return false;
+  return NON_EMBEDDABLE_DOMAINS.some((domain) => host === domain || host.endsWith(`.${domain}`));
+}
+
 // アドレスらしい入力(http(s)://始まり、またはドット区切りで空白を含まない)かどうかの簡易判定。
 // それ以外は検索クエリとして扱う。
 function looksLikeUrl(input) {
@@ -4613,9 +4641,11 @@ function normalizeUrl(input) {
   return /^https?:\/\//i.test(input) ? input : `https://${input}`;
 }
 
-// APIキーなしで使える簡易検索として、DuckDuckGoのHTML版結果ページを使う。
+// APIキーなしで使える簡易検索として、Bingの検索結果ページを使う。DuckDuckGoは
+// /html/ 版も含めサイト全体でフレーム埋め込みを拒否するため使えなかった
+// （実際にヘッダーを確認: x-frame-options: SAMEORIGIN, frame-ancestors 'self'）。
 function buildSearchUrl(query) {
-  return `https://duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+  return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
 }
 
 function resolveNavigationUrl(input) {
@@ -4652,6 +4682,12 @@ function openTab(rawInput) {
   if (!url) return;
   if (isAdBlockedUrl(url)) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
+    return;
+  }
+  if (isNonEmbeddableUrl(url)) {
+    window.open(url, "_blank", "noopener");
+    showToast(tf("{domain} doesn't allow embedding, so it opened in your browser instead.", { domain: hostnameOf(url) }));
+    document.getElementById("searchInput").value = "";
     return;
   }
   const tabs = getBrowserTabs();
