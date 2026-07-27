@@ -337,18 +337,121 @@
     </div>
   </div>
 
-  <!-- Bookmarks modal -->
+  <!-- Bookmarks modal ("bookshelf": walls of bookcases, book spines per bookmark) -->
   <div id="bookmarksModal" class="modal-overlay" hidden>
-    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="bookmarksModalTitle">
+    <div class="modal settings-modal bookshelf-modal" role="dialog" aria-modal="true" aria-labelledby="bookmarksModalTitle">
       <div class="settings-modal-header">
         <button id="closeBookmarks" class="modal-close-btn" type="button" aria-label="Close bookmarks">&times;</button>
         <h2 id="bookmarksModalTitle">Bookmarks</h2>
       </div>
-      <ul id="bookmarksList" class="editable-list bookmarks-list"></ul>
-      <div class="search-pagination">
-        <button id="bookmarksPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
-        <div id="bookmarksPageNumbers" class="search-page-numbers"></div>
-        <button id="bookmarksNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+
+      <!-- shelf view -->
+      <div id="bookshelfShelfView" class="bookshelf-view">
+        <input id="bookshelfSearchInput" type="search" class="bookshelf-search" placeholder="Search your shelves…" autocomplete="off" />
+        <p id="bookshelfSearchStatus" class="modal-desc" hidden>Not found</p>
+
+        <div class="gauge-label"><span>Shelf space</span><span id="bookshelfGaugeText"></span></div>
+        <div class="gauge-bar"><div id="bookshelfGaugeFill" class="gauge-fill"></div></div>
+
+        <div class="bookshelf-wall-nav">
+          <button id="bookshelfWallPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous wall"><span aria-hidden="true">&lsaquo;</span></button>
+          <select id="bookshelfWallSelect" class="settings-select i18n-skip" aria-label="Bookshelf wall"></select>
+          <button id="bookshelfWallNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next wall"><span aria-hidden="true">&rsaquo;</span></button>
+          <button id="bookshelfManageBtn" class="icon-btn" type="button" aria-label="Manage shelves">🗄</button>
+        </div>
+
+        <div id="bookshelfCase" class="bookcase"></div>
+        <p id="bookshelfOverflowNote" class="modal-desc" hidden></p>
+        <p id="bookshelfEmptyNote" class="modal-desc" hidden>No bookmarks yet. Open a page and tap the star to save it.</p>
+      </div>
+
+      <!-- detail view -->
+      <div id="bookshelfDetailView" class="bookshelf-view" hidden>
+        <button id="bookshelfDetailBackBtn" class="text-btn" type="button">&lsaquo; Back to shelf</button>
+        <div id="bookshelfDetailCard" class="detail-card"></div>
+        <div class="modal-actions">
+          <button id="bookshelfOpenBtn" class="btn btn-primary btn-small" type="button">Open</button>
+          <button id="bookshelfEditToggleBtn" class="btn btn-secondary btn-small" type="button" aria-expanded="false">Edit</button>
+          <button id="bookshelfDeleteBtn" class="btn btn-secondary btn-small" type="button">Remove</button>
+        </div>
+        <div id="bookshelfEditForm" class="bookshelf-edit-form" hidden>
+          <div id="bookshelfEditPage1" class="bookshelf-edit-page">
+            <label class="field">
+              <span>Title</span>
+              <input id="bookshelfEditTitleInput" type="text" maxlength="60" autocomplete="off" />
+            </label>
+
+            <span class="bookshelf-edit-label">Spine color</span>
+            <div id="bookshelfEditColorRow" class="bookshelf-swatch-row">
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#2f4a6b" /><span style="background:#2f4a6b"></span>Indigo</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#7a2e2a" /><span style="background:#7a2e2a"></span>Crimson</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#3c5a3a" /><span style="background:#3c5a3a"></span>Pine</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#a8842c" /><span style="background:#a8842c"></span>Mustard</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#4a3457" /><span style="background:#4a3457"></span>Eggplant</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#2d6e72" /><span style="background:#2d6e72"></span>Teal</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#b25e4a" /><span style="background:#b25e4a"></span>Coral</label>
+              <label class="bookshelf-swatch"><input type="radio" name="bookshelfEditColor" value="#3a3733" /><span style="background:#3a3733"></span>Ink</label>
+            </div>
+          </div>
+
+          <div id="bookshelfEditPage2" class="bookshelf-edit-page" hidden>
+            <span class="bookshelf-edit-label">Spine decoration</span>
+            <div id="bookshelfEditDecoRow" class="bookshelf-deco-row">
+              <label class="checkbox-field"><input type="radio" name="bookshelfEditDeco" value="label" />Paper label</label>
+              <label class="checkbox-field"><input type="radio" name="bookshelfEditDeco" value="gold" />Gold lines</label>
+              <label class="checkbox-field"><input type="radio" name="bookshelfEditDeco" value="plain" />Plain</label>
+            </div>
+
+            <label class="field">
+              <span>Thickness: <span id="bookshelfEditSizeValue"></span></span>
+              <input id="bookshelfEditSizeInput" type="range" min="1" max="40" />
+            </label>
+            <label class="field">
+              <span>Shelf</span>
+              <select id="bookshelfEditWallSelect"></select>
+            </label>
+            <button id="bookshelfEditSaveBtn" class="btn btn-small" type="button">Save</button>
+          </div>
+
+          <div class="search-pagination">
+            <button id="bookshelfEditPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+            <div id="bookshelfEditPageNumbers" class="search-page-numbers"></div>
+            <button id="bookshelfEditNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- manage view -->
+      <div id="bookshelfManageView" class="bookshelf-view" hidden>
+        <button id="bookshelfManageBackBtn" class="text-btn" type="button">&lsaquo; Back to shelf</button>
+
+        <div id="bookshelfManagePage1" class="bookshelf-edit-page">
+          <label class="field">
+            <span>Rename this wall</span>
+            <input id="bookshelfRenameInput" type="text" maxlength="14" autocomplete="off" />
+          </label>
+          <button id="bookshelfRenameSaveBtn" class="btn btn-small" type="button">Save</button>
+
+          <label class="field">
+            <span>Add a new wall</span>
+            <input id="bookshelfAddWallInput" type="text" maxlength="14" autocomplete="off" placeholder="New wall" />
+          </label>
+          <button id="bookshelfAddWallBtn" class="btn btn-small" type="button">+ Add wall</button>
+        </div>
+
+        <div id="bookshelfManagePage2" class="bookshelf-edit-page" hidden>
+          <label class="field">
+            <span>Shelf space (capacity)</span>
+            <input id="bookshelfCapacityInput" type="number" min="1" max="100000" step="10" />
+          </label>
+          <button id="bookshelfCapacitySaveBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+
+        <div class="search-pagination">
+          <button id="bookshelfManagePrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+          <div id="bookshelfManagePageNumbers" class="search-page-numbers"></div>
+          <button id="bookshelfManageNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+        </div>
       </div>
     </div>
   </div>

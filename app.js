@@ -36,6 +36,8 @@ const STORAGE_KEYS = {
   browserTabs: "myhome:browserTabs",
   activeTabId: "myhome:activeTabId",
   bookmarks: "myhome:bookmarks",
+  bookmarkWalls: "myhome:bookmarkWalls",
+  bookmarkShelfCapacity: "myhome:bookmarkShelfCapacity",
   browsingTimeMs: "myhome:browsingTimeMs",
   browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
 };
@@ -332,6 +334,49 @@ const UI_I18N = {
     "Search results": "Resultados da pesquisa",
     "Close search results": "Fechar resultados da pesquisa",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Os termos de pesquisa digitados mostram resultados da Wikipédia como uma lista dentro do app — não é preciso nenhuma configuração, mas só pesquisa artigos da Wikipédia, não a web em geral. Digitar o endereço de um site grande que se recusa a ser exibido dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) o abre no seu navegador normal — essa é a política do próprio site, não algo que este app possa mudar.",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "A estante está cheia. Remova um livro ou aumente o limite em Gerenciar estantes.",
+    "— empty shelf —": "— prateleira vazia —",
+    "Not found": "Não encontrado",
+    "Please enter a title": "Por favor, insira um título",
+    "Saved": "Salvo",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "Esta parede está cheia ({count} não couberam). Tente outra parede.",
+    "Thickness: {size} · Shelf: {wall}": "Espessura: {size} · Parede: {wall}",
+    "Wall {n}": "Parede {n}",
+    "Shelf space": "Espaço da estante",
+    "‹ Back to shelf": "‹ Voltar à estante",
+    "Edit": "Editar",
+    "Remove": "Remover",
+    "Title": "Título",
+    "Spine color": "Cor da lombada",
+    "Indigo": "Índigo",
+    "Crimson": "Carmesim",
+    "Pine": "Pinho",
+    "Mustard": "Mostarda",
+    "Eggplant": "Berinjela",
+    "Teal": "Verde-azulado",
+    "Coral": "Coral",
+    "Ink": "Tinta",
+    "Spine decoration": "Decoração da lombada",
+    "Paper label": "Etiqueta de papel",
+    "Gold lines": "Linhas douradas",
+    "Plain": "Liso",
+    "Thickness:": "Espessura:",
+    "Shelf": "Parede",
+    "Rename this wall": "Renomear esta parede",
+    "Add a new wall": "Adicionar uma nova parede",
+    "+ Add wall": "+ Adicionar parede",
+    "Shelf space (capacity)": "Espaço da estante (capacidade)",
+    "Search your shelves…": "Pesquisar em suas estantes…",
+    "Previous wall": "Parede anterior",
+    "Bookshelf wall": "Parede da estante",
+    "Next wall": "Próxima parede",
+    "Manage shelves": "Gerenciar estantes",
+    "New wall": "Nova parede",
+    "North Wall": "Parede norte",
+    "East Wall": "Parede leste",
+    "South Wall": "Parede sul",
+    "West Wall": "Parede oeste",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -595,6 +640,49 @@ const UI_I18N = {
     "Search results": "Suchergebnisse",
     "Close search results": "Suchergebnisse schließen",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Eingegebene Suchbegriffe zeigen Wikipedia-Ergebnisse als Liste innerhalb der App — keine Einrichtung nötig, durchsucht wird aber nur Wikipedia, nicht das gesamte Web. Die Eingabe der Adresse einer großen Website, die sich weigert, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), öffnet diese stattdessen in deinem normalen Browser — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "Das Regal ist voll. Entferne ein Buch oder erhöhe das Limit unter Regale verwalten.",
+    "— empty shelf —": "— leeres Fach —",
+    "Not found": "Nicht gefunden",
+    "Please enter a title": "Bitte einen Titel eingeben",
+    "Saved": "Gespeichert",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "Diese Wand ist voll ({count} konnten nicht platziert werden). Versuche eine andere Wand.",
+    "Thickness: {size} · Shelf: {wall}": "Dicke: {size} · Wand: {wall}",
+    "Wall {n}": "Wand {n}",
+    "Shelf space": "Regalplatz",
+    "‹ Back to shelf": "‹ Zurück zum Regal",
+    "Edit": "Bearbeiten",
+    "Remove": "Entfernen",
+    "Title": "Titel",
+    "Spine color": "Buchrückenfarbe",
+    "Indigo": "Indigo",
+    "Crimson": "Karmesin",
+    "Pine": "Kiefer",
+    "Mustard": "Senf",
+    "Eggplant": "Aubergine",
+    "Teal": "Petrol",
+    "Coral": "Koralle",
+    "Ink": "Tinte",
+    "Spine decoration": "Buchrücken-Verzierung",
+    "Paper label": "Papieretikett",
+    "Gold lines": "Goldlinien",
+    "Plain": "Schlicht",
+    "Thickness:": "Dicke:",
+    "Shelf": "Wand",
+    "Rename this wall": "Diese Wand umbenennen",
+    "Add a new wall": "Neue Wand hinzufügen",
+    "+ Add wall": "+ Wand hinzufügen",
+    "Shelf space (capacity)": "Regalplatz (Kapazität)",
+    "Search your shelves…": "Deine Regale durchsuchen…",
+    "Previous wall": "Vorherige Wand",
+    "Bookshelf wall": "Regalwand",
+    "Next wall": "Nächste Wand",
+    "Manage shelves": "Regale verwalten",
+    "New wall": "Neue Wand",
+    "North Wall": "Nordwand",
+    "East Wall": "Ostwand",
+    "South Wall": "Südwand",
+    "West Wall": "Westwand",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -858,6 +946,49 @@ const UI_I18N = {
     "Search results": "Résultats de recherche",
     "Close search results": "Fermer les résultats de recherche",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Les termes de recherche saisis affichent les résultats Wikipédia sous forme de liste dans l'application — aucune configuration n'est nécessaire, mais seuls les articles Wikipédia sont recherchés, pas le web dans son ensemble. Saisir l'adresse d'un grand site qui refuse d'être affiché dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) l'ouvre plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "L'étagère est pleine. Retirez un livre ou augmentez la limite dans Gérer les étagères.",
+    "— empty shelf —": "— étagère vide —",
+    "Not found": "Introuvable",
+    "Please enter a title": "Veuillez saisir un titre",
+    "Saved": "Enregistré",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "Ce mur est plein ({count} n'ont pas pu être placés). Essayez un autre mur.",
+    "Thickness: {size} · Shelf: {wall}": "Épaisseur : {size} · Mur : {wall}",
+    "Wall {n}": "Mur {n}",
+    "Shelf space": "Espace de l'étagère",
+    "‹ Back to shelf": "‹ Retour à l'étagère",
+    "Edit": "Modifier",
+    "Remove": "Retirer",
+    "Title": "Titre",
+    "Spine color": "Couleur du dos",
+    "Indigo": "Indigo",
+    "Crimson": "Cramoisi",
+    "Pine": "Pin",
+    "Mustard": "Moutarde",
+    "Eggplant": "Aubergine",
+    "Teal": "Sarcelle",
+    "Coral": "Corail",
+    "Ink": "Encre",
+    "Spine decoration": "Décoration du dos",
+    "Paper label": "Étiquette papier",
+    "Gold lines": "Filets dorés",
+    "Plain": "Uni",
+    "Thickness:": "Épaisseur :",
+    "Shelf": "Mur",
+    "Rename this wall": "Renommer ce mur",
+    "Add a new wall": "Ajouter un nouveau mur",
+    "+ Add wall": "+ Ajouter un mur",
+    "Shelf space (capacity)": "Espace de l'étagère (capacité)",
+    "Search your shelves…": "Rechercher dans vos étagères…",
+    "Previous wall": "Mur précédent",
+    "Bookshelf wall": "Mur de l'étagère",
+    "Next wall": "Mur suivant",
+    "Manage shelves": "Gérer les étagères",
+    "New wall": "Nouveau mur",
+    "North Wall": "Mur nord",
+    "East Wall": "Mur est",
+    "South Wall": "Mur sud",
+    "West Wall": "Mur ouest",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1121,6 +1252,49 @@ const UI_I18N = {
     "Search results": "검색 결과",
     "Close search results": "검색 결과 닫기",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "입력한 검색어는 위키백과 검색 결과가 앱 내 목록으로 표시됩니다 — 별도 설정은 필요 없지만, 검색 대상은 위키백과 문서로 한정되며 웹 전체가 아닙니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)의 주소를 직접 입력하면 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "책장이 가득 찼습니다. 책을 정리하거나 '책장 관리'에서 용량을 늘리세요.",
+    "— empty shelf —": "— 빈 칸 —",
+    "Not found": "찾을 수 없습니다",
+    "Please enter a title": "제목을 입력해 주세요",
+    "Saved": "저장되었습니다",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "이 벽은 가득 찼습니다({count}권을 놓지 못했습니다). 다른 벽을 시도해 보세요.",
+    "Thickness: {size} · Shelf: {wall}": "두께: {size} · 벽: {wall}",
+    "Wall {n}": "벽 {n}",
+    "Shelf space": "책장 공간",
+    "‹ Back to shelf": "‹ 책장으로 돌아가기",
+    "Edit": "편집",
+    "Remove": "제거",
+    "Title": "제목",
+    "Spine color": "책등 색상",
+    "Indigo": "인디고",
+    "Crimson": "크림슨",
+    "Pine": "파인",
+    "Mustard": "머스터드",
+    "Eggplant": "에그플랜트",
+    "Teal": "틸",
+    "Coral": "코랄",
+    "Ink": "잉크",
+    "Spine decoration": "책등 장식",
+    "Paper label": "종이 라벨",
+    "Gold lines": "금색 줄무늬",
+    "Plain": "무지",
+    "Thickness:": "두께:",
+    "Shelf": "벽",
+    "Rename this wall": "이 벽 이름 바꾸기",
+    "Add a new wall": "새 벽 추가",
+    "+ Add wall": "+ 벽 추가",
+    "Shelf space (capacity)": "책장 공간(용량)",
+    "Search your shelves…": "책장 검색…",
+    "Previous wall": "이전 벽",
+    "Bookshelf wall": "책장 벽",
+    "Next wall": "다음 벽",
+    "Manage shelves": "책장 관리",
+    "New wall": "새 벽",
+    "North Wall": "북쪽 벽",
+    "East Wall": "동쪽 벽",
+    "South Wall": "남쪽 벽",
+    "West Wall": "서쪽 벽",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1384,6 +1558,49 @@ const UI_I18N = {
     "Search results": "搜索结果",
     "Close search results": "关闭搜索结果",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "输入的搜索词会以列表形式显示维基百科的搜索结果——无需任何设置，但只能搜索维基百科的条目，而非整个网络。如果直接输入拒绝在其他页面中显示的大型网站地址（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo），则会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "书架已满。请移除一本书，或在「管理书架」中提高容量上限。",
+    "— empty shelf —": "— 空书架 —",
+    "Not found": "未找到",
+    "Please enter a title": "请输入标题",
+    "Saved": "已保存",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "这面墙已满(有{count}本放不下)。请尝试另一面墙。",
+    "Thickness: {size} · Shelf: {wall}": "厚度: {size} · 墙面: {wall}",
+    "Wall {n}": "墙 {n}",
+    "Shelf space": "书架空间",
+    "‹ Back to shelf": "‹ 返回书架",
+    "Edit": "编辑",
+    "Remove": "移除",
+    "Title": "标题",
+    "Spine color": "书脊颜色",
+    "Indigo": "靛蓝",
+    "Crimson": "绯红",
+    "Pine": "松绿",
+    "Mustard": "芥末黄",
+    "Eggplant": "茄紫",
+    "Teal": "青绿",
+    "Coral": "珊瑚橙",
+    "Ink": "墨黑",
+    "Spine decoration": "书脊装饰",
+    "Paper label": "纸标签",
+    "Gold lines": "金线",
+    "Plain": "素面",
+    "Thickness:": "厚度:",
+    "Shelf": "墙面",
+    "Rename this wall": "重命名这面墙",
+    "Add a new wall": "添加新墙",
+    "+ Add wall": "+ 添加墙",
+    "Shelf space (capacity)": "书架空间(容量)",
+    "Search your shelves…": "搜索你的书架…",
+    "Previous wall": "上一面墙",
+    "Bookshelf wall": "书架墙面",
+    "Next wall": "下一面墙",
+    "Manage shelves": "管理书架",
+    "New wall": "新墙",
+    "North Wall": "北墙",
+    "East Wall": "东墙",
+    "South Wall": "南墙",
+    "West Wall": "西墙",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1647,6 +1864,49 @@ const UI_I18N = {
     "Search results": "Resultados de búsqueda",
     "Close search results": "Cerrar resultados de búsqueda",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Los términos de búsqueda escritos muestran resultados de Wikipedia como una lista dentro de la app — no requiere configuración, pero solo busca artículos de Wikipedia, no la web en general. Escribir la dirección de un sitio grande que se niega a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) lo abre en tu navegador habitual — es la política del propio sitio, no algo que esta app pueda cambiar.",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "La estantería está llena. Quita un libro o aumenta el límite en Gestionar estanterías.",
+    "— empty shelf —": "— estante vacío —",
+    "Not found": "No encontrado",
+    "Please enter a title": "Por favor, introduce un título",
+    "Saved": "Guardado",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "Esta pared está llena ({count} no se pudieron colocar). Prueba con otra pared.",
+    "Thickness: {size} · Shelf: {wall}": "Grosor: {size} · Estante: {wall}",
+    "Wall {n}": "Pared {n}",
+    "Shelf space": "Espacio de estantería",
+    "‹ Back to shelf": "‹ Volver a la estantería",
+    "Edit": "Editar",
+    "Remove": "Quitar",
+    "Title": "Título",
+    "Spine color": "Color del lomo",
+    "Indigo": "Índigo",
+    "Crimson": "Carmesí",
+    "Pine": "Pino",
+    "Mustard": "Mostaza",
+    "Eggplant": "Berenjena",
+    "Teal": "Verde azulado",
+    "Coral": "Coral",
+    "Ink": "Tinta",
+    "Spine decoration": "Decoración del lomo",
+    "Paper label": "Etiqueta de papel",
+    "Gold lines": "Líneas doradas",
+    "Plain": "Liso",
+    "Thickness:": "Grosor:",
+    "Shelf": "Estante",
+    "Rename this wall": "Renombrar esta pared",
+    "Add a new wall": "Añadir una pared nueva",
+    "+ Add wall": "+ Añadir pared",
+    "Shelf space (capacity)": "Espacio de estantería (capacidad)",
+    "Search your shelves…": "Busca en tus estanterías…",
+    "Previous wall": "Pared anterior",
+    "Bookshelf wall": "Pared de la estantería",
+    "Next wall": "Pared siguiente",
+    "Manage shelves": "Gestionar estanterías",
+    "New wall": "Nueva pared",
+    "North Wall": "Pared norte",
+    "East Wall": "Pared este",
+    "South Wall": "Pared sur",
+    "West Wall": "Pared oeste",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1920,6 +2180,49 @@ const UI_I18N = {
     "Search results": "検索結果",
     "Close search results": "検索結果を閉じる",
     "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "検索語を入力すると、Wikipediaの検索結果がアプリ内の一覧として表示されます — 設定は不要ですが、検索できるのはWikipediaの記事のみで、Web全体ではありません。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）のアドレスを直接入力した場合は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
+    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "棚がいっぱいです。本を減らすか、「棚の管理」で容量を増やしてください。",
+    "— empty shelf —": "— 空きの棚 —",
+    "Not found": "見つかりませんでした",
+    "Please enter a title": "タイトルを入力してください",
+    "Saved": "保存しました",
+    "{used} / {total}": "{used} / {total}",
+    "This wall is full ({count} couldn't be placed). Try another wall.": "この壁はいっぱいです({count}冊置けませんでした)。別の壁へどうぞ。",
+    "Thickness: {size} · Shelf: {wall}": "厚み: {size} · 置き場所: {wall}",
+    "Wall {n}": "壁 {n}",
+    "Shelf space": "棚の容量",
+    "‹ Back to shelf": "‹ 棚に戻る",
+    "Edit": "編集",
+    "Remove": "削除",
+    "Title": "タイトル",
+    "Spine color": "背表紙の色",
+    "Indigo": "藍",
+    "Crimson": "えんじ",
+    "Pine": "松葉",
+    "Mustard": "芥子",
+    "Eggplant": "茄子",
+    "Teal": "浅葱",
+    "Coral": "珊瑚",
+    "Ink": "墨",
+    "Spine decoration": "背表紙の飾り",
+    "Paper label": "紙ラベル",
+    "Gold lines": "金線",
+    "Plain": "無地",
+    "Thickness:": "厚み:",
+    "Shelf": "置き場所",
+    "Rename this wall": "この壁の名前を変える",
+    "Add a new wall": "新しい壁をつくる",
+    "+ Add wall": "＋ 壁を追加",
+    "Shelf space (capacity)": "棚の容量(キャパシティ)",
+    "Search your shelves…": "本棚をさがす…",
+    "Previous wall": "前の壁",
+    "Bookshelf wall": "本棚の壁",
+    "Next wall": "次の壁",
+    "Manage shelves": "棚の管理",
+    "New wall": "新しい壁",
+    "North Wall": "北の壁",
+    "East Wall": "東の壁",
+    "South Wall": "南の壁",
+    "West Wall": "西の壁",
   },
 };
 
@@ -5007,11 +5310,63 @@ function initOverlayBrowsingPause() {
 }
 
 /* ==========================================================================
-   ブックマーク (URLとタイトルをlocalStorageに保存するだけの簡易版)
+   ブックマーク = 「本棚」。以前作った蔵書管理アプリ(booooook/わたしの蔵書館)の
+   見た目と仕組み — 壁ごとの本棚、背表紙の色・飾り・厚み、棚の容量ゲージ、
+   検索してジャンプ、タップで詳細表示 — をURLブックマークに合わせて移植した。
+   「種類(サイト/動画/ファイル/メモ)」「見本を並べる」「JSONバックアップ」は
+   ブラウザのURLブックマークという用途に合わないため移植していない。
    ========================================================================== */
 
+const BOOKMARK_COLORS = [
+  ["Indigo", "#2f4a6b"], ["Crimson", "#7a2e2a"], ["Pine", "#3c5a3a"],
+  ["Mustard", "#a8842c"], ["Eggplant", "#4a3457"], ["Teal", "#2d6e72"],
+  ["Coral", "#b25e4a"], ["Ink", "#3a3733"],
+];
+const BOOKMARK_DECOS = [
+  ["label", "Paper label"], ["gold", "Gold lines"], ["plain", "Plain"],
+];
+const DEFAULT_BOOKMARK_WALLS = ["North Wall", "East Wall", "South Wall", "West Wall"];
+const DEFAULT_BOOKMARK_CAPACITY = 300;
+const DEFAULT_BOOKMARK_SIZE = 5;
+const BOOKMARK_SHELF_ROW_GAP = 6;
+
+function getBookmarkWalls() {
+  return loadJSON(STORAGE_KEYS.bookmarkWalls, DEFAULT_BOOKMARK_WALLS.map((n) => ({ name: n })));
+}
+function saveBookmarkWalls(walls) {
+  saveJSON(STORAGE_KEYS.bookmarkWalls, walls);
+}
+function getBookmarkCapacity() {
+  return loadJSON(STORAGE_KEYS.bookmarkShelfCapacity, DEFAULT_BOOKMARK_CAPACITY);
+}
+function saveBookmarkCapacity(n) {
+  saveJSON(STORAGE_KEYS.bookmarkShelfCapacity, n);
+}
+
+// 既存のブックマークに本棚用の項目(id/wall/color/deco/size)が無ければ補う
+// (遅延マイグレーション。一度でも補ったらそのまま保存し直す)。
+function normalizeBookmarks(bookmarks) {
+  let changed = false;
+  const normalized = bookmarks.map((b) => {
+    if (b.id && b.color && b.deco && typeof b.wall === "number" && typeof b.size === "number") return b;
+    changed = true;
+    return {
+      ...b,
+      id: b.id || makeTabId(),
+      wall: typeof b.wall === "number" ? b.wall : 0,
+      color: b.color || BOOKMARK_COLORS[0][1],
+      deco: b.deco || "label",
+      size: typeof b.size === "number" ? b.size : DEFAULT_BOOKMARK_SIZE,
+    };
+  });
+  return { normalized, changed };
+}
+
 function getBookmarks() {
-  return loadJSON(STORAGE_KEYS.bookmarks, []);
+  const raw = loadJSON(STORAGE_KEYS.bookmarks, []);
+  const { normalized, changed } = normalizeBookmarks(raw);
+  if (changed) saveBookmarksData(normalized);
+  return normalized;
 }
 function saveBookmarksData(bookmarks) {
   saveJSON(STORAGE_KEYS.bookmarks, bookmarks);
@@ -5019,14 +5374,38 @@ function saveBookmarksData(bookmarks) {
 function isBookmarked(url) {
   return getBookmarks().some((b) => b.url === url);
 }
+function usedBookmarkThickness() {
+  return getBookmarks().reduce((sum, b) => sum + b.size, 0);
+}
+
+// クイック登録(閲覧中に☆をタップ)。見た目は既定値で棚に置き、色/飾り/厚み/
+// 置き場所は本棚モーダルの詳細画面からいつでも編集できる。
 function addBookmark(url, title) {
   const bookmarks = getBookmarks();
-  if (bookmarks.some((b) => b.url === url)) return;
-  bookmarks.unshift({ url, title, savedAt: Date.now() });
+  if (bookmarks.some((b) => b.url === url)) return { ok: true };
+  const used = bookmarks.reduce((sum, b) => sum + b.size, 0);
+  if (used + DEFAULT_BOOKMARK_SIZE > getBookmarkCapacity()) {
+    return { ok: false, message: t("The shelf is full. Remove a book or raise the limit in Manage shelves.") };
+  }
+  const walls = getBookmarkWalls();
+  const wall = Math.max(0, Math.min(bookshelfWallIndex, walls.length - 1));
+  const color = BOOKMARK_COLORS[bookmarks.length % BOOKMARK_COLORS.length][1];
+  bookmarks.unshift({
+    id: makeTabId(), url, title, savedAt: Date.now(),
+    wall, color, deco: "label", size: DEFAULT_BOOKMARK_SIZE,
+  });
   saveBookmarksData(bookmarks);
+  return { ok: true };
 }
 function removeBookmark(url) {
   saveBookmarksData(getBookmarks().filter((b) => b.url !== url));
+}
+function updateBookmark(id, changes) {
+  const bookmarks = getBookmarks();
+  const idx = bookmarks.findIndex((b) => b.id === id);
+  if (idx === -1) return;
+  bookmarks[idx] = { ...bookmarks[idx], ...changes };
+  saveBookmarksData(bookmarks);
 }
 
 function updateBookmarkButtonState(url) {
@@ -5038,102 +5417,398 @@ function updateBookmarkButtonState(url) {
   btn.classList.toggle("is-active", saved);
 }
 
-let bookmarksPage = 0;
-const BOOKMARKS_FALLBACK_PER_PAGE = 3;
-const BOOKMARKS_ROW_GAP = 5;
-
-function buildBookmarkRow(bookmark) {
-  const li = document.createElement("li");
-  li.className = "bookmark-row";
-
-  const open = document.createElement("button");
-  open.type = "button";
-  open.className = "bookmark-open-btn";
-  const title = document.createElement("span");
-  title.className = "bookmark-title";
-  title.textContent = bookmark.title;
-  const url = document.createElement("span");
-  url.className = "bookmark-url";
-  url.textContent = hostnameOf(bookmark.url) || bookmark.url;
-  open.append(title, url);
-  open.addEventListener("click", () => {
-    closeBookmarksModal();
-    openTab(bookmark.url);
-  });
-  li.appendChild(open);
-
-  const removeBtn = document.createElement("button");
-  removeBtn.className = "remove-btn";
-  removeBtn.type = "button";
-  removeBtn.textContent = "×";
-  removeBtn.setAttribute("aria-label", tf('Remove "{name}"', { name: bookmark.title }));
-  removeBtn.addEventListener("click", () => {
-    removeBookmark(bookmark.url);
-    renderBookmarksList();
-    const tabs = getBrowserTabs();
-    const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
-    if (activeTab) updateBookmarkButtonState(activeTab.url);
-  });
-  li.appendChild(removeBtn);
-
-  return li;
+/* --------------------------------------------------------------------------
+   背表紙の見た目 (元の蔵書アプリのCSSをそのまま移植)
+   -------------------------------------------------------------------------- */
+function hashString(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
 }
-
-// 一覧に割り当てられている高さに何件入るかを実測して決める（他の一覧と同じ手法）。
-// 固定件数にすると端末の画面サイズ次第でモーダルからはみ出してしまうため。
-function measureBookmarksPerPage(list, bookmarks) {
-  const available = list.clientHeight;
-  if (!available) return BOOKMARKS_FALLBACK_PER_PAGE;
-  list.appendChild(buildBookmarkRow(bookmarks[0]));
-  const rowHeight = list.firstElementChild.getBoundingClientRect().height;
-  list.innerHTML = "";
-  if (!rowHeight) return BOOKMARKS_FALLBACK_PER_PAGE;
-  return Math.max(1, Math.floor((available + BOOKMARKS_ROW_GAP) / (rowHeight + BOOKMARKS_ROW_GAP)));
+function bookWidthPx(size) {
+  return Math.round(16 + size * 1.6);
 }
-
-function renderBookmarksList() {
-  const list = document.getElementById("bookmarksList");
-  const pagination = document.querySelector("#bookmarksModal .search-pagination");
-  const bookmarks = getBookmarks();
-  list.innerHTML = "";
-
-  if (bookmarks.length === 0) {
-    pagination.hidden = true;
-    const li = document.createElement("li");
-    li.className = "insights-empty";
-    li.textContent = t("No bookmarks yet. Open a page and tap the star to save it.");
-    list.appendChild(li);
-    return;
+function bookHeightPx(seed) {
+  return 74 + (hashString(seed) % 20);
+}
+function spineBackground(color) {
+  return `linear-gradient(180deg, ${color} 0%, rgba(0,0,0,.35) 140%), ${color}`;
+}
+function buildDecoOverlay(deco) {
+  const frag = document.createDocumentFragment();
+  if (deco === "label") {
+    const band = document.createElement("span");
+    band.className = "book-band";
+    frag.appendChild(band);
+  } else if (deco === "gold") {
+    const top = document.createElement("span");
+    top.className = "book-gline top";
+    const bottom = document.createElement("span");
+    bottom.className = "book-gline bottom";
+    frag.append(top, bottom);
   }
+  return frag;
+}
+function buildBookSpine(bookmark, isHit) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "book-spine" + (isHit ? " hit" : "");
+  btn.style.width = `${bookWidthPx(bookmark.size)}px`;
+  btn.style.height = `${bookHeightPx(bookmark.title + bookmark.id)}px`;
+  btn.style.background = spineBackground(bookmark.color);
+  btn.appendChild(buildDecoOverlay(bookmark.deco));
+  const title = document.createElement("span");
+  title.className = "book-spine-title";
+  title.textContent = bookmark.title;
+  btn.appendChild(title);
+  btn.setAttribute("aria-label", bookmark.title);
+  btn.addEventListener("click", () => openBookmarkDetail(bookmark.id));
+  return btn;
+}
 
-  const perPage = measureBookmarksPerPage(list, bookmarks);
-  const totalPages = Math.max(1, Math.ceil(bookmarks.length / perPage));
-  if (bookmarksPage >= totalPages) bookmarksPage = totalPages - 1;
-  pagination.hidden = totalPages <= 1;
+/* --------------------------------------------------------------------------
+   本棚モーダルの状態: shelf(棚を見る) / detail(詳細) / manage(棚の管理)
+   -------------------------------------------------------------------------- */
+let bookshelfWallIndex = 0;
+let bookshelfView = "shelf";
+let bookshelfSelectedBookmarkId = null;
+let bookshelfEditOpen = false;
+let bookshelfEditPage = 0;
+const BOOKSHELF_EDIT_PAGES = 2;
 
-  const start = bookmarksPage * perPage;
-  bookmarks.slice(start, start + perPage).forEach((bookmark) => list.appendChild(buildBookmarkRow(bookmark)));
-
-  document.getElementById("bookmarksPrevBtn").disabled = bookmarksPage === 0;
-  document.getElementById("bookmarksNextBtn").disabled = bookmarksPage >= totalPages - 1;
-  const pageNumbers = document.getElementById("bookmarksPageNumbers");
+function renderBookshelfEditPage() {
+  document.getElementById("bookshelfEditPage1").hidden = bookshelfEditPage !== 0;
+  document.getElementById("bookshelfEditPage2").hidden = bookshelfEditPage !== 1;
+  document.getElementById("bookshelfEditPrevBtn").disabled = bookshelfEditPage === 0;
+  document.getElementById("bookshelfEditNextBtn").disabled = bookshelfEditPage === BOOKSHELF_EDIT_PAGES - 1;
+  const pageNumbers = document.getElementById("bookshelfEditPageNumbers");
   pageNumbers.innerHTML = "";
-  for (let i = 0; i < totalPages; i++) {
+  for (let i = 0; i < BOOKSHELF_EDIT_PAGES; i++) {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "page-number-btn" + (i === bookmarksPage ? " is-active" : "");
+    btn.className = "page-number-btn" + (i === bookshelfEditPage ? " is-active" : "");
     btn.textContent = String(i + 1);
     btn.addEventListener("click", () => {
-      bookmarksPage = i;
-      renderBookmarksList();
+      bookshelfEditPage = i;
+      renderBookshelfEditPage();
     });
     pageNumbers.appendChild(btn);
   }
 }
 
+function showBookshelfView(view) {
+  bookshelfView = view;
+  document.getElementById("bookshelfShelfView").hidden = view !== "shelf";
+  document.getElementById("bookshelfDetailView").hidden = view !== "detail";
+  document.getElementById("bookshelfManageView").hidden = view !== "manage";
+}
+
+function renderBookshelfGauge() {
+  const used = usedBookmarkThickness();
+  const total = getBookmarkCapacity();
+  const pct = Math.min(100, (used / Math.max(1, total)) * 100);
+  document.getElementById("bookshelfGaugeText").textContent = tf("{used} / {total}", { used, total });
+  document.getElementById("bookshelfGaugeFill").style.width = `${pct}%`;
+}
+
+function renderBookshelfWallSelect() {
+  const walls = getBookmarkWalls();
+  const select = document.getElementById("bookshelfWallSelect");
+  select.innerHTML = "";
+  walls.forEach((w, i) => {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = t(w.name);
+    select.appendChild(opt);
+  });
+  select.value = String(bookshelfWallIndex);
+}
+
+// 一段の高さと横幅を実測してから、何段入るか・一段に何冊並ぶかを決める
+// (他の一覧と同じ「まず1つ仮描画して測る」方式。固定値だと端末の画面サイズや
+// 言語ごとの文字幅次第でモーダルからはみ出す/隙間だらけになるため)。
+function measureShelfMetrics(caseEl) {
+  const probe = document.createElement("div");
+  probe.className = "shelf";
+  probe.style.flex = "0 0 auto"; // 本番描画時のflex:1で引き伸ばされる前の、自然な最小高さを測る
+  caseEl.appendChild(probe);
+  const shelfHeight = probe.getBoundingClientRect().height || 92;
+  const maxWidth = probe.clientWidth || 300;
+  const available = caseEl.clientHeight || shelfHeight * 3;
+  caseEl.innerHTML = "";
+  const shelfCount = Math.max(1, Math.floor((available + BOOKMARK_SHELF_ROW_GAP) / (shelfHeight + BOOKMARK_SHELF_ROW_GAP)));
+  return { maxWidth, shelfCount };
+}
+
+// 幅に収まる限り詰めていく単純なビンパッキング(元のPython版と同じfirst-fit)。
+function layoutBookcase(wallIdx, maxWidth, shelfCount) {
+  const wallBooks = getBookmarks().filter((b) => b.wall === wallIdx);
+  const rows = Array.from({ length: shelfCount }, () => ({ w: 0, items: [] }));
+  let overflow = 0;
+  wallBooks.forEach((b) => {
+    const w = bookWidthPx(b.size);
+    const row = rows.find((r) => r.w + w <= maxWidth);
+    if (row) {
+      row.w += w + 2;
+      row.items.push(b);
+    } else {
+      overflow++;
+    }
+  });
+  return { rows, overflow };
+}
+
+function renderBookcase(hitId) {
+  const caseEl = document.getElementById("bookshelfCase");
+  const overflowNote = document.getElementById("bookshelfOverflowNote");
+  const emptyNote = document.getElementById("bookshelfEmptyNote");
+  caseEl.innerHTML = "";
+
+  const allBookmarks = getBookmarks();
+  emptyNote.hidden = allBookmarks.length > 0;
+  if (allBookmarks.length === 0) {
+    overflowNote.hidden = true;
+    return;
+  }
+
+  const { maxWidth, shelfCount } = measureShelfMetrics(caseEl);
+  const { rows, overflow } = layoutBookcase(bookshelfWallIndex, maxWidth, shelfCount);
+
+  rows.forEach((row) => {
+    const shelf = document.createElement("div");
+    shelf.className = "shelf";
+    if (row.items.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "shelf-empty";
+      empty.textContent = t("— empty shelf —");
+      shelf.appendChild(empty);
+    } else {
+      row.items.forEach((b) => shelf.appendChild(buildBookSpine(b, b.id === hitId)));
+    }
+    caseEl.appendChild(shelf);
+  });
+
+  overflowNote.hidden = overflow === 0;
+  if (overflow > 0) {
+    overflowNote.textContent = tf("This wall is full ({count} couldn't be placed). Try another wall.", { count: overflow });
+  }
+}
+
+function renderBookshelfShelfView(hitId) {
+  renderBookshelfGauge();
+  renderBookshelfWallSelect();
+  renderBookcase(hitId);
+}
+
+function switchBookshelfWall(newIndex) {
+  const walls = getBookmarkWalls();
+  bookshelfWallIndex = ((newIndex % walls.length) + walls.length) % walls.length;
+  renderBookshelfShelfView();
+}
+
+function bookshelfHandleSearch(query) {
+  const trimmed = query.trim();
+  const statusEl = document.getElementById("bookshelfSearchStatus");
+  if (!trimmed) {
+    statusEl.hidden = true;
+    renderBookshelfShelfView();
+    return;
+  }
+  const hit = getBookmarks().find((b) => b.title.toLowerCase().includes(trimmed.toLowerCase()));
+  if (hit) {
+    statusEl.hidden = true;
+    bookshelfWallIndex = hit.wall;
+    renderBookshelfShelfView(hit.id);
+  } else {
+    statusEl.hidden = false;
+    statusEl.textContent = t("Not found");
+    renderBookshelfShelfView();
+  }
+}
+
+/* ---- 詳細画面 ---- */
+function openBookmarkDetail(id) {
+  bookshelfSelectedBookmarkId = id;
+  bookshelfEditOpen = false;
+  showBookshelfView("detail");
+  renderBookmarkDetail();
+}
+function closeBookmarkDetail() {
+  bookshelfSelectedBookmarkId = null;
+  showBookshelfView("shelf");
+  renderBookshelfShelfView();
+}
+
+function renderBookmarkDetail() {
+  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
+  if (!b) { closeBookmarkDetail(); return; }
+  const walls = getBookmarkWalls();
+  const card = document.getElementById("bookshelfDetailCard");
+  card.innerHTML = "";
+
+  const swatch = document.createElement("span");
+  swatch.className = "detail-color-swatch";
+  swatch.style.background = b.color;
+  card.appendChild(swatch);
+
+  const h3 = document.createElement("h3");
+  h3.textContent = b.title;
+  card.appendChild(h3);
+
+  const meta1 = document.createElement("div");
+  meta1.className = "detail-meta";
+  meta1.textContent = tf("Thickness: {size} · Shelf: {wall}", {
+    size: b.size, wall: walls[b.wall] ? t(walls[b.wall].name) : "",
+  });
+  card.appendChild(meta1);
+
+  const meta2 = document.createElement("div");
+  meta2.className = "detail-meta detail-url";
+  meta2.textContent = b.url;
+  card.appendChild(meta2);
+
+  document.getElementById("bookshelfEditForm").hidden = !bookshelfEditOpen;
+  document.getElementById("bookshelfEditToggleBtn").setAttribute("aria-expanded", String(bookshelfEditOpen));
+  if (bookshelfEditOpen) {
+    bookshelfEditPage = 0;
+    renderBookshelfEditPage();
+    populateBookshelfEditForm(b);
+  }
+}
+
+function populateBookshelfEditForm(b) {
+  document.getElementById("bookshelfEditTitleInput").value = b.title;
+  document.getElementById("bookshelfEditSizeInput").value = b.size;
+  document.getElementById("bookshelfEditSizeValue").textContent = String(b.size);
+  const wallSelect = document.getElementById("bookshelfEditWallSelect");
+  wallSelect.innerHTML = "";
+  getBookmarkWalls().forEach((w, i) => {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = t(w.name);
+    wallSelect.appendChild(opt);
+  });
+  wallSelect.value = String(b.wall);
+  document.querySelectorAll('#bookshelfEditColorRow input[type="radio"]').forEach((r) => {
+    r.checked = r.value === b.color;
+  });
+  document.querySelectorAll('#bookshelfEditDecoRow input[type="radio"]').forEach((r) => {
+    r.checked = r.value === b.deco;
+  });
+}
+
+function saveBookshelfEdits() {
+  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
+  if (!b) return;
+  const title = document.getElementById("bookshelfEditTitleInput").value.trim();
+  if (!title) {
+    showToast(t("Please enter a title"));
+    return;
+  }
+  const size = Number(document.getElementById("bookshelfEditSizeInput").value) || DEFAULT_BOOKMARK_SIZE;
+  const wall = Number(document.getElementById("bookshelfEditWallSelect").value) || 0;
+  const colorInput = document.querySelector('#bookshelfEditColorRow input[type="radio"]:checked');
+  const decoInput = document.querySelector('#bookshelfEditDecoRow input[type="radio"]:checked');
+  updateBookmark(b.id, {
+    title, size, wall,
+    color: colorInput ? colorInput.value : b.color,
+    deco: decoInput ? decoInput.value : b.deco,
+  });
+  bookshelfEditOpen = false;
+  bookshelfWallIndex = wall;
+  renderBookmarkDetail();
+  showToast(t("Saved"));
+}
+
+function deleteBookshelfSelected() {
+  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
+  if (!b) return;
+  removeBookmark(b.url);
+  const tabs = getBrowserTabs();
+  const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
+  if (activeTab) updateBookmarkButtonState(activeTab.url);
+  closeBookmarkDetail();
+}
+function openBookshelfSelected() {
+  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
+  if (!b) return;
+  closeBookmarksModal();
+  openTab(b.url);
+}
+
+/* ---- 棚の管理 (壁の名前変更/追加、容量設定) ---- */
+let bookshelfManagePage = 0;
+const BOOKSHELF_MANAGE_PAGES = 2;
+
+function renderBookshelfManagePage() {
+  document.getElementById("bookshelfManagePage1").hidden = bookshelfManagePage !== 0;
+  document.getElementById("bookshelfManagePage2").hidden = bookshelfManagePage !== 1;
+  document.getElementById("bookshelfManagePrevBtn").disabled = bookshelfManagePage === 0;
+  document.getElementById("bookshelfManageNextBtn").disabled = bookshelfManagePage === BOOKSHELF_MANAGE_PAGES - 1;
+  const pageNumbers = document.getElementById("bookshelfManagePageNumbers");
+  pageNumbers.innerHTML = "";
+  for (let i = 0; i < BOOKSHELF_MANAGE_PAGES; i++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "page-number-btn" + (i === bookshelfManagePage ? " is-active" : "");
+    btn.textContent = String(i + 1);
+    btn.addEventListener("click", () => {
+      bookshelfManagePage = i;
+      renderBookshelfManagePage();
+    });
+    pageNumbers.appendChild(btn);
+  }
+}
+
+function openBookshelfManage() {
+  bookshelfManagePage = 0;
+  showBookshelfView("manage");
+  renderBookshelfManage();
+  renderBookshelfManagePage();
+}
+function closeBookshelfManage() {
+  showBookshelfView("shelf");
+  renderBookshelfShelfView();
+}
+function renderBookshelfManage() {
+  const walls = getBookmarkWalls();
+  document.getElementById("bookshelfRenameInput").value = walls[bookshelfWallIndex] ? t(walls[bookshelfWallIndex].name) : "";
+  document.getElementById("bookshelfCapacityInput").value = getBookmarkCapacity();
+}
+function renameBookshelfWall() {
+  const input = document.getElementById("bookshelfRenameInput");
+  const name = input.value.trim();
+  if (!name) return;
+  const walls = getBookmarkWalls();
+  if (!walls[bookshelfWallIndex]) return;
+  walls[bookshelfWallIndex].name = name;
+  saveBookmarkWalls(walls);
+  showToast(t("Saved"));
+}
+function addBookshelfWall() {
+  const input = document.getElementById("bookshelfAddWallInput");
+  const walls = getBookmarkWalls();
+  const name = input.value.trim() || tf("Wall {n}", { n: walls.length + 1 });
+  walls.push({ name });
+  saveBookmarkWalls(walls);
+  bookshelfWallIndex = walls.length - 1;
+  input.value = "";
+  renderBookshelfManage();
+  showToast(t("Saved"));
+}
+function saveBookshelfCapacity() {
+  const value = Number(document.getElementById("bookshelfCapacityInput").value);
+  if (!value || value < 1) return;
+  saveBookmarkCapacity(Math.round(value));
+  showToast(t("Saved"));
+}
+
 function openBookmarksModal() {
-  bookmarksPage = 0;
-  renderBookmarksList();
+  bookshelfWallIndex = 0;
+  document.getElementById("bookshelfSearchInput").value = "";
+  document.getElementById("bookshelfSearchStatus").hidden = true;
+  showBookshelfView("shelf");
+  renderBookshelfShelfView();
   document.getElementById("bookmarksModal").hidden = false;
 }
 function closeBookmarksModal() {
@@ -5551,24 +6226,67 @@ function init() {
       removeBookmark(activeTab.url);
       showToast(t("Bookmark removed"));
     } else {
-      addBookmark(activeTab.url, activeTab.title);
-      showToast(t("Bookmark added"));
+      const result = addBookmark(activeTab.url, activeTab.title);
+      showToast(result.ok ? t("Bookmark added") : result.message);
     }
     updateBookmarkButtonState(activeTab.url);
   });
 
   document.getElementById("bookmarksBtn").addEventListener("click", openBookmarksModal);
   document.getElementById("closeBookmarks").addEventListener("click", closeBookmarksModal);
-  document.getElementById("bookmarksPrevBtn").addEventListener("click", () => {
-    if (bookmarksPage > 0) {
-      bookmarksPage--;
-      renderBookmarksList();
+
+  document.getElementById("bookshelfSearchInput").addEventListener("input", (e) => {
+    bookshelfHandleSearch(e.target.value);
+  });
+  document.getElementById("bookshelfWallPrevBtn").addEventListener("click", () => {
+    switchBookshelfWall(bookshelfWallIndex - 1);
+  });
+  document.getElementById("bookshelfWallNextBtn").addEventListener("click", () => {
+    switchBookshelfWall(bookshelfWallIndex + 1);
+  });
+  document.getElementById("bookshelfWallSelect").addEventListener("change", (e) => {
+    switchBookshelfWall(Number(e.target.value) || 0);
+  });
+  document.getElementById("bookshelfManageBtn").addEventListener("click", openBookshelfManage);
+
+  document.getElementById("bookshelfDetailBackBtn").addEventListener("click", closeBookmarkDetail);
+  document.getElementById("bookshelfOpenBtn").addEventListener("click", openBookshelfSelected);
+  document.getElementById("bookshelfDeleteBtn").addEventListener("click", deleteBookshelfSelected);
+  document.getElementById("bookshelfEditToggleBtn").addEventListener("click", () => {
+    bookshelfEditOpen = !bookshelfEditOpen;
+    renderBookmarkDetail();
+  });
+  document.getElementById("bookshelfEditSizeInput").addEventListener("input", (e) => {
+    document.getElementById("bookshelfEditSizeValue").textContent = e.target.value;
+  });
+  document.getElementById("bookshelfEditSaveBtn").addEventListener("click", saveBookshelfEdits);
+  document.getElementById("bookshelfEditPrevBtn").addEventListener("click", () => {
+    if (bookshelfEditPage > 0) {
+      bookshelfEditPage--;
+      renderBookshelfEditPage();
     }
   });
-  document.getElementById("bookmarksNextBtn").addEventListener("click", () => {
-    if (!document.getElementById("bookmarksNextBtn").disabled) {
-      bookmarksPage++;
-      renderBookmarksList();
+  document.getElementById("bookshelfEditNextBtn").addEventListener("click", () => {
+    if (bookshelfEditPage < BOOKSHELF_EDIT_PAGES - 1) {
+      bookshelfEditPage++;
+      renderBookshelfEditPage();
+    }
+  });
+
+  document.getElementById("bookshelfManageBackBtn").addEventListener("click", closeBookshelfManage);
+  document.getElementById("bookshelfRenameSaveBtn").addEventListener("click", renameBookshelfWall);
+  document.getElementById("bookshelfAddWallBtn").addEventListener("click", addBookshelfWall);
+  document.getElementById("bookshelfCapacitySaveBtn").addEventListener("click", saveBookshelfCapacity);
+  document.getElementById("bookshelfManagePrevBtn").addEventListener("click", () => {
+    if (bookshelfManagePage > 0) {
+      bookshelfManagePage--;
+      renderBookshelfManagePage();
+    }
+  });
+  document.getElementById("bookshelfManageNextBtn").addEventListener("click", () => {
+    if (bookshelfManagePage < BOOKSHELF_MANAGE_PAGES - 1) {
+      bookshelfManagePage++;
+      renderBookshelfManagePage();
     }
   });
 
