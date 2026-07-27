@@ -9,7 +9,6 @@ const STORAGE_KEYS = {
   reasons: "myhome:reasons",
   durations: "myhome:durations",
   selectedApps: "myhome:selectedApps",
-  activeCategory: "myhome:activeCategory",
   appearance: "myhome:appearance",
   pin: "myhome:pin",
   dockCollapsed: "myhome:dockCollapsed",
@@ -18,8 +17,6 @@ const STORAGE_KEYS = {
   appLockQuestion: "myhome:appLockQuestion",
   appLockAnswer: "myhome:appLockAnswer",
   onboardingComplete: "myhome:onboardingComplete",
-  interests: "myhome:interests",
-  interestsText: "myhome:interestsText",
   language: "myhome:language",
   country: "myhome:country",
   focusTimer: "myhome:focusTimer",
@@ -36,18 +33,15 @@ const STORAGE_KEYS = {
   insightsGoalMinutes: "myhome:insightsGoalMinutes",
   insightsGoalSetAt: "myhome:insightsGoalSetAt",
   postureRemindersEnabled: "myhome:postureRemindersEnabled",
+  browserTabs: "myhome:browserTabs",
+  activeTabId: "myhome:activeTabId",
+  bookmarks: "myhome:bookmarks",
 };
 
 const DEFAULT_APPEARANCE = { accent: "#65a30d", bg: "#ffffff", bgImage: null };
 const DEFAULT_PIN = "0000";
 const DEFAULT_APP_LOCK_PIN = "0000";
 const DEFAULT_LANGUAGE = "en";
-
-// 自動判定される「興味のある分野」のカテゴリ一覧（自由記述テキストから読み取る際のタグ）。
-const INTEREST_TOPICS = [
-  "Technology", "Sports", "Finance", "Entertainment", "Health & Fitness",
-  "Travel", "Food", "Science", "Gaming", "Fashion",
-];
 
 const LANGUAGES = [
   { code: "en", name: "English" },
@@ -66,18 +60,6 @@ const COUNTRIES = [
   { code: "mx", name: "Mexico" },
   { code: "us", name: "United States" },
 ];
-
-// 興味を自由記述するステップの案内文（選んだ言語で表示する）。
-const ONBOARDING_I18N = {
-  en: { title: "What are you interested in?", desc: "Write a few sentences about what you like. We'll pick out topics automatically.", placeholder: "e.g. I love watching soccer, and I'm really into new phones and gadgets...", next: "Next" },
-  ja: { title: "興味のある分野は何ですか？", desc: "好きなことを自由に書いてください。自動でトピックを読み取ります。", placeholder: "例：サッカー観戦が好きで、最近は新しいスマホやガジェットにも興味があります…", next: "次へ" },
-  es: { title: "¿Qué te interesa?", desc: "Escribe algunas frases sobre lo que te gusta. Detectaremos los temas automáticamente.", placeholder: "Ej. Me encanta ver fútbol y también me interesan los nuevos teléfonos y gadgets...", next: "Siguiente" },
-  zh: { title: "你对什么感兴趣？", desc: "写几句你喜欢的东西，我们会自动识别相关话题。", placeholder: "例如：我喜欢看足球，也对新手机和数码产品很感兴趣…", next: "下一步" },
-  ko: { title: "관심 있는 분야는 무엇인가요?", desc: "좋아하는 것에 대해 몇 문장 적어주세요. 자동으로 주제를 찾아드립니다.", placeholder: "예: 축구 보는 것을 좋아하고, 요즘은 새로운 스마트폰과 가젯에도 관심이 많아요...", next: "다음" },
-  fr: { title: "Qu'est-ce qui vous intéresse ?", desc: "Écrivez quelques phrases sur ce que vous aimez. Nous détecterons les sujets automatiquement.", placeholder: "Ex. J'adore regarder le foot, et je m'intéresse aussi aux nouveaux téléphones et gadgets...", next: "Suivant" },
-  de: { title: "Wofür interessierst du dich?", desc: "Schreib ein paar Sätze darüber, was du magst. Wir erkennen die Themen automatisch.", placeholder: "z. B. Ich liebe Fußball und interessiere mich auch für neue Handys und Gadgets...", next: "Weiter" },
-  pt: { title: "No que você se interessa?", desc: "Escreva algumas frases sobre o que você gosta. Vamos identificar os temas automaticamente.", placeholder: "Ex. Adoro assistir futebol e também me interesso por novos celulares e gadgets...", next: "Próximo" },
-};
 
 /* ==========================================================================
    UIの多言語化
@@ -102,25 +84,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "Use como um temporizador comum ou faça com que ele bloqueie o app quando o tempo acabar, para limitar o uso do celular.",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "Você não precisa fazer nada — é só abrir o app e ler. As publicações aparecem sozinhas.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "A rolagem vem desativada por padrão para reduzir distrações. Ative-a com um motivo, um limite de tempo e seu PIN só quando realmente precisar rolar livremente.",
-    "Search the web": "Pesquisar na web",
-    "Search": "Pesquisar",
-    "All": "Tudo",
-    "Videos": "Vídeos",
-    "Images": "Imagens",
-    "Maps": "Mapas",
-    "Shopping": "Compras",
     "Prev": "Anterior",
     "Next": "Próximo",
-    "Close search results": "Fechar resultados da pesquisa",
-    "Result type": "Tipo de resultado",
-    "Your Interests": "Seus interesses",
-    "Outside Your Bubble": "Fora da sua bolha",
-    "Top News": "Principais notícias",
-    "Insights": "Estatísticas",
-    "Read": "Ler",
-    "Watch": "Assistir",
-    "Choose content category": "Escolher categoria de conteúdo",
-    "Read or watch": "Ler ou assistir",
     "All time": "Desde o início",
     "Hour": "Hora",
     "Day": "Dia",
@@ -129,8 +94,6 @@ const UI_I18N = {
     "Now": "Agora",
     "Time spent per app": "Tempo gasto por app",
     "Scroll": "Rolagem",
-    "See details": "Ver detalhes",
-    "View detailed insights": "Ver estatísticas detalhadas",
     "Choose a time period": "Escolher um período",
     "Previous period": "Período anterior",
     "Next period": "Próximo período",
@@ -160,7 +123,6 @@ const UI_I18N = {
     "Turn ON": "Ativar",
     "Unlock with Face ID / Fingerprint": "Desbloquear com Face ID / impressão digital",
     "Choose your language": "Escolha seu idioma",
-    "This sets the language for the next step, where you'll write about your interests.": "Isso define o idioma de todo o app, inclusive da próxima etapa, em que você escreverá sobre seus interesses.",
     "Choose your country": "Escolha seu país",
     "This helps match you with relevant local news later on. More countries will be added over time.": "Isso ajuda a mostrar notícias locais relevantes mais adiante. Mais países serão adicionados com o tempo.",
     "Japan": "Japão",
@@ -267,8 +229,6 @@ const UI_I18N = {
     "5 min": "5 min",
     "10 min": "10 min",
     "30 min": "30 min",
-    "Scroll turned ON {count} time": "Rolagem ativada {count} vez",
-    "Scroll turned ON {count} times": "Rolagem ativada {count} vezes",
     "Turned ON {count} time": "Ativada {count} vez",
     "Turned ON {count} times": "Ativada {count} vezes",
     "scrolled {count} time": "{count} rolagem",
@@ -288,62 +248,11 @@ const UI_I18N = {
     "Timer started for {label}": "Temporizador iniciado para {label}",
     "Open {app}?": "Abrir {app}?",
     "You're about to leave MyHome Browser to open {app}.": "Você está prestes a sair do MyHome Browser para abrir {app}.",
-    "Results for \"{query}\"": "Resultados de “{query}”",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
     "{minutes}m {seconds}s": "{minutes} min {seconds} s",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "“{query}” é um tema amplo, tratado em sites oficiais, verbetes de enciclopédia e discussões da comunidade. As fontes costumam concordar no essencial, embora os detalhes variem. Veja os resultados abaixo para saber mais.",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "O conteúdo costuma se dividir em alguns grupos: páginas oficiais que descrevem {query} diretamente, verbetes de referência com contexto e história, lojas e páginas de comparação, e notícias sobre novidades recentes. Os tópicos da comunidade trazem opiniões em primeira mão, mas com confiabilidade variável.",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "Se {query} é novidade para você, comece pelo site oficial e pelo verbete de enciclopédia e depois veja as notícias para saber o que mudou recentemente.",
     "The whole app is shown in this language.": "Todo o app é exibido neste idioma.",
-    "30 min ago": "há 30 min",
-    "1 hour ago": "há 1 hora",
-    "2 hours ago": "há 2 horas",
-    "3 hours ago": "há 3 horas",
-    "4 hours ago": "há 4 horas",
-    "5 hours ago": "há 5 horas",
-    "6 hours ago": "há 6 horas",
-    "Yesterday": "Ontem",
-    "New AI chip design cuts power draw in half": "Novo design de chip de IA reduz o consumo pela metade",
-    "Expected to significantly boost inference performance on mobile devices.": "A expectativa é de um grande ganho de desempenho de inferência em celulares.",
-    "The 2026 UI trend is 'quiet'": "A tendência de interfaces em 2026 é o \"silêncio\"",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "Designs que reduzem a informação e protegem a concentração vêm ganhando destaque.",
-    "Local team extends win streak to 4 with comeback victory": "Time local vence de virada e chega à quarta vitória seguida",
-    "A late substitute scored the winning goal.": "Um reserva que entrou no fim marcou o gol da vitória.",
-    "Emerging market currencies mixed against the dollar": "Moedas de mercados emergentes ficam mistas ante o dólar",
-    "Market watchers are focused on upcoming interest rate moves.": "Analistas estão atentos aos próximos movimentos dos juros.",
-    "New deep-sea species found in Pacific trench": "Nova espécie de mar profundo é encontrada em fossa do Pacífico",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "Pesquisadores esperam entender melhor a adaptação a ambientes extremos.",
-    "City announces accessibility renovation plan for public facilities": "Prefeitura anuncia plano de acessibilidade para prédios públicos",
-    "The renovations will be carried out in phases over three years.": "As obras serão feitas por etapas ao longo de três anos.",
-    "Today's top stories at a glance": "As principais notícias de hoje em um resumo",
-    "A digest of the biggest topics at home and abroad.": "Um resumo dos maiores assuntos do país e do mundo.",
-    "Weather agency issues outlook for next week": "Órgão meteorológico divulga previsão para a próxima semana",
-    "Near-average temperatures expected across most regions.": "Temperaturas próximas da média são esperadas na maior parte das regiões.",
-    "Holiday travel volume at major stations on par with past years": "Movimento de viajantes nas grandes estações segue o padrão de anos anteriores",
-    "Transit operators are urging travelers to spread out peak times.": "As operadoras pedem que os viajantes distribuam os horários de pico.",
-    "New": "Novo",
-    "Trending": "Em alta",
-    "Popular": "Popular",
-    "{query} — Official Site": "{query} — Site oficial",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "Saiba mais sobre {query} no site oficial: novidades, produtos e suporte.",
-    "{query} - Wikipedia": "{query} - Wikipédia",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "Este verbete de enciclopédia trata de {query}, incluindo história, contexto e temas relacionados.",
-    "Buy {query} online — best prices": "Compre {query} online — melhores preços",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "Compare preços e compre {query} online. Frete grátis em pedidos que atendam às condições.",
-    "{query} news and updates": "Notícias e novidades sobre {query}",
-    "The latest news and headlines about {query} from trusted sources around the world.": "As últimas notícias e manchetes sobre {query} de fontes confiáveis do mundo todo.",
-    "What is {query}? A complete guide": "O que é {query}? Guia completo",
-    "Everything you need to know about {query}, explained simply with examples.": "Tudo o que você precisa saber sobre {query}, explicado de forma simples e com exemplos.",
-    "{query} reviews and ratings": "Avaliações e notas de {query}",
-    "Real user reviews and ratings for {query}. See what people are saying.": "Avaliações e notas de usuários reais sobre {query}. Veja o que dizem.",
-    "{query} — video {number}": "{query} — vídeo {number}",
-    "{count}K views": "{count} mil visualizações",
-    "{query} Store {number}": "Loja {query} {number}",
-    "{query} Center {number}": "Centro {query} {number}",
-    "{distance} mi": "{distance} mi",
-    "{query} — Item {number}": "{query} — Item {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Tempo esgotado! O MyHome Browser fica bloqueado até você desbloquear.",
     "Custom…": "Personalizado…",
     "Set a time limit of at least 1 minute": "Defina um limite de pelo menos 1 minuto",
@@ -362,13 +271,6 @@ const UI_I18N = {
     "Enter a number of minutes": "Digite um número de minutos",
     "Goal saved": "Meta salva",
     "Goal removed": "Meta removida",
-    "Step 1 of 7": "Etapa 1 de 7",
-    "Step 2 of 7": "Etapa 2 de 7",
-    "Step 3 of 7": "Etapa 3 de 7",
-    "Step 4 of 7": "Etapa 4 de 7",
-    "Step 5 of 7": "Etapa 5 de 7",
-    "Step 6 of 7": "Etapa 6 de 7",
-    "Step 7 of 7": "Etapa 7 de 7",
     "Why this app exists": "Por que este app existe",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Algumas coisas que pesquisas descobriram sobre como tocamos, rolamos e deslizamos o celular — não para te fazer sentir mal, só para você saber que o atrito deste app se baseia em algo real.",
     "Touching:": "Tocar na tela:",
@@ -389,6 +291,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "Me lembre de checar minha postura a cada 10 minutos enquanto a rolagem estiver ativada",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Checagem de postura: tente sentar-se ereto e segurar o celular na altura dos olhos por um instante.",
     "By hour of day": "Por horário do dia",
+    "This sets the language for the rest of the app.": "Isso define o idioma de todo o app.",
+    "Step 1 of 6": "Passo 1 de 6",
+    "Step 2 of 6": "Passo 2 de 6",
+    "Step 3 of 6": "Passo 3 de 6",
+    "Step 4 of 6": "Passo 4 de 6",
+    "Step 5 of 6": "Passo 5 de 6",
+    "Step 6 of 6": "Passo 6 de 6",
+    "Blocked: this looks like an ad or tracking domain": "Bloqueado: isso parece um domínio de anúncios ou rastreamento",
+    "Remove bookmark": "Remover favorito",
+    "Bookmark this page": "Adicionar esta página aos favoritos",
+    "No bookmarks yet. Open a page and tap the star to save it.": "Ainda não há favoritos. Abra uma página e toque na estrela para salvá-la.",
+    "Bookmark removed": "Favorito removido",
+    "Bookmark added": "Favorito adicionado",
+    "Close tab \"{title}\"": "Fechar aba \"{title}\"",
+    "Bookmarks": "Favoritos",
+    "Insights": "Estatísticas",
+    "Search or enter a website above to start browsing.": "Pesquise ou digite um site acima para começar a navegar.",
+    "Open bookmarks": "Abrir favoritos",
+    "Open insights": "Abrir estatísticas",
+    "Search or go to address": "Pesquisar ou ir para um endereço",
+    "Search or enter address": "Pesquisar ou digitar um endereço",
+    "Open in browser": "Abrir no navegador",
+    "Close insights": "Fechar estatísticas",
+    "Close bookmarks": "Fechar favoritos",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -406,25 +332,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "Nutze ihn als einfachen Timer oder lass ihn die App sperren, wenn die Zeit um ist, um deine Handynutzung zu begrenzen.",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "Du musst nichts tun – öffne die App und lies einfach. Beiträge erscheinen von selbst.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "Scrollen ist standardmäßig aus, um Ablenkung zu begrenzen. Schalte es nur mit einem Grund, einem Zeitlimit und deiner PIN ein, wenn du wirklich frei scrollen musst.",
-    "Search the web": "Im Web suchen",
-    "Search": "Suchen",
-    "All": "Alle",
-    "Videos": "Videos",
-    "Images": "Bilder",
-    "Maps": "Karten",
-    "Shopping": "Shopping",
     "Prev": "Zurück",
     "Next": "Weiter",
-    "Close search results": "Suchergebnisse schließen",
-    "Result type": "Ergebnistyp",
-    "Your Interests": "Deine Interessen",
-    "Outside Your Bubble": "Außerhalb deiner Blase",
-    "Top News": "Top-Nachrichten",
-    "Insights": "Nutzung",
-    "Read": "Lesen",
-    "Watch": "Ansehen",
-    "Choose content category": "Inhaltskategorie wählen",
-    "Read or watch": "Lesen oder ansehen",
     "All time": "Gesamt",
     "Hour": "Stunde",
     "Day": "Tag",
@@ -433,8 +342,6 @@ const UI_I18N = {
     "Now": "Jetzt",
     "Time spent per app": "Zeit pro App",
     "Scroll": "Scrollen",
-    "See details": "Details ansehen",
-    "View detailed insights": "Detaillierte Nutzung ansehen",
     "Choose a time period": "Zeitraum wählen",
     "Previous period": "Vorheriger Zeitraum",
     "Next period": "Nächster Zeitraum",
@@ -464,7 +371,6 @@ const UI_I18N = {
     "Turn ON": "Einschalten",
     "Unlock with Face ID / Fingerprint": "Mit Face ID / Fingerabdruck entsperren",
     "Choose your language": "Sprache wählen",
-    "This sets the language for the next step, where you'll write about your interests.": "Das legt die Sprache der gesamten App fest – auch für den nächsten Schritt, in dem du deine Interessen beschreibst.",
     "Choose your country": "Land wählen",
     "This helps match you with relevant local news later on. More countries will be added over time.": "Das hilft später dabei, dir passende lokale Nachrichten zu zeigen. Weitere Länder kommen nach und nach dazu.",
     "Japan": "Japan",
@@ -571,8 +477,6 @@ const UI_I18N = {
     "5 min": "5 Min.",
     "10 min": "10 Min.",
     "30 min": "30 Min.",
-    "Scroll turned ON {count} time": "Scrollen {count}× eingeschaltet",
-    "Scroll turned ON {count} times": "Scrollen {count}× eingeschaltet",
     "Turned ON {count} time": "{count}× eingeschaltet",
     "Turned ON {count} times": "{count}× eingeschaltet",
     "scrolled {count} time": "{count}× gescrollt",
@@ -592,62 +496,11 @@ const UI_I18N = {
     "Timer started for {label}": "Timer für {label} gestartet",
     "Open {app}?": "{app} öffnen?",
     "You're about to leave MyHome Browser to open {app}.": "Du verlässt gleich MyHome Browser, um {app} zu öffnen.",
-    "Results for \"{query}\"": "Ergebnisse für „{query}“",
     "{hours}h": "{hours} Std.",
     "{minutes}m": "{minutes} Min.",
     "{seconds}s": "{seconds} Sek.",
     "{minutes}m {seconds}s": "{minutes} Min. {seconds} Sek.",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "„{query}“ ist ein weites Thema, das auf offiziellen Seiten, in Enzyklopädie-Einträgen und in Community-Diskussionen behandelt wird. Bei den Kernfakten sind sich die Quellen weitgehend einig, im Detail unterscheiden sie sich. Mehr dazu in den Ergebnissen unten.",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "Die Inhalte lassen sich grob einteilen: offizielle Seiten, die {query} direkt beschreiben, Nachschlagewerke mit Hintergrund und Geschichte, Shops und Vergleichsseiten sowie Nachrichten zu aktuellen Entwicklungen. Community-Beiträge liefern Meinungen aus erster Hand, sind aber unterschiedlich verlässlich.",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "Wenn {query} neu für dich ist, fang mit der offiziellen Seite und dem Enzyklopädie-Eintrag an und sieh dann in den Nachrichten nach, was sich zuletzt geändert hat.",
     "The whole app is shown in this language.": "Die gesamte App wird in dieser Sprache angezeigt.",
-    "30 min ago": "vor 30 Min.",
-    "1 hour ago": "vor 1 Stunde",
-    "2 hours ago": "vor 2 Stunden",
-    "3 hours ago": "vor 3 Stunden",
-    "4 hours ago": "vor 4 Stunden",
-    "5 hours ago": "vor 5 Stunden",
-    "6 hours ago": "vor 6 Stunden",
-    "Yesterday": "Gestern",
-    "New AI chip design cuts power draw in half": "Neues KI-Chipdesign halbiert den Stromverbrauch",
-    "Expected to significantly boost inference performance on mobile devices.": "Die Inferenzleistung auf Mobilgeräten dürfte deutlich steigen.",
-    "The 2026 UI trend is 'quiet'": "Der UI-Trend 2026 heißt „leise“",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "Designs, die Informationen reduzieren und die Konzentration schützen, gewinnen an Aufmerksamkeit.",
-    "Local team extends win streak to 4 with comeback victory": "Lokales Team gewinnt nach Rückstand und feiert den vierten Sieg in Folge",
-    "A late substitute scored the winning goal.": "Ein spät eingewechselter Spieler erzielte den Siegtreffer.",
-    "Emerging market currencies mixed against the dollar": "Schwellenländerwährungen uneinheitlich gegenüber dem Dollar",
-    "Market watchers are focused on upcoming interest rate moves.": "Marktbeobachter richten den Blick auf die nächsten Zinsschritte.",
-    "New deep-sea species found in Pacific trench": "Neue Tiefseeart in einem Graben im Pazifik entdeckt",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "Forschende erhoffen sich Aufschluss über die Anpassung an extreme Lebensräume.",
-    "City announces accessibility renovation plan for public facilities": "Stadt kündigt Barrierefreiheits-Sanierung öffentlicher Gebäude an",
-    "The renovations will be carried out in phases over three years.": "Die Arbeiten erfolgen schrittweise über drei Jahre.",
-    "Today's top stories at a glance": "Die wichtigsten Meldungen des Tages auf einen Blick",
-    "A digest of the biggest topics at home and abroad.": "Ein Überblick über die großen Themen im In- und Ausland.",
-    "Weather agency issues outlook for next week": "Wetterdienst veröffentlicht Vorhersage für die kommende Woche",
-    "Near-average temperatures expected across most regions.": "In den meisten Regionen werden Temperaturen nahe dem Mittelwert erwartet.",
-    "Holiday travel volume at major stations on par with past years": "Reiseaufkommen an großen Bahnhöfen auf dem Niveau der Vorjahre",
-    "Transit operators are urging travelers to spread out peak times.": "Die Verkehrsbetriebe bitten Reisende, die Stoßzeiten zu entzerren.",
-    "New": "Neu",
-    "Trending": "Im Trend",
-    "Popular": "Beliebt",
-    "{query} — Official Site": "{query} — Offizielle Website",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "Mehr über {query} auf der offiziellen Website: Neuigkeiten, Produkte und Support.",
-    "{query} - Wikipedia": "{query} - Wikipedia",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "Dieser Enzyklopädie-Artikel behandelt {query} samt Geschichte, Hintergrund und verwandten Themen.",
-    "Buy {query} online — best prices": "{query} online kaufen — beste Preise",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "Preise vergleichen und {query} online kaufen. Versandkostenfrei ab dem Mindestbestellwert.",
-    "{query} news and updates": "Nachrichten und Neuigkeiten zu {query}",
-    "The latest news and headlines about {query} from trusted sources around the world.": "Aktuelle Nachrichten und Schlagzeilen zu {query} von verlässlichen Quellen weltweit.",
-    "What is {query}? A complete guide": "Was ist {query}? Der komplette Leitfaden",
-    "Everything you need to know about {query}, explained simply with examples.": "Alles Wissenswerte über {query}, einfach erklärt und mit Beispielen.",
-    "{query} reviews and ratings": "Bewertungen und Rezensionen zu {query}",
-    "Real user reviews and ratings for {query}. See what people are saying.": "Echte Nutzerbewertungen zu {query}. Sieh nach, was andere sagen.",
-    "{query} — video {number}": "{query} — Video {number}",
-    "{count}K views": "{count} Tsd. Aufrufe",
-    "{query} Store {number}": "{query} Filiale {number}",
-    "{query} Center {number}": "{query} Center {number}",
-    "{distance} mi": "{distance} mi",
-    "{query} — Item {number}": "{query} — Artikel {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Zeit abgelaufen! MyHome Browser bleibt gesperrt, bis du entsperrst.",
     "Custom…": "Eigene Dauer…",
     "Set a time limit of at least 1 minute": "Stelle ein Zeitlimit von mindestens 1 Minute ein",
@@ -666,13 +519,6 @@ const UI_I18N = {
     "Enter a number of minutes": "Gib eine Anzahl Minuten ein",
     "Goal saved": "Ziel gespeichert",
     "Goal removed": "Ziel entfernt",
-    "Step 1 of 7": "Schritt 1 von 7",
-    "Step 2 of 7": "Schritt 2 von 7",
-    "Step 3 of 7": "Schritt 3 von 7",
-    "Step 4 of 7": "Schritt 4 von 7",
-    "Step 5 of 7": "Schritt 5 von 7",
-    "Step 6 of 7": "Schritt 6 von 7",
-    "Step 7 of 7": "Schritt 7 von 7",
     "Why this app exists": "Warum es diese App gibt",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Ein paar Dinge, die die Forschung darüber herausgefunden hat, wie wir unser Handy berühren, scrollen und wischen — nicht um dir ein schlechtes Gewissen zu machen, sondern damit du weißt, dass die kleinen Hürden in dieser App auf echten Erkenntnissen beruhen.",
     "Touching:": "Berühren:",
@@ -693,6 +539,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "Erinnere mich alle 10 Minuten an meine Haltung, solange Scrollen aktiviert ist",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Haltungscheck: Setz dich für einen Moment aufrecht hin und halte das Handy auf Augenhöhe.",
     "By hour of day": "Nach Tageszeit",
+    "This sets the language for the rest of the app.": "Das legt die Sprache der gesamten App fest.",
+    "Step 1 of 6": "Schritt 1 von 6",
+    "Step 2 of 6": "Schritt 2 von 6",
+    "Step 3 of 6": "Schritt 3 von 6",
+    "Step 4 of 6": "Schritt 4 von 6",
+    "Step 5 of 6": "Schritt 5 von 6",
+    "Step 6 of 6": "Schritt 6 von 6",
+    "Blocked: this looks like an ad or tracking domain": "Blockiert: sieht nach einer Werbe- oder Tracking-Domain aus",
+    "Remove bookmark": "Lesezeichen entfernen",
+    "Bookmark this page": "Diese Seite als Lesezeichen speichern",
+    "No bookmarks yet. Open a page and tap the star to save it.": "Noch keine Lesezeichen. Öffne eine Seite und tippe auf den Stern, um sie zu speichern.",
+    "Bookmark removed": "Lesezeichen entfernt",
+    "Bookmark added": "Lesezeichen hinzugefügt",
+    "Close tab \"{title}\"": "Tab „{title}“ schließen",
+    "Bookmarks": "Lesezeichen",
+    "Insights": "Nutzung",
+    "Search or enter a website above to start browsing.": "Suche oben oder gib eine Website ein, um mit dem Surfen zu beginnen.",
+    "Open bookmarks": "Lesezeichen öffnen",
+    "Open insights": "Nutzung öffnen",
+    "Search or go to address": "Suchen oder Adresse aufrufen",
+    "Search or enter address": "Suche oder Adresse eingeben",
+    "Open in browser": "Im Browser öffnen",
+    "Close insights": "Nutzung schließen",
+    "Close bookmarks": "Lesezeichen schließen",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -710,25 +580,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "Utilisez-le comme simple minuteur, ou faites-le verrouiller l'app à la fin du temps pour limiter votre usage du téléphone.",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "Vous n'avez rien à faire : ouvrez l'app et lisez. Les publications apparaissent d'elles-mêmes.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "Le défilement est désactivé par défaut pour limiter les distractions. Activez-le avec une raison, une limite de temps et votre code PIN uniquement quand vous en avez vraiment besoin.",
-    "Search the web": "Rechercher sur le web",
-    "Search": "Rechercher",
-    "All": "Tout",
-    "Videos": "Vidéos",
-    "Images": "Images",
-    "Maps": "Cartes",
-    "Shopping": "Achats",
     "Prev": "Préc.",
     "Next": "Suiv.",
-    "Close search results": "Fermer les résultats de recherche",
-    "Result type": "Type de résultat",
-    "Your Interests": "Vos centres d'intérêt",
-    "Outside Your Bubble": "Hors de votre bulle",
-    "Top News": "Actualités à la une",
-    "Insights": "Statistiques",
-    "Read": "Lire",
-    "Watch": "Regarder",
-    "Choose content category": "Choisir une catégorie de contenu",
-    "Read or watch": "Lire ou regarder",
     "All time": "Depuis le début",
     "Hour": "Heure",
     "Day": "Jour",
@@ -737,8 +590,6 @@ const UI_I18N = {
     "Now": "Maintenant",
     "Time spent per app": "Temps passé par application",
     "Scroll": "Défilement",
-    "See details": "Voir les détails",
-    "View detailed insights": "Voir les statistiques détaillées",
     "Choose a time period": "Choisir une période",
     "Previous period": "Période précédente",
     "Next period": "Période suivante",
@@ -768,7 +619,6 @@ const UI_I18N = {
     "Turn ON": "Activer",
     "Unlock with Face ID / Fingerprint": "Déverrouiller avec Face ID / empreinte",
     "Choose your language": "Choisissez votre langue",
-    "This sets the language for the next step, where you'll write about your interests.": "Ceci définit la langue de toute l'application, y compris l'étape suivante où vous décrirez vos centres d'intérêt.",
     "Choose your country": "Choisissez votre pays",
     "This helps match you with relevant local news later on. More countries will be added over time.": "Cela permettra de vous proposer des actualités locales pertinentes. D'autres pays seront ajoutés progressivement.",
     "Japan": "Japon",
@@ -875,8 +725,6 @@ const UI_I18N = {
     "5 min": "5 min",
     "10 min": "10 min",
     "30 min": "30 min",
-    "Scroll turned ON {count} time": "Défilement activé {count} fois",
-    "Scroll turned ON {count} times": "Défilement activé {count} fois",
     "Turned ON {count} time": "Activé {count} fois",
     "Turned ON {count} times": "Activé {count} fois",
     "scrolled {count} time": "{count} défilement",
@@ -896,62 +744,11 @@ const UI_I18N = {
     "Timer started for {label}": "Minuteur lancé pour {label}",
     "Open {app}?": "Ouvrir {app} ?",
     "You're about to leave MyHome Browser to open {app}.": "Vous êtes sur le point de quitter MyHome Browser pour ouvrir {app}.",
-    "Results for \"{query}\"": "Résultats pour « {query} »",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
     "{minutes}m {seconds}s": "{minutes} min {seconds} s",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "« {query} » est un sujet vaste traité par des sites officiels, des articles d'encyclopédie et des discussions communautaires. Les sources s'accordent globalement sur l'essentiel, même si les détails varient. Consultez les résultats ci-dessous pour en savoir plus.",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "Les contenus se répartissent en quelques groupes : des pages officielles décrivant directement {query}, des articles de référence donnant le contexte et l'historique, des sites marchands et comparateurs, et des actualités sur les évolutions récentes. Les discussions communautaires apportent des avis de première main, mais leur fiabilité varie.",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "Si vous découvrez {query}, commencez par le site officiel et l'article d'encyclopédie, puis regardez les actualités pour voir ce qui a changé récemment.",
     "The whole app is shown in this language.": "Toute l'application s'affiche dans cette langue.",
-    "30 min ago": "il y a 30 min",
-    "1 hour ago": "il y a 1 heure",
-    "2 hours ago": "il y a 2 heures",
-    "3 hours ago": "il y a 3 heures",
-    "4 hours ago": "il y a 4 heures",
-    "5 hours ago": "il y a 5 heures",
-    "6 hours ago": "il y a 6 heures",
-    "Yesterday": "Hier",
-    "New AI chip design cuts power draw in half": "Une nouvelle puce IA divise par deux la consommation",
-    "Expected to significantly boost inference performance on mobile devices.": "Les performances d'inférence sur mobile devraient nettement progresser.",
-    "The 2026 UI trend is 'quiet'": "La tendance des interfaces en 2026 : la sobriété",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "Les designs qui réduisent l'information et préservent la concentration séduisent de plus en plus.",
-    "Local team extends win streak to 4 with comeback victory": "L'équipe locale enchaîne une 4e victoire après une remontée",
-    "A late substitute scored the winning goal.": "Un remplaçant entré en fin de match a marqué le but décisif.",
-    "Emerging market currencies mixed against the dollar": "Les devises émergentes évoluent en ordre dispersé face au dollar",
-    "Market watchers are focused on upcoming interest rate moves.": "Les observateurs surveillent les prochains mouvements de taux.",
-    "New deep-sea species found in Pacific trench": "Une nouvelle espèce des grands fonds découverte dans une fosse du Pacifique",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "Les chercheurs espèrent mieux comprendre l'adaptation aux milieux extrêmes.",
-    "City announces accessibility renovation plan for public facilities": "La ville annonce un plan d'accessibilité pour les bâtiments publics",
-    "The renovations will be carried out in phases over three years.": "Les travaux seront réalisés par étapes sur trois ans.",
-    "Today's top stories at a glance": "L'essentiel de l'actualité du jour",
-    "A digest of the biggest topics at home and abroad.": "Un condensé des grands sujets nationaux et internationaux.",
-    "Weather agency issues outlook for next week": "L'agence météo publie ses prévisions pour la semaine prochaine",
-    "Near-average temperatures expected across most regions.": "Des températures proches des normales sont attendues presque partout.",
-    "Holiday travel volume at major stations on par with past years": "Affluence des départs en vacances comparable aux années précédentes",
-    "Transit operators are urging travelers to spread out peak times.": "Les transporteurs invitent les voyageurs à étaler les heures de pointe.",
-    "New": "Nouveau",
-    "Trending": "Tendance",
-    "Popular": "Populaire",
-    "{query} — Official Site": "{query} — Site officiel",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "En savoir plus sur {query} sur le site officiel : actualités, produits et assistance.",
-    "{query} - Wikipedia": "{query} - Wikipédia",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "Cet article d'encyclopédie traite de {query}, son histoire, son contexte et les sujets liés.",
-    "Buy {query} online — best prices": "Acheter {query} en ligne — meilleurs prix",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "Comparez les prix et achetez {query} en ligne. Livraison gratuite dès le montant requis.",
-    "{query} news and updates": "Actualités et nouveautés sur {query}",
-    "The latest news and headlines about {query} from trusted sources around the world.": "Les dernières actualités et titres sur {query}, issus de sources fiables du monde entier.",
-    "What is {query}? A complete guide": "Qu'est-ce que {query} ? Le guide complet",
-    "Everything you need to know about {query}, explained simply with examples.": "Tout ce qu'il faut savoir sur {query}, expliqué simplement et avec des exemples.",
-    "{query} reviews and ratings": "Avis et notes sur {query}",
-    "Real user reviews and ratings for {query}. See what people are saying.": "Avis et notes de vrais utilisateurs sur {query}. Découvrez ce qu'ils en disent.",
-    "{query} — video {number}": "{query} — vidéo {number}",
-    "{count}K views": "{count} k vues",
-    "{query} Store {number}": "Boutique {query} {number}",
-    "{query} Center {number}": "Centre {query} {number}",
-    "{distance} mi": "{distance} mi",
-    "{query} — Item {number}": "{query} — Article {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Temps écoulé ! MyHome Browser reste verrouillé jusqu'à ce que vous le déverrouilliez.",
     "Custom…": "Personnalisé…",
     "Set a time limit of at least 1 minute": "Choisissez une limite d'au moins 1 minute",
@@ -970,13 +767,6 @@ const UI_I18N = {
     "Enter a number of minutes": "Saisissez un nombre de minutes",
     "Goal saved": "Objectif enregistré",
     "Goal removed": "Objectif supprimé",
-    "Step 1 of 7": "Étape 1 sur 7",
-    "Step 2 of 7": "Étape 2 sur 7",
-    "Step 3 of 7": "Étape 3 sur 7",
-    "Step 4 of 7": "Étape 4 sur 7",
-    "Step 5 of 7": "Étape 5 sur 7",
-    "Step 6 of 7": "Étape 6 sur 7",
-    "Step 7 of 7": "Étape 7 sur 7",
     "Why this app exists": "Pourquoi cette app existe",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Quelques constats de la recherche sur la façon dont on touche, on fait défiler et on balaie l'écran de son téléphone, pas pour vous culpabiliser, mais pour que vous sachiez que la friction de cette app repose sur des faits réels.",
     "Touching:": "Toucher l'écran :",
@@ -997,6 +787,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "Me rappeler de vérifier ma posture toutes les 10 minutes tant que le défilement est activé",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Vérification de posture : essayez de vous redresser et de tenir le téléphone à hauteur des yeux un instant.",
     "By hour of day": "Par heure de la journée",
+    "This sets the language for the rest of the app.": "Cela définit la langue de toute l'application.",
+    "Step 1 of 6": "Étape 1 sur 6",
+    "Step 2 of 6": "Étape 2 sur 6",
+    "Step 3 of 6": "Étape 3 sur 6",
+    "Step 4 of 6": "Étape 4 sur 6",
+    "Step 5 of 6": "Étape 5 sur 6",
+    "Step 6 of 6": "Étape 6 sur 6",
+    "Blocked: this looks like an ad or tracking domain": "Bloqué : ceci ressemble à un domaine publicitaire ou de suivi",
+    "Remove bookmark": "Retirer le favori",
+    "Bookmark this page": "Ajouter cette page aux favoris",
+    "No bookmarks yet. Open a page and tap the star to save it.": "Aucun favori pour l'instant. Ouvrez une page et touchez l'étoile pour l'enregistrer.",
+    "Bookmark removed": "Favori retiré",
+    "Bookmark added": "Favori ajouté",
+    "Close tab \"{title}\"": "Fermer l'onglet « {title} »",
+    "Bookmarks": "Favoris",
+    "Insights": "Statistiques",
+    "Search or enter a website above to start browsing.": "Recherchez ou saisissez un site ci-dessus pour commencer à naviguer.",
+    "Open bookmarks": "Ouvrir les favoris",
+    "Open insights": "Ouvrir les statistiques",
+    "Search or go to address": "Rechercher ou aller à une adresse",
+    "Search or enter address": "Rechercher ou saisir une adresse",
+    "Open in browser": "Ouvrir dans le navigateur",
+    "Close insights": "Fermer les statistiques",
+    "Close bookmarks": "Fermer les favoris",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1014,25 +828,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "일반 타이머로 쓸 수도 있고, 시간이 다 되면 앱을 잠가 휴대폰 사용을 제한할 수도 있습니다.",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "따로 할 일은 없습니다. 앱을 열고 읽기만 하면 게시물이 알아서 표시됩니다.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "주의가 흐트러지지 않도록 스크롤은 기본적으로 꺼져 있습니다. 정말 필요할 때만 이유와 제한 시간, PIN을 입력해 켜세요.",
-    "Search the web": "웹 검색",
-    "Search": "검색",
-    "All": "전체",
-    "Videos": "동영상",
-    "Images": "이미지",
-    "Maps": "지도",
-    "Shopping": "쇼핑",
     "Prev": "이전",
     "Next": "다음",
-    "Close search results": "검색 결과 닫기",
-    "Result type": "결과 유형",
-    "Your Interests": "관심 분야",
-    "Outside Your Bubble": "평소 안 보는 분야",
-    "Top News": "주요 뉴스",
-    "Insights": "사용 통계",
-    "Read": "읽기",
-    "Watch": "보기",
-    "Choose content category": "콘텐츠 분류 선택",
-    "Read or watch": "읽기 또는 보기",
     "All time": "전체 기간",
     "Hour": "시간",
     "Day": "일",
@@ -1041,8 +838,6 @@ const UI_I18N = {
     "Now": "지금",
     "Time spent per app": "앱별 사용 시간",
     "Scroll": "스크롤",
-    "See details": "자세히 보기",
-    "View detailed insights": "자세한 통계 보기",
     "Choose a time period": "기간 선택",
     "Previous period": "이전 기간",
     "Next period": "다음 기간",
@@ -1072,7 +867,6 @@ const UI_I18N = {
     "Turn ON": "켜기",
     "Unlock with Face ID / Fingerprint": "Face ID / 지문으로 잠금 해제",
     "Choose your language": "언어를 선택하세요",
-    "This sets the language for the next step, where you'll write about your interests.": "앱 전체의 표시 언어가 되며, 다음 단계에서 관심사를 적을 때도 사용됩니다.",
     "Choose your country": "국가를 선택하세요",
     "This helps match you with relevant local news later on. More countries will be added over time.": "앞으로 지역에 맞는 뉴스를 보여주기 위해 사용됩니다. 지원 국가는 계속 추가될 예정입니다.",
     "Japan": "일본",
@@ -1179,8 +973,6 @@ const UI_I18N = {
     "5 min": "5분",
     "10 min": "10분",
     "30 min": "30분",
-    "Scroll turned ON {count} time": "스크롤 켠 횟수 {count}회",
-    "Scroll turned ON {count} times": "스크롤 켠 횟수 {count}회",
     "Turned ON {count} time": "켠 횟수 {count}회",
     "Turned ON {count} times": "켠 횟수 {count}회",
     "scrolled {count} time": "스크롤 {count}회",
@@ -1200,62 +992,11 @@ const UI_I18N = {
     "Timer started for {label}": "{label} 타이머를 시작했습니다",
     "Open {app}?": "{app}을(를) 열까요?",
     "You're about to leave MyHome Browser to open {app}.": "MyHome Browser를 나가서 {app}을(를) 열려고 합니다.",
-    "Results for \"{query}\"": "'{query}' 검색 결과",
     "{hours}h": "{hours}시간",
     "{minutes}m": "{minutes}분",
     "{seconds}s": "{seconds}초",
     "{minutes}m {seconds}s": "{minutes}분 {seconds}초",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "'{query}'은(는) 공식 사이트, 백과사전 항목, 커뮤니티 토론 등에서 폭넓게 다뤄지는 주제입니다. 핵심적인 사실에 대해서는 출처들이 대체로 일치하지만 세부 내용은 다릅니다. 자세한 내용은 아래 결과를 확인하세요.",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "관련 정보는 몇 가지로 나뉩니다. {query}을(를) 직접 설명하는 공식 페이지, 배경과 역사를 정리한 자료, 판매·비교 페이지, 최근 소식을 전하는 뉴스 등입니다. 커뮤니티 글은 직접 경험한 의견을 볼 수 있지만 신뢰도는 제각각입니다.",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "{query}이(가) 처음이라면 공식 사이트와 백과사전 항목부터 보고, 그다음 뉴스 결과에서 최근에 바뀐 점을 확인해 보세요.",
     "The whole app is shown in this language.": "앱 전체가 이 언어로 표시됩니다.",
-    "30 min ago": "30분 전",
-    "1 hour ago": "1시간 전",
-    "2 hours ago": "2시간 전",
-    "3 hours ago": "3시간 전",
-    "4 hours ago": "4시간 전",
-    "5 hours ago": "5시간 전",
-    "6 hours ago": "6시간 전",
-    "Yesterday": "어제",
-    "New AI chip design cuts power draw in half": "새 AI 칩 설계로 전력 소모 절반으로",
-    "Expected to significantly boost inference performance on mobile devices.": "모바일 기기에서의 추론 성능이 크게 향상될 것으로 보입니다.",
-    "The 2026 UI trend is 'quiet'": "2026년 UI 트렌드는 '조용함'",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "정보량을 줄이고 사용자의 집중을 지키는 디자인이 주목받고 있습니다.",
-    "Local team extends win streak to 4 with comeback victory": "지역 팀, 역전승으로 4연승",
-    "A late substitute scored the winning goal.": "후반에 교체 투입된 선수가 결승골을 넣었습니다.",
-    "Emerging market currencies mixed against the dollar": "신흥국 통화, 달러 대비 혼조세",
-    "Market watchers are focused on upcoming interest rate moves.": "시장은 앞으로의 금리 움직임에 주목하고 있습니다.",
-    "New deep-sea species found in Pacific trench": "태평양 해구에서 심해 신종 발견",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "연구진은 극한 환경 적응을 밝히는 데 도움이 되기를 기대하고 있습니다.",
-    "City announces accessibility renovation plan for public facilities": "시, 공공시설 무장애 개보수 계획 발표",
-    "The renovations will be carried out in phases over three years.": "개보수는 3년에 걸쳐 단계적으로 진행됩니다.",
-    "Today's top stories at a glance": "오늘의 주요 뉴스 한눈에",
-    "A digest of the biggest topics at home and abroad.": "국내외 주요 화제를 요약해 전해 드립니다.",
-    "Weather agency issues outlook for next week": "기상 당국, 다음 주 전망 발표",
-    "Near-average temperatures expected across most regions.": "대부분 지역에서 평년과 비슷한 기온이 예상됩니다.",
-    "Holiday travel volume at major stations on par with past years": "주요 역 연휴 이동 인파, 예년 수준",
-    "Transit operators are urging travelers to spread out peak times.": "교통 운영사들은 이용 시간대를 분산해 달라고 당부했습니다.",
-    "New": "신규",
-    "Trending": "인기 급상승",
-    "Popular": "인기",
-    "{query} — Official Site": "{query} — 공식 사이트",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "공식 사이트에서 {query}에 대해 자세히 알아보세요. 최신 소식, 제품, 지원 정보를 제공합니다.",
-    "{query} - Wikipedia": "{query} - 위키백과",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "이 백과사전 문서는 {query}의 역사와 배경, 관련 주제까지 다룹니다.",
-    "Buy {query} online — best prices": "{query} 온라인 구매 — 최저가",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "{query}의 가격을 비교하고 온라인으로 구매하세요. 조건 충족 시 무료 배송.",
-    "{query} news and updates": "{query} 뉴스와 소식",
-    "The latest news and headlines about {query} from trusted sources around the world.": "전 세계 신뢰할 수 있는 매체가 전하는 {query} 관련 최신 뉴스와 헤드라인.",
-    "What is {query}? A complete guide": "{query}란? 완벽 가이드",
-    "Everything you need to know about {query}, explained simply with examples.": "{query}에 대해 알아야 할 모든 것을 예시와 함께 쉽게 설명합니다.",
-    "{query} reviews and ratings": "{query} 후기와 평점",
-    "Real user reviews and ratings for {query}. See what people are saying.": "{query}에 대한 실제 사용자 후기와 평점. 사람들의 이야기를 확인해 보세요.",
-    "{query} — video {number}": "{query} — 동영상 {number}",
-    "{count}K views": "조회수 {count}천회",
-    "{query} Store {number}": "{query} 매장 {number}호점",
-    "{query} Center {number}": "{query} 센터 {number}호점",
-    "{distance} mi": "{distance}마일",
-    "{query} — Item {number}": "{query} — 상품 {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "시간이 되었습니다. 잠금을 해제할 때까지 MyHome Browser는 잠깁니다.",
     "Custom…": "직접 입력…",
     "Set a time limit of at least 1 minute": "제한 시간은 1분 이상으로 설정하세요",
@@ -1274,13 +1015,6 @@ const UI_I18N = {
     "Enter a number of minutes": "분 수를 입력하세요",
     "Goal saved": "목표를 저장했습니다",
     "Goal removed": "목표를 삭제했습니다",
-    "Step 1 of 7": "1단계 (전체 7단계)",
-    "Step 2 of 7": "2단계 (전체 7단계)",
-    "Step 3 of 7": "3단계 (전체 7단계)",
-    "Step 4 of 7": "4단계 (전체 7단계)",
-    "Step 5 of 7": "5단계 (전체 7단계)",
-    "Step 6 of 7": "6단계 (전체 7단계)",
-    "Step 7 of 7": "7단계 (전체 7단계)",
     "Why this app exists": "이 앱을 만든 이유",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "우리가 스마트폰을 만지고, 스크롤하고, 스와이프하는 방식에 대해 연구가 밝혀낸 몇 가지 사실입니다. 기분 나쁘게 하려는 게 아니라, 이 앱의 '작은 번거로움'이 실제 근거에 바탕을 두고 있다는 것을 알려드리기 위해서입니다.",
     "Touching:": "터치 횟수:",
@@ -1301,6 +1035,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "스크롤이 켜져 있는 동안 10분마다 자세를 확인하도록 알려주세요",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "자세 확인: 잠시 허리를 펴고 휴대폰을 눈높이에 맞춰 들어보세요.",
     "By hour of day": "시간대별",
+    "This sets the language for the rest of the app.": "앱 전체의 표시 언어가 됩니다.",
+    "Step 1 of 6": "6단계 중 1단계",
+    "Step 2 of 6": "6단계 중 2단계",
+    "Step 3 of 6": "6단계 중 3단계",
+    "Step 4 of 6": "6단계 중 4단계",
+    "Step 5 of 6": "6단계 중 5단계",
+    "Step 6 of 6": "6단계 중 6단계",
+    "Blocked: this looks like an ad or tracking domain": "차단됨: 광고 또는 추적 도메인으로 보입니다",
+    "Remove bookmark": "북마크 삭제",
+    "Bookmark this page": "이 페이지 북마크",
+    "No bookmarks yet. Open a page and tap the star to save it.": "아직 북마크가 없습니다. 페이지를 열고 별표를 눌러 저장하세요.",
+    "Bookmark removed": "북마크가 삭제되었습니다",
+    "Bookmark added": "북마크가 추가되었습니다",
+    "Close tab \"{title}\"": "탭 \"{title}\" 닫기",
+    "Bookmarks": "북마크",
+    "Insights": "사용 통계",
+    "Search or enter a website above to start browsing.": "위에서 검색하거나 웹사이트 주소를 입력해 탐색을 시작하세요.",
+    "Open bookmarks": "북마크 열기",
+    "Open insights": "사용 통계 열기",
+    "Search or go to address": "검색 또는 주소로 이동",
+    "Search or enter address": "검색어 또는 주소 입력",
+    "Open in browser": "브라우저에서 열기",
+    "Close insights": "사용 통계 닫기",
+    "Close bookmarks": "북마크 닫기",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1318,25 +1076,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "可当作普通计时器使用，也可以在时间到时锁定应用，帮助你控制手机使用时间。",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "你不需要做任何操作，打开应用阅读即可，内容会自动显示。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "为减少干扰，滚动默认关闭。只有确实需要自由滚动时，才输入理由、时间限制和 PIN 来开启。",
-    "Search the web": "搜索网页",
-    "Search": "搜索",
-    "All": "全部",
-    "Videos": "视频",
-    "Images": "图片",
-    "Maps": "地图",
-    "Shopping": "购物",
     "Prev": "上一页",
     "Next": "下一页",
-    "Close search results": "关闭搜索结果",
-    "Result type": "结果类型",
-    "Your Interests": "感兴趣的领域",
-    "Outside Your Bubble": "平时不看的领域",
-    "Top News": "热门新闻",
-    "Insights": "使用统计",
-    "Read": "阅读",
-    "Watch": "观看",
-    "Choose content category": "选择内容分类",
-    "Read or watch": "阅读或观看",
     "All time": "全部时间",
     "Hour": "小时",
     "Day": "天",
@@ -1345,8 +1086,6 @@ const UI_I18N = {
     "Now": "现在",
     "Time spent per app": "各应用的使用时长",
     "Scroll": "滚动",
-    "See details": "查看详情",
-    "View detailed insights": "查看详细统计",
     "Choose a time period": "选择时间范围",
     "Previous period": "上一个时间段",
     "Next period": "下一个时间段",
@@ -1376,7 +1115,6 @@ const UI_I18N = {
     "Turn ON": "开启",
     "Unlock with Face ID / Fingerprint": "使用面容 / 指纹解锁",
     "Choose your language": "选择语言",
-    "This sets the language for the next step, where you'll write about your interests.": "这将作为整个应用的显示语言，也包括下一步填写兴趣时使用的语言。",
     "Choose your country": "选择国家",
     "This helps match you with relevant local news later on. More countries will be added over time.": "用于今后为你匹配相关的本地新闻。将陆续增加更多国家。",
     "Japan": "日本",
@@ -1483,8 +1221,6 @@ const UI_I18N = {
     "5 min": "5 分钟",
     "10 min": "10 分钟",
     "30 min": "30 分钟",
-    "Scroll turned ON {count} time": "开启滚动 {count} 次",
-    "Scroll turned ON {count} times": "开启滚动 {count} 次",
     "Turned ON {count} time": "开启 {count} 次",
     "Turned ON {count} times": "开启 {count} 次",
     "scrolled {count} time": "滚动 {count} 次",
@@ -1504,62 +1240,11 @@ const UI_I18N = {
     "Timer started for {label}": "已开始 {label} 的计时",
     "Open {app}?": "要打开 {app} 吗？",
     "You're about to leave MyHome Browser to open {app}.": "你即将离开 MyHome Browser 去打开 {app}。",
-    "Results for \"{query}\"": "“{query}”的搜索结果",
     "{hours}h": "{hours} 小时",
     "{minutes}m": "{minutes} 分",
     "{seconds}s": "{seconds} 秒",
     "{minutes}m {seconds}s": "{minutes} 分 {seconds} 秒",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "“{query}”是一个涉及面很广的话题，官方网站、百科条目和社区讨论都有涉及。各方资料在核心事实上基本一致，细节则有所不同。更多内容请看下方结果。",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "相关内容大致分为几类：直接介绍 {query} 的官方页面、提供背景与历史的参考条目、销售与比价页面，以及报道最新进展的新闻。社区帖子能看到第一手观点，但可靠性参差不齐。",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "如果你刚开始了解 {query}，建议先看官方网站和百科条目，再通过新闻结果确认最近有什么变化。",
     "The whole app is shown in this language.": "整个应用都会以此语言显示。",
-    "30 min ago": "30 分钟前",
-    "1 hour ago": "1 小时前",
-    "2 hours ago": "2 小时前",
-    "3 hours ago": "3 小时前",
-    "4 hours ago": "4 小时前",
-    "5 hours ago": "5 小时前",
-    "6 hours ago": "6 小时前",
-    "Yesterday": "昨天",
-    "New AI chip design cuts power draw in half": "新款 AI 芯片设计将功耗降低一半",
-    "Expected to significantly boost inference performance on mobile devices.": "预计将大幅提升移动设备上的推理性能。",
-    "The 2026 UI trend is 'quiet'": "2026 年的界面趋势是「安静」",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "减少信息量、保护用户注意力的设计正受到关注。",
-    "Local team extends win streak to 4 with comeback victory": "本地球队逆转取胜，连胜纪录增至 4 场",
-    "A late substitute scored the winning goal.": "终场前替补上场的球员打入制胜一球。",
-    "Emerging market currencies mixed against the dollar": "新兴市场货币对美元涨跌互现",
-    "Market watchers are focused on upcoming interest rate moves.": "市场人士正关注接下来的利率动向。",
-    "New deep-sea species found in Pacific trench": "太平洋海沟发现深海新物种",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "研究人员希望借此了解生物如何适应极端环境。",
-    "City announces accessibility renovation plan for public facilities": "市政府公布公共设施无障碍改造计划",
-    "The renovations will be carried out in phases over three years.": "改造工程将在三年内分阶段进行。",
-    "Today's top stories at a glance": "今日要闻一览",
-    "A digest of the biggest topics at home and abroad.": "汇总国内外最受关注的话题。",
-    "Weather agency issues outlook for next week": "气象部门发布下周天气展望",
-    "Near-average temperatures expected across most regions.": "预计大部分地区气温接近常年水平。",
-    "Holiday travel volume at major stations on par with past years": "各大车站假期客流与往年持平",
-    "Transit operators are urging travelers to spread out peak times.": "交通运营方呼吁旅客错峰出行。",
-    "New": "最新",
-    "Trending": "热门",
-    "Popular": "受欢迎",
-    "{query} — Official Site": "{query} — 官方网站",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "在官方网站了解更多关于{query}的信息，包括最新消息、产品和支持。",
-    "{query} - Wikipedia": "{query} - 维基百科",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "这篇百科条目介绍了{query}，包括历史、背景和相关话题。",
-    "Buy {query} online — best prices": "在线购买{query} — 最优价格",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "比较价格并在线购买{query}。符合条件的订单免运费。",
-    "{query} news and updates": "{query}的新闻与动态",
-    "The latest news and headlines about {query} from trusted sources around the world.": "来自全球可信来源的{query}最新新闻与头条。",
-    "What is {query}? A complete guide": "什么是{query}？完整指南",
-    "Everything you need to know about {query}, explained simply with examples.": "关于{query}你需要知道的一切，用实例简明讲解。",
-    "{query} reviews and ratings": "{query}的评价与评分",
-    "Real user reviews and ratings for {query}. See what people are saying.": "{query}的真实用户评价与评分，看看大家怎么说。",
-    "{query} — video {number}": "{query} — 视频 {number}",
-    "{count}K views": "{count} 千次观看",
-    "{query} Store {number}": "{query}门店 {number}",
-    "{query} Center {number}": "{query}中心 {number}",
-    "{distance} mi": "{distance} 英里",
-    "{query} — Item {number}": "{query} — 商品 {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "时间到了！在你解锁之前，MyHome Browser 将保持锁定。",
     "Custom…": "自定义…",
     "Set a time limit of at least 1 minute": "时间限制请设置为至少 1 分钟",
@@ -1578,13 +1263,6 @@ const UI_I18N = {
     "Enter a number of minutes": "请输入分钟数",
     "Goal saved": "目标已保存",
     "Goal removed": "目标已删除",
-    "Step 1 of 7": "第 1 步（共 7 步）",
-    "Step 2 of 7": "第 2 步（共 7 步）",
-    "Step 3 of 7": "第 3 步（共 7 步）",
-    "Step 4 of 7": "第 4 步（共 7 步）",
-    "Step 5 of 7": "第 5 步（共 7 步）",
-    "Step 6 of 7": "第 6 步（共 7 步）",
-    "Step 7 of 7": "第 7 步（共 7 步）",
     "Why this app exists": "为什么会有这款应用",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "以下是一些关于我们如何触摸、滚动、滑动手机的研究发现——不是为了让你难受，只是想让你知道这款应用里的“小麻烦”是有依据的。",
     "Touching:": "触摸次数：",
@@ -1605,6 +1283,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "滚动开启期间，每 10 分钟提醒我检查姿势",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿势提醒：试着坐直，把手机拿到与眼睛齐平的高度片刻。",
     "By hour of day": "按时段",
+    "This sets the language for the rest of the app.": "这将作为整个应用的显示语言。",
+    "Step 1 of 6": "第1步（共6步）",
+    "Step 2 of 6": "第2步（共6步）",
+    "Step 3 of 6": "第3步（共6步）",
+    "Step 4 of 6": "第4步（共6步）",
+    "Step 5 of 6": "第5步（共6步）",
+    "Step 6 of 6": "第6步（共6步）",
+    "Blocked: this looks like an ad or tracking domain": "已拦截：这看起来是广告或跟踪域名",
+    "Remove bookmark": "移除书签",
+    "Bookmark this page": "收藏此页面",
+    "No bookmarks yet. Open a page and tap the star to save it.": "还没有书签。打开一个页面并点击星标即可保存。",
+    "Bookmark removed": "书签已移除",
+    "Bookmark added": "书签已添加",
+    "Close tab \"{title}\"": "关闭标签页“{title}”",
+    "Bookmarks": "书签",
+    "Insights": "使用统计",
+    "Search or enter a website above to start browsing.": "在上方搜索或输入网址即可开始浏览。",
+    "Open bookmarks": "打开书签",
+    "Open insights": "打开使用统计",
+    "Search or go to address": "搜索或前往网址",
+    "Search or enter address": "搜索或输入网址",
+    "Open in browser": "在浏览器中打开",
+    "Close insights": "关闭使用统计",
+    "Close bookmarks": "关闭书签",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1622,25 +1324,8 @@ const UI_I18N = {
     "Use it as a plain timer, or have it lock the app when time's up to limit your phone use.": "Úsalo como temporizador normal, o haz que bloquee la app al terminar para limitar el uso del móvil.",
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "No tienes que hacer nada: abre la app y lee. Las publicaciones aparecen solas.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "El scroll está desactivado por defecto para evitar distracciones. Actívalo con un motivo, un límite de tiempo y tu PIN solo cuando de verdad lo necesites.",
-    "Search the web": "Buscar en la web",
-    "Search": "Buscar",
-    "All": "Todo",
-    "Videos": "Vídeos",
-    "Images": "Imágenes",
-    "Maps": "Mapas",
-    "Shopping": "Compras",
     "Prev": "Anterior",
     "Next": "Siguiente",
-    "Close search results": "Cerrar resultados de búsqueda",
-    "Result type": "Tipo de resultado",
-    "Your Interests": "Tus intereses",
-    "Outside Your Bubble": "Fuera de tu burbuja",
-    "Top News": "Noticias destacadas",
-    "Insights": "Estadísticas",
-    "Read": "Leer",
-    "Watch": "Ver",
-    "Choose content category": "Elegir categoría de contenido",
-    "Read or watch": "Leer o ver",
     "All time": "Todo el tiempo",
     "Hour": "Hora",
     "Day": "Día",
@@ -1649,8 +1334,6 @@ const UI_I18N = {
     "Now": "Ahora",
     "Time spent per app": "Tiempo por aplicación",
     "Scroll": "Scroll",
-    "See details": "Ver detalles",
-    "View detailed insights": "Ver estadísticas detalladas",
     "Choose a time period": "Elegir un periodo",
     "Previous period": "Periodo anterior",
     "Next period": "Periodo siguiente",
@@ -1680,7 +1363,6 @@ const UI_I18N = {
     "Turn ON": "Activar",
     "Unlock with Face ID / Fingerprint": "Desbloquear con Face ID / huella",
     "Choose your language": "Elige tu idioma",
-    "This sets the language for the next step, where you'll write about your interests.": "Define el idioma de toda la app, incluido el siguiente paso donde escribirás tus intereses.",
     "Choose your country": "Elige tu país",
     "This helps match you with relevant local news later on. More countries will be added over time.": "Sirve para mostrarte noticias locales relevantes más adelante. Se añadirán más países con el tiempo.",
     "Japan": "Japón",
@@ -1787,8 +1469,6 @@ const UI_I18N = {
     "5 min": "5 min",
     "10 min": "10 min",
     "30 min": "30 min",
-    "Scroll turned ON {count} time": "Scroll activado {count} vez",
-    "Scroll turned ON {count} times": "Scroll activado {count} veces",
     "Turned ON {count} time": "Activado {count} vez",
     "Turned ON {count} times": "Activado {count} veces",
     "scrolled {count} time": "{count} desplazamiento",
@@ -1808,62 +1488,11 @@ const UI_I18N = {
     "Timer started for {label}": "Temporizador iniciado para {label}",
     "Open {app}?": "¿Abrir {app}?",
     "You're about to leave MyHome Browser to open {app}.": "Vas a salir de MyHome Browser para abrir {app}.",
-    "Results for \"{query}\"": "Resultados de «{query}»",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
     "{minutes}m {seconds}s": "{minutes} min {seconds} s",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "«{query}» es un tema amplio que aparece en sitios oficiales, entradas de enciclopedia y debates de la comunidad. Las fuentes coinciden en lo esencial, aunque los detalles varían. Consulta los resultados de abajo para saber más.",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "La información suele dividirse en varios grupos: páginas oficiales que describen {query} directamente, entradas de referencia con contexto e historia, tiendas y páginas de comparación, y noticias sobre novedades recientes. Los hilos de la comunidad aportan opiniones de primera mano, pero su fiabilidad varía.",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "Si es la primera vez que ves {query}, empieza por el sitio oficial y la entrada de enciclopedia, y después revisa las noticias por si algo ha cambiado hace poco.",
     "The whole app is shown in this language.": "Toda la app se muestra en este idioma.",
-    "30 min ago": "hace 30 min",
-    "1 hour ago": "hace 1 hora",
-    "2 hours ago": "hace 2 horas",
-    "3 hours ago": "hace 3 horas",
-    "4 hours ago": "hace 4 horas",
-    "5 hours ago": "hace 5 horas",
-    "6 hours ago": "hace 6 horas",
-    "Yesterday": "Ayer",
-    "New AI chip design cuts power draw in half": "Un nuevo diseño de chip de IA reduce a la mitad el consumo",
-    "Expected to significantly boost inference performance on mobile devices.": "Se espera que mejore mucho el rendimiento de inferencia en móviles.",
-    "The 2026 UI trend is 'quiet'": "La tendencia de interfaces en 2026 es «lo silencioso»",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "Ganan atención los diseños que reducen la información y protegen la concentración.",
-    "Local team extends win streak to 4 with comeback victory": "El equipo local suma su cuarta victoria seguida con una remontada",
-    "A late substitute scored the winning goal.": "Un suplente que entró al final marcó el gol de la victoria.",
-    "Emerging market currencies mixed against the dollar": "Las divisas emergentes cierran mixtas frente al dólar",
-    "Market watchers are focused on upcoming interest rate moves.": "Los analistas están pendientes de los próximos movimientos de tipos.",
-    "New deep-sea species found in Pacific trench": "Hallan una nueva especie abisal en una fosa del Pacífico",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "Los investigadores esperan que ayude a entender la adaptación a entornos extremos.",
-    "City announces accessibility renovation plan for public facilities": "La ciudad anuncia un plan de accesibilidad para edificios públicos",
-    "The renovations will be carried out in phases over three years.": "Las obras se harán por fases a lo largo de tres años.",
-    "Today's top stories at a glance": "Las noticias más importantes de hoy, de un vistazo",
-    "A digest of the biggest topics at home and abroad.": "Un resumen de los grandes temas nacionales e internacionales.",
-    "Weather agency issues outlook for next week": "La agencia meteorológica publica la previsión para la próxima semana",
-    "Near-average temperatures expected across most regions.": "Se esperan temperaturas cercanas a la media en casi todas las regiones.",
-    "Holiday travel volume at major stations on par with past years": "El tráfico de viajeros en las grandes estaciones, como en años anteriores",
-    "Transit operators are urging travelers to spread out peak times.": "Los operadores piden a los viajeros repartir las horas punta.",
-    "New": "Nuevo",
-    "Trending": "En tendencia",
-    "Popular": "Popular",
-    "{query} — Official Site": "{query} — Sitio oficial",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "Descubre más sobre {query} en el sitio oficial: novedades, productos y soporte.",
-    "{query} - Wikipedia": "{query} - Wikipedia",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "Este artículo de enciclopedia trata sobre {query}, con su historia, contexto y temas relacionados.",
-    "Buy {query} online — best prices": "Compra {query} en línea — los mejores precios",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "Compara precios y compra {query} en línea. Envío gratis en pedidos que cumplan las condiciones.",
-    "{query} news and updates": "Noticias y novedades sobre {query}",
-    "The latest news and headlines about {query} from trusted sources around the world.": "Las últimas noticias y titulares sobre {query} de fuentes fiables de todo el mundo.",
-    "What is {query}? A complete guide": "¿Qué es {query}? Guía completa",
-    "Everything you need to know about {query}, explained simply with examples.": "Todo lo que necesitas saber sobre {query}, explicado de forma sencilla y con ejemplos.",
-    "{query} reviews and ratings": "Opiniones y valoraciones de {query}",
-    "Real user reviews and ratings for {query}. See what people are saying.": "Opiniones y valoraciones reales de usuarios sobre {query}. Mira qué dice la gente.",
-    "{query} — video {number}": "{query} — vídeo {number}",
-    "{count}K views": "{count} mil visualizaciones",
-    "{query} Store {number}": "Tienda {query} {number}",
-    "{query} Center {number}": "Centro {query} {number}",
-    "{distance} mi": "{distance} mi",
-    "{query} — Item {number}": "{query} — Artículo {number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "Se acabó el tiempo. MyHome Browser queda bloqueado hasta que lo desbloquees.",
     "Custom…": "Personalizado…",
     "Set a time limit of at least 1 minute": "Elige un límite de al menos 1 minuto",
@@ -1882,13 +1511,6 @@ const UI_I18N = {
     "Enter a number of minutes": "Introduce un número de minutos",
     "Goal saved": "Meta guardada",
     "Goal removed": "Meta eliminada",
-    "Step 1 of 7": "Paso 1 de 7",
-    "Step 2 of 7": "Paso 2 de 7",
-    "Step 3 of 7": "Paso 3 de 7",
-    "Step 4 of 7": "Paso 4 de 7",
-    "Step 5 of 7": "Paso 5 de 7",
-    "Step 6 of 7": "Paso 6 de 7",
-    "Step 7 of 7": "Paso 7 de 7",
     "Why this app exists": "Por qué existe esta app",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Algunas cosas que la investigación ha descubierto sobre cómo tocamos, hacemos scroll y deslizamos el teléfono, no para hacerte sentir mal, sino para que sepas que la fricción de esta app se basa en algo real.",
     "Touching:": "Tocar la pantalla:",
@@ -1909,6 +1531,30 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "Avísame para revisar mi postura cada 10 minutos mientras el scroll esté activado",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Revisa tu postura: intenta sentarte derecho y sostener el teléfono a la altura de los ojos por un momento.",
     "By hour of day": "Por hora del día",
+    "This sets the language for the rest of the app.": "Esto define el idioma de toda la app.",
+    "Step 1 of 6": "Paso 1 de 6",
+    "Step 2 of 6": "Paso 2 de 6",
+    "Step 3 of 6": "Paso 3 de 6",
+    "Step 4 of 6": "Paso 4 de 6",
+    "Step 5 of 6": "Paso 5 de 6",
+    "Step 6 of 6": "Paso 6 de 6",
+    "Blocked: this looks like an ad or tracking domain": "Bloqueado: parece un dominio publicitario o de rastreo",
+    "Remove bookmark": "Quitar marcador",
+    "Bookmark this page": "Marcar esta página",
+    "No bookmarks yet. Open a page and tap the star to save it.": "Aún no tienes marcadores. Abre una página y toca la estrella para guardarla.",
+    "Bookmark removed": "Marcador eliminado",
+    "Bookmark added": "Marcador añadido",
+    "Close tab \"{title}\"": "Cerrar pestaña \"{title}\"",
+    "Bookmarks": "Marcadores",
+    "Insights": "Estadísticas",
+    "Search or enter a website above to start browsing.": "Busca o escribe un sitio web arriba para empezar a navegar.",
+    "Open bookmarks": "Abrir marcadores",
+    "Open insights": "Abrir estadísticas",
+    "Search or go to address": "Buscar o ir a una dirección",
+    "Search or enter address": "Buscar o escribir una dirección",
+    "Open in browser": "Abrir en el navegador",
+    "Close insights": "Cerrar estadísticas",
+    "Close bookmarks": "Cerrar marcadores",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1928,26 +1574,9 @@ const UI_I18N = {
     "You don't need to do anything — just open the app and read. Posts show up on their own.": "特に操作は要りません。アプリを開いて読むだけで、投稿は自動的に表示されます。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.": "気が散らないよう、スクロールは既定でOFFです。本当に必要なときだけ、理由と制限時間とPINを入れてONにしてください。",
     // ---- 検索 ----
-    "Search the web": "ウェブを検索",
-    "Search": "検索",
-    "All": "すべて",
-    "Videos": "動画",
-    "Images": "画像",
-    "Maps": "地図",
-    "Shopping": "ショッピング",
     "Prev": "前へ",
     "Next": "次へ",
-    "Close search results": "検索結果を閉じる",
-    "Result type": "検索結果の種類",
     // ---- カテゴリ ----
-    "Your Interests": "興味のある分野",
-    "Outside Your Bubble": "普段見ない分野",
-    "Top News": "トップニュース",
-    "Insights": "インサイト",
-    "Read": "読む",
-    "Watch": "見る",
-    "Choose content category": "カテゴリを選ぶ",
-    "Read or watch": "読む / 見る",
     // ---- インサイト ----
     "All time": "全期間",
     "Hour": "時間",
@@ -1957,8 +1586,6 @@ const UI_I18N = {
     "Now": "現在",
     "Time spent per app": "アプリごとの利用時間",
     "Scroll": "スクロール",
-    "See details": "詳しく見る",
-    "View detailed insights": "詳しいインサイトを見る",
     "Choose a time period": "期間を選ぶ",
     "Previous period": "前の期間",
     "Next period": "次の期間",
@@ -1991,7 +1618,6 @@ const UI_I18N = {
     "Unlock with Face ID / Fingerprint": "Face ID / 指紋認証で解除",
     // ---- オンボーディング ----
     "Choose your language": "言語を選んでください",
-    "This sets the language for the next step, where you'll write about your interests.": "アプリ全体の表示言語になります。次のステップの入力言語にもなります。",
     "Choose your country": "国を選んでください",
     "This helps match you with relevant local news later on. More countries will be added over time.": "今後、地域に合ったニュースを表示するために使います。対応国は順次追加予定です。",
     "Japan": "日本",
@@ -2101,8 +1727,6 @@ const UI_I18N = {
     "5 min": "5分",
     "10 min": "10分",
     "30 min": "30分",
-    "Scroll turned ON {count} time": "スクロールをONにした回数 {count}回",
-    "Scroll turned ON {count} times": "スクロールをONにした回数 {count}回",
     "Turned ON {count} time": "ONにした回数 {count}回",
     "Turned ON {count} times": "ONにした回数 {count}回",
     "scrolled {count} time": "スクロール {count}回",
@@ -2122,62 +1746,11 @@ const UI_I18N = {
     "Timer started for {label}": "{label}のタイマーを開始しました",
     "Open {app}?": "{app}を開きますか？",
     "You're about to leave MyHome Browser to open {app}.": "MyHome Browserを離れて{app}を開こうとしています。",
-    "Results for \"{query}\"": "「{query}」の検索結果",
     "{hours}h": "{hours}時間",
     "{minutes}m": "{minutes}分",
     "{seconds}s": "{seconds}秒",
     "{minutes}m {seconds}s": "{minutes}分{seconds}秒",
-    "{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.": "「{query}」は公式サイト、百科事典、コミュニティでの議論など幅広く扱われている話題です。基本的な事実については情報源どうしでおおむね一致していますが、細かい点は異なります。詳しくは下の検索結果をご覧ください。",
-    "Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.": "情報はいくつかの種類に分かれます。{query}そのものを説明する公式ページ、背景や歴史をまとめた資料、販売・比較ページ、最近の動きを伝えるニュースなどです。コミュニティの投稿は当事者の意見が読めますが、信頼度にはばらつきがあります。",
-    "If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.": "{query}が初めてなら、まず公式サイトと百科事典の項目から読み、そのあとニュースの結果で最近の変化を確認するとよいでしょう。",
     "The whole app is shown in this language.": "アプリ全体がこの言語で表示されます。",
-    "30 min ago": "30分前",
-    "1 hour ago": "1時間前",
-    "2 hours ago": "2時間前",
-    "3 hours ago": "3時間前",
-    "4 hours ago": "4時間前",
-    "5 hours ago": "5時間前",
-    "6 hours ago": "6時間前",
-    "Yesterday": "昨日",
-    "New AI chip design cuts power draw in half": "新しいAIチップ、消費電力を半減させる設計",
-    "Expected to significantly boost inference performance on mobile devices.": "モバイル端末での推論性能が大きく向上すると見込まれています。",
-    "The 2026 UI trend is 'quiet'": "2026年のUIトレンドは「静かさ」",
-    "Designs that cut down on information and protect the user's focus are gaining attention.": "情報量を抑え、利用者の集中を守るデザインが注目されています。",
-    "Local team extends win streak to 4 with comeback victory": "地元チームが逆転勝ちで4連勝",
-    "A late substitute scored the winning goal.": "終盤に投入された選手が決勝点を挙げました。",
-    "Emerging market currencies mixed against the dollar": "新興国通貨、対ドルでまちまちの動き",
-    "Market watchers are focused on upcoming interest rate moves.": "市場関係者は今後の金利動向に注目しています。",
-    "New deep-sea species found in Pacific trench": "太平洋の海溝で深海の新種を発見",
-    "Researchers hope it will shed light on adaptation to extreme environments.": "極限環境への適応の解明につながると期待されています。",
-    "City announces accessibility renovation plan for public facilities": "市が公共施設のバリアフリー改修計画を発表",
-    "The renovations will be carried out in phases over three years.": "改修は3年かけて段階的に進められます。",
-    "Today's top stories at a glance": "今日の主要ニュースをまとめて",
-    "A digest of the biggest topics at home and abroad.": "国内外の大きな話題をダイジェストでお届けします。",
-    "Weather agency issues outlook for next week": "気象当局が来週の見通しを発表",
-    "Near-average temperatures expected across most regions.": "ほとんどの地域で平年並みの気温が見込まれます。",
-    "Holiday travel volume at major stations on par with past years": "主要駅の帰省ラッシュ、例年並みの人出",
-    "Transit operators are urging travelers to spread out peak times.": "交通各社は時間帯の分散を呼びかけています。",
-    "New": "新着",
-    "Trending": "話題",
-    "Popular": "人気",
-    "{query} — Official Site": "{query} — 公式サイト",
-    "Learn more about {query} on the official site. Find the latest news, products, and support.": "{query}について公式サイトで詳しく見る。最新のお知らせ・製品・サポート情報はこちら。",
-    "{query} - Wikipedia": "{query} - Wikipedia",
-    "{query} is covered in this encyclopedia article, including history, background, and related topics.": "{query}について、歴史や背景、関連する話題まで百科事典の記事で解説しています。",
-    "Buy {query} online — best prices": "{query}をオンラインで購入 — 最安値",
-    "Compare prices and shop for {query} online. Free shipping on qualifying orders.": "{query}の価格を比較してオンラインで購入。条件を満たす注文は送料無料。",
-    "{query} news and updates": "{query}のニュースと最新情報",
-    "The latest news and headlines about {query} from trusted sources around the world.": "世界各地の信頼できる情報源から、{query}に関する最新ニュースと見出しをお届けします。",
-    "What is {query}? A complete guide": "{query}とは？ 完全ガイド",
-    "Everything you need to know about {query}, explained simply with examples.": "{query}について知っておきたいことを、例を交えてわかりやすく解説します。",
-    "{query} reviews and ratings": "{query}のレビューと評価",
-    "Real user reviews and ratings for {query}. See what people are saying.": "{query}の実際の利用者によるレビューと評価。みんなの声をチェック。",
-    "{query} — video {number}": "{query} — 動画{number}",
-    "{count}K views": "{count}千回視聴",
-    "{query} Store {number}": "{query}ストア {number}号店",
-    "{query} Center {number}": "{query}センター {number}号店",
-    "{distance} mi": "{distance}マイル",
-    "{query} — Item {number}": "{query} — 商品{number}",
     "Time's up! MyHome Browser is locked until you unlock it.": "時間になりました。解除するまでMyHome Browserはロックされます。",
     "Custom…": "自由に決める…",
     "Set a time limit of at least 1 minute": "制限時間は1分以上にしてください",
@@ -2196,13 +1769,6 @@ const UI_I18N = {
     "Enter a number of minutes": "分数を入力してください",
     "Goal saved": "目標を保存しました",
     "Goal removed": "目標を削除しました",
-    "Step 1 of 7": "第1ステップ（全7ステップ）",
-    "Step 2 of 7": "第2ステップ（全7ステップ）",
-    "Step 3 of 7": "第3ステップ（全7ステップ）",
-    "Step 4 of 7": "第4ステップ（全7ステップ）",
-    "Step 5 of 7": "第5ステップ（全7ステップ）",
-    "Step 6 of 7": "第6ステップ（全7ステップ）",
-    "Step 7 of 7": "第7ステップ（全7ステップ）",
     "Why this app exists": "このアプリを作った理由",
     "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "スマホを触る・スクロールする・スワイプすることについて、研究で分かっていることをいくつか紹介します。責めるためではなく、このアプリの「ひと手間」が根拠のあるものだと知ってもらうためです。",
     "Touching:": "タッチする回数：",
@@ -2223,23 +1789,31 @@ const UI_I18N = {
     "Remind me to check my posture every 10 minutes while scroll is ON": "スクロールがONの間、10分ごとに姿勢を確認するよう知らせる",
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿勢チェック：少しの間、背筋を伸ばしてスマホを目の高さに持ってみましょう。",
     "By hour of day": "時間帯別",
+    "This sets the language for the rest of the app.": "アプリ全体の表示言語になります。",
+    "Step 1 of 6": "第1ステップ（全6ステップ）",
+    "Step 2 of 6": "第2ステップ（全6ステップ）",
+    "Step 3 of 6": "第3ステップ（全6ステップ）",
+    "Step 4 of 6": "第4ステップ（全6ステップ）",
+    "Step 5 of 6": "第5ステップ（全6ステップ）",
+    "Step 6 of 6": "第6ステップ（全6ステップ）",
+    "Blocked: this looks like an ad or tracking domain": "ブロックしました：広告・トラッキング用のドメインのようです",
+    "Remove bookmark": "ブックマークを削除",
+    "Bookmark this page": "このページをブックマーク",
+    "No bookmarks yet. Open a page and tap the star to save it.": "まだブックマークがありません。ページを開いて星マークをタップすると保存できます。",
+    "Bookmark removed": "ブックマークを削除しました",
+    "Bookmark added": "ブックマークに追加しました",
+    "Close tab \"{title}\"": "タブ「{title}」を閉じる",
+    "Bookmarks": "ブックマーク",
+    "Insights": "インサイト",
+    "Search or enter a website above to start browsing.": "上の欄で検索するか、サイトのアドレスを入力すると閲覧できます。",
+    "Open bookmarks": "ブックマークを開く",
+    "Open insights": "インサイトを開く",
+    "Search or go to address": "検索またはアドレスへ移動",
+    "Search or enter address": "検索またはアドレスを入力",
+    "Open in browser": "ブラウザで開く",
+    "Close insights": "インサイトを閉じる",
+    "Close bookmarks": "ブックマークを閉じる",
   },
-};
-
-// 各トピックを自由記述テキストから見つけるためのキーワード辞書（言語ごと）。
-// 本物のAI/NLPではなく単純な部分一致によるキーワード検出（クライアント側のみ、
-// 外部APIキーを晒さない設計方針に合わせた簡易版）。
-const TOPIC_KEYWORDS = {
-  "Technology": { en: ["tech", "technology", "gadget", "computer", "software", " ai ", "phone", "app"], ja: ["テクノロジー", "技術", "ガジェット", "パソコン", "スマホ", "アプリ"], es: ["tecnología", "gadget", "computadora", "aplicación"], zh: ["科技", "技术", "电脑", "手机", "应用"], ko: ["기술", "테크", "컴퓨터", "스마트폰", "앱"], fr: ["technologie", "gadget", "ordinateur", "application"], de: ["technologie", "gadget", "computer", "app"], pt: ["tecnologia", "gadget", "computador", "aplicativo"] },
-  "Sports": { en: ["sport", "soccer", "football", "basketball", "baseball", "tennis", "running", "gym"], ja: ["スポーツ", "サッカー", "野球", "バスケ", "テニス", "ランニング", "筋トレ"], es: ["deporte", "fútbol", "baloncesto", "tenis", "correr"], zh: ["运动", "足球", "篮球", "网球", "跑步"], ko: ["스포츠", "축구", "야구", "농구", "테니스", "달리기"], fr: ["sport", "football", "basketball", "tennis", "course"], de: ["sport", "fußball", "basketball", "tennis", "laufen"], pt: ["esporte", "futebol", "basquete", "tênis", "corrida"] },
-  "Finance": { en: ["finance", "money", "stock", "invest", "economy", "crypto"], ja: ["金融", "お金", "株", "投資", "経済", "仮想通貨"], es: ["finanzas", "dinero", "bolsa", "inversión", "economía"], zh: ["金融", "股票", "投资", "经济"], ko: ["금융", "주식", "투자", "경제"], fr: ["finance", "argent", "bourse", "investir", "économie"], de: ["finanzen", "geld", "aktie", "investieren", "wirtschaft"], pt: ["finanças", "dinheiro", "ações", "investir", "economia"] },
-  "Entertainment": { en: ["movie", "music", " tv ", "show", "celebrity", "film"], ja: ["映画", "音楽", "テレビ", "エンタメ", "芸能"], es: ["película", "música", "televisión", "entretenimiento"], zh: ["电影", "音乐", "电视", "娱乐"], ko: ["영화", "음악", "텔레비전", "연예"], fr: ["film", "musique", "télévision", "divertissement"], de: ["film", "musik", "fernsehen", "unterhaltung"], pt: ["filme", "música", "televisão", "entretenimento"] },
-  "Health & Fitness": { en: ["health", "fitness", "workout", "diet", "wellness", "yoga"], ja: ["健康", "フィットネス", "ダイエット", "ヨガ"], es: ["salud", "fitness", "ejercicio", "dieta", "yoga"], zh: ["健康", "健身", "锻炼", "瑜伽"], ko: ["건강", "피트니스", "운동", "다이어트", "요가"], fr: ["santé", "fitness", "exercice", "régime", "yoga"], de: ["gesundheit", "fitness", "training", "diät", "yoga"], pt: ["saúde", "fitness", "exercício", "dieta", "ioga"] },
-  "Travel": { en: ["travel", "trip", "vacation", "flight", "destination"], ja: ["旅行", "旅", "観光", "出張"], es: ["viaje", "viajar", "vacaciones", "destino"], zh: ["旅行", "旅游", "度假"], ko: ["여행", "휴가", "여행지"], fr: ["voyage", "vacances", "destination"], de: ["reisen", "urlaub", "reise"], pt: ["viagem", "viajar", "férias"] },
-  "Food": { en: ["food", "cooking", "recipe", "restaurant", "coffee"], ja: ["料理", "食べ物", "レシピ", "カフェ", "グルメ"], es: ["comida", "cocina", "receta", "restaurante"], zh: ["美食", "做饭", "食谱", "餐厅"], ko: ["음식", "요리", "레시피", "맛집"], fr: ["nourriture", "cuisine", "recette", "restaurant"], de: ["essen", "kochen", "rezept", "restaurant"], pt: ["comida", "cozinha", "receita", "restaurante"] },
-  "Science": { en: ["science", "research", "space", "physics", "biology"], ja: ["科学", "研究", "宇宙", "物理", "生物"], es: ["ciencia", "investigación", "espacio", "física"], zh: ["科学", "研究", "太空", "物理"], ko: ["과학", "연구", "우주", "물리"], fr: ["science", "recherche", "espace", "physique"], de: ["wissenschaft", "forschung", "weltraum", "physik"], pt: ["ciência", "pesquisa", "espaço", "física"] },
-  "Gaming": { en: ["game", "gaming", "esports", "console"], ja: ["ゲーム", "eスポーツ", "ゲーミング"], es: ["juego", "videojuego", "juegos"], zh: ["游戏", "电竞"], ko: ["게임", "이스포츠"], fr: ["jeu", "jeux vidéo"], de: ["spiel", "videospiel"], pt: ["jogo", "videogame"] },
-  "Fashion": { en: ["fashion", "style", "clothes", "outfit"], ja: ["ファッション", "おしゃれ", "コーデ"], es: ["moda", "ropa", "estilo"], zh: ["时尚", "服装", "穿搭"], ko: ["패션", "스타일"], fr: ["mode", "vêtements", "style"], de: ["mode", "kleidung", "stil"], pt: ["moda", "roupas", "estilo"] },
 };
 
 function isOnboardingComplete() {
@@ -2248,14 +1822,6 @@ function isOnboardingComplete() {
 
 function saveOnboardingComplete(value) {
   saveJSON(STORAGE_KEYS.onboardingComplete, value);
-}
-
-function saveInterests(interests) {
-  saveJSON(STORAGE_KEYS.interests, interests);
-}
-
-function saveInterestsText(text) {
-  saveJSON(STORAGE_KEYS.interestsText, text);
 }
 
 function getLanguage() {
@@ -2272,17 +1838,6 @@ function saveLanguage(code) {
    静的なHTMLは applyLanguage() が初回に原文を控えてから差し替える。
    JSで組み立てる文字列は生成時に t() を通す（言語切替時は再描画する）。
    -------------------------------------------------------------------------- */
-// 興味ステップの文言は ONBOARDING_I18N が持っているので、辞書にも取り込んでおく
-// （二重管理を避けるため。"next" はページ送りの "Next" と衝突するので除く）。
-Object.keys(ONBOARDING_I18N).forEach((code) => {
-  if (code === DEFAULT_LANGUAGE || !UI_I18N[code]) return;
-  ["title", "desc", "placeholder"].forEach((field) => {
-    const en = ONBOARDING_I18N[DEFAULT_LANGUAGE][field];
-    const localized = ONBOARDING_I18N[code][field];
-    if (en && localized) UI_I18N[code][en] = localized;
-  });
-});
-
 let currentLanguage = DEFAULT_LANGUAGE;
 
 // 英語の原文を渡すと、選択中の言語の訳を返す。訳が無ければ原文のまま。
@@ -2377,16 +1932,6 @@ function getCountry() {
 
 function saveCountry(code) {
   saveJSON(STORAGE_KEYS.country, code);
-}
-
-// 自由記述テキストから、キーワード辞書に部分一致するトピックを拾い出す簡易判定。
-// 本物のAI解析ではなく、あくまでクライアント側だけで完結する単純なキーワード検索。
-function extractInterestsFromText(text, lang) {
-  const lower = ` ${text.toLowerCase()} `;
-  return INTEREST_TOPICS.filter((topic) => {
-    const keywords = (TOPIC_KEYWORDS[topic] && TOPIC_KEYWORDS[topic][lang]) || TOPIC_KEYWORDS[topic].en;
-    return keywords.some((kw) => lower.includes(kw.toLowerCase()));
-  });
 }
 
 function getPin() {
@@ -2701,19 +2246,11 @@ function initOnboarding() {
   const stepResearch = document.getElementById("onboardingStepResearch");
   const stepCountry = document.getElementById("onboardingStepCountry");
   const stepPin = document.getElementById("onboardingStepPin");
-  const stepInterests = document.getElementById("onboardingStepInterests");
   const stepSns = document.getElementById("onboardingStepSns");
   const stepLogin = document.getElementById("onboardingStepLogin");
 
-  let selectedLanguage = DEFAULT_LANGUAGE;
-
   /* ---- Step 1: language ---- */
   function applyOnboardingLanguage(code) {
-    const copy = ONBOARDING_I18N[code] || ONBOARDING_I18N[DEFAULT_LANGUAGE];
-    document.getElementById("interestsStepTitle").textContent = copy.title;
-    document.getElementById("interestsStepDesc").textContent = copy.desc;
-    document.getElementById("interestsTextInput").placeholder = copy.placeholder;
-    document.getElementById("interestsNextBtn").textContent = copy.next;
     // 残りのオンボーディングとアプリ本体も、選んだ言語に揃える。
     // 起動時に英語で組み立て済みの表示（スクロールボタン等）も作り直す必要がある。
     applyLanguage(code);
@@ -2729,7 +2266,6 @@ function initOnboarding() {
     btn.className = "language-option";
     btn.textContent = lang.name;
     btn.addEventListener("click", () => {
-      selectedLanguage = lang.code;
       saveLanguage(lang.code);
       applyOnboardingLanguage(lang.code);
       stepLanguage.hidden = true;
@@ -2764,13 +2300,13 @@ function initOnboarding() {
   renderOnboardingCountryList();
 
   /* ---- Step 4: app lock PIN + recovery question (optional) ---- */
-  function goToInterestsStep() {
+  function goToSnsStep() {
     stepPin.hidden = true;
-    stepInterests.hidden = false;
-    document.getElementById("interestsTextInput").focus();
+    stepSns.hidden = false;
+    renderOnboardingSnsList();
   }
 
-  document.getElementById("onboardingPinSkipBtn").addEventListener("click", goToInterestsStep);
+  document.getElementById("onboardingPinSkipBtn").addEventListener("click", goToSnsStep);
 
   document.getElementById("onboardingPinNextBtn").addEventListener("click", () => {
     const pin = document.getElementById("onboardingPinInput").value.trim();
@@ -2802,20 +2338,10 @@ function initOnboarding() {
     if (scrollPin) {
       savePin(scrollPin);
     }
-    goToInterestsStep();
+    goToSnsStep();
   });
 
-  /* ---- Step 5: interests, written freely in the chosen language ---- */
-  document.getElementById("interestsNextBtn").addEventListener("click", () => {
-    const text = document.getElementById("interestsTextInput").value.trim();
-    saveInterestsText(text);
-    saveInterests(extractInterestsFromText(text, selectedLanguage));
-    stepInterests.hidden = true;
-    stepSns.hidden = false;
-    renderOnboardingSnsList();
-  });
-
-  /* ---- Step 6: which SNS to use ---- */
+  /* ---- Step 5: which SNS to use ---- */
   document.getElementById("onboardingSnsNextBtn").addEventListener("click", () => {
     const checked = Array.from(
       document.querySelectorAll('#onboardingSnsList input[type="checkbox"]:checked')
@@ -2826,7 +2352,7 @@ function initOnboarding() {
     renderOnboardingLoginList(checked);
   });
 
-  /* ---- Step 7: log in to the chosen SNS ---- */
+  /* ---- Step 6: log in to the chosen SNS ---- */
   document.getElementById("onboardingFinishBtn").addEventListener("click", () => {
     saveOnboardingComplete(true);
     screen.hidden = true;
@@ -2932,49 +2458,6 @@ function buildAppIcon(app) {
   return wrapper;
 }
 
-// All of this is sample (mock) data. To hook up a real news/social API,
-// replace these arrays with the result of a fetch() call in renderFeeds().
-const SAMPLE_FEEDS = {
-  interest: [
-    { source: "Tech Daily", time: "3 hours ago", title: "New AI chip design cuts power draw in half", body: "Expected to significantly boost inference performance on mobile devices." },
-    { source: "Design Weekly", time: "5 hours ago", title: "The 2026 UI trend is 'quiet'", body: "Designs that cut down on information and protect the user's focus are gaining attention." },
-    { source: "Sports Now", time: "Yesterday", title: "Local team extends win streak to 4 with comeback victory", body: "A late substitute scored the winning goal." },
-  ],
-  noninterest: [
-    { source: "World Finance", time: "1 hour ago", title: "Emerging market currencies mixed against the dollar", body: "Market watchers are focused on upcoming interest rate moves." },
-    { source: "Science Journal", time: "6 hours ago", title: "New deep-sea species found in Pacific trench", body: "Researchers hope it will shed light on adaptation to extreme environments." },
-    { source: "Local Gov News", time: "Yesterday", title: "City announces accessibility renovation plan for public facilities", body: "The renovations will be carried out in phases over three years." },
-  ],
-  top: [
-    { source: "Headlines", time: "30 min ago", title: "Today's top stories at a glance", body: "A digest of the biggest topics at home and abroad." },
-    { source: "Headlines", time: "2 hours ago", title: "Weather agency issues outlook for next week", body: "Near-average temperatures expected across most regions." },
-    { source: "Headlines", time: "4 hours ago", title: "Holiday travel volume at major stations on par with past years", body: "Transit operators are urging travelers to spread out peak times." },
-  ],
-};
-
-const SAMPLE_VIDEO_FEEDS = {
-  interestWatch: [
-    { title: "The Last Circuit", channel: "Streaming Original", views: "New", duration: "48m", url: "https://watch.example.com/title/1" },
-    { title: "Quiet Design: A Documentary", channel: "Docs Channel", views: "Trending", duration: "1h 12m", url: "https://watch.example.com/title/2" },
-    { title: "Match Point: Season 2", channel: "Sports Network", views: "Popular", duration: "42m", url: "https://watch.example.com/title/3" },
-    { title: "Chip Wars", channel: "Streaming Original", views: "New", duration: "55m", url: "https://watch.example.com/title/4" },
-    { title: "Comeback Season", channel: "Sports Network", views: "Popular", duration: "38m", url: "https://watch.example.com/title/5" },
-    { title: "Inside the Lab", channel: "Docs Channel", views: "Trending", duration: "1h 05m", url: "https://watch.example.com/title/6" },
-    { title: "Interface", channel: "Streaming Original", views: "New", duration: "51m", url: "https://watch.example.com/title/7" },
-    { title: "Weekend League", channel: "Sports Network", views: "Popular", duration: "44m", url: "https://watch.example.com/title/8" },
-  ],
-  noninterestWatch: [
-    { title: "Market Watch: Weekly Roundup", channel: "Finance Network", views: "New", duration: "35m", url: "https://watch.example.com/title/9" },
-    { title: "Deep Trench", channel: "Docs Channel", views: "Trending", duration: "58m", url: "https://watch.example.com/title/10" },
-    { title: "City Hall", channel: "Streaming Original", views: "New", duration: "46m", url: "https://watch.example.com/title/11" },
-    { title: "Currency", channel: "Finance Network", views: "Popular", duration: "40m", url: "https://watch.example.com/title/12" },
-    { title: "Beneath the Surface", channel: "Docs Channel", views: "Trending", duration: "1h 02m", url: "https://watch.example.com/title/13" },
-    { title: "The Renovation Plan", channel: "Streaming Original", views: "New", duration: "39m", url: "https://watch.example.com/title/14" },
-    { title: "Rate Hike", channel: "Finance Network", views: "Popular", duration: "33m", url: "https://watch.example.com/title/15" },
-    { title: "Field Notes", channel: "Docs Channel", views: "Trending", duration: "50m", url: "https://watch.example.com/title/16" },
-  ],
-};
-
 /* ==========================================================================
    ストレージ ヘルパー
    ========================================================================== */
@@ -3079,8 +2562,6 @@ function applyAppearance() {
   document.body.style.backgroundSize = "cover";
   document.body.style.backgroundPosition = "center";
   document.body.style.backgroundAttachment = "fixed";
-
-  renderInsightsBar();
 }
 
 // アクセントカラーを起点に、棒グラフの区画ごとに見分けやすい濃淡を作る
@@ -3090,93 +2571,6 @@ const INSIGHTS_SHADE_STEPS = [0, -0.3, 0.35, -0.55, 0.15, -0.15, 0.5, -0.4, 0.25
 function insightsShade(accent, index) {
   const step = INSIGHTS_SHADE_STEPS[index % INSIGHTS_SHADE_STEPS.length];
   return step >= 0 ? lighten(accent, step) : darken(accent, -step);
-}
-
-// 検索バーとカテゴリタブの間に表示する、ドックアプリを開いた回数の内訳を示す
-// 薄い横棒グラフ。アクセントカラーの濃淡だけで区画を塗り分ける。
-function renderInsightsBar() {
-  const wrap = document.getElementById("insightsBarWrap");
-  const empty = document.getElementById("insightsBarEmpty");
-  const track = document.getElementById("insightsBarTrack");
-  const legend = document.getElementById("insightsBarLegend");
-  const scrollLine = document.getElementById("insightsScrollLine");
-  if (!wrap || !empty || !track || !legend || !scrollLine) return;
-
-  const data = getAppInsights();
-  const ids = Object.keys(data).filter((id) => data[id].opens > 0);
-  const scrollOnCount = getScrollOnCount();
-  const scrollGestureCount = getScrollGestureCount();
-  const scrollOnTimeMs = getScrollOnTimeMs();
-  const hasScrollData = scrollOnCount > 0 || scrollGestureCount > 0;
-
-  // データが無くても消さず、案内文を出したままにしておく（見つけやすさのため常時表示）。
-  if (ids.length === 0 && !hasScrollData) {
-    empty.hidden = false;
-    track.hidden = true;
-    legend.hidden = true;
-    scrollLine.hidden = true;
-    return;
-  }
-  empty.hidden = true;
-
-  if (ids.length === 0) {
-    track.hidden = true;
-    legend.hidden = true;
-  } else {
-    track.hidden = false;
-    legend.hidden = false;
-    track.innerHTML = "";
-    legend.innerHTML = "";
-
-    ids.sort((a, b) => data[b].opens - data[a].opens);
-    const total = ids.reduce((sum, id) => sum + data[id].opens, 0);
-    const accent = getAppearance().accent;
-
-    ids.forEach((id, index) => {
-      const app = APP_CANDIDATES.find((a) => a.id === id);
-      const name = app ? app.name : id;
-      const color = insightsShade(accent, index);
-      const pct = (data[id].opens / total) * 100;
-
-      const segment = document.createElement("div");
-      segment.className = "insights-bar-segment";
-      segment.style.width = `${pct}%`;
-      segment.style.background = color;
-      track.appendChild(segment);
-
-      const entry = data[id];
-      const label = entry.sessionCount > 0
-        ? `${name} ${entry.opens} · ${formatInsightDuration(entry.totalTimeMs)}`
-        : `${name} ${entry.opens}`;
-
-      const item = document.createElement("div");
-      item.className = "insights-bar-legend-item";
-      const dot = document.createElement("span");
-      dot.className = "insights-bar-legend-dot";
-      dot.style.background = color;
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(label));
-      legend.appendChild(item);
-    });
-  }
-
-  if (hasScrollData) {
-    scrollLine.hidden = false;
-    const turnedOnPart = tf(
-      scrollOnCount === 1 ? "Scroll turned ON {count} time" : "Scroll turned ON {count} times",
-      { count: scrollOnCount }
-    ) + (scrollOnTimeMs > 0 ? ` (${formatInsightDuration(scrollOnTimeMs)})` : "");
-    const parts = [turnedOnPart];
-    if (scrollGestureCount > 0) {
-      parts.push(tf(
-        scrollGestureCount === 1 ? "scrolled {count} time" : "scrolled {count} times",
-        { count: scrollGestureCount }
-      ));
-    }
-    scrollLine.textContent = parts.join(" · ");
-  } else {
-    scrollLine.hidden = true;
-  }
 }
 
 function resizeImageFile(file, maxDim, quality) {
@@ -3457,10 +2851,8 @@ const ScrollLock = (() => {
     stopCountdown();
     lastPostureReminderMinute = -1;
     countdownTimer = setInterval(tick, 1000);
-    refreshSearchResultsIfOpen();
     incrementScrollOnCount();
     renderAppInsights();
-    renderInsightsBar();
   }
 
   function turnOff(opts = {}) {
@@ -3476,9 +2868,7 @@ const ScrollLock = (() => {
     if (opts.expired) {
       showToast(t("Time's up — scroll switched back OFF"));
     }
-    refreshSearchResultsIfOpen();
     renderAppInsights();
-    renderInsightsBar();
   }
 
   function init() {
@@ -4467,16 +3857,10 @@ function refreshTranslatedViews() {
   renderSettingsPage();
   renderDock();
   applyDockCollapsed();
-  renderFeeds();
-  renderInsightsBar();
   renderAppInsights();
   // オンボーディング中はまだページ送りが用意されていないので、その時は飛ばす。
   if (PAGINATED_INSIGHTS.main) renderMainInsightsPanel();
-  refreshSearchResultsIfOpen();
-  if (searchState.query) {
-    document.getElementById("searchResultsQuery").textContent =
-      tf('Results for "{query}"', { query: searchState.query });
-  }
+  renderBrowser();
 }
 
 function initLanguageSetting() {
@@ -4621,169 +4005,9 @@ function initFocusTimerPanel() {
   });
 }
 
-/* ==========================================================================
-   カテゴリタブ / SNSタブ
-   ========================================================================== */
-
-function activateCategoryTab(cat) {
-  const tabs = document.querySelectorAll(".tab");
-  const validCats = Array.from(tabs).map((t) => t.dataset.cat);
-  if (!validCats.includes(cat)) return;
-  tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.cat === cat));
-  document.querySelectorAll(".panel").forEach((p) => {
-    p.classList.toggle("is-active", p.dataset.panel === cat);
-  });
-  saveJSON(STORAGE_KEYS.activeCategory, cat);
-
-  const content = document.querySelector(".content");
-  if (content) content.classList.toggle("is-insights", cat === "insights");
-  // 非表示のうちは高さが0で行数を測れないので、表示になった時点で組み直す。
-  if (cat === "insights" && PAGINATED_INSIGHTS.main) PAGINATED_INSIGHTS.main.refresh();
-}
-
-function initCategoryTabs() {
-  const tabs = document.querySelectorAll(".tab");
-  const validCats = Array.from(tabs).map((t) => t.dataset.cat);
-  const saved = loadJSON(STORAGE_KEYS.activeCategory, "interest");
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => activateCategoryTab(tab.dataset.cat));
-  });
-
-  activateCategoryTab(validCats.includes(saved) ? saved : "interest");
-}
-
 // 「どのSNSを使っていますか」のオンボーディング画面を、APP_CANDIDATESの中でも
 // SNS系アプリだけに絞り込むための一覧。
 const SNS_FEED_PLATFORMS = ["instagram", "facebook", "x", "youtube", "tiktok", "threads"];
-
-// Your Interests / Outside Your Bubbleの中にあるRead/Watchサブタブ。
-// パネルごとにスコープして切り替え、選択状態はパネルごとに記憶する。
-function initReadWatchTabs(panelId) {
-  const panel = document.getElementById(panelId);
-  const tabs = panel.querySelectorAll(".rw-tab");
-  const storageKey = `myhome:rw:${panelId}`;
-  const saved = loadJSON(storageKey, "read");
-
-  function activate(rw) {
-    tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.rw === rw));
-    panel.querySelectorAll(".rw-panel").forEach((p) => {
-      p.classList.toggle("is-active", p.dataset.rwPanel === rw);
-    });
-    saveJSON(storageKey, rw);
-  }
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => activate(tab.dataset.rw));
-  });
-
-  activate(saved);
-}
-
-/* ==========================================================================
-   フィード描画 (サンプルデータ)
-   ========================================================================== */
-
-function buildArticleCard(item) {
-  const card = document.createElement("div");
-  card.className = "search-result-card";
-  const meta = document.createElement("div");
-  meta.className = "result-url";
-  meta.textContent = `${item.source} · ${t(item.time)}`;
-  const title = document.createElement("div");
-  title.className = "result-title";
-  title.textContent = t(item.title);
-  const body = document.createElement("div");
-  body.className = "result-snippet";
-  body.textContent = t(item.body);
-  card.append(meta, title, body);
-  return card;
-}
-
-/* フィード一覧の共通ページ送り: スクロールOFF中はページ送り、
-   ONの間は通常スクロールの一覧になる。 */
-function createPaginatedFeed({ listId, prevId, nextId, pageNumbersId, cardBuilder }) {
-  const perPage = 4;
-  let items = [];
-  let page = 0;
-
-  function render() {
-    const list = document.getElementById(listId);
-    const pagination = document.getElementById(prevId).closest(".search-pagination");
-    const scrollAllowed = ScrollLock.getState().isOn;
-    list.classList.toggle("is-scrollable", scrollAllowed);
-    list.innerHTML = "";
-
-    if (scrollAllowed) {
-      pagination.hidden = true;
-      items.forEach((item) => list.appendChild(cardBuilder(item)));
-      return;
-    }
-
-    pagination.hidden = false;
-    const totalPages = Math.max(1, Math.ceil(items.length / perPage));
-    if (page >= totalPages) page = totalPages - 1;
-    const start = page * perPage;
-    items.slice(start, start + perPage).forEach((item) => list.appendChild(cardBuilder(item)));
-
-    document.getElementById(prevId).disabled = page === 0;
-    document.getElementById(nextId).disabled = page >= totalPages - 1;
-
-    const pageNumbers = document.getElementById(pageNumbersId);
-    pageNumbers.innerHTML = "";
-    for (let i = 0; i < totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "page-number-btn" + (i === page ? " is-active" : "");
-      btn.textContent = String(i + 1);
-      btn.addEventListener("click", () => {
-        page = i;
-        render();
-      });
-      pageNumbers.appendChild(btn);
-    }
-  }
-
-  document.getElementById(prevId).addEventListener("click", () => {
-    if (page > 0) {
-      page--;
-      render();
-    }
-  });
-  document.getElementById(nextId).addEventListener("click", () => {
-    const totalPages = Math.max(1, Math.ceil(items.length / perPage));
-    if (page < totalPages - 1) {
-      page++;
-      render();
-    }
-  });
-
-  return {
-    setItems(newItems) {
-      items = newItems;
-      page = 0;
-      render();
-    },
-    refresh: render,
-  };
-}
-
-const PAGINATED_FEEDS = {
-  interestWatch: createPaginatedFeed({ listId: "feed-interest-watch", prevId: "interestWatchPrevBtn", nextId: "interestWatchNextBtn", pageNumbersId: "interestWatchPageNumbers", cardBuilder: (item) => buildResultCard(item, "videos") }),
-  noninterestWatch: createPaginatedFeed({ listId: "feed-noninterest-watch", prevId: "noninterestWatchPrevBtn", nextId: "noninterestWatchNextBtn", pageNumbersId: "noninterestWatchPageNumbers", cardBuilder: (item) => buildResultCard(item, "videos") }),
-  interest: createPaginatedFeed({ listId: "feed-interest", prevId: "interestPrevBtn", nextId: "interestNextBtn", pageNumbersId: "interestPageNumbers", cardBuilder: buildArticleCard }),
-  noninterest: createPaginatedFeed({ listId: "feed-noninterest", prevId: "noninterestPrevBtn", nextId: "noninterestNextBtn", pageNumbersId: "noninterestPageNumbers", cardBuilder: buildArticleCard }),
-  top: createPaginatedFeed({ listId: "feed-top", prevId: "topPrevBtn", nextId: "topNextBtn", pageNumbersId: "topPageNumbers", cardBuilder: buildArticleCard }),
-};
-
-function renderFeeds() {
-  ["interest", "noninterest", "top"].forEach((cat) => {
-    PAGINATED_FEEDS[cat].setItems(SAMPLE_FEEDS[cat]);
-  });
-
-  PAGINATED_FEEDS.interestWatch.setItems(SAMPLE_VIDEO_FEEDS.interestWatch);
-  PAGINATED_FEEDS.noninterestWatch.setItems(SAMPLE_VIDEO_FEEDS.noninterestWatch);
-}
 
 /* ==========================================================================
    下部アプリドック
@@ -5119,7 +4343,7 @@ function initAwaySessionTracking() {
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
       endAwaySessionIfAny();
-      renderInsightsBar();
+      renderAppInsights();
     }
   });
 }
@@ -5209,265 +4433,370 @@ function closeAppPicker() {
 }
 
 /* ==========================================================================
-   検索結果 (ページ送り方式・スクロールしない)
-   終わりのない情報の流れを止めるため、結果は無限スクロールではなく
-   ページ単位で区切って表示する。実際の検索APIと連携する場合は
-   generateMockResults() をfetch()呼び出しに差し替える。
+   タブブラウザ (<iframe>の配列を切り替えて表示する簡易ブラウザ)
+   本物の<webview>タブやsession.webRequestによる広告ブロックはElectron
+   (デスクトップアプリ)専用のAPIで、ブラウザのWebページ内では動かない。
+   ここではWeb標準技術だけで近い形にする:
+   タブ=<iframe>の配列を切り替えるだけ、広告ブロック=既知の広告/トラッキング
+   ドメインへの遷移そのものを拒否するだけ（読み込み済みページ内部の通信までは
+   クロスオリジンの制約上検知できない）。
    ========================================================================== */
 
-const RESULT_TEMPLATES = [
-  { title: "{query} — Official Site", domain: "example.com", snippet: "Learn more about {query} on the official site. Find the latest news, products, and support." },
-  { title: "{query} - Wikipedia", domain: "en.wikipedia.org/wiki", snippet: "{query} is covered in this encyclopedia article, including history, background, and related topics." },
-  { title: "Buy {query} online — best prices", domain: "shop.example.com", snippet: "Compare prices and shop for {query} online. Free shipping on qualifying orders." },
-  { title: "{query} news and updates", domain: "news.example.com", snippet: "The latest news and headlines about {query} from trusted sources around the world." },
-  { title: "What is {query}? A complete guide", domain: "guide.example.com", snippet: "Everything you need to know about {query}, explained simply with examples." },
-  { title: "{query} reviews and ratings", domain: "reviews.example.com", snippet: "Real user reviews and ratings for {query}. See what people are saying." },
+// 既知の広告・トラッキング配信ドメインへの遷移を拒否する簡易ブロックリスト。
+const AD_BLOCK_DOMAINS = [
+  "doubleclick.net", "googlesyndication.com", "googleadservices.com",
+  "adservice.google.com", "amazon-adsystem.com", "taboola.com", "outbrain.com",
+  "criteo.com", "scorecardresearch.com", "moatads.com", "pubmatic.com",
+  "rubiconproject.com", "adnxs.com", "adsrvr.org", "media.net", "adform.net",
 ];
 
-function slugify(query) {
-  return query.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") || "search";
-}
-
-function generateMockResults(query, count) {
-  const slug = slugify(query);
-  const results = [];
-  for (let i = 0; i < count; i++) {
-    const template = RESULT_TEMPLATES[i % RESULT_TEMPLATES.length];
-    const round = Math.floor(i / RESULT_TEMPLATES.length);
-    results.push({
-      title: tf(template.title, { query }),
-      url: `https://${round > 0 ? `p${round + 1}.` : ""}${template.domain}${template.domain.includes("wikipedia") ? "/" + slug : ""}`,
-      snippet: tf(template.snippet, { query }),
-    });
+function hostnameOf(url) {
+  try {
+    return new URL(url).hostname;
+  } catch (e) {
+    return "";
   }
-  return results;
 }
 
-function generateMockVideoResults(query, count) {
-  const channels = ["TechExplained", "DailyNews", "HowToHub", "ReviewCentral", "TravelVibes", "QuickTips"];
-  const durations = ["3:12", "8:45", "1:02:30", "0:45", "12:09", "5:58"];
-  const slug = slugify(query);
-  const results = [];
-  for (let i = 0; i < count; i++) {
-    results.push({
-      title: tf("{query} — video {number}", { query, number: i + 1 }),
-      channel: channels[i % channels.length],
-      views: tf("{count}K views", { count: 50 + i * 17 }),
-      duration: durations[i % durations.length],
-      url: `https://video.example.com/watch?v=${slug}-${i}`,
-    });
-  }
-  return results;
+function isAdBlockedUrl(url) {
+  const host = hostnameOf(url).toLowerCase();
+  if (!host) return false;
+  return AD_BLOCK_DOMAINS.some((domain) => host === domain || host.endsWith(`.${domain}`));
 }
 
-function generateMockImageResults(query, count) {
-  const hues = [340, 20, 50, 140, 200, 260];
-  const slug = slugify(query);
-  const results = [];
-  for (let i = 0; i < count; i++) {
-    results.push({
-      label: `${query} ${i + 1}`,
-      hue: hues[i % hues.length],
-      url: `https://images.example.com/${slug}-${i}`,
-    });
-  }
-  return results;
+// アドレスらしい入力(http(s)://始まり、またはドット区切りで空白を含まない)かどうかの簡易判定。
+// それ以外は検索クエリとして扱う。
+function looksLikeUrl(input) {
+  if (/^https?:\/\//i.test(input)) return true;
+  return !input.includes(" ") && /^[^\s]+\.[^\s]{2,}([/?#].*)?$/.test(input);
 }
 
-function generateMockMapResults(query, count) {
-  const streets = ["Main St", "Oak Ave", "Market Sq", "Park Rd", "River Ln", "5th Ave"];
-  const slug = slugify(query);
-  const results = [];
-  for (let i = 0; i < count; i++) {
-    results.push({
-      name: i % 2 === 0
-        ? tf("{query} Store {number}", { query, number: i + 1 })
-        : tf("{query} Center {number}", { query, number: i + 1 }),
-      address: `${100 + i * 11} ${streets[i % streets.length]}`,
-      rating: (3.5 + (i % 3) * 0.5).toFixed(1),
-      distance: tf("{distance} mi", { distance: (0.3 + i * 0.4).toFixed(1) }),
-      url: `https://maps.example.com/place/${slug}-${i}`,
-    });
-  }
-  return results;
+function normalizeUrl(input) {
+  return /^https?:\/\//i.test(input) ? input : `https://${input}`;
 }
 
-function generateMockShoppingResults(query, count) {
-  const stores = ["ShopHub", "MarketPlace", "QuickBuy", "TrustedGoods", "DailyDeals", "PrimeStore"];
-  const slug = slugify(query);
-  const results = [];
-  for (let i = 0; i < count; i++) {
-    results.push({
-      title: tf("{query} — Item {number}", { query, number: i + 1 }),
-      price: `$${(9.99 + i * 7.5).toFixed(2)}`,
-      store: stores[i % stores.length],
-      url: `https://shop.example.com/item/${slug}-${i}`,
-    });
-  }
-  return results;
+// APIキーなしで使える簡易検索として、DuckDuckGoのHTML版結果ページを使う。
+function buildSearchUrl(query) {
+  return `https://duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
 }
 
-const RESULT_TYPES = {
-  all: { count: 18, perPage: 4, generate: generateMockResults },
-  videos: { count: 18, perPage: 5, generate: generateMockVideoResults },
-  images: { count: 24, perPage: 6, generate: generateMockImageResults },
-  maps: { count: 18, perPage: 5, generate: generateMockMapResults },
-  shopping: { count: 18, perPage: 5, generate: generateMockShoppingResults },
-};
-
-// AIによる要約はモックのテンプレート文で、実際のLLM API連携は行っていない。
-// クライアント側のコードだけでLLMのAPIキーを直接扱うと画面のソースに露出してしまうため、
-// 本物のAI要約を実装する場合はサーバー/サーバーレス関数を経由してこの関数を置き換える。
-const searchState = { query: "", type: "all", results: [], page: 0 };
-
-function buildResultCard(item, type) {
-  const card = document.createElement("a");
-  card.className = `search-result-card result-type-${type}`;
-  card.href = item.url;
-  card.target = "_blank";
-  card.rel = "noopener";
-
-  if (type === "videos") {
-    const thumb = document.createElement("div");
-    thumb.className = "result-video-thumb";
-    thumb.textContent = item.duration;
-    const info = document.createElement("div");
-    info.className = "result-video-info";
-    const title = document.createElement("div");
-    title.className = "result-title";
-    title.textContent = t(item.title);
-    const meta = document.createElement("div");
-    meta.className = "result-url";
-    meta.textContent = `${item.channel} · ${t(item.views)}`;
-    info.append(title, meta);
-    card.append(thumb, info);
-  } else if (type === "images") {
-    const swatch = document.createElement("div");
-    swatch.className = "result-image-swatch";
-    swatch.style.background = `hsl(${item.hue}, 60%, 55%)`;
-    const label = document.createElement("div");
-    label.className = "result-image-label";
-    label.textContent = item.label;
-    card.append(swatch, label);
-  } else if (type === "maps") {
-    const title = document.createElement("div");
-    title.className = "result-title";
-    title.textContent = item.name;
-    const addr = document.createElement("div");
-    addr.className = "result-url";
-    addr.textContent = item.address;
-    const meta = document.createElement("div");
-    meta.className = "result-snippet";
-    meta.textContent = `★ ${item.rating} · ${item.distance}`;
-    card.append(title, addr, meta);
-  } else if (type === "shopping") {
-    const thumb = document.createElement("div");
-    thumb.className = "result-shop-thumb";
-    const info = document.createElement("div");
-    info.className = "result-video-info";
-    const title = document.createElement("div");
-    title.className = "result-title";
-    title.textContent = item.title;
-    const store = document.createElement("div");
-    store.className = "result-url";
-    store.textContent = item.store;
-    const price = document.createElement("div");
-    price.className = "result-snippet";
-    price.textContent = item.price;
-    info.append(title, store, price);
-    card.append(thumb, info);
-  } else {
-    const title = document.createElement("div");
-    title.className = "result-title";
-    title.textContent = item.title;
-    const url = document.createElement("div");
-    url.className = "result-url";
-    url.textContent = item.url;
-    const snippet = document.createElement("div");
-    snippet.className = "result-snippet";
-    snippet.textContent = item.snippet;
-    card.append(title, url, snippet);
-  }
-
-  return card;
+function resolveNavigationUrl(input) {
+  const trimmed = input.trim();
+  if (!trimmed) return null;
+  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : buildSearchUrl(trimmed);
 }
 
-function renderSearchResultsPage() {
-  const { results, page, type } = searchState;
-  const perPage = RESULT_TYPES[type].perPage;
-  const list = document.getElementById("searchResultsList");
-  const pagination = document.querySelector(".search-pagination");
-  const scrollAllowed = ScrollLock.getState().isOn;
+function getBrowserTabs() {
+  return loadJSON(STORAGE_KEYS.browserTabs, []);
+}
+function saveBrowserTabs(tabs) {
+  saveJSON(STORAGE_KEYS.browserTabs, tabs);
+}
+function getActiveTabId() {
+  return loadJSON(STORAGE_KEYS.activeTabId, null);
+}
+function saveActiveTabId(id) {
+  saveJSON(STORAGE_KEYS.activeTabId, id);
+}
+function makeTabId() {
+  return `tab-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
-  list.classList.toggle("is-grid", type === "images");
-  list.classList.toggle("is-scrollable", scrollAllowed);
-  list.innerHTML = "";
+let tabStripPage = 0;
+const TAB_STRIP_PER_PAGE = 4;
 
-  // スクロールONの間は従来通りページ送りなしの一覧表示、OFFの間はページ単位で区切る
-  if (scrollAllowed) {
-    pagination.hidden = true;
-    results.forEach((item) => list.appendChild(buildResultCard(item, type)));
+function tabStripPageForIndex(index) {
+  return index < 0 ? 0 : Math.floor(index / TAB_STRIP_PER_PAGE);
+}
+
+function openTab(rawInput) {
+  const url = resolveNavigationUrl(rawInput);
+  if (!url) return;
+  if (isAdBlockedUrl(url)) {
+    showToast(t("Blocked: this looks like an ad or tracking domain"));
     return;
   }
+  const tabs = getBrowserTabs();
+  const tab = { id: makeTabId(), url, title: hostnameOf(url) || url };
+  tabs.push(tab);
+  saveBrowserTabs(tabs);
+  saveActiveTabId(tab.id);
+  tabStripPage = tabStripPageForIndex(tabs.length - 1);
+  document.getElementById("searchInput").value = "";
+  renderBrowser();
+}
 
-  pagination.hidden = false;
-  const totalPages = Math.max(1, Math.ceil(results.length / perPage));
-  const start = page * perPage;
-  const pageResults = results.slice(start, start + perPage);
-  pageResults.forEach((item) => list.appendChild(buildResultCard(item, type)));
+function closeTab(id) {
+  let tabs = getBrowserTabs();
+  const closingIndex = tabs.findIndex((tb) => tb.id === id);
+  if (closingIndex === -1) return;
+  tabs = tabs.filter((tb) => tb.id !== id);
+  saveBrowserTabs(tabs);
 
-  document.getElementById("searchPrevBtn").disabled = page === 0;
-  document.getElementById("searchNextBtn").disabled = page >= totalPages - 1;
+  if (getActiveTabId() === id) {
+    const nextIndex = Math.min(closingIndex, tabs.length - 1);
+    const next = tabs[nextIndex];
+    saveActiveTabId(next ? next.id : null);
+    tabStripPage = tabStripPageForIndex(nextIndex);
+  }
+  const frame = document.getElementById(`browserFrame-${id}`);
+  if (frame) frame.remove();
+  renderBrowser();
+}
 
-  const pageNumbers = document.getElementById("searchPageNumbers");
+function switchTab(id) {
+  saveActiveTabId(id);
+  const index = getBrowserTabs().findIndex((tb) => tb.id === id);
+  tabStripPage = tabStripPageForIndex(index);
+  renderBrowser();
+}
+
+// 表示中のタブに対応する<iframe>だけをその場で作る（他のタブは切り替えるまで
+// 読み込まない。バックグラウンドで無駄な通信を発生させないため）。
+function ensureFrameForTab(tab) {
+  let frame = document.getElementById(`browserFrame-${tab.id}`);
+  if (frame) return frame;
+  frame = document.createElement("iframe");
+  frame.id = `browserFrame-${tab.id}`;
+  frame.className = "browser-frame";
+  frame.src = tab.url;
+  frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
+  frame.setAttribute("referrerpolicy", "no-referrer");
+  document.getElementById("browserFrames").appendChild(frame);
+  return frame;
+}
+
+function renderTabStrip(tabs, activeId) {
+  const strip = document.getElementById("tabStrip");
+  const list = document.getElementById("tabStripList");
+  const pagination = document.getElementById("tabStripPagination");
+  strip.hidden = tabs.length === 0;
+  if (tabs.length === 0) return;
+
+  const totalPages = Math.max(1, Math.ceil(tabs.length / TAB_STRIP_PER_PAGE));
+  if (tabStripPage >= totalPages) tabStripPage = totalPages - 1;
+  if (tabStripPage < 0) tabStripPage = 0;
+
+  list.innerHTML = "";
+  const start = tabStripPage * TAB_STRIP_PER_PAGE;
+  tabs.slice(start, start + TAB_STRIP_PER_PAGE).forEach((tab) => {
+    const pill = document.createElement("button");
+    pill.type = "button";
+    pill.className = "tab-strip-pill" + (tab.id === activeId ? " is-active" : "");
+    const label = document.createElement("span");
+    label.className = "tab-strip-pill-label";
+    label.textContent = tab.title;
+    pill.appendChild(label);
+    pill.addEventListener("click", () => switchTab(tab.id));
+
+    const closeBtn = document.createElement("span");
+    closeBtn.className = "tab-strip-pill-close";
+    closeBtn.textContent = "×";
+    closeBtn.setAttribute("role", "button");
+    closeBtn.setAttribute("aria-label", tf('Close tab "{title}"', { title: tab.title }));
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeTab(tab.id);
+    });
+    pill.appendChild(closeBtn);
+
+    list.appendChild(pill);
+  });
+
+  pagination.hidden = totalPages <= 1;
+  document.getElementById("tabStripPrevBtn").disabled = tabStripPage === 0;
+  document.getElementById("tabStripNextBtn").disabled = tabStripPage >= totalPages - 1;
+  const pageNumbers = document.getElementById("tabStripPageNumbers");
   pageNumbers.innerHTML = "";
   for (let i = 0; i < totalPages; i++) {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "page-number-btn" + (i === page ? " is-active" : "");
+    btn.className = "page-number-btn" + (i === tabStripPage ? " is-active" : "");
     btn.textContent = String(i + 1);
     btn.addEventListener("click", () => {
-      searchState.page = i;
-      renderSearchResultsPage();
+      tabStripPage = i;
+      renderBrowser();
     });
     pageNumbers.appendChild(btn);
   }
 }
 
-function refreshSearchResultsIfOpen() {
-  const view = document.getElementById("searchResultsView");
-  if (view && !view.hidden) renderSearchResultsPage();
-  Object.values(PAGINATED_FEEDS).forEach((feed) => feed.refresh());
-}
+function renderBrowser() {
+  const tabs = getBrowserTabs();
+  let activeId = getActiveTabId();
+  if (activeId && !tabs.some((tb) => tb.id === activeId)) activeId = null;
+  if (!activeId && tabs.length > 0) {
+    activeId = tabs[tabs.length - 1].id;
+    saveActiveTabId(activeId);
+  }
 
-function loadSearchResultsForType(type) {
-  const config = RESULT_TYPES[type];
-  searchState.type = type;
-  searchState.results = config.generate(searchState.query, config.count);
-  searchState.page = 0;
-  document.querySelectorAll("#searchTypeTabs .result-type-tab").forEach((tab) => {
-    tab.classList.toggle("is-active", tab.dataset.type === type);
-  });
+  renderTabStrip(tabs, activeId);
 
+  const empty = document.getElementById("browserEmpty");
+  const viewport = document.getElementById("browserViewport");
 
-  renderSearchResultsPage();
-}
+  if (!activeId) {
+    empty.hidden = false;
+    viewport.hidden = true;
+    setDockCollapsedOverride(null);
+    return;
+  }
 
-function openSearchResults(query) {
-  searchState.query = query;
-  document.getElementById("searchResultsQuery").textContent = tf('Results for "{query}"', { query });
-  loadSearchResultsForType("all");
-  document.querySelector(".content").hidden = true;
-  document.getElementById("searchResultsView").hidden = false;
-  // 検索結果に集中できるよう、検索中はドックのアプリを自動で畳む。
-  // 設定自体は変えないので、検索を閉じれば元の状態に戻る。
+  empty.hidden = true;
+  viewport.hidden = false;
   setDockCollapsedOverride(true);
+
+  const activeTab = tabs.find((tb) => tb.id === activeId);
+  document.querySelectorAll("#browserFrames .browser-frame").forEach((frame) => {
+    frame.hidden = frame.id !== `browserFrame-${activeId}`;
+  });
+  ensureFrameForTab(activeTab);
+
+  document.getElementById("browserViewportUrl").textContent = activeTab.title;
+  document.getElementById("browserOpenExternalBtn").href = activeTab.url;
+  updateBookmarkButtonState(activeTab.url);
 }
 
-function closeSearchResults() {
-  document.getElementById("searchResultsView").hidden = true;
-  document.querySelector(".content").hidden = false;
-  setDockCollapsedOverride(null);
+/* ==========================================================================
+   ブックマーク (URLとタイトルをlocalStorageに保存するだけの簡易版)
+   ========================================================================== */
+
+function getBookmarks() {
+  return loadJSON(STORAGE_KEYS.bookmarks, []);
+}
+function saveBookmarksData(bookmarks) {
+  saveJSON(STORAGE_KEYS.bookmarks, bookmarks);
+}
+function isBookmarked(url) {
+  return getBookmarks().some((b) => b.url === url);
+}
+function addBookmark(url, title) {
+  const bookmarks = getBookmarks();
+  if (bookmarks.some((b) => b.url === url)) return;
+  bookmarks.unshift({ url, title, savedAt: Date.now() });
+  saveBookmarksData(bookmarks);
+}
+function removeBookmark(url) {
+  saveBookmarksData(getBookmarks().filter((b) => b.url !== url));
+}
+
+function updateBookmarkButtonState(url) {
+  const btn = document.getElementById("bookmarkTabBtn");
+  if (!btn) return;
+  const saved = isBookmarked(url);
+  btn.textContent = saved ? "★" : "☆";
+  btn.setAttribute("aria-label", saved ? t("Remove bookmark") : t("Bookmark this page"));
+  btn.classList.toggle("is-active", saved);
+}
+
+let bookmarksPage = 0;
+const BOOKMARKS_FALLBACK_PER_PAGE = 3;
+const BOOKMARKS_ROW_GAP = 5;
+
+function buildBookmarkRow(bookmark) {
+  const li = document.createElement("li");
+  li.className = "bookmark-row";
+
+  const open = document.createElement("button");
+  open.type = "button";
+  open.className = "bookmark-open-btn";
+  const title = document.createElement("span");
+  title.className = "bookmark-title";
+  title.textContent = bookmark.title;
+  const url = document.createElement("span");
+  url.className = "bookmark-url";
+  url.textContent = hostnameOf(bookmark.url) || bookmark.url;
+  open.append(title, url);
+  open.addEventListener("click", () => {
+    closeBookmarksModal();
+    openTab(bookmark.url);
+  });
+  li.appendChild(open);
+
+  const removeBtn = document.createElement("button");
+  removeBtn.className = "remove-btn";
+  removeBtn.type = "button";
+  removeBtn.textContent = "×";
+  removeBtn.setAttribute("aria-label", tf('Remove "{name}"', { name: bookmark.title }));
+  removeBtn.addEventListener("click", () => {
+    removeBookmark(bookmark.url);
+    renderBookmarksList();
+    const tabs = getBrowserTabs();
+    const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
+    if (activeTab) updateBookmarkButtonState(activeTab.url);
+  });
+  li.appendChild(removeBtn);
+
+  return li;
+}
+
+// 一覧に割り当てられている高さに何件入るかを実測して決める（他の一覧と同じ手法）。
+// 固定件数にすると端末の画面サイズ次第でモーダルからはみ出してしまうため。
+function measureBookmarksPerPage(list, bookmarks) {
+  const available = list.clientHeight;
+  if (!available) return BOOKMARKS_FALLBACK_PER_PAGE;
+  list.appendChild(buildBookmarkRow(bookmarks[0]));
+  const rowHeight = list.firstElementChild.getBoundingClientRect().height;
+  list.innerHTML = "";
+  if (!rowHeight) return BOOKMARKS_FALLBACK_PER_PAGE;
+  return Math.max(1, Math.floor((available + BOOKMARKS_ROW_GAP) / (rowHeight + BOOKMARKS_ROW_GAP)));
+}
+
+function renderBookmarksList() {
+  const list = document.getElementById("bookmarksList");
+  const pagination = document.querySelector("#bookmarksModal .search-pagination");
+  const bookmarks = getBookmarks();
+  list.innerHTML = "";
+
+  if (bookmarks.length === 0) {
+    pagination.hidden = true;
+    const li = document.createElement("li");
+    li.className = "insights-empty";
+    li.textContent = t("No bookmarks yet. Open a page and tap the star to save it.");
+    list.appendChild(li);
+    return;
+  }
+
+  const perPage = measureBookmarksPerPage(list, bookmarks);
+  const totalPages = Math.max(1, Math.ceil(bookmarks.length / perPage));
+  if (bookmarksPage >= totalPages) bookmarksPage = totalPages - 1;
+  pagination.hidden = totalPages <= 1;
+
+  const start = bookmarksPage * perPage;
+  bookmarks.slice(start, start + perPage).forEach((bookmark) => list.appendChild(buildBookmarkRow(bookmark)));
+
+  document.getElementById("bookmarksPrevBtn").disabled = bookmarksPage === 0;
+  document.getElementById("bookmarksNextBtn").disabled = bookmarksPage >= totalPages - 1;
+  const pageNumbers = document.getElementById("bookmarksPageNumbers");
+  pageNumbers.innerHTML = "";
+  for (let i = 0; i < totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "page-number-btn" + (i === bookmarksPage ? " is-active" : "");
+    btn.textContent = String(i + 1);
+    btn.addEventListener("click", () => {
+      bookmarksPage = i;
+      renderBookmarksList();
+    });
+    pageNumbers.appendChild(btn);
+  }
+}
+
+function openBookmarksModal() {
+  bookmarksPage = 0;
+  renderBookmarksList();
+  document.getElementById("bookmarksModal").hidden = false;
+}
+function closeBookmarksModal() {
+  document.getElementById("bookmarksModal").hidden = true;
+}
+
+function openInsightsModal() {
+  document.getElementById("insightsModal").hidden = false;
+  renderAppInsights();
+}
+function closeInsightsModal() {
+  document.getElementById("insightsModal").hidden = true;
 }
 
 /* ==========================================================================
@@ -5487,22 +4816,11 @@ function init() {
   initFocusTimerPanel();
   initAwaySessionTracking();
   initScrollGestureTracking();
-  initCategoryTabs();
-  renderFeeds();
   initInsightsPanel();
   renderAppInsights();
-  initReadWatchTabs("panel-interest");
-  initReadWatchTabs("panel-noninterest");
   renderDock();
   applyDockCollapsed();
-
-  document.getElementById("insightsBarWrap").addEventListener("click", () => activateCategoryTab("insights"));
-  document.getElementById("insightsBarWrap").addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      activateCategoryTab("insights");
-    }
-  });
+  renderBrowser();
 
   document.getElementById("dockCollapseBtn").addEventListener("click", () => {
     // 検索中の自動折りたたみ中でも、押した時は「今見えている状態」から
@@ -5578,14 +4896,14 @@ function init() {
   document.getElementById("appOpenCancelBtn").addEventListener("click", () => {
     if (pendingConfirmApp) recordAppOpenDecision(pendingConfirmApp.id, false);
     closeAppOpenConfirm();
-    renderInsightsBar();
+    renderAppInsights();
   });
   document.getElementById("appOpenConfirmBtn").addEventListener("click", () => {
     const app = pendingConfirmApp;
     closeAppOpenConfirm();
     if (app) {
       recordAppOpenDecision(app.id, true);
-      renderInsightsBar();
+      renderAppInsights();
       openApp(app);
     }
   });
@@ -5707,34 +5025,57 @@ function init() {
 
   document.getElementById("searchForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const query = document.getElementById("searchInput").value.trim();
-    if (!query) return;
-    openSearchResults(query);
+    const input = document.getElementById("searchInput").value.trim();
+    if (!input) return;
+    openTab(input);
   });
 
-  document.getElementById("closeSearchResults").addEventListener("click", closeSearchResults);
-
-  document.getElementById("searchTypeTabs").addEventListener("click", (e) => {
-    const tab = e.target.closest(".result-type-tab");
-    if (!tab) return;
-    loadSearchResultsForType(tab.dataset.type);
+  document.getElementById("tabStripPrevBtn").addEventListener("click", () => {
+    if (tabStripPage > 0) {
+      tabStripPage--;
+      renderBrowser();
+    }
   });
-
-  document.getElementById("searchPrevBtn").addEventListener("click", () => {
-    if (searchState.page > 0) {
-      searchState.page--;
-      renderSearchResultsPage();
+  document.getElementById("tabStripNextBtn").addEventListener("click", () => {
+    const tabs = getBrowserTabs();
+    const totalPages = Math.max(1, Math.ceil(tabs.length / TAB_STRIP_PER_PAGE));
+    if (tabStripPage < totalPages - 1) {
+      tabStripPage++;
+      renderBrowser();
     }
   });
 
-  document.getElementById("searchNextBtn").addEventListener("click", () => {
-    const perPage = RESULT_TYPES[searchState.type].perPage;
-    const totalPages = Math.ceil(searchState.results.length / perPage);
-    if (searchState.page < totalPages - 1) {
-      searchState.page++;
-      renderSearchResultsPage();
+  document.getElementById("bookmarkTabBtn").addEventListener("click", () => {
+    const tabs = getBrowserTabs();
+    const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
+    if (!activeTab) return;
+    if (isBookmarked(activeTab.url)) {
+      removeBookmark(activeTab.url);
+      showToast(t("Bookmark removed"));
+    } else {
+      addBookmark(activeTab.url, activeTab.title);
+      showToast(t("Bookmark added"));
+    }
+    updateBookmarkButtonState(activeTab.url);
+  });
+
+  document.getElementById("bookmarksBtn").addEventListener("click", openBookmarksModal);
+  document.getElementById("closeBookmarks").addEventListener("click", closeBookmarksModal);
+  document.getElementById("bookmarksPrevBtn").addEventListener("click", () => {
+    if (bookmarksPage > 0) {
+      bookmarksPage--;
+      renderBookmarksList();
     }
   });
+  document.getElementById("bookmarksNextBtn").addEventListener("click", () => {
+    if (!document.getElementById("bookmarksNextBtn").disabled) {
+      bookmarksPage++;
+      renderBookmarksList();
+    }
+  });
+
+  document.getElementById("insightsBtn").addEventListener("click", openInsightsModal);
+  document.getElementById("closeInsights").addEventListener("click", closeInsightsModal);
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {

@@ -72,14 +72,14 @@
 <div id="onboardingScreen" class="onboarding-screen" hidden>
   <div class="onboarding-box">
     <div id="onboardingStepLanguage" class="onboarding-step">
-      <p class="onboarding-eyebrow">Step 1 of 7</p>
+      <p class="onboarding-eyebrow">Step 1 of 6</p>
       <h2 class="onboarding-title">Choose your language</h2>
-      <p class="modal-desc">This sets the language for the next step, where you'll write about your interests.</p>
+      <p class="modal-desc">This sets the language for the rest of the app.</p>
       <div id="onboardingLanguageList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepResearch" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 2 of 7</p>
+      <p class="onboarding-eyebrow">Step 2 of 6</p>
       <h2 class="onboarding-title">Why this app exists</h2>
       <p class="modal-desc">A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.</p>
       <ul class="research-list">
@@ -95,14 +95,14 @@
     </div>
 
     <div id="onboardingStepCountry" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 3 of 7</p>
+      <p class="onboarding-eyebrow">Step 3 of 6</p>
       <h2 class="onboarding-title">Choose your country</h2>
       <p class="modal-desc">This helps match you with relevant local news later on. More countries will be added over time.</p>
       <div id="onboardingCountryList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepPin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 4 of 7</p>
+      <p class="onboarding-eyebrow">Step 4 of 6</p>
       <h2 class="onboarding-title">Set up your PINs (optional)</h2>
       <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
       <label class="field">
@@ -135,18 +135,8 @@
       </div>
     </div>
 
-    <div id="onboardingStepInterests" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 5 of 7</p>
-      <h2 id="interestsStepTitle" class="onboarding-title">What are you interested in?</h2>
-      <p id="interestsStepDesc" class="modal-desc">Write a few sentences about what you like. We'll pick out topics automatically.</p>
-      <textarea id="interestsTextInput" class="interests-textarea" rows="5" placeholder="e.g. I love watching soccer, and I'm really into new phones and gadgets..."></textarea>
-      <div class="modal-actions">
-        <button id="interestsNextBtn" class="btn btn-primary" type="button">Next</button>
-      </div>
-    </div>
-
     <div id="onboardingStepSns" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 6 of 7</p>
+      <p class="onboarding-eyebrow">Step 5 of 6</p>
       <h2 class="onboarding-title">Which social media do you use?</h2>
       <p class="modal-desc">Choose the ones you want quick access to from your dock.</p>
       <ul id="onboardingSnsList" class="app-candidate-list"></ul>
@@ -156,7 +146,7 @@
     </div>
 
     <div id="onboardingStepLogin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 7 of 7</p>
+      <p class="onboarding-eyebrow">Step 6 of 6</p>
       <h2 class="onboarding-title">Log in to your apps</h2>
       <p class="modal-desc">Open each app to sign in there. You can also do this later.</p>
       <ul id="onboardingLoginList" class="onboarding-login-list"></ul>
@@ -220,6 +210,8 @@
       </div>
     </div>
 
+    <button id="bookmarksBtn" class="text-btn" type="button" aria-label="Open bookmarks">Bookmarks</button>
+    <button id="insightsBtn" class="text-btn" type="button" aria-label="Open insights">Insights</button>
     <button id="settingsBtn" class="text-btn" type="button" aria-label="Open settings">Setting</button>
 
     <div class="tips-wrap">
@@ -235,84 +227,44 @@
   </header>
 
   <form id="searchForm" class="search-bar" role="search">
-    <button id="searchSubmitBtn" class="search-submit-btn" type="submit" aria-label="Search">
+    <button id="searchSubmitBtn" class="search-submit-btn" type="submit" aria-label="Search or go to address">
       <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M13.6 12.2h-.7l-.3-.3a5.6 5.6 0 1 0-.6.6l.3.3v.7l4.3 4.3 1.3-1.3-4.3-4.3zm-5.2 0a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8z" fill="currentColor"/></svg>
     </button>
-    <input id="searchInput" type="search" name="q" placeholder="Search the web" autocomplete="off" />
+    <input id="searchInput" type="search" name="q" placeholder="Search or enter address" autocomplete="off" />
   </form>
 
-  <div id="insightsBarWrap" class="insights-bar-wrap" role="button" tabindex="0" aria-label="View detailed insights">
-    <div id="insightsBarEmpty" class="insights-bar-empty" hidden>No data yet. Insights appear once you open an app from the dock or turn scroll ON.</div>
-    <div id="insightsBarTrack" class="insights-bar-track"></div>
-    <div id="insightsBarLegend" class="insights-bar-legend"></div>
-    <div id="insightsScrollLine" class="insights-scroll-line" hidden></div>
-    <div class="insights-bar-more">See details <span aria-hidden="true">&rsaquo;</span></div>
-  </div>
-
-  <main class="content">
-    <nav class="category-tabs" role="tablist" aria-label="Choose content category">
-      <button class="tab is-active" data-cat="interest" type="button">Your Interests</button>
-      <button class="tab" data-cat="noninterest" type="button">Outside Your Bubble</button>
-      <button class="tab" data-cat="top" type="button">Top News</button>
-      <button class="tab" data-cat="insights" type="button">Insights</button>
-    </nav>
-
-    <section id="panel-interest" class="panel is-active" data-panel="interest">
-      <nav class="rw-tabs" role="tablist" aria-label="Read or watch">
-        <button class="rw-tab is-active" data-rw="read" type="button">Read</button>
-        <button class="rw-tab" data-rw="watch" type="button">Watch</button>
-      </nav>
-      <div class="rw-panel is-active" data-rw-panel="read">
-        <div class="following-list" id="feed-interest"></div>
-        <div class="search-pagination">
-          <button id="interestPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-          <div id="interestPageNumbers" class="search-page-numbers"></div>
-          <button id="interestNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
-        </div>
+  <main class="content" id="browserContent">
+    <div id="tabStrip" class="tab-strip" hidden>
+      <div id="tabStripList" class="tab-strip-list"></div>
+      <div id="tabStripPagination" class="search-pagination" hidden>
+        <button id="tabStripPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="tabStripPageNumbers" class="search-page-numbers"></div>
+        <button id="tabStripNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
       </div>
-      <div class="rw-panel" data-rw-panel="watch">
-        <div class="following-list" id="feed-interest-watch"></div>
-        <div class="search-pagination">
-          <button id="interestWatchPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-          <div id="interestWatchPageNumbers" class="search-page-numbers"></div>
-          <button id="interestWatchNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
-        </div>
-      </div>
-    </section>
+    </div>
 
-    <section id="panel-noninterest" class="panel" data-panel="noninterest">
-      <nav class="rw-tabs" role="tablist" aria-label="Read or watch">
-        <button class="rw-tab is-active" data-rw="read" type="button">Read</button>
-        <button class="rw-tab" data-rw="watch" type="button">Watch</button>
-      </nav>
-      <div class="rw-panel is-active" data-rw-panel="read">
-        <div class="following-list" id="feed-noninterest"></div>
-        <div class="search-pagination">
-          <button id="noninterestPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-          <div id="noninterestPageNumbers" class="search-page-numbers"></div>
-          <button id="noninterestNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
-        </div>
-      </div>
-      <div class="rw-panel" data-rw-panel="watch">
-        <div class="following-list" id="feed-noninterest-watch"></div>
-        <div class="search-pagination">
-          <button id="noninterestWatchPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-          <div id="noninterestWatchPageNumbers" class="search-page-numbers"></div>
-          <button id="noninterestWatchNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
-        </div>
-      </div>
-    </section>
+    <div id="browserEmpty" class="browser-empty">
+      <p>Search or enter a website above to start browsing.</p>
+    </div>
 
-    <section id="panel-top" class="panel" data-panel="top">
-      <div class="following-list" id="feed-top"></div>
-      <div class="search-pagination">
-        <button id="topPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-        <div id="topPageNumbers" class="search-page-numbers"></div>
-        <button id="topNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
+    <div id="browserViewport" class="browser-viewport" hidden>
+      <div class="browser-viewport-toolbar">
+        <button id="bookmarkTabBtn" class="icon-btn" type="button" aria-label="Bookmark this page">&#9734;</button>
+        <div id="browserViewportUrl" class="browser-viewport-url"></div>
+        <a id="browserOpenExternalBtn" class="icon-btn" href="#" target="_blank" rel="noopener" aria-label="Open in browser">&#10697;</a>
       </div>
-    </section>
+      <div id="browserFrames" class="browser-frames"></div>
+    </div>
+  </main>
 
-    <section id="panel-insights" class="panel" data-panel="insights">
+  <!-- Insights modal -->
+  <div id="insightsModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="insightsModalTitle">
+      <div class="settings-modal-header">
+        <button id="closeInsights" class="modal-close-btn" type="button" aria-label="Close insights">&times;</button>
+        <h2 id="insightsModalTitle">Insights</h2>
+      </div>
+      <div id="panel-insights">
       <div id="insightsGoalCard" class="insights-goal-card" hidden>
         <div class="insights-goal-header">
           <span class="insights-goal-title">Today</span>
@@ -378,29 +330,25 @@
         <div id="mainInsightsPageNumbers" class="search-page-numbers"></div>
         <button id="mainInsightsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
       </div>
-    </section>
-
-  </main>
-
-  <section id="searchResultsView" class="search-results" hidden>
-    <div class="search-results-topbar">
-      <button id="closeSearchResults" class="icon-btn" type="button" aria-label="Close search results">✕</button>
-      <div id="searchResultsQuery" class="search-results-query"></div>
+      </div>
     </div>
-    <nav id="searchTypeTabs" class="result-type-tabs" role="tablist" aria-label="Result type">
-      <button class="result-type-tab is-active" data-type="all" type="button">All</button>
-      <button class="result-type-tab" data-type="videos" type="button">Videos</button>
-      <button class="result-type-tab" data-type="images" type="button">Images</button>
-      <button class="result-type-tab" data-type="maps" type="button">Maps</button>
-      <button class="result-type-tab" data-type="shopping" type="button">Shopping</button>
-    </nav>
-    <div id="searchResultsList" class="search-results-list"></div>
-    <div class="search-pagination">
-      <button id="searchPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
-      <div id="searchPageNumbers" class="search-page-numbers"></div>
-      <button id="searchNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">›</span></button>
+  </div>
+
+  <!-- Bookmarks modal -->
+  <div id="bookmarksModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="bookmarksModalTitle">
+      <div class="settings-modal-header">
+        <button id="closeBookmarks" class="modal-close-btn" type="button" aria-label="Close bookmarks">&times;</button>
+        <h2 id="bookmarksModalTitle">Bookmarks</h2>
+      </div>
+      <ul id="bookmarksList" class="editable-list bookmarks-list"></ul>
+      <div class="search-pagination">
+        <button id="bookmarksPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="bookmarksPageNumbers" class="search-page-numbers"></div>
+        <button id="bookmarksNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+      </div>
     </div>
-  </section>
+  </div>
 
   <footer class="app-dock">
     <button id="dockCollapseBtn" class="dock-collapse-btn" type="button" aria-expanded="true">Hide Apps</button>
