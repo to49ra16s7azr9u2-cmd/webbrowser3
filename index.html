@@ -327,6 +327,16 @@
           <div class="insights-week-chart-title">Last 7 days</div>
           <div id="insightsWeekChartCols" class="insights-week-chart-cols"></div>
         </div>
+        <div id="insightsHourHeatmap" class="insights-hour-heatmap" hidden>
+          <div class="insights-week-chart-title">By hour of day</div>
+          <div id="insightsHourHeatmapCells" class="insights-hour-heatmap-cells"></div>
+          <div class="insights-hour-heatmap-labels">
+            <span id="insightsHourHeatmapLabel0"></span>
+            <span id="insightsHourHeatmapLabel6"></span>
+            <span id="insightsHourHeatmapLabel12"></span>
+            <span id="insightsHourHeatmapLabel18"></span>
+          </div>
+        </div>
       </div>
 
       <nav class="insights-period-tabs" role="tablist" aria-label="Choose a time period">
@@ -581,6 +591,12 @@
           <input id="newDurationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
           <button id="addDurationBtn" class="btn btn-small" type="button">Add</button>
         </div>
+
+        <h3>Posture</h3>
+        <label class="checkbox-field">
+          <input id="postureReminderToggle" type="checkbox" />
+          <span>Remind me to check my posture every 10 minutes while scroll is ON</span>
+        </label>
       </section>
     </div>
 

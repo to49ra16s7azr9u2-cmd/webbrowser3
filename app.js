@@ -35,6 +35,7 @@ const STORAGE_KEYS = {
   insightsHourly: "myhome:insightsHourly",
   insightsGoalMinutes: "myhome:insightsGoalMinutes",
   insightsGoalSetAt: "myhome:insightsGoalSetAt",
+  postureRemindersEnabled: "myhome:postureRemindersEnabled",
 };
 
 const DEFAULT_APPEARANCE = { accent: "#65a30d", bg: "#ffffff", bgImage: null };
@@ -380,6 +381,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar a cabeça para frente para olhar o celular pode adicionar até cerca de 27 kg de sobrecarga efetiva no pescoço, segundo uma pesquisa sobre estresse na coluna do Dr. Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada disso é para gerar culpa. É por isso que um motivo, um limite de tempo e um PIN podem ajudar mais do que só força de vontade.",
     "Last 7 days": "Últimos 7 dias",
+    "{count} quick check": "{count} checagem rápida",
+    "{count} quick checks": "{count} checagens rápidas",
+    "{count} longer session": "{count} sessão mais longa",
+    "{count} longer sessions": "{count} sessões mais longas",
+    "Posture": "Postura",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "Me lembre de checar minha postura a cada 10 minutos enquanto a rolagem estiver ativada",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "Checagem de postura: tente sentar-se ereto e segurar o celular na altura dos olhos por um instante.",
+    "By hour of day": "Por horário do dia",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -676,6 +685,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "wenn du den Kopf nach vorne neigst, um aufs Handy zu schauen, kann das laut einer Studie zur Wirbelsäulenbelastung von Dr. Kenneth Hansraj (2014) eine effektive Belastung von bis zu rund 27 kg auf den Nacken bedeuten.",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Bei alldem geht es nicht um Schuldgefühle. Genau deshalb können ein Grund, ein Zeitlimit und eine PIN mehr bewirken als Willenskraft allein.",
     "Last 7 days": "Letzte 7 Tage",
+    "{count} quick check": "{count} kurzer Blick",
+    "{count} quick checks": "{count} kurze Blicke",
+    "{count} longer session": "{count} längere Sitzung",
+    "{count} longer sessions": "{count} längere Sitzungen",
+    "Posture": "Haltung",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "Erinnere mich alle 10 Minuten an meine Haltung, solange Scrollen aktiviert ist",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "Haltungscheck: Setz dich für einen Moment aufrecht hin und halte das Handy auf Augenhöhe.",
+    "By hour of day": "Nach Tageszeit",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -972,6 +989,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "pencher la tête en avant pour regarder son téléphone peut ajouter jusqu'à environ 27 kg de tension effective sur la nuque, selon une étude sur le stress vertébral du Dr Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Rien de tout cela n'a pour but de vous culpabiliser. C'est pour ça qu'une raison, une limite de temps et un code PIN peuvent faire plus que la seule volonté.",
     "Last 7 days": "7 derniers jours",
+    "{count} quick check": "{count} coup d'œil réflexe",
+    "{count} quick checks": "{count} coups d'œil réflexes",
+    "{count} longer session": "{count} session plus longue",
+    "{count} longer sessions": "{count} sessions plus longues",
+    "Posture": "Posture",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "Me rappeler de vérifier ma posture toutes les 10 minutes tant que le défilement est activé",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "Vérification de posture : essayez de vous redresser et de tenir le téléphone à hauteur des yeux un instant.",
+    "By hour of day": "Par heure de la journée",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1268,6 +1293,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj 박사의 2014년 척추 부담 연구에 따르면, 폰을 보기 위해 고개를 숙이면 목에 최대 약 27kg에 달하는 부담이 가해질 수 있습니다.",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "이 모든 것은 죄책감을 주기 위한 것이 아닙니다. 그래서 이유, 제한 시간, PIN이 의지력만으로는 부족한 부분을 채워줄 수 있습니다.",
     "Last 7 days": "최근 7일",
+    "{count} quick check": "반사적 확인 {count}회",
+    "{count} quick checks": "반사적 확인 {count}회",
+    "{count} longer session": "의도적 사용 {count}회",
+    "{count} longer sessions": "의도적 사용 {count}회",
+    "Posture": "자세",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "스크롤이 켜져 있는 동안 10분마다 자세를 확인하도록 알려주세요",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "자세 확인: 잠시 허리를 펴고 휴대폰을 눈높이에 맞춰 들어보세요.",
+    "By hour of day": "시간대별",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1564,6 +1597,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "根据 Kenneth Hansraj 博士 2014 年的脊柱压力研究，低头看手机会给颈部带来相当于约 27 公斤的额外负荷。",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "这些都不是为了让你有负罪感。正因如此，一个理由、一个时间限制和一个 PIN，往往比单靠意志力更管用。",
     "Last 7 days": "最近 7 天",
+    "{count} quick check": "反射性查看 {count} 次",
+    "{count} quick checks": "反射性查看 {count} 次",
+    "{count} longer session": "有意使用 {count} 次",
+    "{count} longer sessions": "有意使用 {count} 次",
+    "Posture": "姿势",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "滚动开启期间，每 10 分钟提醒我检查姿势",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿势提醒：试着坐直，把手机拿到与眼睛齐平的高度片刻。",
+    "By hour of day": "按时段",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1860,6 +1901,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar la cabeza hacia adelante para mirar el teléfono puede añadir hasta unos 27 kg de tensión efectiva sobre el cuello, según una investigación sobre estrés de la columna del Dr. Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada de esto busca hacerte sentir culpable. Por eso un motivo, un límite de tiempo y un PIN pueden ayudar más que la fuerza de voluntad por sí sola.",
     "Last 7 days": "Últimos 7 días",
+    "{count} quick check": "{count} vistazo rápido",
+    "{count} quick checks": "{count} vistazos rápidos",
+    "{count} longer session": "{count} sesión más larga",
+    "{count} longer sessions": "{count} sesiones más largas",
+    "Posture": "Postura",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "Avísame para revisar mi postura cada 10 minutos mientras el scroll esté activado",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "Revisa tu postura: intenta sentarte derecho y sostener el teléfono a la altura de los ojos por un momento.",
+    "By hour of day": "Por hora del día",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2166,6 +2215,14 @@ const UI_I18N = {
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj博士による2014年の脊椎への負荷に関する研究によると、スマホを見るために頭を前に傾けると、首には最大で約27kg分の負荷がかかるとされています。",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "これは罪悪感を持たせるためのものではありません。だからこそ、理由・制限時間・PINが、意志の力だけよりも役に立つのです。",
     "Last 7 days": "直近7日間",
+    "{count} quick check": "反射的な確認 {count}回",
+    "{count} quick checks": "反射的な確認 {count}回",
+    "{count} longer session": "意図的な利用 {count}回",
+    "{count} longer sessions": "意図的な利用 {count}回",
+    "Posture": "姿勢",
+    "Remind me to check my posture every 10 minutes while scroll is ON": "スクロールがONの間、10分ごとに姿勢を確認するよう知らせる",
+    "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿勢チェック：少しの間、背筋を伸ばしてスマホを目の高さに持ってみましょう。",
+    "By hour of day": "時間帯別",
   },
 };
 
@@ -2532,6 +2589,10 @@ function initAppLock() {
 
   document.getElementById("biometricCameraToggle").addEventListener("change", (e) => {
     saveBiometricCameraPreviewEnabled(e.target.checked);
+  });
+
+  document.getElementById("postureReminderToggle").addEventListener("change", (e) => {
+    savePostureRemindersEnabled(e.target.checked);
   });
 
   document.getElementById("saveAppLockRecoveryBtn").addEventListener("click", () => {
@@ -2955,6 +3016,12 @@ function mixColor(hex, amount, toward) {
 function lighten(hex, amount) { return mixColor(hex, amount, [255, 255, 255]); }
 function darken(hex, amount) { return mixColor(hex, amount, [0, 0, 0]); }
 
+// ヒートマップ用: アクセントカラーを指定の不透明度のrgba()にする。
+function insightsAlpha(hex, alpha) {
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 function relativeLuminance(hex) {
   const [r, g, b] = hexToRgb(hex).map((v) => v / 255);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -3287,8 +3354,12 @@ function applyBiometricAvailabilityUI() {
    スクロール ON / OFF 制御
    ========================================================================== */
 
+// 姿勢リマインダーの間隔（分）。頻繁すぎず、かつ意味のある間隔として10分ごとにする。
+const POSTURE_REMINDER_INTERVAL_MIN = 10;
+
 const ScrollLock = (() => {
   let countdownTimer = null;
+  let lastPostureReminderMinute = -1;
 
   function getState() {
     return loadJSON(STORAGE_KEYS.scrollState, { isOn: false, expiresAt: null, reason: null, durationLabel: null, startedAt: null });
@@ -3356,6 +3427,15 @@ const ScrollLock = (() => {
     }
   }
 
+  function maybeShowPostureReminder(state) {
+    if (!isPostureRemindersEnabled() || !state.startedAt) return;
+    const elapsedMin = Math.floor((Date.now() - state.startedAt) / 60000);
+    if (elapsedMin <= 0 || elapsedMin % POSTURE_REMINDER_INTERVAL_MIN !== 0) return;
+    if (elapsedMin === lastPostureReminderMinute) return;
+    lastPostureReminderMinute = elapsedMin;
+    showToast(t("Posture check: try sitting up and holding the phone at eye level for a moment."));
+  }
+
   function tick() {
     const state = getState();
     if (!state.isOn) { stopCountdown(); return; }
@@ -3364,6 +3444,7 @@ const ScrollLock = (() => {
       return;
     }
     updateTimerUI(state);
+    maybeShowPostureReminder(state);
   }
 
   function turnOn(reason, durationLabel, minutes) {
@@ -3374,6 +3455,7 @@ const ScrollLock = (() => {
     updateToggleUI(true);
     updateTimerUI(state);
     stopCountdown();
+    lastPostureReminderMinute = -1;
     countdownTimer = setInterval(tick, 1000);
     refreshSearchResultsIfOpen();
     incrementScrollOnCount();
@@ -3774,6 +3856,7 @@ function openSettingsModal() {
   document.getElementById("biometricAppLockToggle").checked = isBiometricAppLockEnabled();
   document.getElementById("biometricScrollToggle").checked = isBiometricScrollEnabled();
   document.getElementById("biometricCameraToggle").checked = isBiometricCameraPreviewEnabled();
+  document.getElementById("postureReminderToggle").checked = isPostureRemindersEnabled();
   applyBiometricAvailabilityUI();
   settingsPageIndex = 0;
   renderSettingsPage();
@@ -3945,6 +4028,15 @@ function collectInsightsRows(data) {
     )];
     if (entry.canceled > 0) parts.push(tf("canceled {count}", { count: entry.canceled }));
     if (entry.sessionCount > 0) {
+      // 反射的な確認（30秒未満）と、それより長い意図的な利用を分けて見せる。
+      const quickCount = entry.quickCheckCount || 0;
+      const longCount = entry.sessionCount - quickCount;
+      if (quickCount > 0) {
+        parts.push(tf(quickCount === 1 ? "{count} quick check" : "{count} quick checks", { count: quickCount }));
+      }
+      if (longCount > 0) {
+        parts.push(tf(longCount === 1 ? "{count} longer session" : "{count} longer sessions", { count: longCount }));
+      }
       parts.push(tf("~{total} total (avg {avg})", {
         total: formatInsightDuration(entry.totalTimeMs),
         avg: formatInsightDuration(avgMs),
@@ -4177,6 +4269,43 @@ function renderInsightsGoalCard() {
   }
 
   renderInsightsWeekChart(today, goalMs);
+  renderInsightsHourHeatmap(today);
+}
+
+// 直近30日分を時間帯ごとに合算し、24マスの色の濃さで危ない時間帯を一目で示す。
+function renderInsightsHourHeatmap(today) {
+  const heatmap = document.getElementById("insightsHourHeatmap");
+  const cells = document.getElementById("insightsHourHeatmapCells");
+  if (!heatmap || !cells) return;
+
+  const totals = aggregateUsageByHourOfDay(today, 30);
+  const max = Math.max(...totals, 1);
+  if (max <= 1) {
+    heatmap.hidden = true;
+    return;
+  }
+  heatmap.hidden = false;
+
+  const accent = getAppearance().accent;
+  cells.innerHTML = "";
+  totals.forEach((ms, hour) => {
+    const cell = document.createElement("div");
+    cell.className = "insights-hour-heatmap-cell";
+    const intensity = ms / max;
+    cell.style.background = intensity > 0 ? insightsAlpha(accent, Math.max(0.12, intensity)) : "";
+    cell.title = `${formatHourLabel(hour)}: ${formatInsightDuration(ms)}`;
+    cells.appendChild(cell);
+  });
+
+  const hourFormat = new Intl.DateTimeFormat(currentLanguage, { hour: "numeric" });
+  [0, 6, 12, 18].forEach((hour) => {
+    const label = document.getElementById(`insightsHourHeatmapLabel${hour}`);
+    if (label) label.textContent = hourFormat.format(new Date(2024, 0, 1, hour));
+  });
+}
+
+function formatHourLabel(hour) {
+  return new Intl.DateTimeFormat(currentLanguage, { hour: "numeric" }).format(new Date(2024, 0, 1, hour));
 }
 
 // 直近7日間（今日含む）の合計利用時間を棒グラフにする。1行の%表示だけより、
@@ -4777,7 +4906,8 @@ function saveAppInsights(data) {
 }
 
 function ensureInsightsEntry(data, appId) {
-  if (!data[appId]) data[appId] = { opens: 0, canceled: 0, totalTimeMs: 0, sessionCount: 0 };
+  if (!data[appId]) data[appId] = { opens: 0, canceled: 0, totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 };
+  if (data[appId].quickCheckCount === undefined) data[appId].quickCheckCount = 0;
   return data[appId];
 }
 
@@ -4793,17 +4923,25 @@ function recordAppOpenDecision(appId, confirmed) {
   });
 }
 
+// Oulasvirta他(2012)の知見（確認の多くは30秒未満で、実際の必要からではなく
+// 習慣やその場の暇つぶしで起きる）を踏まえ、短い「反射的な確認」と、それより
+// 長い「意図的な利用」を分けて記録する。
+const QUICK_CHECK_THRESHOLD_MS = 30000;
+
 function recordAppSession(appId, durationMs) {
+  const isQuickCheck = durationMs < QUICK_CHECK_THRESHOLD_MS;
   const data = getAppInsights();
   const entry = ensureInsightsEntry(data, appId);
   entry.totalTimeMs += durationMs;
   entry.sessionCount += 1;
+  if (isQuickCheck) entry.quickCheckCount += 1;
   saveAppInsights(data);
 
   recordHourly((bucket) => {
     const e = ensureInsightsEntry(bucket.apps, appId);
     e.totalTimeMs += durationMs;
     e.sessionCount += 1;
+    if (isQuickCheck) e.quickCheckCount += 1;
   });
 }
 
@@ -4860,6 +4998,7 @@ function aggregateInsightsForPrefix(prefix) {
       entry.canceled += src.canceled || 0;
       entry.totalTimeMs += src.totalTimeMs || 0;
       entry.sessionCount += src.sessionCount || 0;
+      entry.quickCheckCount += src.quickCheckCount || 0;
     });
   });
   return result;
@@ -4893,6 +5032,16 @@ function getInsightsGoalSetAt() {
   return loadJSON(STORAGE_KEYS.insightsGoalSetAt, null);
 }
 
+// Hansraj(2014)の研究（頭を前に傾けて画面を見続けると首に負荷がかかる）を踏まえ、
+// スクロールONが続いている間、一定間隔で姿勢を確認するよう促す（既定はオフ）。
+function isPostureRemindersEnabled() {
+  return loadJSON(STORAGE_KEYS.postureRemindersEnabled, false);
+}
+
+function savePostureRemindersEnabled(value) {
+  saveJSON(STORAGE_KEYS.postureRemindersEnabled, value);
+}
+
 // その日の合計利用時間（各アプリの滞在時間 + スクロールONだった時間）をミリ秒で返す。
 function totalUsageMsForDay(date) {
   const data = aggregateInsightsForPrefix(dayPrefix(date));
@@ -4911,6 +5060,26 @@ function recentAverageUsageMs(referenceDate) {
   }
   if (samples.length === 0) return null;
   return samples.reduce((sum, ms) => sum + ms, 0) / samples.length;
+}
+
+// dscout(2016)の知見（利用は1日を通して散発的に起きる）を踏まえ、直近30日分の
+// 記録を時間帯(0〜23時)ごとに合算し、どの時間帯に利用が集中しているかを見せる。
+function aggregateUsageByHourOfDay(referenceDate, windowDays) {
+  const hourly = getInsightsHourly();
+  const totals = new Array(24).fill(0);
+  const cutoff = new Date(referenceDate);
+  cutoff.setDate(cutoff.getDate() - windowDays);
+  Object.keys(hourly).forEach((key) => {
+    const match = key.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2})$/);
+    if (!match) return;
+    const [, y, m, d, h] = match;
+    const bucketDate = new Date(Number(y), Number(m) - 1, Number(d));
+    if (bucketDate < cutoff) return;
+    const bucket = hourly[key];
+    const appsMs = Object.values(bucket.apps || {}).reduce((sum, e) => sum + (e.totalTimeMs || 0), 0);
+    totals[Number(h)] += appsMs + (bucket.scrollOnTimeMs || 0);
+  });
+  return totals;
 }
 
 // 昨日から遡って、その日の合計が目標以内だった連続日数。

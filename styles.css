@@ -1213,6 +1213,35 @@ body.scroll-locked {
   color: var(--text);
 }
 
+/* 直近30日分を時間帯ごとに合算した24マスのヒートマップ。 */
+.insights-hour-heatmap {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.insights-hour-heatmap[hidden] { display: none; }
+
+.insights-hour-heatmap-cells {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 1px;
+  height: 18px;
+}
+
+.insights-hour-heatmap-cell {
+  background: var(--bg-subtle);
+  border-radius: 2px;
+}
+
+.insights-hour-heatmap-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  font-size: 8px;
+  color: var(--text-dim);
+}
+
 .insights-time-chart {
   background: var(--bg-card);
   border: none;
