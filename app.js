@@ -36,6 +36,8 @@ const STORAGE_KEYS = {
   browserTabs: "myhome:browserTabs",
   activeTabId: "myhome:activeTabId",
   bookmarks: "myhome:bookmarks",
+  browsingTimeMs: "myhome:browsingTimeMs",
+  browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
 };
 
 const DEFAULT_APPEARANCE = { accent: "#65a30d", bg: "#ffffff", bgImage: null };
@@ -317,6 +319,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Digite uma pesquisa ou um site acima — ele abre como uma nova aba que você pode navegar bem aqui.",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Alterne entre as abas com os botões em pílula acima da página. Toque na estrela para adicionar aos favoritos; os botões Favoritos e Estatísticas no topo não mostram nada até você tocá-los.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "O bloqueio de anúncios só impede navegar diretamente para domínios de anúncios/rastreamento conhecidos — não remove anúncios de uma página que você já está vendo.",
+    "Browsing": "Navegação",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "Já encontrou o que procurava? Você está navegando há {minutes} minutos.",
+    "Check in with me every 10 minutes while I'm browsing a tab": "Me avise a cada 10 minutos enquanto estou navegando em uma aba",
+    "Still browsing": "Ainda navegando",
+    "Keep browsing": "Continuar navegando",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -567,6 +574,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Gib oben eine Suche oder eine Website ein – sie öffnet sich als neuer Tab, den du direkt hier durchstöbern kannst.",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Wechsle Tabs mit den Pillen über der Seite. Tippe auf den Stern, um ein Lesezeichen zu setzen; Lesezeichen und Nutzung oben zeigen nichts, bis du sie antippst.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Die Werbeblockierung verhindert nur die direkte Navigation zu bekannten Werbe-/Tracking-Domains – sie kann keine Werbung aus einer bereits geöffneten Seite entfernen.",
+    "Browsing": "Browsen",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "Schon gefunden, wonach du gesucht hast? Du browst seit {minutes} Minuten.",
+    "Check in with me every 10 minutes while I'm browsing a tab": "Erinnere mich alle 10 Minuten, während ich einen Tab durchstöbere",
+    "Still browsing": "Du browst noch",
+    "Keep browsing": "Weiter browsen",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -817,6 +829,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Saisissez une recherche ou un site web ci-dessus : il s'ouvre comme un nouvel onglet que vous pouvez parcourir ici même.",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Changez d'onglet avec les pastilles au-dessus de la page. Touchez l'étoile pour ajouter un favori ; les boutons Favoris et Statistiques en haut restent vides tant que vous ne les touchez pas.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Le blocage des publicités empêche seulement de naviguer directement vers des domaines publicitaires ou de suivi connus — il ne peut pas retirer les publicités d'une page que vous consultez déjà.",
+    "Browsing": "Navigation",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "Avez-vous trouvé ce que vous cherchiez ? Vous naviguez depuis {minutes} minutes.",
+    "Check in with me every 10 minutes while I'm browsing a tab": "Me le rappeler toutes les 10 minutes pendant que je navigue dans un onglet",
+    "Still browsing": "Navigation en cours",
+    "Keep browsing": "Continuer à naviguer",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1067,6 +1084,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "위에 검색어나 웹사이트를 입력하면 새 탭으로 열려 바로 여기서 볼 수 있습니다.",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "페이지 위의 알약 모양 탭으로 전환하세요. 별표를 누르면 북마크에 저장되고, 상단의 북마크와 인사이트 버튼은 누르기 전까지 아무것도 표시되지 않습니다.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "광고 차단은 알려진 광고/추적 도메인으로 바로 이동하는 것만 막습니다. 이미 열려 있는 페이지 안의 광고까지는 제거하지 못합니다.",
+    "Browsing": "브라우징",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "찾던 걸 찾으셨나요? {minutes}분째 둘러보고 계세요.",
+    "Check in with me every 10 minutes while I'm browsing a tab": "탭을 둘러보는 동안 10분마다 알려주기",
+    "Still browsing": "계속 둘러보는 중",
+    "Keep browsing": "계속 둘러보기",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1317,6 +1339,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "在上方输入搜索词或网址，即可作为新标签页在此打开浏览。",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "用上方的小药丸切换标签页。点击星标可收藏；上方的书签和使用统计按钮在你点开之前都不会显示任何内容。",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "广告拦截只会阻止直接前往已知的广告/跟踪域名，无法清除你已打开页面内部的广告。",
+    "Browsing": "浏览",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "找到你要的内容了吗？你已经浏览了 {minutes} 分钟。",
+    "Check in with me every 10 minutes while I'm browsing a tab": "浏览标签页时，每10分钟提醒我一次",
+    "Still browsing": "仍在浏览",
+    "Keep browsing": "继续浏览",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1567,6 +1594,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Escribe una búsqueda o un sitio web arriba: se abrirá como una pestaña nueva que puedes navegar aquí mismo.",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Cambia de pestaña con las píldoras de arriba. Toca la estrella para guardar un marcador; Marcadores y Estadísticas arriba no muestran nada hasta que los toques.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "El bloqueo de anuncios solo impide navegar directamente a dominios publicitarios o de rastreo conocidos; no puede quitar anuncios de una página que ya estás viendo.",
+    "Browsing": "Navegación",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "¿Ya encontraste lo que buscabas? Llevas {minutes} minutos navegando.",
+    "Check in with me every 10 minutes while I'm browsing a tab": "Avísame cada 10 minutos mientras navego por una pestaña",
+    "Still browsing": "Sigues navegando",
+    "Keep browsing": "Seguir navegando",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1827,6 +1859,11 @@ const UI_I18N = {
     "Type a search or a website above — it opens as a new tab you can browse right here.": "上の欄に検索語かサイトのアドレスを入力すると、新しいタブとしてここで開けます。",
     "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "タブはページ上部のピルで切り替えます。星マークでブックマーク、ブックマークとインサイトは上部のボタンをタップするまで何も表示されません。",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "広告ブロックは既知の広告・トラッキングドメインへの遷移を止めるだけです。すでに開いているページの中の広告までは取り除けません。",
+    "Browsing": "ブラウジング",
+    "Still finding what you needed? You've been browsing for {minutes} minutes.": "まだ探しているものは見つかりましたか？ {minutes}分間閲覧しています。",
+    "Check in with me every 10 minutes while I'm browsing a tab": "タブを閲覧している間、10分ごとに声をかける",
+    "Still browsing": "閲覧中",
+    "Keep browsing": "閲覧を続ける",
   },
 };
 
@@ -2152,6 +2189,10 @@ function initAppLock() {
 
   document.getElementById("postureReminderToggle").addEventListener("change", (e) => {
     savePostureRemindersEnabled(e.target.checked);
+  });
+
+  document.getElementById("browsingCheckinToggle").addEventListener("change", (e) => {
+    saveBrowsingCheckinsEnabled(e.target.checked);
   });
 
   document.getElementById("saveAppLockRecoveryBtn").addEventListener("click", () => {
@@ -3261,6 +3302,7 @@ function openSettingsModal() {
   document.getElementById("biometricScrollToggle").checked = isBiometricScrollEnabled();
   document.getElementById("biometricCameraToggle").checked = isBiometricCameraPreviewEnabled();
   document.getElementById("postureReminderToggle").checked = isPostureRemindersEnabled();
+  document.getElementById("browsingCheckinToggle").checked = isBrowsingCheckinsEnabled();
   applyBiometricAvailabilityUI();
   settingsPageIndex = 0;
   renderSettingsPage();
@@ -3285,6 +3327,7 @@ function renderAppInsights() {
   if (PAGINATED_INSIGHTS.settings) {
     PAGINATED_INSIGHTS.settings.setData({
       apps: getAppInsights(),
+      browsing: getBrowsingTimeData(),
       scrollOnCount: getScrollOnCount(),
       scrollGestureCount: getScrollGestureCount(),
       scrollOnTimeMs: getScrollOnTimeMs(),
@@ -3391,13 +3434,15 @@ function collectInsightsRows(data) {
   const scrollTimeMs = data.scrollOnTimeMs || 0;
   const apps = data.apps || {};
   const ids = Object.keys(apps).filter((id) => apps[id].opens > 0 || apps[id].canceled > 0);
+  const browsing = data.browsing || { totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 };
+  const hasBrowsing = browsing.sessionCount > 0;
 
-  if (scrollCount === 0 && gestureCount === 0 && ids.length === 0) return [];
+  if (scrollCount === 0 && gestureCount === 0 && ids.length === 0 && !hasBrowsing) return [];
 
   ids.sort((a, b) => apps[b].opens - apps[a].opens);
 
   const accent = getAppearance().accent;
-  const maxValue = Math.max(scrollCount, ...ids.map((id) => apps[id].opens), 1);
+  const maxValue = Math.max(scrollCount, browsing.sessionCount, ...ids.map((id) => apps[id].opens), 1);
   const rows = [];
 
   if (scrollCount > 0 || gestureCount > 0) {
@@ -3415,6 +3460,30 @@ function collectInsightsRows(data) {
     rows.push({
       name: t("Scroll"),
       value: scrollCount,
+      maxValue,
+      color: "var(--text-dim)",
+      statsText: parts.join(" · "),
+    });
+  }
+
+  if (hasBrowsing) {
+    const avgMs = browsing.totalTimeMs / browsing.sessionCount;
+    const quickCount = browsing.quickCheckCount || 0;
+    const longCount = browsing.sessionCount - quickCount;
+    const parts = [];
+    if (quickCount > 0) {
+      parts.push(tf(quickCount === 1 ? "{count} quick check" : "{count} quick checks", { count: quickCount }));
+    }
+    if (longCount > 0) {
+      parts.push(tf(longCount === 1 ? "{count} longer session" : "{count} longer sessions", { count: longCount }));
+    }
+    parts.push(tf("~{total} total (avg {avg})", {
+      total: formatInsightDuration(browsing.totalTimeMs),
+      avg: formatInsightDuration(avgMs),
+    }));
+    rows.push({
+      name: t("Browsing"),
+      value: browsing.sessionCount,
       maxValue,
       color: "var(--text-dim)",
       statsText: parts.join(" · "),
@@ -3598,6 +3667,7 @@ function renderMainInsightsPanel() {
   const data = insightsPeriodType === "all"
     ? {
         apps: getAppInsights(),
+        browsing: getBrowsingTimeData(),
         scrollOnCount: getScrollOnCount(),
         scrollGestureCount: getScrollGestureCount(),
         scrollOnTimeMs: getScrollOnTimeMs(),
@@ -4183,6 +4253,35 @@ function recordAppSession(appId, durationMs) {
   });
 }
 
+// タブブラウザで実在サイトを見ている時間。ドックアプリと同じ物差し(反射的な確認/
+// 意図的な利用の内訳)で記録する。個々のタブ・URLごとではなく、ブラウジング全体を
+// 1つの区分として合算する（タブは頻繁に開閉されるため、アプリのような固定の
+// 識別子として扱うのが不自然なため）。
+function getBrowsingTimeData() {
+  return loadJSON(STORAGE_KEYS.browsingTimeMs, { totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 });
+}
+
+function saveBrowsingTimeData(data) {
+  saveJSON(STORAGE_KEYS.browsingTimeMs, data);
+}
+
+function recordBrowsingSession(durationMs) {
+  if (durationMs <= 0) return;
+  const isQuickCheck = durationMs < QUICK_CHECK_THRESHOLD_MS;
+  const data = getBrowsingTimeData();
+  data.totalTimeMs += durationMs;
+  data.sessionCount += 1;
+  if (isQuickCheck) data.quickCheckCount += 1;
+  saveBrowsingTimeData(data);
+
+  recordHourly((bucket) => {
+    if (!bucket.browsing) bucket.browsing = { totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 };
+    bucket.browsing.totalTimeMs += durationMs;
+    bucket.browsing.sessionCount += 1;
+    if (isQuickCheck) bucket.browsing.quickCheckCount += 1;
+  });
+}
+
 /* ==========================================================================
    時間帯別インサイト (時間/日/月/年ごとの集計とカレンダー表示に使う)
    1時間単位のバケットにイベントを記録しておき、表示時にプレフィックス一致で
@@ -4213,7 +4312,7 @@ function recordHourly(mutate) {
   const data = getInsightsHourly();
   const key = hourBucketKey(new Date());
   if (!data[key]) {
-    data[key] = { apps: {}, scrollOnCount: 0, scrollGestureCount: 0, scrollOnTimeMs: 0 };
+    data[key] = { apps: {}, browsing: { totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 }, scrollOnCount: 0, scrollGestureCount: 0, scrollOnTimeMs: 0 };
   }
   mutate(data[key]);
   saveInsightsHourly(data);
@@ -4222,7 +4321,11 @@ function recordHourly(mutate) {
 // prefixは "2026" (年) / "2026-07" (月) / "2026-07-25" (日) / "2026-07-25T14" (時間) のいずれか。
 function aggregateInsightsForPrefix(prefix) {
   const hourly = getInsightsHourly();
-  const result = { apps: {}, scrollOnCount: 0, scrollGestureCount: 0, scrollOnTimeMs: 0 };
+  const result = {
+    apps: {},
+    browsing: { totalTimeMs: 0, sessionCount: 0, quickCheckCount: 0 },
+    scrollOnCount: 0, scrollGestureCount: 0, scrollOnTimeMs: 0,
+  };
   Object.keys(hourly).forEach((key) => {
     if (!key.startsWith(prefix)) return;
     const bucket = hourly[key];
@@ -4238,6 +4341,11 @@ function aggregateInsightsForPrefix(prefix) {
       entry.sessionCount += src.sessionCount || 0;
       entry.quickCheckCount += src.quickCheckCount || 0;
     });
+    if (bucket.browsing) {
+      result.browsing.totalTimeMs += bucket.browsing.totalTimeMs || 0;
+      result.browsing.sessionCount += bucket.browsing.sessionCount || 0;
+      result.browsing.quickCheckCount += bucket.browsing.quickCheckCount || 0;
+    }
   });
   return result;
 }
@@ -4280,11 +4388,22 @@ function savePostureRemindersEnabled(value) {
   saveJSON(STORAGE_KEYS.postureRemindersEnabled, value);
 }
 
+// タブブラウザは意図的にScroll ONの許可とは連動させていない（実在サイトを開く操作を
+// PINで縛ると調べもの用途まで摩擦になりすぎるため）。代わりに、閲覧が続いている間
+// 一定間隔で「まだ探しているものが見つかっていないか」を振り返らせる（既定はオフ）。
+function isBrowsingCheckinsEnabled() {
+  return loadJSON(STORAGE_KEYS.browsingCheckinsEnabled, false);
+}
+
+function saveBrowsingCheckinsEnabled(value) {
+  saveJSON(STORAGE_KEYS.browsingCheckinsEnabled, value);
+}
+
 // その日の合計利用時間（各アプリの滞在時間 + スクロールONだった時間）をミリ秒で返す。
 function totalUsageMsForDay(date) {
   const data = aggregateInsightsForPrefix(dayPrefix(date));
   const appsMs = Object.values(data.apps).reduce((sum, entry) => sum + (entry.totalTimeMs || 0), 0);
-  return appsMs + (data.scrollOnTimeMs || 0);
+  return appsMs + (data.browsing.totalTimeMs || 0) + (data.scrollOnTimeMs || 0);
 }
 
 // 直近7日間（今日は含まない）で記録がある日だけを対象にした平均利用時間。
@@ -4315,7 +4434,8 @@ function aggregateUsageByHourOfDay(referenceDate, windowDays) {
     if (bucketDate < cutoff) return;
     const bucket = hourly[key];
     const appsMs = Object.values(bucket.apps || {}).reduce((sum, e) => sum + (e.totalTimeMs || 0), 0);
-    totals[Number(h)] += appsMs + (bucket.scrollOnTimeMs || 0);
+    const browsingMs = (bucket.browsing && bucket.browsing.totalTimeMs) || 0;
+    totals[Number(h)] += appsMs + browsingMs + (bucket.scrollOnTimeMs || 0);
   });
   return totals;
 }
@@ -4355,11 +4475,15 @@ function endAwaySessionIfAny() {
 
 function initAwaySessionTracking() {
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
-      endAwaySessionIfAny();
-      renderAppInsights();
+    if (document.hidden) {
+      endBrowsingSessionIfAny();
+      return;
     }
+    endAwaySessionIfAny();
+    renderAppInsights();
+    startBrowsingSessionIfNeeded();
   });
+  window.addEventListener("pagehide", endBrowsingSessionIfAny);
 }
 
 function openApp(app) {
@@ -4653,6 +4777,7 @@ function renderBrowser() {
     empty.hidden = false;
     viewport.hidden = true;
     setDockCollapsedOverride(null);
+    stopBrowsingSessionEntirely();
     return;
   }
 
@@ -4669,6 +4794,107 @@ function renderBrowser() {
   document.getElementById("browserViewportUrl").textContent = activeTab.title;
   document.getElementById("browserOpenExternalBtn").href = activeTab.url;
   updateBookmarkButtonState(activeTab.url);
+  startBrowsingSessionIfNeeded();
+}
+
+/* ==========================================================================
+   閲覧時間の計測 (Scroll ONの許可とは連動させず、タブが表示されている間だけを計測する)
+   ========================================================================== */
+
+// 声かけの間隔（分）。姿勢リマインダーと同じ10分間隔にする。
+const BROWSING_CHECKIN_INTERVAL_MIN = 10;
+
+// SettingsなどのモーダルがブラウザViewportの上に重なっている間は「閲覧中」とは
+// 言えないので、開いている間だけ計測を止める。個々のモーダルの開閉処理に手を
+// 加えずに済むよう、共通クラスの hidden 属性の変化を監視する。
+function isAnyOverlayOpen() {
+  return !!document.querySelector(".modal-overlay:not([hidden])") ||
+    !document.getElementById("tipsPanel").hidden;
+}
+
+// pendingBrowsingSession: 現在計測中の区間（一時停止/再開のたびに区切って加算するので、
+// Settingsを覗いていた時間などは閲覧時間に含まれない）。
+// browsingSessionStartedAt: 最初にタブを開いた時刻（一時停止では消さない）。声かけの間隔は
+// 実際に見ていた合計時間ではなく、この最初のタブを開いてからの経過時間を基準にする
+// （姿勢リマインダーがScroll ONしてからの経過時間を基準にしているのと同じ考え方）。
+let pendingBrowsingSession = null;
+let browsingSessionStartedAt = null;
+let browsingCheckinTimer = null;
+let lastBrowsingCheckinMinute = -1;
+
+function browsingShouldBeActive() {
+  const tabs = getBrowserTabs();
+  const activeId = getActiveTabId();
+  return tabs.some((tb) => tb.id === activeId) && !document.hidden && !isAnyOverlayOpen();
+}
+
+function maybeShowBrowsingCheckin() {
+  if (!isBrowsingCheckinsEnabled() || !browsingSessionStartedAt || !browsingShouldBeActive()) return;
+  const elapsedMin = Math.floor((Date.now() - browsingSessionStartedAt) / 60000);
+  if (elapsedMin <= 0 || elapsedMin % BROWSING_CHECKIN_INTERVAL_MIN !== 0) return;
+  if (elapsedMin === lastBrowsingCheckinMinute) return;
+  lastBrowsingCheckinMinute = elapsedMin;
+  openBrowsingCheckinModal(elapsedMin);
+}
+
+// トーストは数秒で消えてしまい、探し直す間もないので、代わりに実際に使える
+// 検索バー付きのモーダルとして表示する（送信すれば新しいタブとして開ける）。
+function openBrowsingCheckinModal(elapsedMin) {
+  document.getElementById("browsingCheckinText").textContent =
+    tf("Still finding what you needed? You've been browsing for {minutes} minutes.", { minutes: elapsedMin });
+  document.getElementById("browsingCheckinSearchInput").value = "";
+  document.getElementById("browsingCheckinModal").hidden = false;
+}
+
+function closeBrowsingCheckinModal() {
+  document.getElementById("browsingCheckinModal").hidden = true;
+}
+
+// タブを表示していて、他に何もかぶさっていない間だけ計測区間を進める。
+// Settingsを開く程度の一時中断では最初の開始時刻(声かけの基準)は消さない。
+function startBrowsingSessionIfNeeded() {
+  if (!browsingShouldBeActive()) return;
+  if (!browsingSessionStartedAt) {
+    browsingSessionStartedAt = Date.now();
+    lastBrowsingCheckinMinute = -1;
+    browsingCheckinTimer = setInterval(maybeShowBrowsingCheckin, 30000);
+  }
+  if (!pendingBrowsingSession) {
+    pendingBrowsingSession = { startedAt: Date.now() };
+  }
+}
+
+// 一時停止のみ（計測区間を記録して閉じるが、声かけの基準時刻は残す）。
+function endBrowsingSessionIfAny() {
+  if (!pendingBrowsingSession) return;
+  const durationMs = Date.now() - pendingBrowsingSession.startedAt;
+  pendingBrowsingSession = null;
+  recordBrowsingSession(durationMs);
+}
+
+// タブが全て閉じられた時など、閲覧そのものが終わったとき用。
+function stopBrowsingSessionEntirely() {
+  endBrowsingSessionIfAny();
+  browsingSessionStartedAt = null;
+  lastBrowsingCheckinMinute = -1;
+  if (browsingCheckinTimer) {
+    clearInterval(browsingCheckinTimer);
+    browsingCheckinTimer = null;
+  }
+}
+
+function initOverlayBrowsingPause() {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach(({ target }) => {
+      if (!(target.classList && target.classList.contains("modal-overlay")) && target.id !== "tipsPanel") return;
+      if (target.hidden) {
+        startBrowsingSessionIfNeeded();
+      } else {
+        endBrowsingSessionIfAny();
+      }
+    });
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ["hidden"], subtree: true });
 }
 
 /* ==========================================================================
@@ -4829,6 +5055,7 @@ function init() {
   FocusTimer.init();
   initFocusTimerPanel();
   initAwaySessionTracking();
+  initOverlayBrowsingPause();
   initScrollGestureTracking();
   initInsightsPanel();
   renderAppInsights();
@@ -5090,6 +5317,15 @@ function init() {
 
   document.getElementById("insightsBtn").addEventListener("click", openInsightsModal);
   document.getElementById("closeInsights").addEventListener("click", closeInsightsModal);
+
+  document.getElementById("browsingCheckinSearchForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = document.getElementById("browsingCheckinSearchInput").value.trim();
+    if (!input) return;
+    closeBrowsingCheckinModal();
+    openTab(input);
+  });
+  document.getElementById("browsingCheckinDismissBtn").addEventListener("click", closeBrowsingCheckinModal);
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
