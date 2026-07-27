@@ -221,7 +221,7 @@
           <li>Type a search or a website above — it opens as a new tab you can browse right here.</li>
           <li>Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.</li>
           <li>Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
-          <li>Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.</li>
+          <li>Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.</li>
           <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
@@ -349,6 +349,23 @@
         <button id="bookmarksPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
         <div id="bookmarksPageNumbers" class="search-page-numbers"></div>
         <button id="bookmarksNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search results modal (Google Programmable Search) -->
+  <div id="searchResultsModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="searchResultsModalTitle">
+      <div class="settings-modal-header">
+        <button id="closeSearchResults" class="modal-close-btn" type="button" aria-label="Close search results">&times;</button>
+        <h2 id="searchResultsModalTitle">Search results</h2>
+      </div>
+      <p id="searchResultsStatus" class="modal-desc" hidden></p>
+      <ul id="searchResultsList" class="editable-list search-results-list"></ul>
+      <div class="search-pagination">
+        <button id="searchResultsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="searchResultsPageNumbers" class="search-page-numbers"></div>
+        <button id="searchResultsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
       </div>
     </div>
   </div>
@@ -571,6 +588,7 @@
           <input id="browsingCheckinToggle" type="checkbox" />
           <span>Check in with me every 10 minutes while I'm browsing a tab</span>
         </label>
+
       </section>
     </div>
 

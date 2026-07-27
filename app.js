@@ -325,7 +325,13 @@ const UI_I18N = {
     "Still browsing": "Ainda navegando",
     "Keep browsing": "Continuar navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} não permite ser exibido dentro de outra página, então foi aberto no seu navegador.",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "A busca usa o Bing. Sites grandes que não permitem ser exibidos dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) abrem no seu navegador padrão — isso é uma política do próprio site, algo que este app não pode mudar.",
+    "Searching…": "Pesquisando…",
+    "No results found.": "Nenhum resultado encontrado.",
+    "Search results for \"{query}\"": "Resultados da pesquisa por \"{query}\"",
+    "Search failed: {message}": "Falha na pesquisa: {message}",
+    "Search results": "Resultados da pesquisa",
+    "Close search results": "Fechar resultados da pesquisa",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Os termos de pesquisa digitados mostram resultados da Wikipédia como uma lista dentro do app — não é preciso nenhuma configuração, mas só pesquisa artigos da Wikipédia, não a web em geral. Digitar o endereço de um site grande que se recusa a ser exibido dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) o abre no seu navegador normal — essa é a política do próprio site, não algo que este app possa mudar.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -582,7 +588,13 @@ const UI_I18N = {
     "Still browsing": "Du browst noch",
     "Keep browsing": "Weiter browsen",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} erlaubt keine eingebettete Anzeige und wurde deshalb im Browser geöffnet.",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "Die Suche läuft über Bing. Große Seiten, die eine eingebettete Anzeige verweigern (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), werden stattdessen in deinem normalen Browser geöffnet – das ist eine Richtlinie der jeweiligen Seite, die diese App nicht ändern kann.",
+    "Searching…": "Suche läuft…",
+    "No results found.": "Keine Ergebnisse gefunden.",
+    "Search results for \"{query}\"": "Suchergebnisse für „{query}“",
+    "Search failed: {message}": "Suche fehlgeschlagen: {message}",
+    "Search results": "Suchergebnisse",
+    "Close search results": "Suchergebnisse schließen",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Eingegebene Suchbegriffe zeigen Wikipedia-Ergebnisse als Liste innerhalb der App — keine Einrichtung nötig, durchsucht wird aber nur Wikipedia, nicht das gesamte Web. Die Eingabe der Adresse einer großen Website, die sich weigert, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), öffnet diese stattdessen in deinem normalen Browser — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -839,7 +851,13 @@ const UI_I18N = {
     "Still browsing": "Navigation en cours",
     "Keep browsing": "Continuer à naviguer",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} n'autorise pas l'affichage intégré, elle s'est donc ouverte dans votre navigateur.",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La recherche utilise Bing. Les grands sites qui refusent d'être affichés dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) s'ouvrent à la place dans votre navigateur habituel — c'est une politique propre à ces sites, que cette appli ne peut pas changer.",
+    "Searching…": "Recherche en cours…",
+    "No results found.": "Aucun résultat trouvé.",
+    "Search results for \"{query}\"": "Résultats de recherche pour « {query} »",
+    "Search failed: {message}": "Échec de la recherche : {message}",
+    "Search results": "Résultats de recherche",
+    "Close search results": "Fermer les résultats de recherche",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Les termes de recherche saisis affichent les résultats Wikipédia sous forme de liste dans l'application — aucune configuration n'est nécessaire, mais seuls les articles Wikipédia sont recherchés, pas le web dans son ensemble. Saisir l'adresse d'un grand site qui refuse d'être affiché dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) l'ouvre plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1096,7 +1114,13 @@ const UI_I18N = {
     "Still browsing": "계속 둘러보는 중",
     "Keep browsing": "계속 둘러보기",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain}은(는) 다른 페이지 안에 표시하는 것을 허용하지 않아 브라우저에서 열었습니다.",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "검색은 Bing을 사용합니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)는 대신 기본 브라우저에서 열립니다. 이는 해당 사이트 자체의 정책이며, 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
+    "Searching…": "검색 중…",
+    "No results found.": "결과를 찾을 수 없습니다.",
+    "Search results for \"{query}\"": "\"{query}\" 검색 결과",
+    "Search failed: {message}": "검색 실패: {message}",
+    "Search results": "검색 결과",
+    "Close search results": "검색 결과 닫기",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "입력한 검색어는 위키백과 검색 결과가 앱 내 목록으로 표시됩니다 — 별도 설정은 필요 없지만, 검색 대상은 위키백과 문서로 한정되며 웹 전체가 아닙니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)의 주소를 직접 입력하면 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1353,7 +1377,13 @@ const UI_I18N = {
     "Still browsing": "仍在浏览",
     "Keep browsing": "继续浏览",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} 不允许被嵌入显示，因此已在你的浏览器中打开。",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "搜索使用 Bing。拒绝在其他页面内显示的大型网站（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）会改为在你的常规浏览器中打开——这是这些网站自身的策略，本应用无法更改。",
+    "Searching…": "搜索中…",
+    "No results found.": "未找到结果。",
+    "Search results for \"{query}\"": "“{query}”的搜索结果",
+    "Search failed: {message}": "搜索失败：{message}",
+    "Search results": "搜索结果",
+    "Close search results": "关闭搜索结果",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "输入的搜索词会以列表形式显示维基百科的搜索结果——无需任何设置，但只能搜索维基百科的条目，而非整个网络。如果直接输入拒绝在其他页面中显示的大型网站地址（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo），则会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1610,7 +1640,13 @@ const UI_I18N = {
     "Still browsing": "Sigues navegando",
     "Keep browsing": "Seguir navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} no permite mostrarse dentro de otra página, así que se abrió en tu navegador.",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La búsqueda usa Bing. Los sitios grandes que no permiten mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) se abren en tu navegador habitual en su lugar; es una política del propio sitio, no algo que esta app pueda cambiar.",
+    "Searching…": "Buscando…",
+    "No results found.": "No se encontraron resultados.",
+    "Search results for \"{query}\"": "Resultados de búsqueda de \"{query}\"",
+    "Search failed: {message}": "Error en la búsqueda: {message}",
+    "Search results": "Resultados de búsqueda",
+    "Close search results": "Cerrar resultados de búsqueda",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Los términos de búsqueda escritos muestran resultados de Wikipedia como una lista dentro de la app — no requiere configuración, pero solo busca artículos de Wikipedia, no la web en general. Escribir la dirección de un sitio grande que se niega a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) lo abre en tu navegador habitual — es la política del propio sitio, no algo que esta app pueda cambiar.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1877,7 +1913,13 @@ const UI_I18N = {
     "Still browsing": "閲覧中",
     "Keep browsing": "閲覧を続ける",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} は埋め込み表示を許可していないため、ブラウザで開きました。",
-    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "検索にはBingを使っています。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
+    "Searching…": "検索中…",
+    "No results found.": "結果が見つかりませんでした。",
+    "Search results for \"{query}\"": "「{query}」の検索結果",
+    "Search failed: {message}": "検索に失敗しました: {message}",
+    "Search results": "検索結果",
+    "Close search results": "検索結果を閉じる",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "検索語を入力すると、Wikipediaの検索結果がアプリ内の一覧として表示されます — 設定は不要ですが、検索できるのはWikipediaの記事のみで、Web全体ではありません。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）のアドレスを直接入力した場合は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
   },
 };
 
@@ -4641,17 +4683,36 @@ function normalizeUrl(input) {
   return /^https?:\/\//i.test(input) ? input : `https://${input}`;
 }
 
-// APIキーなしで使える簡易検索として、Bingの検索結果ページを使う。DuckDuckGoは
-// /html/ 版も含めサイト全体でフレーム埋め込みを拒否するため使えなかった
-// （実際にヘッダーを確認: x-frame-options: SAMEORIGIN, frame-ancestors 'self'）。
-function buildSearchUrl(query) {
-  return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+/* --------------------------------------------------------------------------
+   検索: Wikipedia API (action=query&list=search) を使う。
+   主要な検索エンジンのページ自体をiframeで開こうとするとX-Frame-Options等で
+   軒並み拒否される（DuckDuckGo/Google/Bing含む多くのサイトで確認済み）ため、
+   検索エンジンのページを埋め込むのではなく、JSON APIを直接叩いて結果を
+   アプリ自身のUIに一覧表示する方式にした。Wikipedia APIはCORS対応済み・
+   APIキー不要（ヘッダーで access-control-allow-origin: * を確認済み）なので、
+   Google Programmable Searchのようなユーザー自身のAPIキー登録が要らない。
+   一方でWikipedia内の記事しか検索できない（一般的なWeb検索ではない）。
+   -------------------------------------------------------------------------- */
+function wikipediaApiUrl(query) {
+  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
+  return `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=10&srsearch=${encodeURIComponent(query)}`;
+}
+function wikipediaArticleUrl(title) {
+  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
+  return `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`;
+}
+// snippetにはWikipedia側が付けた<span class="searchmatch">等のHTMLが含まれるため、
+// 表示前にプレーンテキストへ落とす（未挿入のdivなのでscriptは実行されない）。
+function stripHtml(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || "";
 }
 
 function resolveNavigationUrl(input) {
   const trimmed = input.trim();
   if (!trimmed) return null;
-  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : buildSearchUrl(trimmed);
+  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : null;
 }
 
 function getBrowserTabs() {
@@ -4677,9 +4738,23 @@ function tabStripPageForIndex(index) {
   return index < 0 ? 0 : Math.floor(index / TAB_STRIP_PER_PAGE);
 }
 
+// アドレスらしい入力ならそのまま開き、そうでなければ検索クエリとして
+// Google Programmable Search の結果一覧を開く。
 function openTab(rawInput) {
-  const url = resolveNavigationUrl(rawInput);
-  if (!url) return;
+  const trimmed = rawInput.trim();
+  if (!trimmed) return;
+  document.getElementById("searchInput").value = "";
+  const url = resolveNavigationUrl(trimmed);
+  if (url) {
+    openResolvedUrl(url);
+  } else {
+    performSearch(trimmed);
+  }
+}
+
+// 解決済みの絶対URLをタブとして開く（広告/トラッキングドメインは拒否、
+// 埋め込み不可と分かっているドメインは外部ブラウザで開く）。
+function openResolvedUrl(url) {
   if (isAdBlockedUrl(url)) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
     return;
@@ -4687,7 +4762,6 @@ function openTab(rawInput) {
   if (isNonEmbeddableUrl(url)) {
     window.open(url, "_blank", "noopener");
     showToast(tf("{domain} doesn't allow embedding, so it opened in your browser instead.", { domain: hostnameOf(url) }));
-    document.getElementById("searchInput").value = "";
     return;
   }
   const tabs = getBrowserTabs();
@@ -4696,7 +4770,6 @@ function openTab(rawInput) {
   saveBrowserTabs(tabs);
   saveActiveTabId(tab.id);
   tabStripPage = tabStripPageForIndex(tabs.length - 1);
-  document.getElementById("searchInput").value = "";
   renderBrowser();
 }
 
@@ -5067,6 +5140,154 @@ function closeBookmarksModal() {
   document.getElementById("bookmarksModal").hidden = true;
 }
 
+/* --------------------------------------------------------------------------
+   検索結果一覧（Wikipedia API）。結果ページをiframeで開くのではなく、
+   JSON APIから受け取ったタイトル/抜粋/URLをこのアプリ自身の一覧UIで表示する。
+   行をタップすると初めてopenResolvedUrl()でタブとして開く。
+   -------------------------------------------------------------------------- */
+let searchResultsPage = 0;
+let searchResultsQuery = "";
+let searchResultsItems = [];
+let searchResultsState = "idle"; // idle | loading | results | empty | error
+let searchResultsErrorMessage = "";
+let searchResultsRequestId = 0;
+const SEARCH_RESULTS_FALLBACK_PER_PAGE = 4;
+const SEARCH_RESULTS_ROW_GAP = 8;
+
+async function performSearch(query) {
+  searchResultsQuery = query;
+  searchResultsPage = 0;
+  const requestId = ++searchResultsRequestId;
+
+  searchResultsState = "loading";
+  searchResultsItems = [];
+  openSearchResultsModal();
+
+  try {
+    const res = await fetch(wikipediaApiUrl(query));
+    const data = await res.json().catch(() => ({}));
+    if (requestId !== searchResultsRequestId) return; // 別の検索が割り込んでいたら破棄
+
+    if (!res.ok || (data && data.error)) {
+      searchResultsState = "error";
+      searchResultsErrorMessage = (data && data.error && data.error.info) || `HTTP ${res.status}`;
+      searchResultsItems = [];
+    } else {
+      const results = (data.query && data.query.search) || [];
+      searchResultsItems = results.map((item) => ({
+        title: item.title,
+        snippet: stripHtml(item.snippet || ""),
+        url: wikipediaArticleUrl(item.title),
+        displayUrl: hostnameOf(wikipediaArticleUrl(item.title)),
+      }));
+      searchResultsState = searchResultsItems.length ? "results" : "empty";
+    }
+  } catch (e) {
+    if (requestId !== searchResultsRequestId) return;
+    searchResultsState = "error";
+    searchResultsErrorMessage = String((e && e.message) || e);
+    searchResultsItems = [];
+  }
+  renderSearchResults();
+}
+
+function buildSearchResultRow(item) {
+  const li = document.createElement("li");
+  li.className = "search-result-row";
+
+  const open = document.createElement("button");
+  open.type = "button";
+  open.className = "search-result-open-btn";
+  const title = document.createElement("span");
+  title.className = "search-result-title";
+  title.textContent = item.title;
+  const snippet = document.createElement("span");
+  snippet.className = "search-result-snippet";
+  snippet.textContent = item.snippet;
+  const url = document.createElement("span");
+  url.className = "search-result-url";
+  url.textContent = item.displayUrl;
+  open.append(title, snippet, url);
+  open.addEventListener("click", () => {
+    closeSearchResultsModal();
+    openResolvedUrl(item.url);
+  });
+  li.appendChild(open);
+  return li;
+}
+
+// 一覧に割り当てられている高さに何件入るかを実測して決める（他の一覧と同じ手法）。
+function measureSearchResultsPerPage(list, items) {
+  const available = list.clientHeight;
+  if (!available) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
+  list.appendChild(buildSearchResultRow(items[0]));
+  const rowHeight = list.firstElementChild.getBoundingClientRect().height;
+  list.innerHTML = "";
+  if (!rowHeight) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
+  return Math.max(1, Math.floor((available + SEARCH_RESULTS_ROW_GAP) / (rowHeight + SEARCH_RESULTS_ROW_GAP)));
+}
+
+function renderSearchResults() {
+  const list = document.getElementById("searchResultsList");
+  const pagination = document.querySelector("#searchResultsModal .search-pagination");
+  const statusEl = document.getElementById("searchResultsStatus");
+  document.getElementById("searchResultsModalTitle").textContent =
+    tf('Search results for "{query}"', { query: searchResultsQuery });
+  list.innerHTML = "";
+  statusEl.hidden = true;
+
+  if (searchResultsState === "loading") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = t("Searching…");
+    return;
+  }
+  if (searchResultsState === "error") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = tf("Search failed: {message}", { message: searchResultsErrorMessage });
+    return;
+  }
+  if (searchResultsState === "empty") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = t("No results found.");
+    return;
+  }
+
+  const perPage = measureSearchResultsPerPage(list, searchResultsItems);
+  const totalPages = Math.max(1, Math.ceil(searchResultsItems.length / perPage));
+  if (searchResultsPage >= totalPages) searchResultsPage = totalPages - 1;
+  pagination.hidden = totalPages <= 1;
+
+  const start = searchResultsPage * perPage;
+  searchResultsItems.slice(start, start + perPage).forEach((item) => list.appendChild(buildSearchResultRow(item)));
+
+  document.getElementById("searchResultsPrevBtn").disabled = searchResultsPage === 0;
+  document.getElementById("searchResultsNextBtn").disabled = searchResultsPage >= totalPages - 1;
+  const pageNumbers = document.getElementById("searchResultsPageNumbers");
+  pageNumbers.innerHTML = "";
+  for (let i = 0; i < totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "page-number-btn" + (i === searchResultsPage ? " is-active" : "");
+    btn.textContent = String(i + 1);
+    btn.addEventListener("click", () => {
+      searchResultsPage = i;
+      renderSearchResults();
+    });
+    pageNumbers.appendChild(btn);
+  }
+}
+
+function openSearchResultsModal() {
+  renderSearchResults();
+  document.getElementById("searchResultsModal").hidden = false;
+}
+function closeSearchResultsModal() {
+  document.getElementById("searchResultsModal").hidden = true;
+}
+
 function openInsightsModal() {
   document.getElementById("insightsModal").hidden = false;
   renderAppInsights();
@@ -5348,6 +5569,20 @@ function init() {
     if (!document.getElementById("bookmarksNextBtn").disabled) {
       bookmarksPage++;
       renderBookmarksList();
+    }
+  });
+
+  document.getElementById("closeSearchResults").addEventListener("click", closeSearchResultsModal);
+  document.getElementById("searchResultsPrevBtn").addEventListener("click", () => {
+    if (searchResultsPage > 0) {
+      searchResultsPage--;
+      renderSearchResults();
+    }
+  });
+  document.getElementById("searchResultsNextBtn").addEventListener("click", () => {
+    if (!document.getElementById("searchResultsNextBtn").disabled) {
+      searchResultsPage++;
+      renderSearchResults();
     }
   });
 
