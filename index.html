@@ -241,7 +241,8 @@
     <input id="searchInput" type="search" name="q" placeholder="Search the web" autocomplete="off" />
   </form>
 
-  <div id="insightsBarWrap" class="insights-bar-wrap" hidden role="button" tabindex="0" aria-label="View detailed insights">
+  <div id="insightsBarWrap" class="insights-bar-wrap" role="button" tabindex="0" aria-label="View detailed insights">
+    <div id="insightsBarEmpty" class="insights-bar-empty" hidden>No data yet. Insights appear once you open an app from the dock or turn scroll ON.</div>
     <div id="insightsBarTrack" class="insights-bar-track"></div>
     <div id="insightsBarLegend" class="insights-bar-legend"></div>
     <div id="insightsScrollLine" class="insights-scroll-line" hidden></div>
@@ -322,6 +323,10 @@
         </div>
         <div id="insightsGoalText" class="insights-goal-text"></div>
         <div id="insightsGoalTrend" class="insights-goal-trend" hidden></div>
+        <div id="insightsWeekChart" class="insights-week-chart" hidden>
+          <div class="insights-week-chart-title">Last 7 days</div>
+          <div id="insightsWeekChartCols" class="insights-week-chart-cols"></div>
+        </div>
       </div>
 
       <nav class="insights-period-tabs" role="tablist" aria-label="Choose a time period">

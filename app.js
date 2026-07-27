@@ -379,6 +379,7 @@ const UI_I18N = {
     "Posture:": "Postura:",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar a cabeça para frente para olhar o celular pode adicionar até cerca de 27 kg de sobrecarga efetiva no pescoço, segundo uma pesquisa sobre estresse na coluna do Dr. Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada disso é para gerar culpa. É por isso que um motivo, um limite de tempo e um PIN podem ajudar mais do que só força de vontade.",
+    "Last 7 days": "Últimos 7 dias",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -674,6 +675,7 @@ const UI_I18N = {
     "Posture:": "Haltung:",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "wenn du den Kopf nach vorne neigst, um aufs Handy zu schauen, kann das laut einer Studie zur Wirbelsäulenbelastung von Dr. Kenneth Hansraj (2014) eine effektive Belastung von bis zu rund 27 kg auf den Nacken bedeuten.",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Bei alldem geht es nicht um Schuldgefühle. Genau deshalb können ein Grund, ein Zeitlimit und eine PIN mehr bewirken als Willenskraft allein.",
+    "Last 7 days": "Letzte 7 Tage",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -969,6 +971,7 @@ const UI_I18N = {
     "Posture:": "Posture :",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "pencher la tête en avant pour regarder son téléphone peut ajouter jusqu'à environ 27 kg de tension effective sur la nuque, selon une étude sur le stress vertébral du Dr Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Rien de tout cela n'a pour but de vous culpabiliser. C'est pour ça qu'une raison, une limite de temps et un code PIN peuvent faire plus que la seule volonté.",
+    "Last 7 days": "7 derniers jours",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1264,6 +1267,7 @@ const UI_I18N = {
     "Posture:": "자세:",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj 박사의 2014년 척추 부담 연구에 따르면, 폰을 보기 위해 고개를 숙이면 목에 최대 약 27kg에 달하는 부담이 가해질 수 있습니다.",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "이 모든 것은 죄책감을 주기 위한 것이 아닙니다. 그래서 이유, 제한 시간, PIN이 의지력만으로는 부족한 부분을 채워줄 수 있습니다.",
+    "Last 7 days": "최근 7일",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1559,6 +1563,7 @@ const UI_I18N = {
     "Posture:": "姿势负担：",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "根据 Kenneth Hansraj 博士 2014 年的脊柱压力研究，低头看手机会给颈部带来相当于约 27 公斤的额外负荷。",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "这些都不是为了让你有负罪感。正因如此，一个理由、一个时间限制和一个 PIN，往往比单靠意志力更管用。",
+    "Last 7 days": "最近 7 天",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1854,6 +1859,7 @@ const UI_I18N = {
     "Posture:": "Postura:",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar la cabeza hacia adelante para mirar el teléfono puede añadir hasta unos 27 kg de tensión efectiva sobre el cuello, según una investigación sobre estrés de la columna del Dr. Kenneth Hansraj (2014).",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada de esto busca hacerte sentir culpable. Por eso un motivo, un límite de tiempo y un PIN pueden ayudar más que la fuerza de voluntad por sí sola.",
+    "Last 7 days": "Últimos 7 días",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2159,6 +2165,7 @@ const UI_I18N = {
     "Posture:": "姿勢：",
     "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj博士による2014年の脊椎への負荷に関する研究によると、スマホを見るために頭を前に傾けると、首には最大で約27kg分の負荷がかかるとされています。",
     "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "これは罪悪感を持たせるためのものではありません。だからこそ、理由・制限時間・PINが、意志の力だけよりも役に立つのです。",
+    "Last 7 days": "直近7日間",
   },
 };
 
@@ -3022,10 +3029,11 @@ function insightsShade(accent, index) {
 // 薄い横棒グラフ。アクセントカラーの濃淡だけで区画を塗り分ける。
 function renderInsightsBar() {
   const wrap = document.getElementById("insightsBarWrap");
+  const empty = document.getElementById("insightsBarEmpty");
   const track = document.getElementById("insightsBarTrack");
   const legend = document.getElementById("insightsBarLegend");
   const scrollLine = document.getElementById("insightsScrollLine");
-  if (!wrap || !track || !legend || !scrollLine) return;
+  if (!wrap || !empty || !track || !legend || !scrollLine) return;
 
   const data = getAppInsights();
   const ids = Object.keys(data).filter((id) => data[id].opens > 0);
@@ -3034,11 +3042,15 @@ function renderInsightsBar() {
   const scrollOnTimeMs = getScrollOnTimeMs();
   const hasScrollData = scrollOnCount > 0 || scrollGestureCount > 0;
 
+  // データが無くても消さず、案内文を出したままにしておく（見つけやすさのため常時表示）。
   if (ids.length === 0 && !hasScrollData) {
-    wrap.hidden = true;
+    empty.hidden = false;
+    track.hidden = true;
+    legend.hidden = true;
+    scrollLine.hidden = true;
     return;
   }
-  wrap.hidden = false;
+  empty.hidden = true;
 
   if (ids.length === 0) {
     track.hidden = true;
@@ -4163,6 +4175,56 @@ function renderInsightsGoalCard() {
   } else {
     trendEl.hidden = true;
   }
+
+  renderInsightsWeekChart(today, goalMs);
+}
+
+// 直近7日間（今日含む）の合計利用時間を棒グラフにする。1行の%表示だけより、
+// 波があるのか下がってきているのかが一目で分かるようにするため。
+function renderInsightsWeekChart(today, goalMs) {
+  const chart = document.getElementById("insightsWeekChart");
+  const cols = document.getElementById("insightsWeekChartCols");
+  if (!chart || !cols) return;
+
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date(today);
+    day.setDate(day.getDate() - i);
+    days.push({ date: day, ms: totalUsageMsForDay(day), isToday: i === 0 });
+  }
+
+  const hasAnyData = days.some((d) => d.ms > 0) || goalMs !== null;
+  if (!hasAnyData) {
+    chart.hidden = true;
+    return;
+  }
+  chart.hidden = false;
+
+  const max = Math.max(goalMs || 0, ...days.map((d) => d.ms), 1);
+  const weekdayFormat = new Intl.DateTimeFormat(currentLanguage, { weekday: "short" });
+
+  cols.innerHTML = "";
+  days.forEach((d) => {
+    const col = document.createElement("div");
+    col.className = "insights-week-chart-col";
+
+    const barTrack = document.createElement("div");
+    barTrack.className = "insights-week-chart-bar-track";
+    const bar = document.createElement("div");
+    bar.className = "insights-week-chart-bar";
+    if (goalMs !== null) bar.classList.add(d.ms > goalMs ? "is-over" : "is-under");
+    bar.style.height = `${Math.max(2, (d.ms / max) * 100)}%`;
+    bar.title = formatInsightDuration(d.ms);
+    barTrack.appendChild(bar);
+
+    const label = document.createElement("div");
+    label.className = "insights-week-chart-label";
+    if (d.isToday) label.classList.add("is-today");
+    label.textContent = d.isToday ? t("Today") : weekdayFormat.format(d.date);
+
+    col.append(barTrack, label);
+    cols.appendChild(col);
+  });
 }
 
 function updateInsightsPeriodUI() {
