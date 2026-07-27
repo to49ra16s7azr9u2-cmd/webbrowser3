@@ -72,21 +72,37 @@
 <div id="onboardingScreen" class="onboarding-screen" hidden>
   <div class="onboarding-box">
     <div id="onboardingStepLanguage" class="onboarding-step">
-      <p class="onboarding-eyebrow">Step 1 of 6</p>
+      <p class="onboarding-eyebrow">Step 1 of 7</p>
       <h2 class="onboarding-title">Choose your language</h2>
       <p class="modal-desc">This sets the language for the next step, where you'll write about your interests.</p>
       <div id="onboardingLanguageList" class="language-list"></div>
     </div>
 
+    <div id="onboardingStepResearch" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 2 of 7</p>
+      <h2 class="onboarding-title">Why this app exists</h2>
+      <p class="modal-desc">A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.</p>
+      <ul class="research-list">
+        <li><strong>Touching:</strong> a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.</li>
+        <li><strong>Scrolling:</strong> infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.</li>
+        <li><strong>Checking:</strong> a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.</li>
+        <li><strong>Posture:</strong> tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).</li>
+      </ul>
+      <p class="modal-desc">None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.</p>
+      <div class="modal-actions">
+        <button id="onboardingResearchNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
     <div id="onboardingStepCountry" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 2 of 6</p>
+      <p class="onboarding-eyebrow">Step 3 of 7</p>
       <h2 class="onboarding-title">Choose your country</h2>
       <p class="modal-desc">This helps match you with relevant local news later on. More countries will be added over time.</p>
       <div id="onboardingCountryList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepPin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 3 of 6</p>
+      <p class="onboarding-eyebrow">Step 4 of 7</p>
       <h2 class="onboarding-title">Set up your PINs (optional)</h2>
       <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
       <label class="field">
@@ -120,7 +136,7 @@
     </div>
 
     <div id="onboardingStepInterests" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 4 of 6</p>
+      <p class="onboarding-eyebrow">Step 5 of 7</p>
       <h2 id="interestsStepTitle" class="onboarding-title">What are you interested in?</h2>
       <p id="interestsStepDesc" class="modal-desc">Write a few sentences about what you like. We'll pick out topics automatically.</p>
       <textarea id="interestsTextInput" class="interests-textarea" rows="5" placeholder="e.g. I love watching soccer, and I'm really into new phones and gadgets..."></textarea>
@@ -130,7 +146,7 @@
     </div>
 
     <div id="onboardingStepSns" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 5 of 6</p>
+      <p class="onboarding-eyebrow">Step 6 of 7</p>
       <h2 class="onboarding-title">Which social media do you use?</h2>
       <p class="modal-desc">Choose the ones you want quick access to from your dock.</p>
       <ul id="onboardingSnsList" class="app-candidate-list"></ul>
@@ -140,7 +156,7 @@
     </div>
 
     <div id="onboardingStepLogin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 6 of 6</p>
+      <p class="onboarding-eyebrow">Step 7 of 7</p>
       <h2 class="onboarding-title">Log in to your apps</h2>
       <p class="modal-desc">Open each app to sign in there. You can also do this later.</p>
       <ul id="onboardingLoginList" class="onboarding-login-list"></ul>
@@ -296,6 +312,18 @@
     </section>
 
     <section id="panel-insights" class="panel" data-panel="insights">
+      <div id="insightsGoalCard" class="insights-goal-card" hidden>
+        <div class="insights-goal-header">
+          <span class="insights-goal-title">Today</span>
+          <span id="insightsGoalStreak" class="insights-goal-streak" hidden></span>
+        </div>
+        <div id="insightsGoalBar" class="insights-goal-bar" hidden>
+          <div id="insightsGoalBarFill" class="insights-goal-bar-fill"></div>
+        </div>
+        <div id="insightsGoalText" class="insights-goal-text"></div>
+        <div id="insightsGoalTrend" class="insights-goal-trend" hidden></div>
+      </div>
+
       <nav class="insights-period-tabs" role="tablist" aria-label="Choose a time period">
         <button class="insights-period-tab is-active" data-period="all" type="button">All time</button>
         <button class="insights-period-tab" data-period="hour" type="button">Hour</button>
@@ -351,11 +379,6 @@
       <button class="result-type-tab" data-type="maps" type="button">Maps</button>
       <button class="result-type-tab" data-type="shopping" type="button">Shopping</button>
     </nav>
-    <div id="aiSummaryBox" class="ai-summary" hidden>
-      <div class="ai-summary-label">AI Summary</div>
-      <p id="aiSummaryText" class="ai-summary-text scrollable-allow"></p>
-      <button id="aiSummaryMoreBtn" class="ai-summary-more-btn" type="button" aria-expanded="false">Read more</button>
-    </div>
     <div id="searchResultsList" class="search-results-list"></div>
     <div class="search-pagination">
       <button id="searchPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">‹</span> Prev</button>
@@ -520,6 +543,14 @@
       </section>
 
       <section id="settingsPage-insights" class="settings-page settings-section" hidden>
+        <h3>Daily usage goal</h3>
+        <p class="modal-desc">Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.</p>
+        <div class="add-row">
+          <input id="insightsGoalInput" type="number" inputmode="numeric" min="1" max="1440" placeholder="Minutes per day" />
+          <button id="saveInsightsGoalBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+        <button id="clearInsightsGoalBtn" class="text-btn" type="button" hidden>Remove goal</button>
+
         <h3>App Insights</h3>
         <p class="modal-desc">How often you open each app from the dock, and roughly how long you're away for. Times are estimated from when you leave and come back to this app, not from inside the other app.</p>
         <ul id="appInsightsList" class="insights-list"></ul>

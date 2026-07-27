@@ -33,6 +33,8 @@ const STORAGE_KEYS = {
   biometricScrollCredentialId: "myhome:biometricScrollCredentialId",
   biometricCameraPreview: "myhome:biometricCameraPreview",
   insightsHourly: "myhome:insightsHourly",
+  insightsGoalMinutes: "myhome:insightsGoalMinutes",
+  insightsGoalSetAt: "myhome:insightsGoalSetAt",
 };
 
 const DEFAULT_APPEARANCE = { accent: "#65a30d", bg: "#ffffff", bgImage: null };
@@ -106,9 +108,6 @@ const UI_I18N = {
     "Images": "Imagens",
     "Maps": "Mapas",
     "Shopping": "Compras",
-    "AI Summary": "Resumo da IA",
-    "Read more": "Ler mais",
-    "Close": "Recolher",
     "Prev": "Anterior",
     "Next": "Próximo",
     "Close search results": "Fechar resultados da pesquisa",
@@ -159,12 +158,6 @@ const UI_I18N = {
     "4-digit PIN": "PIN de 4 dígitos",
     "Turn ON": "Ativar",
     "Unlock with Face ID / Fingerprint": "Desbloquear com Face ID / impressão digital",
-    "Step 1 of 6": "Etapa 1 de 6",
-    "Step 2 of 6": "Etapa 2 de 6",
-    "Step 3 of 6": "Etapa 3 de 6",
-    "Step 4 of 6": "Etapa 4 de 6",
-    "Step 5 of 6": "Etapa 5 de 6",
-    "Step 6 of 6": "Etapa 6 de 6",
     "Choose your language": "Escolha seu idioma",
     "This sets the language for the next step, where you'll write about your interests.": "Isso define o idioma de todo o app, inclusive da próxima etapa, em que você escreverá sobre seus interesses.",
     "Choose your country": "Escolha seu país",
@@ -354,6 +347,38 @@ const UI_I18N = {
     "Custom…": "Personalizado…",
     "Set a time limit of at least 1 minute": "Defina um limite de pelo menos 1 minuto",
     "{hours}h {minutes}m": "{hours} h {minutes} min",
+    "Today": "Hoje",
+    "Daily usage goal": "Meta diária",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "Defina seu próprio limite diário somando todos os apps e o tempo de rolagem. As estatísticas acompanham seu progresso em relação ao seu próprio número, não a um número escolhido pelo app.",
+    "Minutes per day": "Minutos por dia",
+    "Remove goal": "Remover meta",
+    "{used} of your {goal} goal": "{used} da sua meta de {goal}",
+    "{count} day within your goal": "{count} dia dentro da sua meta",
+    "{count} days within your goal": "{count} dias dentro da sua meta",
+    "Set a daily goal in Settings to track your progress": "Defina uma meta diária nos ajustes para acompanhar seu progresso",
+    "{percent}% above your recent average": "{percent}% acima da sua média recente",
+    "{percent}% below your recent average": "{percent}% abaixo da sua média recente",
+    "Enter a number of minutes": "Digite um número de minutos",
+    "Goal saved": "Meta salva",
+    "Goal removed": "Meta removida",
+    "Step 1 of 7": "Etapa 1 de 7",
+    "Step 2 of 7": "Etapa 2 de 7",
+    "Step 3 of 7": "Etapa 3 de 7",
+    "Step 4 of 7": "Etapa 4 de 7",
+    "Step 5 of 7": "Etapa 5 de 7",
+    "Step 6 of 7": "Etapa 6 de 7",
+    "Step 7 of 7": "Etapa 7 de 7",
+    "Why this app exists": "Por que este app existe",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Algumas coisas que pesquisas descobriram sobre como tocamos, rolamos e deslizamos o celular — não para te fazer sentir mal, só para você saber que o atrito deste app se baseia em algo real.",
+    "Touching:": "Tocar na tela:",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "um estudo de 2016 da empresa de pesquisa dscout descobriu que, em média, uma pessoa toca no celular cerca de 2.617 vezes por dia — e quem mais usa, mais de 5.400 vezes.",
+    "Scrolling:": "Rolar a tela:",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "os feeds de rolagem infinita funcionam com o mesmo padrão de recompensa variável e imprevisível que torna as máquinas caça-níqueis difíceis de largar — uma escolha de design que pesquisadores e ex-profissionais de tecnologia já compararam diretamente à psicologia do jogo.",
+    "Checking:": "Checar o celular:",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "um estudo sobre formação de hábitos de Oulasvirta e colegas (2012) descobriu que a maioria das checadas no celular dura menos de 30 segundos e é motivada por tédio ou hábito, não por necessidade real — o que ajuda a explicar por que passam despercebidas.",
+    "Posture:": "Postura:",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar a cabeça para frente para olhar o celular pode adicionar até cerca de 27 kg de sobrecarga efetiva no pescoço, segundo uma pesquisa sobre estresse na coluna do Dr. Kenneth Hansraj (2014).",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada disso é para gerar culpa. É por isso que um motivo, um limite de tempo e um PIN podem ajudar mais do que só força de vontade.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -378,9 +403,6 @@ const UI_I18N = {
     "Images": "Bilder",
     "Maps": "Karten",
     "Shopping": "Shopping",
-    "AI Summary": "KI-Zusammenfassung",
-    "Read more": "Weiterlesen",
-    "Close": "Einklappen",
     "Prev": "Zurück",
     "Next": "Weiter",
     "Close search results": "Suchergebnisse schließen",
@@ -431,12 +453,6 @@ const UI_I18N = {
     "4-digit PIN": "4-stellige PIN",
     "Turn ON": "Einschalten",
     "Unlock with Face ID / Fingerprint": "Mit Face ID / Fingerabdruck entsperren",
-    "Step 1 of 6": "Schritt 1 von 6",
-    "Step 2 of 6": "Schritt 2 von 6",
-    "Step 3 of 6": "Schritt 3 von 6",
-    "Step 4 of 6": "Schritt 4 von 6",
-    "Step 5 of 6": "Schritt 5 von 6",
-    "Step 6 of 6": "Schritt 6 von 6",
     "Choose your language": "Sprache wählen",
     "This sets the language for the next step, where you'll write about your interests.": "Das legt die Sprache der gesamten App fest – auch für den nächsten Schritt, in dem du deine Interessen beschreibst.",
     "Choose your country": "Land wählen",
@@ -626,6 +642,38 @@ const UI_I18N = {
     "Custom…": "Eigene Dauer…",
     "Set a time limit of at least 1 minute": "Stelle ein Zeitlimit von mindestens 1 Minute ein",
     "{hours}h {minutes}m": "{hours} Std. {minutes} Min.",
+    "Today": "Heute",
+    "Daily usage goal": "Tagesziel",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "Lege dein eigenes Tageslimit für alle Apps und die Scrollzeit zusammen fest. Die Nutzung wird an deiner eigenen Zahl gemessen, nicht an einer, die diese App für dich ausgesucht hat.",
+    "Minutes per day": "Minuten pro Tag",
+    "Remove goal": "Ziel entfernen",
+    "{used} of your {goal} goal": "{used} von deinem Ziel {goal}",
+    "{count} day within your goal": "{count} Tag im Rahmen deines Ziels",
+    "{count} days within your goal": "{count} Tage im Rahmen deines Ziels",
+    "Set a daily goal in Settings to track your progress": "Lege in den Einstellungen ein Tagesziel fest, um deinen Fortschritt zu sehen",
+    "{percent}% above your recent average": "{percent}% über deinem letzten Durchschnitt",
+    "{percent}% below your recent average": "{percent}% unter deinem letzten Durchschnitt",
+    "Enter a number of minutes": "Gib eine Anzahl Minuten ein",
+    "Goal saved": "Ziel gespeichert",
+    "Goal removed": "Ziel entfernt",
+    "Step 1 of 7": "Schritt 1 von 7",
+    "Step 2 of 7": "Schritt 2 von 7",
+    "Step 3 of 7": "Schritt 3 von 7",
+    "Step 4 of 7": "Schritt 4 von 7",
+    "Step 5 of 7": "Schritt 5 von 7",
+    "Step 6 of 7": "Schritt 6 von 7",
+    "Step 7 of 7": "Schritt 7 von 7",
+    "Why this app exists": "Warum es diese App gibt",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Ein paar Dinge, die die Forschung darüber herausgefunden hat, wie wir unser Handy berühren, scrollen und wischen — nicht um dir ein schlechtes Gewissen zu machen, sondern damit du weißt, dass die kleinen Hürden in dieser App auf echten Erkenntnissen beruhen.",
+    "Touching:": "Berühren:",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "eine Studie des Forschungsunternehmens dscout aus dem Jahr 2016 ergab, dass eine durchschnittliche Person ihr Handy etwa 2617 Mal am Tag berührt — bei den intensivsten Nutzern waren es über 5400 Mal.",
+    "Scrolling:": "Scrollen:",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "Feeds mit endlosem Scrollen funktionieren nach demselben unvorhersehbaren, variablen Belohnungsmuster, das auch Spielautomaten so schwer loslassbar macht — ein Design, das Forschende und ehemalige Tech-Insider direkt mit der Psychologie des Glücksspiels verglichen haben.",
+    "Checking:": "Ständiges Nachsehen:",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "eine Studie zur Gewohnheitsbildung von Oulasvirta und Kollegen (2012) fand heraus, dass die meisten Blicke aufs Handy weniger als 30 Sekunden dauern und durch Langeweile oder Gewohnheit ausgelöst werden, nicht durch echten Bedarf — auch deshalb fallen sie kaum auf.",
+    "Posture:": "Haltung:",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "wenn du den Kopf nach vorne neigst, um aufs Handy zu schauen, kann das laut einer Studie zur Wirbelsäulenbelastung von Dr. Kenneth Hansraj (2014) eine effektive Belastung von bis zu rund 27 kg auf den Nacken bedeuten.",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Bei alldem geht es nicht um Schuldgefühle. Genau deshalb können ein Grund, ein Zeitlimit und eine PIN mehr bewirken als Willenskraft allein.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -650,9 +698,6 @@ const UI_I18N = {
     "Images": "Images",
     "Maps": "Cartes",
     "Shopping": "Achats",
-    "AI Summary": "Résumé IA",
-    "Read more": "Lire la suite",
-    "Close": "Réduire",
     "Prev": "Préc.",
     "Next": "Suiv.",
     "Close search results": "Fermer les résultats de recherche",
@@ -703,12 +748,6 @@ const UI_I18N = {
     "4-digit PIN": "Code PIN à 4 chiffres",
     "Turn ON": "Activer",
     "Unlock with Face ID / Fingerprint": "Déverrouiller avec Face ID / empreinte",
-    "Step 1 of 6": "Étape 1 sur 6",
-    "Step 2 of 6": "Étape 2 sur 6",
-    "Step 3 of 6": "Étape 3 sur 6",
-    "Step 4 of 6": "Étape 4 sur 6",
-    "Step 5 of 6": "Étape 5 sur 6",
-    "Step 6 of 6": "Étape 6 sur 6",
     "Choose your language": "Choisissez votre langue",
     "This sets the language for the next step, where you'll write about your interests.": "Ceci définit la langue de toute l'application, y compris l'étape suivante où vous décrirez vos centres d'intérêt.",
     "Choose your country": "Choisissez votre pays",
@@ -898,6 +937,38 @@ const UI_I18N = {
     "Custom…": "Personnalisé…",
     "Set a time limit of at least 1 minute": "Choisissez une limite d'au moins 1 minute",
     "{hours}h {minutes}m": "{hours} h {minutes} min",
+    "Today": "Aujourd'hui",
+    "Daily usage goal": "Objectif quotidien",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "Définissez votre propre limite de temps quotidienne, toutes apps et défilement confondus. Les statistiques suivent votre progression par rapport à votre propre chiffre, pas un chiffre choisi par l'app.",
+    "Minutes per day": "Minutes par jour",
+    "Remove goal": "Supprimer l'objectif",
+    "{used} of your {goal} goal": "{used} sur votre objectif de {goal}",
+    "{count} day within your goal": "{count} jour dans les limites de votre objectif",
+    "{count} days within your goal": "{count} jours dans les limites de votre objectif",
+    "Set a daily goal in Settings to track your progress": "Définissez un objectif quotidien dans les réglages pour suivre votre progression",
+    "{percent}% above your recent average": "{percent}% au-dessus de votre moyenne récente",
+    "{percent}% below your recent average": "{percent}% en dessous de votre moyenne récente",
+    "Enter a number of minutes": "Saisissez un nombre de minutes",
+    "Goal saved": "Objectif enregistré",
+    "Goal removed": "Objectif supprimé",
+    "Step 1 of 7": "Étape 1 sur 7",
+    "Step 2 of 7": "Étape 2 sur 7",
+    "Step 3 of 7": "Étape 3 sur 7",
+    "Step 4 of 7": "Étape 4 sur 7",
+    "Step 5 of 7": "Étape 5 sur 7",
+    "Step 6 of 7": "Étape 6 sur 7",
+    "Step 7 of 7": "Étape 7 sur 7",
+    "Why this app exists": "Pourquoi cette app existe",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Quelques constats de la recherche sur la façon dont on touche, on fait défiler et on balaie l'écran de son téléphone, pas pour vous culpabiliser, mais pour que vous sachiez que la friction de cette app repose sur des faits réels.",
+    "Touching:": "Toucher l'écran :",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "une étude de 2016 menée par le cabinet dscout a montré qu'une personne touche en moyenne son téléphone environ 2617 fois par jour, et jusqu'à plus de 5400 fois chez les plus gros utilisateurs.",
+    "Scrolling:": "Faire défiler :",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "les fils à défilement infini reposent sur le même schéma de récompense variable et imprévisible qui rend les machines à sous difficiles à quitter, un choix de conception que des chercheurs et d'anciens employés de la tech ont directement comparé à la psychologie du jeu d'argent.",
+    "Checking:": "Vérifier son téléphone :",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "une étude de 2012 sur la formation des habitudes (Oulasvirta et ses collègues) a montré que la plupart des vérifications du téléphone durent moins de 30 secondes et sont déclenchées par l'ennui ou l'habitude, pas par un vrai besoin, ce qui explique en partie pourquoi elles passent inaperçues.",
+    "Posture:": "Posture :",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "pencher la tête en avant pour regarder son téléphone peut ajouter jusqu'à environ 27 kg de tension effective sur la nuque, selon une étude sur le stress vertébral du Dr Kenneth Hansraj (2014).",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Rien de tout cela n'a pour but de vous culpabiliser. C'est pour ça qu'une raison, une limite de temps et un code PIN peuvent faire plus que la seule volonté.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -922,9 +993,6 @@ const UI_I18N = {
     "Images": "이미지",
     "Maps": "지도",
     "Shopping": "쇼핑",
-    "AI Summary": "AI 요약",
-    "Read more": "더 읽기",
-    "Close": "접기",
     "Prev": "이전",
     "Next": "다음",
     "Close search results": "검색 결과 닫기",
@@ -975,12 +1043,6 @@ const UI_I18N = {
     "4-digit PIN": "4자리 PIN",
     "Turn ON": "켜기",
     "Unlock with Face ID / Fingerprint": "Face ID / 지문으로 잠금 해제",
-    "Step 1 of 6": "1/6 단계",
-    "Step 2 of 6": "2/6 단계",
-    "Step 3 of 6": "3/6 단계",
-    "Step 4 of 6": "4/6 단계",
-    "Step 5 of 6": "5/6 단계",
-    "Step 6 of 6": "6/6 단계",
     "Choose your language": "언어를 선택하세요",
     "This sets the language for the next step, where you'll write about your interests.": "앱 전체의 표시 언어가 되며, 다음 단계에서 관심사를 적을 때도 사용됩니다.",
     "Choose your country": "국가를 선택하세요",
@@ -1170,6 +1232,38 @@ const UI_I18N = {
     "Custom…": "직접 입력…",
     "Set a time limit of at least 1 minute": "제한 시간은 1분 이상으로 설정하세요",
     "{hours}h {minutes}m": "{hours}시간 {minutes}분",
+    "Today": "오늘",
+    "Daily usage goal": "하루 목표",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "모든 앱과 스크롤 시간을 합친 하루 시간 한도를 직접 정하세요. 통계는 이 앱이 정한 숫자가 아니라 본인이 정한 숫자를 기준으로 진행 상황을 보여줍니다.",
+    "Minutes per day": "하루 분 수",
+    "Remove goal": "목표 삭제",
+    "{used} of your {goal} goal": "목표 {goal} 중 {used} 사용",
+    "{count} day within your goal": "목표 이내로 {count}일 연속",
+    "{count} days within your goal": "목표 이내로 {count}일 연속",
+    "Set a daily goal in Settings to track your progress": "설정에서 하루 목표를 정하면 진행 상황을 볼 수 있습니다",
+    "{percent}% above your recent average": "최근 평균보다 {percent}% 많음",
+    "{percent}% below your recent average": "최근 평균보다 {percent}% 적음",
+    "Enter a number of minutes": "분 수를 입력하세요",
+    "Goal saved": "목표를 저장했습니다",
+    "Goal removed": "목표를 삭제했습니다",
+    "Step 1 of 7": "1단계 (전체 7단계)",
+    "Step 2 of 7": "2단계 (전체 7단계)",
+    "Step 3 of 7": "3단계 (전체 7단계)",
+    "Step 4 of 7": "4단계 (전체 7단계)",
+    "Step 5 of 7": "5단계 (전체 7단계)",
+    "Step 6 of 7": "6단계 (전체 7단계)",
+    "Step 7 of 7": "7단계 (전체 7단계)",
+    "Why this app exists": "이 앱을 만든 이유",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "우리가 스마트폰을 만지고, 스크롤하고, 스와이프하는 방식에 대해 연구가 밝혀낸 몇 가지 사실입니다. 기분 나쁘게 하려는 게 아니라, 이 앱의 '작은 번거로움'이 실제 근거에 바탕을 두고 있다는 것을 알려드리기 위해서입니다.",
+    "Touching:": "터치 횟수:",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "2016년 조사기관 dscout의 연구에 따르면 평균적으로 하루에 약 2,617번 스마트폰을 터치하며, 가장 많이 사용하는 사람은 5,400번을 넘었습니다.",
+    "Scrolling:": "스크롤:",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "무한 스크롤 피드는 슬롯머신을 끊기 어렵게 만드는 것과 같은, 예측할 수 없는 가변 보상 패턴으로 설계되어 있습니다. 연구자들과 전직 테크업계 관계자들은 이를 도박 심리와 직접 비교해 왔습니다.",
+    "Checking:": "확인 습관:",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "Oulasvirta와 동료들의 2012년 습관 형성 연구에 따르면, 대부분의 폰 확인은 30초 미만으로 이루어지며 실제 필요보다는 지루함이나 습관에 의해 촉발됩니다. 이것이 눈치채기 어려운 이유이기도 합니다.",
+    "Posture:": "자세:",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj 박사의 2014년 척추 부담 연구에 따르면, 폰을 보기 위해 고개를 숙이면 목에 최대 약 27kg에 달하는 부담이 가해질 수 있습니다.",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "이 모든 것은 죄책감을 주기 위한 것이 아닙니다. 그래서 이유, 제한 시간, PIN이 의지력만으로는 부족한 부분을 채워줄 수 있습니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1194,9 +1288,6 @@ const UI_I18N = {
     "Images": "图片",
     "Maps": "地图",
     "Shopping": "购物",
-    "AI Summary": "AI 摘要",
-    "Read more": "阅读更多",
-    "Close": "收起",
     "Prev": "上一页",
     "Next": "下一页",
     "Close search results": "关闭搜索结果",
@@ -1247,12 +1338,6 @@ const UI_I18N = {
     "4-digit PIN": "4 位 PIN",
     "Turn ON": "开启",
     "Unlock with Face ID / Fingerprint": "使用面容 / 指纹解锁",
-    "Step 1 of 6": "第 1 步／共 6 步",
-    "Step 2 of 6": "第 2 步／共 6 步",
-    "Step 3 of 6": "第 3 步／共 6 步",
-    "Step 4 of 6": "第 4 步／共 6 步",
-    "Step 5 of 6": "第 5 步／共 6 步",
-    "Step 6 of 6": "第 6 步／共 6 步",
     "Choose your language": "选择语言",
     "This sets the language for the next step, where you'll write about your interests.": "这将作为整个应用的显示语言，也包括下一步填写兴趣时使用的语言。",
     "Choose your country": "选择国家",
@@ -1442,6 +1527,38 @@ const UI_I18N = {
     "Custom…": "自定义…",
     "Set a time limit of at least 1 minute": "时间限制请设置为至少 1 分钟",
     "{hours}h {minutes}m": "{hours} 小时 {minutes} 分",
+    "Today": "今天",
+    "Daily usage goal": "每日目标",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "为所有应用加上滚动时间设定属于你自己的每日时间上限。统计会对照你自己设定的数字来显示进度，而不是本应用替你决定的数字。",
+    "Minutes per day": "每天的分钟数",
+    "Remove goal": "删除目标",
+    "{used} of your {goal} goal": "已用 {used}，目标为 {goal}",
+    "{count} day within your goal": "已连续 {count} 天达标",
+    "{count} days within your goal": "已连续 {count} 天达标",
+    "Set a daily goal in Settings to track your progress": "在设置中设定每日目标即可查看进度",
+    "{percent}% above your recent average": "比近期平均值高 {percent}%",
+    "{percent}% below your recent average": "比近期平均值低 {percent}%",
+    "Enter a number of minutes": "请输入分钟数",
+    "Goal saved": "目标已保存",
+    "Goal removed": "目标已删除",
+    "Step 1 of 7": "第 1 步（共 7 步）",
+    "Step 2 of 7": "第 2 步（共 7 步）",
+    "Step 3 of 7": "第 3 步（共 7 步）",
+    "Step 4 of 7": "第 4 步（共 7 步）",
+    "Step 5 of 7": "第 5 步（共 7 步）",
+    "Step 6 of 7": "第 6 步（共 7 步）",
+    "Step 7 of 7": "第 7 步（共 7 步）",
+    "Why this app exists": "为什么会有这款应用",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "以下是一些关于我们如何触摸、滚动、滑动手机的研究发现——不是为了让你难受，只是想让你知道这款应用里的“小麻烦”是有依据的。",
+    "Touching:": "触摸次数：",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "调研机构 dscout 在 2016 年的一项研究发现，普通人平均每天触摸手机约 2617 次，使用最频繁的人甚至超过 5400 次。",
+    "Scrolling:": "滚动刷新：",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "无限滚动的信息流采用的是和老虎机一样的不确定、可变奖励机制，让人很难停下来。研究者和前科技公司从业者都曾将其直接类比为赌博心理学。",
+    "Checking:": "反复查看：",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "Oulasvirta 等人在 2012 年的一项习惯养成研究发现，大多数查看手机的行为持续不到 30 秒，是由无聊或习惯触发的，而非真正的需要——这也是它难以被察觉的部分原因。",
+    "Posture:": "姿势负担：",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "根据 Kenneth Hansraj 博士 2014 年的脊柱压力研究，低头看手机会给颈部带来相当于约 27 公斤的额外负荷。",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "这些都不是为了让你有负罪感。正因如此，一个理由、一个时间限制和一个 PIN，往往比单靠意志力更管用。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1466,9 +1583,6 @@ const UI_I18N = {
     "Images": "Imágenes",
     "Maps": "Mapas",
     "Shopping": "Compras",
-    "AI Summary": "Resumen de IA",
-    "Read more": "Leer más",
-    "Close": "Cerrar",
     "Prev": "Anterior",
     "Next": "Siguiente",
     "Close search results": "Cerrar resultados de búsqueda",
@@ -1519,12 +1633,6 @@ const UI_I18N = {
     "4-digit PIN": "PIN de 4 dígitos",
     "Turn ON": "Activar",
     "Unlock with Face ID / Fingerprint": "Desbloquear con Face ID / huella",
-    "Step 1 of 6": "Paso 1 de 6",
-    "Step 2 of 6": "Paso 2 de 6",
-    "Step 3 of 6": "Paso 3 de 6",
-    "Step 4 of 6": "Paso 4 de 6",
-    "Step 5 of 6": "Paso 5 de 6",
-    "Step 6 of 6": "Paso 6 de 6",
     "Choose your language": "Elige tu idioma",
     "This sets the language for the next step, where you'll write about your interests.": "Define el idioma de toda la app, incluido el siguiente paso donde escribirás tus intereses.",
     "Choose your country": "Elige tu país",
@@ -1714,6 +1822,38 @@ const UI_I18N = {
     "Custom…": "Personalizado…",
     "Set a time limit of at least 1 minute": "Elige un límite de al menos 1 minuto",
     "{hours}h {minutes}m": "{hours} h {minutes} min",
+    "Today": "Hoy",
+    "Daily usage goal": "Meta diaria",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "Define tu propio límite de tiempo diario entre todas las apps y el tiempo con scroll. Las estadísticas miden tu progreso frente a tu propio número, no uno que haya elegido esta app.",
+    "Minutes per day": "Minutos al día",
+    "Remove goal": "Eliminar meta",
+    "{used} of your {goal} goal": "{used} de tu meta de {goal}",
+    "{count} day within your goal": "{count} día dentro de tu meta",
+    "{count} days within your goal": "{count} días dentro de tu meta",
+    "Set a daily goal in Settings to track your progress": "Define una meta diaria en Ajustes para ver tu progreso",
+    "{percent}% above your recent average": "{percent}% por encima de tu media reciente",
+    "{percent}% below your recent average": "{percent}% por debajo de tu media reciente",
+    "Enter a number of minutes": "Introduce un número de minutos",
+    "Goal saved": "Meta guardada",
+    "Goal removed": "Meta eliminada",
+    "Step 1 of 7": "Paso 1 de 7",
+    "Step 2 of 7": "Paso 2 de 7",
+    "Step 3 of 7": "Paso 3 de 7",
+    "Step 4 of 7": "Paso 4 de 7",
+    "Step 5 of 7": "Paso 5 de 7",
+    "Step 6 of 7": "Paso 6 de 7",
+    "Step 7 of 7": "Paso 7 de 7",
+    "Why this app exists": "Por qué existe esta app",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "Algunas cosas que la investigación ha descubierto sobre cómo tocamos, hacemos scroll y deslizamos el teléfono, no para hacerte sentir mal, sino para que sepas que la fricción de esta app se basa en algo real.",
+    "Touching:": "Tocar la pantalla:",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "un estudio de 2016 de la firma dscout encontró que la persona promedio toca su teléfono unas 2617 veces al día, y quienes más lo usan, más de 5400 veces.",
+    "Scrolling:": "Hacer scroll:",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "los feeds de scroll infinito funcionan con el mismo patrón de recompensa variable e impredecible que hace que las máquinas tragamonedas sean difíciles de dejar, un diseño que investigadores y exempleados de grandes tecnológicas han comparado directamente con la psicología del juego.",
+    "Checking:": "Revisar el teléfono:",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "un estudio sobre formación de hábitos de Oulasvirta y colegas (2012) encontró que la mayoría de las veces que revisamos el teléfono duran menos de 30 segundos y están motivadas por aburrimiento o costumbre, no por una necesidad real, lo que explica en parte por qué cuesta darse cuenta de que ocurren.",
+    "Posture:": "Postura:",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "inclinar la cabeza hacia adelante para mirar el teléfono puede añadir hasta unos 27 kg de tensión efectiva sobre el cuello, según una investigación sobre estrés de la columna del Dr. Kenneth Hansraj (2014).",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "Nada de esto busca hacerte sentir culpable. Por eso un motivo, un límite de tiempo y un PIN pueden ayudar más que la fuerza de voluntad por sí sola.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1740,9 +1880,6 @@ const UI_I18N = {
     "Images": "画像",
     "Maps": "地図",
     "Shopping": "ショッピング",
-    "AI Summary": "AI要約",
-    "Read more": "続きを読む",
-    "Close": "閉じる",
     "Prev": "前へ",
     "Next": "次へ",
     "Close search results": "検索結果を閉じる",
@@ -1798,12 +1935,6 @@ const UI_I18N = {
     "Turn ON": "ONにする",
     "Unlock with Face ID / Fingerprint": "Face ID / 指紋認証で解除",
     // ---- オンボーディング ----
-    "Step 1 of 6": "ステップ 1 / 6",
-    "Step 2 of 6": "ステップ 2 / 6",
-    "Step 3 of 6": "ステップ 3 / 6",
-    "Step 4 of 6": "ステップ 4 / 6",
-    "Step 5 of 6": "ステップ 5 / 6",
-    "Step 6 of 6": "ステップ 6 / 6",
     "Choose your language": "言語を選んでください",
     "This sets the language for the next step, where you'll write about your interests.": "アプリ全体の表示言語になります。次のステップの入力言語にもなります。",
     "Choose your country": "国を選んでください",
@@ -1996,6 +2127,38 @@ const UI_I18N = {
     "Custom…": "自由に決める…",
     "Set a time limit of at least 1 minute": "制限時間は1分以上にしてください",
     "{hours}h {minutes}m": "{hours}時間{minutes}分",
+    "Today": "今日",
+    "Daily usage goal": "1日の目標",
+    "Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.": "アプリ全体とスクロール時間を合わせた、1日の時間の上限を自分で決めてください。インサイトはこのアプリが決めた数字ではなく、あなた自身が決めた数字に対しての進み具合を表示します。",
+    "Minutes per day": "1日あたりの分数",
+    "Remove goal": "目標を削除",
+    "{used} of your {goal} goal": "目標{goal}のうち{used}",
+    "{count} day within your goal": "目標内で{count}日連続",
+    "{count} days within your goal": "目標内で{count}日連続",
+    "Set a daily goal in Settings to track your progress": "設定で1日の目標を決めると、進み具合を確認できます",
+    "{percent}% above your recent average": "直近の平均より{percent}%多い",
+    "{percent}% below your recent average": "直近の平均より{percent}%少ない",
+    "Enter a number of minutes": "分数を入力してください",
+    "Goal saved": "目標を保存しました",
+    "Goal removed": "目標を削除しました",
+    "Step 1 of 7": "第1ステップ（全7ステップ）",
+    "Step 2 of 7": "第2ステップ（全7ステップ）",
+    "Step 3 of 7": "第3ステップ（全7ステップ）",
+    "Step 4 of 7": "第4ステップ（全7ステップ）",
+    "Step 5 of 7": "第5ステップ（全7ステップ）",
+    "Step 6 of 7": "第6ステップ（全7ステップ）",
+    "Step 7 of 7": "第7ステップ（全7ステップ）",
+    "Why this app exists": "このアプリを作った理由",
+    "A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.": "スマホを触る・スクロールする・スワイプすることについて、研究で分かっていることをいくつか紹介します。責めるためではなく、このアプリの「ひと手間」が根拠のあるものだと知ってもらうためです。",
+    "Touching:": "タッチする回数：",
+    "a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.": "2016年の調査会社dscoutの研究によると、平均的な人は1日に約2,617回スマホに触れており、最も多い人では5,400回を超えていました。",
+    "Scrolling:": "スクロール：",
+    "infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.": "無限スクロールのフィードは、スロットマシンをやめられなくするのと同じ「不規則な報酬」の仕組みで作られています。研究者や元テック業界関係者は、これをギャンブルの心理と直接比較しています。",
+    "Checking:": "確認する行動：",
+    "a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.": "Oulasvirtaらによる2012年の習慣形成の研究では、スマホの確認のほとんどは30秒未満で、実際の必要性ではなく退屈さや習慣によって引き起こされていることが分かりました。これが、気づかないうちに繰り返してしまう理由の一つです。",
+    "Posture:": "姿勢：",
+    "tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).": "Kenneth Hansraj博士による2014年の脊椎への負荷に関する研究によると、スマホを見るために頭を前に傾けると、首には最大で約27kg分の負荷がかかるとされています。",
+    "None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.": "これは罪悪感を持たせるためのものではありません。だからこそ、理由・制限時間・PINが、意志の力だけよりも役に立つのです。",
   },
 };
 
@@ -2467,6 +2630,7 @@ function initOnboarding() {
   screen.hidden = false;
 
   const stepLanguage = document.getElementById("onboardingStepLanguage");
+  const stepResearch = document.getElementById("onboardingStepResearch");
   const stepCountry = document.getElementById("onboardingStepCountry");
   const stepPin = document.getElementById("onboardingStepPin");
   const stepInterests = document.getElementById("onboardingStepInterests");
@@ -2501,12 +2665,18 @@ function initOnboarding() {
       saveLanguage(lang.code);
       applyOnboardingLanguage(lang.code);
       stepLanguage.hidden = true;
-      stepCountry.hidden = false;
+      stepResearch.hidden = false;
     });
     languageList.appendChild(btn);
   });
 
-  /* ---- Step 2: country ---- */
+  /* ---- Step 2: 触る/スクロールする/スワイプするに関する研究の紹介 ---- */
+  document.getElementById("onboardingResearchNextBtn").addEventListener("click", () => {
+    stepResearch.hidden = true;
+    stepCountry.hidden = false;
+  });
+
+  /* ---- Step 3: country ---- */
   function renderOnboardingCountryList() {
     const countryList = document.getElementById("onboardingCountryList");
     countryList.innerHTML = "";
@@ -2525,7 +2695,7 @@ function initOnboarding() {
   }
   renderOnboardingCountryList();
 
-  /* ---- Step 3: app lock PIN + recovery question (optional) ---- */
+  /* ---- Step 4: app lock PIN + recovery question (optional) ---- */
   function goToInterestsStep() {
     stepPin.hidden = true;
     stepInterests.hidden = false;
@@ -2567,7 +2737,7 @@ function initOnboarding() {
     goToInterestsStep();
   });
 
-  /* ---- Step 4: interests, written freely in the chosen language ---- */
+  /* ---- Step 5: interests, written freely in the chosen language ---- */
   document.getElementById("interestsNextBtn").addEventListener("click", () => {
     const text = document.getElementById("interestsTextInput").value.trim();
     saveInterestsText(text);
@@ -2577,7 +2747,7 @@ function initOnboarding() {
     renderOnboardingSnsList();
   });
 
-  /* ---- Step 5: which SNS to use ---- */
+  /* ---- Step 6: which SNS to use ---- */
   document.getElementById("onboardingSnsNextBtn").addEventListener("click", () => {
     const checked = Array.from(
       document.querySelectorAll('#onboardingSnsList input[type="checkbox"]:checked')
@@ -2588,7 +2758,7 @@ function initOnboarding() {
     renderOnboardingLoginList(checked);
   });
 
-  /* ---- Step 6: log in to the chosen SNS ---- */
+  /* ---- Step 7: log in to the chosen SNS ---- */
   document.getElementById("onboardingFinishBtn").addEventListener("click", () => {
     saveOnboardingComplete(true);
     screen.hidden = true;
@@ -3469,6 +3639,16 @@ function formatDurationLabel(totalMinutes) {
    設定モーダル (理由 / 制限時間の追加・削除)
    ========================================================================== */
 
+// 設定ページの「1日の目標」入力欄を、保存済みの値に合わせて表示する。
+function refreshInsightsGoalSettingUI() {
+  const input = document.getElementById("insightsGoalInput");
+  const clearBtn = document.getElementById("clearInsightsGoalBtn");
+  if (!input || !clearBtn) return;
+  const minutes = getInsightsGoalMinutes();
+  input.value = minutes || "";
+  clearBtn.hidden = !minutes;
+}
+
 function renderReasonList() {
   const list = document.getElementById("reasonList");
   const reasons = getReasons();
@@ -3916,12 +4096,73 @@ function renderMainInsightsPanel() {
       }
     : aggregateInsightsForPrefix(insightsPeriodPrefix());
 
-  // 一覧は「残りの高さ」を実測して行数を決めるので、周辺(期間ナビ・カレンダー・
-  // グラフ)の表示切り替えを先に済ませてから最後に組む。順番を逆にすると、
-  // カレンダーが出た分だけ一覧がはみ出してしまう。
+  // 一覧は「残りの高さ」を実測して行数を決めるので、周辺(目標カード・期間ナビ・
+  // カレンダー・グラフ)の表示切り替えを先に済ませてから最後に組む。順番を逆にすると、
+  // 上の要素が出た分だけ一覧がはみ出してしまう。
+  renderInsightsGoalCard();
   updateInsightsPeriodUI();
   renderInsightsTimeChart(data.apps);
   PAGINATED_INSIGHTS.main.setData(data, t(INSIGHTS_PERIOD_EMPTY_MESSAGE[insightsPeriodType]));
+}
+
+// 「今日」の合計を、本人が決めた目標・直近平均と照らし合わせて見せるカード。
+// どの期間タブを見ていても常に「今日」についての表示で、ナビの日付には従わない。
+function renderInsightsGoalCard() {
+  const card = document.getElementById("insightsGoalCard");
+  if (!card) return;
+
+  const today = new Date();
+  const goalMinutes = getInsightsGoalMinutes();
+  const goalMs = goalMinutes ? goalMinutes * 60000 : null;
+  const todayMs = totalUsageMsForDay(today);
+  const avgMs = recentAverageUsageMs(today);
+
+  if (goalMs === null && avgMs === null) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+
+  const bar = document.getElementById("insightsGoalBar");
+  const fill = document.getElementById("insightsGoalBarFill");
+  const text = document.getElementById("insightsGoalText");
+  const streakEl = document.getElementById("insightsGoalStreak");
+  const trendEl = document.getElementById("insightsGoalTrend");
+
+  if (goalMs !== null) {
+    const isOver = todayMs > goalMs;
+    bar.hidden = false;
+    fill.style.width = `${Math.min(100, (todayMs / goalMs) * 100)}%`;
+    fill.classList.toggle("is-over", isOver);
+    fill.classList.toggle("is-under", !isOver);
+    text.textContent = tf("{used} of your {goal} goal", {
+      used: formatInsightDuration(todayMs),
+      goal: tf("{minutes} min", { minutes: goalMinutes }),
+    });
+
+    const streak = goalStreakDays(today, goalMs);
+    if (streak > 0) {
+      streakEl.hidden = false;
+      streakEl.textContent = tf(streak === 1 ? "{count} day within your goal" : "{count} days within your goal", { count: streak });
+    } else {
+      streakEl.hidden = true;
+    }
+  } else {
+    bar.hidden = true;
+    streakEl.hidden = true;
+    text.textContent = t("Set a daily goal in Settings to track your progress");
+  }
+
+  if (avgMs !== null && avgMs > 0) {
+    const percent = Math.round(Math.abs(todayMs - avgMs) / avgMs * 100);
+    trendEl.hidden = false;
+    trendEl.textContent = tf(
+      todayMs >= avgMs ? "{percent}% above your recent average" : "{percent}% below your recent average",
+      { percent }
+    );
+  } else {
+    trendEl.hidden = true;
+  }
 }
 
 function updateInsightsPeriodUI() {
@@ -4031,6 +4272,7 @@ function refreshTranslatedViews() {
   FocusTimer.refreshUI();
   renderReasonList();
   renderDurationList();
+  refreshInsightsGoalSettingUI();
   renderSettingsPage();
   renderDock();
   applyDockCollapsed();
@@ -4039,7 +4281,6 @@ function refreshTranslatedViews() {
   renderAppInsights();
   // オンボーディング中はまだページ送りが用意されていないので、その時は飛ばす。
   if (PAGINATED_INSIGHTS.main) renderMainInsightsPanel();
-  setAiSummaryExpanded(document.getElementById("aiSummaryBox").classList.contains("is-expanded"));
   refreshSearchResultsIfOpen();
   if (searchState.query) {
     document.getElementById("searchResultsQuery").textContent =
@@ -4568,6 +4809,65 @@ function dayHasActivity(date) {
   return Object.keys(hourly).some((key) => key.startsWith(prefix));
 }
 
+/* --------------------------------------------------------------------------
+   1日ごとの目標（自分で決めた1日の合計利用時間）
+   「アプリの判断で恥をかかせる」のではなく、本人が決めた基準に対しての
+   進捗として見せる。基準そのものが無ければ、直近平均との比較だけ示す。
+   -------------------------------------------------------------------------- */
+
+function getInsightsGoalMinutes() {
+  return loadJSON(STORAGE_KEYS.insightsGoalMinutes, null);
+}
+
+// 目標を保存した日時も一緒に控えておく。ストリークはこの日より前には遡らない
+// （さもないと「記録の無い日は自動的に達成扱い」になり、決めた直後から
+// 何日もの偽の連続達成が出てしまう）。
+function saveInsightsGoalMinutes(minutes) {
+  saveJSON(STORAGE_KEYS.insightsGoalMinutes, minutes);
+  saveJSON(STORAGE_KEYS.insightsGoalSetAt, minutes ? Date.now() : null);
+}
+
+function getInsightsGoalSetAt() {
+  return loadJSON(STORAGE_KEYS.insightsGoalSetAt, null);
+}
+
+// その日の合計利用時間（各アプリの滞在時間 + スクロールONだった時間）をミリ秒で返す。
+function totalUsageMsForDay(date) {
+  const data = aggregateInsightsForPrefix(dayPrefix(date));
+  const appsMs = Object.values(data.apps).reduce((sum, entry) => sum + (entry.totalTimeMs || 0), 0);
+  return appsMs + (data.scrollOnTimeMs || 0);
+}
+
+// 直近7日間（今日は含まない）で記録がある日だけを対象にした平均利用時間。
+// 比較できる過去が無ければ null を返す。
+function recentAverageUsageMs(referenceDate) {
+  const samples = [];
+  for (let i = 1; i <= 7; i++) {
+    const day = new Date(referenceDate);
+    day.setDate(day.getDate() - i);
+    if (dayHasActivity(day)) samples.push(totalUsageMsForDay(day));
+  }
+  if (samples.length === 0) return null;
+  return samples.reduce((sum, ms) => sum + ms, 0) / samples.length;
+}
+
+// 昨日から遡って、その日の合計が目標以内だった連続日数。
+// 記録が全く無い日も0として目標達成扱いにする一方、際限なく遡らないよう30日で打ち切る。
+function goalStreakDays(referenceDate, goalMs) {
+  const setAt = getInsightsGoalSetAt();
+  const setAtPrefix = setAt ? dayPrefix(new Date(setAt)) : null;
+  let streak = 0;
+  for (let i = 1; i <= 30; i++) {
+    const day = new Date(referenceDate);
+    day.setDate(day.getDate() - i);
+    // この目標を決めるより前の日は、達成扱いにも未達扱いにもしない。
+    if (setAtPrefix && dayPrefix(day) < setAtPrefix) break;
+    if (totalUsageMsForDay(day) > goalMs) break;
+    streak++;
+  }
+  return streak;
+}
+
 // アプリの中身は見えないため、「開くために離脱してから、このタブに戻ってくるまでの
 // 経過時間」を滞在時間の目安として記録する（詳細は前回の会話で説明した通りの近似値）。
 let pendingAwaySession = null;
@@ -4787,29 +5087,6 @@ const RESULT_TYPES = {
 // AIによる要約はモックのテンプレート文で、実際のLLM API連携は行っていない。
 // クライアント側のコードだけでLLMのAPIキーを直接扱うと画面のソースに露出してしまうため、
 // 本物のAI要約を実装する場合はサーバー/サーバーレス関数を経由してこの関数を置き換える。
-function generateMockSummary(query) {
-  return [
-    tf("{query} is a broad topic covered by official sites, encyclopedia entries, and community discussion. Sources generally agree on the core facts, though specifics vary. See the results below for more detail.", { query }),
-    tf("Coverage tends to fall into a few groups: official pages describing {query} directly, reference entries giving background and history, retailers and comparison pages, and news items on recent developments. Community threads add first-hand opinion but vary in reliability.", { query }),
-    tf("If you are new to {query}, start with the official site and the encyclopedia entry, then check the news results for anything that has changed recently.", { query }),
-  ].join("\n\n");
-}
-
-// 要約は既定で3行に省略し、「続きを読む」で全文に切り替える。
-// スクロールを増やさないよう、展開中は検索結果一覧側が縮んで高さを譲る。
-function setAiSummaryExpanded(expanded) {
-  const box = document.getElementById("aiSummaryBox");
-  const btn = document.getElementById("aiSummaryMoreBtn");
-  const view = document.getElementById("searchResultsView");
-  if (!box || !btn || !view) return;
-  box.classList.toggle("is-expanded", expanded);
-  // 展開中は要約に高さを全部渡す。結果一覧を残したまま伸ばすと、
-  // カードが潰れて文字が重なってしまうため。
-  view.classList.toggle("summary-expanded", expanded);
-  btn.textContent = expanded ? t("Close") : t("Read more");
-  btn.setAttribute("aria-expanded", String(expanded));
-}
-
 const searchState = { query: "", type: "all", results: [], page: 0 };
 
 function buildResultCard(item, type) {
@@ -4941,14 +5218,6 @@ function loadSearchResultsForType(type) {
     tab.classList.toggle("is-active", tab.dataset.type === type);
   });
 
-  const summaryBox = document.getElementById("aiSummaryBox");
-  if (type === "all") {
-    document.getElementById("aiSummaryText").textContent = generateMockSummary(searchState.query);
-    setAiSummaryExpanded(false);
-    summaryBox.hidden = false;
-  } else {
-    summaryBox.hidden = true;
-  }
 
   renderSearchResultsPage();
 }
@@ -5117,6 +5386,28 @@ function init() {
     renderDurationList();
   });
 
+  refreshInsightsGoalSettingUI();
+
+  document.getElementById("saveInsightsGoalBtn").addEventListener("click", () => {
+    const input = document.getElementById("insightsGoalInput");
+    const minutes = Number(input.value);
+    if (!minutes || minutes <= 0) {
+      showToast(t("Enter a number of minutes"));
+      return;
+    }
+    saveInsightsGoalMinutes(minutes);
+    refreshInsightsGoalSettingUI();
+    renderInsightsGoalCard();
+    showToast(t("Goal saved"));
+  });
+
+  document.getElementById("clearInsightsGoalBtn").addEventListener("click", () => {
+    saveInsightsGoalMinutes(null);
+    refreshInsightsGoalSettingUI();
+    renderInsightsGoalCard();
+    showToast(t("Goal removed"));
+  });
+
   document.getElementById("presetRow").addEventListener("click", (e) => {
     const swatch = e.target.closest(".preset-swatch");
     if (!swatch) return;
@@ -5192,11 +5483,6 @@ function init() {
 
   document.getElementById("closeSearchResults").addEventListener("click", closeSearchResults);
 
-  document.getElementById("aiSummaryMoreBtn").addEventListener("click", () => {
-    const expanded = document.getElementById("aiSummaryBox").classList.contains("is-expanded");
-    setAiSummaryExpanded(!expanded);
-  });
-
   document.getElementById("searchTypeTabs").addEventListener("click", (e) => {
     const tab = e.target.closest(".result-type-tab");
     if (!tab) return;
@@ -5211,7 +5497,8 @@ function init() {
   });
 
   document.getElementById("searchNextBtn").addEventListener("click", () => {
-    const totalPages = Math.ceil(searchState.results.length / searchState.perPage);
+    const perPage = RESULT_TYPES[searchState.type].perPage;
+    const totalPages = Math.ceil(searchState.results.length / perPage);
     if (searchState.page < totalPages - 1) {
       searchState.page++;
       renderSearchResultsPage();

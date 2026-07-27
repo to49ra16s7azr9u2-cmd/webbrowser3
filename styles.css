@@ -382,73 +382,6 @@ body.scroll-locked {
   color: #fff;
 }
 
-.ai-summary {
-  flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
-  border: 1px solid var(--accent);
-  border-radius: 4px;
-  padding: 6px 10px;
-  margin-bottom: 6px;
-}
-
-.ai-summary-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--accent-strong);
-  margin-bottom: 2px;
-}
-
-.ai-summary-text {
-  font-size: 11px;
-  color: var(--text);
-  line-height: 1.3;
-  margin: 0;
-  white-space: pre-line;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* 展開時は行数制限を外し、全文が入りきらない場合はこの中だけスクロールできる
-   （.scrollable-allowにより、スクロールOFF中でも中身は読める） */
-.ai-summary.is-expanded .ai-summary-text {
-  display: block;
-  -webkit-line-clamp: none;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* 展開中は結果一覧を隠し、空いた高さを要約に使う */
-.search-results.summary-expanded #searchResultsList,
-.search-results.summary-expanded .search-pagination {
-  display: none;
-}
-
-.search-results.summary-expanded .ai-summary {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.search-results.summary-expanded .ai-summary-text {
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.ai-summary-more-btn {
-  display: block;
-  margin: 4px 0 0 auto;
-  padding: 2px 0;
-  background: none;
-  border: none;
-  color: var(--accent-strong);
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
 .search-results-list {
   flex: 1 1 auto;
   min-height: 0;
@@ -1138,6 +1071,76 @@ body.scroll-locked {
 }
 
 /* 縦軸=利用時間 / 横軸=各アプリ の縦棒グラフ */
+/* 「今日」の合計を、本人が決めた目標・直近平均と照らし合わせるカード。
+   どの期間タブを見ていても常に一番上に出る。 */
+.insights-goal-card {
+  background: var(--bg-card);
+  border: none;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.insights-goal-card[hidden] { display: none; }
+
+.insights-goal-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.insights-goal-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+
+.insights-goal-streak {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-strong);
+}
+
+.insights-goal-streak[hidden] { display: none; }
+
+.insights-goal-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-subtle);
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.insights-goal-bar[hidden] { display: none; }
+
+.insights-goal-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.2s ease;
+}
+
+.insights-goal-bar-fill.is-under { background: var(--accent); }
+.insights-goal-bar-fill.is-over { background: var(--danger); }
+
+.insights-goal-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.insights-goal-trend {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.insights-goal-trend[hidden] { display: none; }
+
 .insights-time-chart {
   background: var(--bg-card);
   border: none;
@@ -1276,6 +1279,19 @@ body.scroll-locked {
   margin: 0 0 4px;
   font-size: 16px;
 }
+
+.research-list {
+  margin: 10px 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.research-list strong { color: var(--accent-strong); }
 
 .language-list {
   display: grid;
