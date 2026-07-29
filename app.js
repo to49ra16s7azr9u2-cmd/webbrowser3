@@ -34,11 +34,13 @@ const STORAGE_KEYS = {
   postureRemindersEnabled: "myhome:postureRemindersEnabled",
   browserTabs: "myhome:browserTabs",
   activeTabId: "myhome:activeTabId",
-  bookmarks: "myhome:bookmarks",
-  bookmarkWalls: "myhome:bookmarkWalls",
-  bookmarkShelfCapacity: "myhome:bookmarkShelfCapacity",
+  dictEntries: "myhome:dictEntries",
+  dictGroups: "myhome:dictGroups",
+  dictSort: "myhome:dictSort",
   browsingTimeMs: "myhome:browsingTimeMs",
   browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
+  feedAppsNeedScrollOn: "myhome:feedAppsNeedScrollOn",
+  scrollGatedApps: "myhome:scrollGatedApps",
   customApps: "myhome:customApps",
 };
 
@@ -266,7 +268,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "Temporizador iniciado — o app bloqueia em {label}",
     "Timer started for {label}": "Temporizador iniciado para {label}",
     "Open {app}?": "Abrir {app}?",
-    "You're about to leave MyHome Browser to open {app}.": "Você está prestes a sair do MyHome Browser para abrir {app}.",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
@@ -316,24 +317,16 @@ const UI_I18N = {
     "Step 3 of 4": "Passo 3 de 4",
     "Step 4 of 4": "Passo 4 de 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqueado: isso parece um domínio de anúncios ou rastreamento",
-    "Remove bookmark": "Remover favorito",
-    "Bookmark this page": "Adicionar esta página aos favoritos",
-    "No bookmarks yet. Open a page and tap the star to save it.": "Ainda não há favoritos. Abra uma página e toque na estrela para salvá-la.",
-    "Bookmark removed": "Favorito removido",
-    "Bookmark added": "Favorito adicionado",
     "Close tab \"{title}\"": "Fechar aba \"{title}\"",
-    "Bookmarks": "Favoritos",
     "Insights": "Estatísticas",
     "Search or enter a website above to start browsing.": "Pesquise ou digite um site acima para começar a navegar.",
-    "Open bookmarks": "Abrir favoritos",
     "Open insights": "Abrir estatísticas",
     "Search or go to address": "Pesquisar ou ir para um endereço",
     "Search or enter address": "Pesquisar ou digitar um endereço",
+    "Basic search": "Busca simples",
     "Open in browser": "Abrir no navegador",
     "Close insights": "Fechar estatísticas",
-    "Close bookmarks": "Fechar favoritos",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Digite uma pesquisa ou um site acima — ele abre como uma nova aba que você pode navegar bem aqui.",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Alterne entre as abas com os botões em pílula acima da página. Toque na estrela para adicionar aos favoritos; os botões Favoritos e Estatísticas no topo não mostram nada até você tocá-los.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "O bloqueio de anúncios só impede navegar diretamente para domínios de anúncios/rastreamento conhecidos — não remove anúncios de uma página que você já está vendo.",
     "Browsing": "Navegação",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "Já encontrou o que procurava? Você está navegando há {minutes} minutos.",
@@ -341,50 +334,68 @@ const UI_I18N = {
     "Still browsing": "Ainda navegando",
     "Keep browsing": "Continuar navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} não permite ser exibido dentro de outra página, então foi aberto no seu navegador.",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "A estante está cheia. Remova um livro ou aumente o limite em Gerenciar estantes.",
-    "— empty shelf —": "— prateleira vazia —",
-    "Not found": "Não encontrado",
-    "Please enter a title": "Por favor, insira um título",
     "Saved": "Salvo",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "Esta parede está cheia ({count} não couberam). Tente outra parede.",
-    "Thickness: {size} · Shelf: {wall}": "Espessura: {size} · Parede: {wall}",
-    "Wall {n}": "Parede {n}",
-    "Shelf space": "Espaço da estante",
-    "‹ Back to shelf": "‹ Voltar à estante",
     "Edit": "Editar",
     "Remove": "Remover",
     "Title": "Título",
-    "Spine color": "Cor da lombada",
-    "Indigo": "Índigo",
-    "Crimson": "Carmesim",
-    "Pine": "Pinho",
-    "Mustard": "Mostarda",
-    "Eggplant": "Berinjela",
-    "Teal": "Verde-azulado",
-    "Coral": "Coral",
-    "Ink": "Tinta",
-    "Spine decoration": "Decoração da lombada",
-    "Paper label": "Etiqueta de papel",
-    "Gold lines": "Linhas douradas",
-    "Plain": "Liso",
-    "Thickness:": "Espessura:",
-    "Shelf": "Parede",
-    "Rename this wall": "Renomear esta parede",
-    "Add a new wall": "Adicionar uma nova parede",
-    "+ Add wall": "+ Adicionar parede",
-    "Shelf space (capacity)": "Espaço da estante (capacidade)",
-    "Search your shelves…": "Pesquisar em suas estantes…",
-    "Previous wall": "Parede anterior",
-    "Bookshelf wall": "Parede da estante",
-    "Next wall": "Próxima parede",
-    "Manage shelves": "Gerenciar estantes",
-    "New wall": "Nova parede",
-    "North Wall": "Parede norte",
-    "East Wall": "Parede leste",
-    "South Wall": "Parede sul",
-    "West Wall": "Parede oeste",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "A pesquisa usa o Bing. Sites grandes que se recusam a ser exibidos dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) são abertos no seu navegador normal em vez disso — essa é a política do próprio site, não algo que este app possa mudar.",
+    "Dictionary": "Dicionário",
+    "Open dictionary": "Abrir dicionário",
+    "Close dictionary": "Fechar dicionário",
+    "Your Dictionary": "Seu dicionário",
+    "Search your dictionary…": "Pesquisar no seu dicionário…",
+    "Filter by group": "Filtrar por grupo",
+    "Sort words": "Ordenar palavras",
+    "My order": "Minha ordem",
+    "A to Z": "De A a Z",
+    "Newest first": "Mais recentes primeiro",
+    "Oldest first": "Mais antigas primeiro",
+    "Manage groups": "Gerenciar grupos",
+    "+ Add a word": "+ Adicionar palavra",
+    "Word": "Palavra",
+    "Meaning / note": "Significado / nota",
+    "Group": "Grupo",
+    "‹ Back to dictionary": "‹ Voltar ao dicionário",
+    "Group to edit": "Grupo a editar",
+    "Rename this group": "Renomear este grupo",
+    "Delete this group": "Excluir este grupo",
+    "Deleting a group keeps its words — they move to the first group.": "Excluir um grupo não apaga as palavras — elas vão para o primeiro grupo.",
+    "Add a new group": "Criar um novo grupo",
+    "New group": "Novo grupo",
+    "+ Add group": "+ Adicionar grupo",
+    "Ungrouped": "Sem grupo",
+    "All groups": "Todos os grupos",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "Nenhuma palavra salva ainda. Pesquise algo e toque na estrela para salvar aqui.",
+    "No words matched.": "Nenhuma palavra encontrada.",
+    "Move {word} up": "Mover {word} para cima",
+    "Move {word} down": "Mover {word} para baixo",
+    "Group: {group}": "Grupo: {group}",
+    "Saved {date}": "Salvo em {date}",
+    "Group {n}": "Grupo {n}",
+    "Please enter a word": "Digite uma palavra",
+    "You need at least one group.": "É preciso ter pelo menos um grupo.",
+    "Save to your dictionary": "Salvar no seu dicionário",
+    "Remove from your dictionary": "Remover do seu dicionário",
+    "Added to your dictionary": "Salvo no seu dicionário",
+    "Removed from your dictionary": "Removido do seu dicionário",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "Alterne entre abas com as pílulas acima da página. Toque na estrela para salvar no dicionário a palavra que você pesquisou; Dicionário e Estatísticas no topo ficam vazios até você tocar neles.",
+    "Scroll is OFF": "A rolagem está DESATIVADA",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Esses apps abrem no seu navegador normal, onde este app não consegue manter a rolagem travada — por isso ficam fechados enquanto a rolagem está desativada.",
+    "Not now": "Agora não",
+    "Install to your home screen": "Instalar na sua tela inicial",
+    "Install": "Instalar",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Instalado. Agora os outros apps abrem em uma camada sobre este app — feche essa camada e você volta para cá, com suas abas e o estado da rolagem intactos.",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. Instale-o na sua tela inicial e eles passarão a abrir em uma camada sobre ele.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. No Safari, toque no botão Compartilhar e escolha “Adicionar à Tela de Início”; depois disso eles abrem em uma camada sobre este app.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Abra esta página no Chrome ou no Edge e use “Instalar app” (ou “Adicionar à tela inicial”) no menu do navegador. Depois de instalado, os outros apps abrem em uma camada sobre este app em vez de levar você embora.",
+    "Installed to your home screen": "Instalado na sua tela inicial",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} abre em uma camada sobre o MyHome Browser. Feche-a e você volta direto para cá.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} abre em uma aba separada do navegador, então você sairá do MyHome Browser. Instalar este app na sua tela inicial faz com que ele fique em camada por cima — veja os Ajustes.",
+    "Apps that need scroll ON": "Apps que exigem a rolagem ativa",
+    "Don't let the apps below open while scroll is OFF": "Não abrir os apps abaixo enquanto a rolagem estiver desativada",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estes apps se recusam a abrir dentro deste app, então rodam no seu navegador normal, onde este app não consegue manter a rolagem travada. Os apps marcados só abrem depois que você ativar a rolagem com um motivo e um limite de tempo. Os apps de feed já vêm marcados — marque outros que consumam o seu tempo.",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "Ative a rolagem com um motivo e um limite de tempo, e {app} abrirá.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -580,7 +591,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "Timer gestartet — App sperrt in {label}",
     "Timer started for {label}": "Timer für {label} gestartet",
     "Open {app}?": "{app} öffnen?",
-    "You're about to leave MyHome Browser to open {app}.": "Du verlässt gleich MyHome Browser, um {app} zu öffnen.",
     "{hours}h": "{hours} Std.",
     "{minutes}m": "{minutes} Min.",
     "{seconds}s": "{seconds} Sek.",
@@ -630,24 +640,16 @@ const UI_I18N = {
     "Step 3 of 4": "Schritt 3 von 4",
     "Step 4 of 4": "Schritt 4 von 4",
     "Blocked: this looks like an ad or tracking domain": "Blockiert: sieht nach einer Werbe- oder Tracking-Domain aus",
-    "Remove bookmark": "Lesezeichen entfernen",
-    "Bookmark this page": "Diese Seite als Lesezeichen speichern",
-    "No bookmarks yet. Open a page and tap the star to save it.": "Noch keine Lesezeichen. Öffne eine Seite und tippe auf den Stern, um sie zu speichern.",
-    "Bookmark removed": "Lesezeichen entfernt",
-    "Bookmark added": "Lesezeichen hinzugefügt",
     "Close tab \"{title}\"": "Tab „{title}“ schließen",
-    "Bookmarks": "Lesezeichen",
     "Insights": "Nutzung",
     "Search or enter a website above to start browsing.": "Suche oben oder gib eine Website ein, um mit dem Surfen zu beginnen.",
-    "Open bookmarks": "Lesezeichen öffnen",
     "Open insights": "Nutzung öffnen",
     "Search or go to address": "Suchen oder Adresse aufrufen",
     "Search or enter address": "Suche oder Adresse eingeben",
+    "Basic search": "Einfache Suche",
     "Open in browser": "Im Browser öffnen",
     "Close insights": "Nutzung schließen",
-    "Close bookmarks": "Lesezeichen schließen",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Gib oben eine Suche oder eine Website ein – sie öffnet sich als neuer Tab, den du direkt hier durchstöbern kannst.",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Wechsle Tabs mit den Pillen über der Seite. Tippe auf den Stern, um ein Lesezeichen zu setzen; Lesezeichen und Nutzung oben zeigen nichts, bis du sie antippst.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Die Werbeblockierung verhindert nur die direkte Navigation zu bekannten Werbe-/Tracking-Domains – sie kann keine Werbung aus einer bereits geöffneten Seite entfernen.",
     "Browsing": "Browsen",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "Schon gefunden, wonach du gesucht hast? Du browst seit {minutes} Minuten.",
@@ -655,50 +657,68 @@ const UI_I18N = {
     "Still browsing": "Du browst noch",
     "Keep browsing": "Weiter browsen",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} erlaubt keine eingebettete Anzeige und wurde deshalb im Browser geöffnet.",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "Das Regal ist voll. Entferne ein Buch oder erhöhe das Limit unter Regale verwalten.",
-    "— empty shelf —": "— leeres Fach —",
-    "Not found": "Nicht gefunden",
-    "Please enter a title": "Bitte einen Titel eingeben",
     "Saved": "Gespeichert",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "Diese Wand ist voll ({count} konnten nicht platziert werden). Versuche eine andere Wand.",
-    "Thickness: {size} · Shelf: {wall}": "Dicke: {size} · Wand: {wall}",
-    "Wall {n}": "Wand {n}",
-    "Shelf space": "Regalplatz",
-    "‹ Back to shelf": "‹ Zurück zum Regal",
     "Edit": "Bearbeiten",
     "Remove": "Entfernen",
     "Title": "Titel",
-    "Spine color": "Buchrückenfarbe",
-    "Indigo": "Indigo",
-    "Crimson": "Karmesin",
-    "Pine": "Kiefer",
-    "Mustard": "Senf",
-    "Eggplant": "Aubergine",
-    "Teal": "Petrol",
-    "Coral": "Koralle",
-    "Ink": "Tinte",
-    "Spine decoration": "Buchrücken-Verzierung",
-    "Paper label": "Papieretikett",
-    "Gold lines": "Goldlinien",
-    "Plain": "Schlicht",
-    "Thickness:": "Dicke:",
-    "Shelf": "Wand",
-    "Rename this wall": "Diese Wand umbenennen",
-    "Add a new wall": "Neue Wand hinzufügen",
-    "+ Add wall": "+ Wand hinzufügen",
-    "Shelf space (capacity)": "Regalplatz (Kapazität)",
-    "Search your shelves…": "Deine Regale durchsuchen…",
-    "Previous wall": "Vorherige Wand",
-    "Bookshelf wall": "Regalwand",
-    "Next wall": "Nächste Wand",
-    "Manage shelves": "Regale verwalten",
-    "New wall": "Neue Wand",
-    "North Wall": "Nordwand",
-    "East Wall": "Ostwand",
-    "South Wall": "Südwand",
-    "West Wall": "Westwand",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "Die Suche verwendet Bing. Große Websites, die sich weigern, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), werden stattdessen in deinem normalen Browser geöffnet — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
+    "Dictionary": "Wörterbuch",
+    "Open dictionary": "Wörterbuch öffnen",
+    "Close dictionary": "Wörterbuch schließen",
+    "Your Dictionary": "Dein Wörterbuch",
+    "Search your dictionary…": "Im Wörterbuch suchen…",
+    "Filter by group": "Nach Gruppe filtern",
+    "Sort words": "Wörter sortieren",
+    "My order": "Meine Reihenfolge",
+    "A to Z": "A bis Z",
+    "Newest first": "Neueste zuerst",
+    "Oldest first": "Älteste zuerst",
+    "Manage groups": "Gruppen verwalten",
+    "+ Add a word": "+ Wort hinzufügen",
+    "Word": "Wort",
+    "Meaning / note": "Bedeutung / Notiz",
+    "Group": "Gruppe",
+    "‹ Back to dictionary": "‹ Zurück zum Wörterbuch",
+    "Group to edit": "Zu bearbeitende Gruppe",
+    "Rename this group": "Diese Gruppe umbenennen",
+    "Delete this group": "Diese Gruppe löschen",
+    "Deleting a group keeps its words — they move to the first group.": "Beim Löschen einer Gruppe bleiben ihre Wörter erhalten — sie wandern in die erste Gruppe.",
+    "Add a new group": "Neue Gruppe anlegen",
+    "New group": "Neue Gruppe",
+    "+ Add group": "+ Gruppe hinzufügen",
+    "Ungrouped": "Ohne Gruppe",
+    "All groups": "Alle Gruppen",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "Noch keine Wörter gespeichert. Schlag etwas nach und tippe auf den Stern, um es hier zu speichern.",
+    "No words matched.": "Keine Treffer.",
+    "Move {word} up": "{word} nach oben",
+    "Move {word} down": "{word} nach unten",
+    "Group: {group}": "Gruppe: {group}",
+    "Saved {date}": "Gespeichert am {date}",
+    "Group {n}": "Gruppe {n}",
+    "Please enter a word": "Bitte gib ein Wort ein",
+    "You need at least one group.": "Du brauchst mindestens eine Gruppe.",
+    "Save to your dictionary": "Im Wörterbuch speichern",
+    "Remove from your dictionary": "Aus dem Wörterbuch entfernen",
+    "Added to your dictionary": "Im Wörterbuch gespeichert",
+    "Removed from your dictionary": "Aus dem Wörterbuch entfernt",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "Wechsle Tabs mit den Pillen über der Seite. Tippe auf den Stern, um das nachgeschlagene Wort im Wörterbuch zu speichern; Wörterbuch und Statistiken oben bleiben leer, bis du sie antippst.",
+    "Scroll is OFF": "Scrollen ist AUS",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Diese Apps öffnen sich in deinem normalen Browser, wo diese App das Scrollen nicht sperren kann — solange Scrollen aus ist, bleiben sie also zu.",
+    "Not now": "Jetzt nicht",
+    "Install to your home screen": "Auf dem Startbildschirm installieren",
+    "Install": "Installieren",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Installiert. Andere Apps öffnen sich jetzt in einer Ebene über dieser App — schließe sie, und du bist wieder hier, mit unveränderten Tabs und Scroll-Status.",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Installiere sie auf dem Startbildschirm, dann öffnen sie sich stattdessen in einer Ebene darüber.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Tippe in Safari auf „Teilen“ und wähle „Zum Home-Bildschirm“ — danach öffnen sie sich in einer Ebene über dieser App.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Öffne diese Seite in Chrome oder Edge und wähle im Browsermenü „App installieren“ (oder „Zum Startbildschirm hinzufügen“). Nach der Installation öffnen sich andere Apps in einer Ebene über dieser App, statt dich wegzuführen.",
+    "Installed to your home screen": "Auf dem Startbildschirm installiert",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} öffnet sich in einer Ebene über MyHome Browser. Schließe sie, und du bist sofort wieder hier.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} öffnet sich in einem separaten Browser-Tab, du verlässt MyHome Browser also. Wenn du diese App auf dem Startbildschirm installierst, bleibt sie stattdessen darüber liegen — siehe Einstellungen.",
+    "Apps that need scroll ON": "Apps, die eingeschaltetes Scrollen brauchen",
+    "Don't let the apps below open while scroll is OFF": "Die Apps unten nicht öffnen, solange Scrollen AUS ist",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Diese Apps lassen sich nicht in dieser App öffnen und laufen deshalb in deinem normalen Browser, wo diese App die Scrollsperre nicht halten kann. Angehakte Apps öffnen sich erst, wenn du Scrollen mit Grund und Zeitlimit eingeschaltet hast. Feed-Apps sind von Anfang an angehakt — hake alles Weitere an, das deine Zeit frisst.",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "Schalte Scrollen mit Grund und Zeitlimit ein, dann öffnet sich {app}.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -894,7 +914,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "Minuteur lancé — l'app se verrouille dans {label}",
     "Timer started for {label}": "Minuteur lancé pour {label}",
     "Open {app}?": "Ouvrir {app} ?",
-    "You're about to leave MyHome Browser to open {app}.": "Vous êtes sur le point de quitter MyHome Browser pour ouvrir {app}.",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
@@ -944,24 +963,16 @@ const UI_I18N = {
     "Step 3 of 4": "Étape 3 sur 4",
     "Step 4 of 4": "Étape 4 sur 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqué : ceci ressemble à un domaine publicitaire ou de suivi",
-    "Remove bookmark": "Retirer le favori",
-    "Bookmark this page": "Ajouter cette page aux favoris",
-    "No bookmarks yet. Open a page and tap the star to save it.": "Aucun favori pour l'instant. Ouvrez une page et touchez l'étoile pour l'enregistrer.",
-    "Bookmark removed": "Favori retiré",
-    "Bookmark added": "Favori ajouté",
     "Close tab \"{title}\"": "Fermer l'onglet « {title} »",
-    "Bookmarks": "Favoris",
     "Insights": "Statistiques",
     "Search or enter a website above to start browsing.": "Recherchez ou saisissez un site ci-dessus pour commencer à naviguer.",
-    "Open bookmarks": "Ouvrir les favoris",
     "Open insights": "Ouvrir les statistiques",
     "Search or go to address": "Rechercher ou aller à une adresse",
     "Search or enter address": "Rechercher ou saisir une adresse",
+    "Basic search": "Recherche simplifiée",
     "Open in browser": "Ouvrir dans le navigateur",
     "Close insights": "Fermer les statistiques",
-    "Close bookmarks": "Fermer les favoris",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Saisissez une recherche ou un site web ci-dessus : il s'ouvre comme un nouvel onglet que vous pouvez parcourir ici même.",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Changez d'onglet avec les pastilles au-dessus de la page. Touchez l'étoile pour ajouter un favori ; les boutons Favoris et Statistiques en haut restent vides tant que vous ne les touchez pas.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Le blocage des publicités empêche seulement de naviguer directement vers des domaines publicitaires ou de suivi connus — il ne peut pas retirer les publicités d'une page que vous consultez déjà.",
     "Browsing": "Navigation",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "Avez-vous trouvé ce que vous cherchiez ? Vous naviguez depuis {minutes} minutes.",
@@ -969,50 +980,68 @@ const UI_I18N = {
     "Still browsing": "Navigation en cours",
     "Keep browsing": "Continuer à naviguer",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} n'autorise pas l'affichage intégré, elle s'est donc ouverte dans votre navigateur.",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "L'étagère est pleine. Retirez un livre ou augmentez la limite dans Gérer les étagères.",
-    "— empty shelf —": "— étagère vide —",
-    "Not found": "Introuvable",
-    "Please enter a title": "Veuillez saisir un titre",
     "Saved": "Enregistré",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "Ce mur est plein ({count} n'ont pas pu être placés). Essayez un autre mur.",
-    "Thickness: {size} · Shelf: {wall}": "Épaisseur : {size} · Mur : {wall}",
-    "Wall {n}": "Mur {n}",
-    "Shelf space": "Espace de l'étagère",
-    "‹ Back to shelf": "‹ Retour à l'étagère",
     "Edit": "Modifier",
     "Remove": "Retirer",
     "Title": "Titre",
-    "Spine color": "Couleur du dos",
-    "Indigo": "Indigo",
-    "Crimson": "Cramoisi",
-    "Pine": "Pin",
-    "Mustard": "Moutarde",
-    "Eggplant": "Aubergine",
-    "Teal": "Sarcelle",
-    "Coral": "Corail",
-    "Ink": "Encre",
-    "Spine decoration": "Décoration du dos",
-    "Paper label": "Étiquette papier",
-    "Gold lines": "Filets dorés",
-    "Plain": "Uni",
-    "Thickness:": "Épaisseur :",
-    "Shelf": "Mur",
-    "Rename this wall": "Renommer ce mur",
-    "Add a new wall": "Ajouter un nouveau mur",
-    "+ Add wall": "+ Ajouter un mur",
-    "Shelf space (capacity)": "Espace de l'étagère (capacité)",
-    "Search your shelves…": "Rechercher dans vos étagères…",
-    "Previous wall": "Mur précédent",
-    "Bookshelf wall": "Mur de l'étagère",
-    "Next wall": "Mur suivant",
-    "Manage shelves": "Gérer les étagères",
-    "New wall": "Nouveau mur",
-    "North Wall": "Mur nord",
-    "East Wall": "Mur est",
-    "South Wall": "Mur sud",
-    "West Wall": "Mur ouest",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La recherche utilise Bing. Les grands sites qui refusent d'être affichés dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) s'ouvrent plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
+    "Dictionary": "Dictionnaire",
+    "Open dictionary": "Ouvrir le dictionnaire",
+    "Close dictionary": "Fermer le dictionnaire",
+    "Your Dictionary": "Votre dictionnaire",
+    "Search your dictionary…": "Rechercher dans votre dictionnaire…",
+    "Filter by group": "Filtrer par groupe",
+    "Sort words": "Trier les mots",
+    "My order": "Mon ordre",
+    "A to Z": "De A à Z",
+    "Newest first": "Plus récents d'abord",
+    "Oldest first": "Plus anciens d'abord",
+    "Manage groups": "Gérer les groupes",
+    "+ Add a word": "+ Ajouter un mot",
+    "Word": "Mot",
+    "Meaning / note": "Sens / note",
+    "Group": "Groupe",
+    "‹ Back to dictionary": "‹ Retour au dictionnaire",
+    "Group to edit": "Groupe à modifier",
+    "Rename this group": "Renommer ce groupe",
+    "Delete this group": "Supprimer ce groupe",
+    "Deleting a group keeps its words — they move to the first group.": "Supprimer un groupe conserve ses mots — ils passent dans le premier groupe.",
+    "Add a new group": "Créer un nouveau groupe",
+    "New group": "Nouveau groupe",
+    "+ Add group": "+ Ajouter un groupe",
+    "Ungrouped": "Sans groupe",
+    "All groups": "Tous les groupes",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "Aucun mot enregistré. Cherchez quelque chose, puis touchez l'étoile pour l'enregistrer ici.",
+    "No words matched.": "Aucun résultat.",
+    "Move {word} up": "Déplacer {word} vers le haut",
+    "Move {word} down": "Déplacer {word} vers le bas",
+    "Group: {group}": "Groupe : {group}",
+    "Saved {date}": "Enregistré le {date}",
+    "Group {n}": "Groupe {n}",
+    "Please enter a word": "Saisissez un mot",
+    "You need at least one group.": "Il faut au moins un groupe.",
+    "Save to your dictionary": "Enregistrer dans votre dictionnaire",
+    "Remove from your dictionary": "Retirer de votre dictionnaire",
+    "Added to your dictionary": "Enregistré dans votre dictionnaire",
+    "Removed from your dictionary": "Retiré de votre dictionnaire",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "Changez d'onglet avec les pastilles au-dessus de la page. Touchez l'étoile pour enregistrer dans votre dictionnaire le mot recherché ; Dictionnaire et Statistiques en haut restent vides jusqu'à ce que vous les touchiez.",
+    "Scroll is OFF": "Le défilement est désactivé",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Ces applis s'ouvrent dans votre navigateur habituel, où cette appli ne peut pas bloquer le défilement — elles restent donc fermées tant que le défilement est désactivé.",
+    "Not now": "Pas maintenant",
+    "Install to your home screen": "Installer sur votre écran d'accueil",
+    "Install": "Installer",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Installé. Les autres applis s'ouvrent maintenant dans une couche par-dessus cette appli — fermez-la et vous revenez ici, avec vos onglets et l'état du défilement intacts.",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Installez-la sur votre écran d'accueil et elles s'ouvriront dans une couche par-dessus.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Dans Safari, touchez le bouton Partager et choisissez « Sur l'écran d'accueil » ; ensuite elles s'ouvriront dans une couche par-dessus cette appli.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Ouvrez cette page dans Chrome ou Edge et utilisez « Installer l'application » (ou « Ajouter à l'écran d'accueil ») dans le menu du navigateur. Une fois installée, les autres applis s'ouvrent dans une couche par-dessus cette appli au lieu de vous emmener ailleurs.",
+    "Installed to your home screen": "Installé sur votre écran d'accueil",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} s'ouvre dans une couche par-dessus MyHome Browser. Fermez-la et vous revenez directement ici.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} s'ouvre dans un onglet séparé du navigateur, vous quitterez donc MyHome Browser. Installer cette appli sur votre écran d'accueil la garde en couche par-dessus — voir les Réglages.",
+    "Apps that need scroll ON": "Applis qui exigent le défilement activé",
+    "Don't let the apps below open while scroll is OFF": "Ne pas ouvrir les applis ci-dessous tant que le défilement est désactivé",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Ces applis refusent de s'ouvrir dans cette appli ; elles s'ouvrent donc dans votre navigateur habituel, où cette appli ne peut pas bloquer le défilement. Les applis cochées ne s'ouvrent qu'une fois le défilement activé avec un motif et une limite de temps. Les applis à fil sont cochées au départ — cochez toutes celles qui vous prennent du temps.",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activez le défilement avec un motif et une limite de temps, et {app} s'ouvrira.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1208,7 +1237,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "타이머 시작 — {label} 후 앱이 잠깁니다",
     "Timer started for {label}": "{label} 타이머를 시작했습니다",
     "Open {app}?": "{app}을(를) 열까요?",
-    "You're about to leave MyHome Browser to open {app}.": "MyHome Browser를 나가서 {app}을(를) 열려고 합니다.",
     "{hours}h": "{hours}시간",
     "{minutes}m": "{minutes}분",
     "{seconds}s": "{seconds}초",
@@ -1258,24 +1286,16 @@ const UI_I18N = {
     "Step 3 of 4": "4단계 중 3단계",
     "Step 4 of 4": "4단계 중 4단계",
     "Blocked: this looks like an ad or tracking domain": "차단됨: 광고 또는 추적 도메인으로 보입니다",
-    "Remove bookmark": "북마크 삭제",
-    "Bookmark this page": "이 페이지 북마크",
-    "No bookmarks yet. Open a page and tap the star to save it.": "아직 북마크가 없습니다. 페이지를 열고 별표를 눌러 저장하세요.",
-    "Bookmark removed": "북마크가 삭제되었습니다",
-    "Bookmark added": "북마크가 추가되었습니다",
     "Close tab \"{title}\"": "탭 \"{title}\" 닫기",
-    "Bookmarks": "북마크",
     "Insights": "사용 통계",
     "Search or enter a website above to start browsing.": "위에서 검색하거나 웹사이트 주소를 입력해 탐색을 시작하세요.",
-    "Open bookmarks": "북마크 열기",
     "Open insights": "사용 통계 열기",
     "Search or go to address": "검색 또는 주소로 이동",
     "Search or enter address": "검색어 또는 주소 입력",
+    "Basic search": "간단 검색",
     "Open in browser": "브라우저에서 열기",
     "Close insights": "사용 통계 닫기",
-    "Close bookmarks": "북마크 닫기",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "위에 검색어나 웹사이트를 입력하면 새 탭으로 열려 바로 여기서 볼 수 있습니다.",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "페이지 위의 알약 모양 탭으로 전환하세요. 별표를 누르면 북마크에 저장되고, 상단의 북마크와 인사이트 버튼은 누르기 전까지 아무것도 표시되지 않습니다.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "광고 차단은 알려진 광고/추적 도메인으로 바로 이동하는 것만 막습니다. 이미 열려 있는 페이지 안의 광고까지는 제거하지 못합니다.",
     "Browsing": "브라우징",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "찾던 걸 찾으셨나요? {minutes}분째 둘러보고 계세요.",
@@ -1283,50 +1303,68 @@ const UI_I18N = {
     "Still browsing": "계속 둘러보는 중",
     "Keep browsing": "계속 둘러보기",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain}은(는) 다른 페이지 안에 표시하는 것을 허용하지 않아 브라우저에서 열었습니다.",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "책장이 가득 찼습니다. 책을 정리하거나 '책장 관리'에서 용량을 늘리세요.",
-    "— empty shelf —": "— 빈 칸 —",
-    "Not found": "찾을 수 없습니다",
-    "Please enter a title": "제목을 입력해 주세요",
     "Saved": "저장되었습니다",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "이 벽은 가득 찼습니다({count}권을 놓지 못했습니다). 다른 벽을 시도해 보세요.",
-    "Thickness: {size} · Shelf: {wall}": "두께: {size} · 벽: {wall}",
-    "Wall {n}": "벽 {n}",
-    "Shelf space": "책장 공간",
-    "‹ Back to shelf": "‹ 책장으로 돌아가기",
     "Edit": "편집",
     "Remove": "제거",
     "Title": "제목",
-    "Spine color": "책등 색상",
-    "Indigo": "인디고",
-    "Crimson": "크림슨",
-    "Pine": "파인",
-    "Mustard": "머스터드",
-    "Eggplant": "에그플랜트",
-    "Teal": "틸",
-    "Coral": "코랄",
-    "Ink": "잉크",
-    "Spine decoration": "책등 장식",
-    "Paper label": "종이 라벨",
-    "Gold lines": "금색 줄무늬",
-    "Plain": "무지",
-    "Thickness:": "두께:",
-    "Shelf": "벽",
-    "Rename this wall": "이 벽 이름 바꾸기",
-    "Add a new wall": "새 벽 추가",
-    "+ Add wall": "+ 벽 추가",
-    "Shelf space (capacity)": "책장 공간(용량)",
-    "Search your shelves…": "책장 검색…",
-    "Previous wall": "이전 벽",
-    "Bookshelf wall": "책장 벽",
-    "Next wall": "다음 벽",
-    "Manage shelves": "책장 관리",
-    "New wall": "새 벽",
-    "North Wall": "북쪽 벽",
-    "East Wall": "동쪽 벽",
-    "South Wall": "남쪽 벽",
-    "West Wall": "서쪽 벽",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "검색은 Bing을 사용합니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)는 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
+    "Dictionary": "사전",
+    "Open dictionary": "사전 열기",
+    "Close dictionary": "사전 닫기",
+    "Your Dictionary": "나의 사전",
+    "Search your dictionary…": "사전에서 검색…",
+    "Filter by group": "그룹으로 거르기",
+    "Sort words": "정렬",
+    "My order": "내 순서",
+    "A to Z": "가나다·알파벳순",
+    "Newest first": "최신순",
+    "Oldest first": "오래된순",
+    "Manage groups": "그룹 관리",
+    "+ Add a word": "+ 단어 추가",
+    "Word": "단어",
+    "Meaning / note": "뜻 / 메모",
+    "Group": "그룹",
+    "‹ Back to dictionary": "‹ 사전으로 돌아가기",
+    "Group to edit": "편집할 그룹",
+    "Rename this group": "이 그룹 이름 바꾸기",
+    "Delete this group": "이 그룹 삭제",
+    "Deleting a group keeps its words — they move to the first group.": "그룹을 삭제해도 단어는 남습니다. 첫 번째 그룹으로 옮겨집니다.",
+    "Add a new group": "새 그룹 만들기",
+    "New group": "새 그룹",
+    "+ Add group": "+ 그룹 추가",
+    "Ungrouped": "미분류",
+    "All groups": "모든 그룹",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "저장된 단어가 없습니다. 무언가를 검색한 뒤 별표를 누르면 여기에 저장됩니다.",
+    "No words matched.": "결과가 없습니다.",
+    "Move {word} up": "{word} 위로",
+    "Move {word} down": "{word} 아래로",
+    "Group: {group}": "그룹: {group}",
+    "Saved {date}": "{date} 저장",
+    "Group {n}": "그룹 {n}",
+    "Please enter a word": "단어를 입력하세요",
+    "You need at least one group.": "그룹은 최소 하나가 필요합니다.",
+    "Save to your dictionary": "사전에 저장",
+    "Remove from your dictionary": "사전에서 삭제",
+    "Added to your dictionary": "사전에 저장했습니다",
+    "Removed from your dictionary": "사전에서 삭제했습니다",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "탭은 페이지 위의 알약 버튼으로 전환합니다. 별표를 누르면 검색한 단어를 사전에 저장할 수 있고, 위쪽의 사전과 인사이트는 누르기 전까지 비어 있습니다.",
+    "Scroll is OFF": "스크롤이 꺼져 있습니다",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "이 앱들은 일반 브라우저에서 열리고, 그곳에서는 스크롤 잠금을 유지할 수 없습니다. 그래서 스크롤이 꺼져 있는 동안에는 열리지 않습니다.",
+    "Not now": "나중에",
+    "Install to your home screen": "홈 화면에 설치",
+    "Install": "설치",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "설치되었습니다. 이제 다른 앱은 이 앱 위에 겹쳐진 층으로 열리며, 그 층을 닫으면 탭과 스크롤 상태가 그대로인 채 이곳으로 돌아옵니다.",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. 홈 화면에 설치하면 이 앱 위에 겹쳐진 층으로 열립니다.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. Safari에서 공유 버튼을 누르고 ‘홈 화면에 추가’를 선택하면, 이후에는 이 앱 위에 겹쳐진 층으로 열립니다.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "이 페이지를 Chrome이나 Edge에서 열고 브라우저 메뉴의 ‘앱 설치’(또는 ‘홈 화면에 추가’)를 사용하세요. 설치하면 다른 앱이 이 앱을 떠나지 않고 위에 겹쳐진 층으로 열립니다.",
+    "Installed to your home screen": "홈 화면에 설치했습니다",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app}은(는) MyHome Browser 위에 겹쳐진 층으로 열립니다. 닫으면 바로 이곳으로 돌아옵니다.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app}은(는) 별도의 브라우저 탭에서 열리므로 MyHome Browser를 떠나게 됩니다. 이 앱을 홈 화면에 설치하면 대신 위에 겹쳐진 층으로 열립니다 — 설정을 확인하세요.",
+    "Apps that need scroll ON": "스크롤을 켜야 열리는 앱",
+    "Don't let the apps below open while scroll is OFF": "스크롤이 꺼져 있는 동안에는 아래 앱을 열지 않기",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "이 앱들은 이 앱 안에서 열리지 않아 일반 브라우저에서 실행되며, 그곳에서는 이 앱이 스크롤을 잠글 수 없습니다. 체크한 앱은 이유와 시간제한을 정해 스크롤을 켠 뒤에만 열립니다. 피드 앱은 처음부터 체크되어 있으며, 시간을 많이 쓰는 다른 앱도 체크해 두세요.",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "이유와 시간제한을 정해 스크롤을 켜면 {app}이(가) 열립니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1522,7 +1560,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "计时开始 —— {label}后锁定应用",
     "Timer started for {label}": "已开始 {label} 的计时",
     "Open {app}?": "要打开 {app} 吗？",
-    "You're about to leave MyHome Browser to open {app}.": "你即将离开 MyHome Browser 去打开 {app}。",
     "{hours}h": "{hours} 小时",
     "{minutes}m": "{minutes} 分",
     "{seconds}s": "{seconds} 秒",
@@ -1572,24 +1609,16 @@ const UI_I18N = {
     "Step 3 of 4": "第3步（共4步）",
     "Step 4 of 4": "第4步（共4步）",
     "Blocked: this looks like an ad or tracking domain": "已拦截：这看起来是广告或跟踪域名",
-    "Remove bookmark": "移除书签",
-    "Bookmark this page": "收藏此页面",
-    "No bookmarks yet. Open a page and tap the star to save it.": "还没有书签。打开一个页面并点击星标即可保存。",
-    "Bookmark removed": "书签已移除",
-    "Bookmark added": "书签已添加",
     "Close tab \"{title}\"": "关闭标签页“{title}”",
-    "Bookmarks": "书签",
     "Insights": "使用统计",
     "Search or enter a website above to start browsing.": "在上方搜索或输入网址即可开始浏览。",
-    "Open bookmarks": "打开书签",
     "Open insights": "打开使用统计",
     "Search or go to address": "搜索或前往网址",
     "Search or enter address": "搜索或输入网址",
+    "Basic search": "简易搜索",
     "Open in browser": "在浏览器中打开",
     "Close insights": "关闭使用统计",
-    "Close bookmarks": "关闭书签",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "在上方输入搜索词或网址，即可作为新标签页在此打开浏览。",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "用上方的小药丸切换标签页。点击星标可收藏；上方的书签和使用统计按钮在你点开之前都不会显示任何内容。",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "广告拦截只会阻止直接前往已知的广告/跟踪域名，无法清除你已打开页面内部的广告。",
     "Browsing": "浏览",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "找到你要的内容了吗？你已经浏览了 {minutes} 分钟。",
@@ -1597,50 +1626,68 @@ const UI_I18N = {
     "Still browsing": "仍在浏览",
     "Keep browsing": "继续浏览",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} 不允许被嵌入显示，因此已在你的浏览器中打开。",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "书架已满。请移除一本书，或在「管理书架」中提高容量上限。",
-    "— empty shelf —": "— 空书架 —",
-    "Not found": "未找到",
-    "Please enter a title": "请输入标题",
     "Saved": "已保存",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "这面墙已满(有{count}本放不下)。请尝试另一面墙。",
-    "Thickness: {size} · Shelf: {wall}": "厚度: {size} · 墙面: {wall}",
-    "Wall {n}": "墙 {n}",
-    "Shelf space": "书架空间",
-    "‹ Back to shelf": "‹ 返回书架",
     "Edit": "编辑",
     "Remove": "移除",
     "Title": "标题",
-    "Spine color": "书脊颜色",
-    "Indigo": "靛蓝",
-    "Crimson": "绯红",
-    "Pine": "松绿",
-    "Mustard": "芥末黄",
-    "Eggplant": "茄紫",
-    "Teal": "青绿",
-    "Coral": "珊瑚橙",
-    "Ink": "墨黑",
-    "Spine decoration": "书脊装饰",
-    "Paper label": "纸标签",
-    "Gold lines": "金线",
-    "Plain": "素面",
-    "Thickness:": "厚度:",
-    "Shelf": "墙面",
-    "Rename this wall": "重命名这面墙",
-    "Add a new wall": "添加新墙",
-    "+ Add wall": "+ 添加墙",
-    "Shelf space (capacity)": "书架空间(容量)",
-    "Search your shelves…": "搜索你的书架…",
-    "Previous wall": "上一面墙",
-    "Bookshelf wall": "书架墙面",
-    "Next wall": "下一面墙",
-    "Manage shelves": "管理书架",
-    "New wall": "新墙",
-    "North Wall": "北墙",
-    "East Wall": "东墙",
-    "South Wall": "南墙",
-    "West Wall": "西墙",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "搜索使用Bing。拒绝在其他页面中显示的大型网站（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
+    "Dictionary": "词典",
+    "Open dictionary": "打开词典",
+    "Close dictionary": "关闭词典",
+    "Your Dictionary": "你的词典",
+    "Search your dictionary…": "在词典中搜索…",
+    "Filter by group": "按分组筛选",
+    "Sort words": "排序",
+    "My order": "我的顺序",
+    "A to Z": "按字母顺序",
+    "Newest first": "最新优先",
+    "Oldest first": "最早优先",
+    "Manage groups": "管理分组",
+    "+ Add a word": "+ 添加词条",
+    "Word": "词条",
+    "Meaning / note": "释义 / 备注",
+    "Group": "分组",
+    "‹ Back to dictionary": "‹ 返回词典",
+    "Group to edit": "要编辑的分组",
+    "Rename this group": "重命名此分组",
+    "Delete this group": "删除此分组",
+    "Deleting a group keeps its words — they move to the first group.": "删除分组不会删除词条，它们会移到第一个分组。",
+    "Add a new group": "新建分组",
+    "New group": "新分组",
+    "+ Add group": "+ 添加分组",
+    "Ungrouped": "未分组",
+    "All groups": "全部分组",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "还没有保存的词条。查询后点击星标即可保存到这里。",
+    "No words matched.": "没有匹配的词条。",
+    "Move {word} up": "将 {word} 上移",
+    "Move {word} down": "将 {word} 下移",
+    "Group: {group}": "分组：{group}",
+    "Saved {date}": "保存于 {date}",
+    "Group {n}": "分组 {n}",
+    "Please enter a word": "请输入词条",
+    "You need at least one group.": "至少需要一个分组。",
+    "Save to your dictionary": "保存到词典",
+    "Remove from your dictionary": "从词典中删除",
+    "Added to your dictionary": "已保存到词典",
+    "Removed from your dictionary": "已从词典中删除",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "用页面上方的标签片切换标签页。点击星标可把查过的词保存到词典；顶部的词典和统计在点击之前都是空的。",
+    "Scroll is OFF": "滚动已关闭",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "这些应用会在你的常规浏览器中打开，本应用无法在那里保持滚动锁定，因此滚动关闭期间它们不会打开。",
+    "Not now": "暂时不用",
+    "Install to your home screen": "安装到主屏幕",
+    "Install": "安装",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "已安装。现在其他应用会在本应用之上的一层中打开——关闭该层即可回到这里，标签页和滚动状态都保持不变。",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。把它安装到主屏幕后，它们将改为在本应用之上的一层中打开。",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。在 Safari 中点按“分享”按钮并选择“添加到主屏幕”，之后它们会在本应用之上的一层中打开。",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "请在 Chrome 或 Edge 中打开本页面，并从浏览器菜单中选择“安装应用”（或“添加到主屏幕”）。安装后，其他应用会在本应用之上的一层中打开，而不会把你带走。",
+    "Installed to your home screen": "已安装到主屏幕",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} 会在 MyHome Browser 之上的一层中打开。关闭它就能直接回到这里。",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} 会在单独的浏览器标签页中打开，因此你会离开 MyHome Browser。把本应用安装到主屏幕，它就会改为叠加在上层——请查看设置。",
+    "Apps that need scroll ON": "需要开启滚动才能打开的应用",
+    "Don't let the apps below open while scroll is OFF": "滚动关闭时不打开下列应用",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "这些应用拒绝在本应用内打开，只能在你的常规浏览器中运行，而本应用无法在那里锁定滚动。勾选的应用只有在你填写理由和时限并开启滚动之后才会打开。信息流应用默认已勾选，你也可以勾选其他消耗你时间的应用。",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "填写理由和时限并开启滚动后，{app} 即可打开。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1836,7 +1883,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "Temporizador iniciado: la app se bloquea en {label}",
     "Timer started for {label}": "Temporizador iniciado para {label}",
     "Open {app}?": "¿Abrir {app}?",
-    "You're about to leave MyHome Browser to open {app}.": "Vas a salir de MyHome Browser para abrir {app}.",
     "{hours}h": "{hours} h",
     "{minutes}m": "{minutes} min",
     "{seconds}s": "{seconds} s",
@@ -1886,24 +1932,16 @@ const UI_I18N = {
     "Step 3 of 4": "Paso 3 de 4",
     "Step 4 of 4": "Paso 4 de 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqueado: parece un dominio publicitario o de rastreo",
-    "Remove bookmark": "Quitar marcador",
-    "Bookmark this page": "Marcar esta página",
-    "No bookmarks yet. Open a page and tap the star to save it.": "Aún no tienes marcadores. Abre una página y toca la estrella para guardarla.",
-    "Bookmark removed": "Marcador eliminado",
-    "Bookmark added": "Marcador añadido",
     "Close tab \"{title}\"": "Cerrar pestaña \"{title}\"",
-    "Bookmarks": "Marcadores",
     "Insights": "Estadísticas",
     "Search or enter a website above to start browsing.": "Busca o escribe un sitio web arriba para empezar a navegar.",
-    "Open bookmarks": "Abrir marcadores",
     "Open insights": "Abrir estadísticas",
     "Search or go to address": "Buscar o ir a una dirección",
     "Search or enter address": "Buscar o escribir una dirección",
+    "Basic search": "Búsqueda básica",
     "Open in browser": "Abrir en el navegador",
     "Close insights": "Cerrar estadísticas",
-    "Close bookmarks": "Cerrar marcadores",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "Escribe una búsqueda o un sitio web arriba: se abrirá como una pestaña nueva que puedes navegar aquí mismo.",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "Cambia de pestaña con las píldoras de arriba. Toca la estrella para guardar un marcador; Marcadores y Estadísticas arriba no muestran nada hasta que los toques.",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "El bloqueo de anuncios solo impide navegar directamente a dominios publicitarios o de rastreo conocidos; no puede quitar anuncios de una página que ya estás viendo.",
     "Browsing": "Navegación",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "¿Ya encontraste lo que buscabas? Llevas {minutes} minutos navegando.",
@@ -1911,50 +1949,68 @@ const UI_I18N = {
     "Still browsing": "Sigues navegando",
     "Keep browsing": "Seguir navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} no permite mostrarse dentro de otra página, así que se abrió en tu navegador.",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "La estantería está llena. Quita un libro o aumenta el límite en Gestionar estanterías.",
-    "— empty shelf —": "— estante vacío —",
-    "Not found": "No encontrado",
-    "Please enter a title": "Por favor, introduce un título",
     "Saved": "Guardado",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "Esta pared está llena ({count} no se pudieron colocar). Prueba con otra pared.",
-    "Thickness: {size} · Shelf: {wall}": "Grosor: {size} · Estante: {wall}",
-    "Wall {n}": "Pared {n}",
-    "Shelf space": "Espacio de estantería",
-    "‹ Back to shelf": "‹ Volver a la estantería",
     "Edit": "Editar",
     "Remove": "Quitar",
     "Title": "Título",
-    "Spine color": "Color del lomo",
-    "Indigo": "Índigo",
-    "Crimson": "Carmesí",
-    "Pine": "Pino",
-    "Mustard": "Mostaza",
-    "Eggplant": "Berenjena",
-    "Teal": "Verde azulado",
-    "Coral": "Coral",
-    "Ink": "Tinta",
-    "Spine decoration": "Decoración del lomo",
-    "Paper label": "Etiqueta de papel",
-    "Gold lines": "Líneas doradas",
-    "Plain": "Liso",
-    "Thickness:": "Grosor:",
-    "Shelf": "Estante",
-    "Rename this wall": "Renombrar esta pared",
-    "Add a new wall": "Añadir una pared nueva",
-    "+ Add wall": "+ Añadir pared",
-    "Shelf space (capacity)": "Espacio de estantería (capacidad)",
-    "Search your shelves…": "Busca en tus estanterías…",
-    "Previous wall": "Pared anterior",
-    "Bookshelf wall": "Pared de la estantería",
-    "Next wall": "Pared siguiente",
-    "Manage shelves": "Gestionar estanterías",
-    "New wall": "Nueva pared",
-    "North Wall": "Pared norte",
-    "East Wall": "Pared este",
-    "South Wall": "Pared sur",
-    "West Wall": "Pared oeste",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La búsqueda funciona con Bing. Los sitios grandes que se niegan a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) se abren en tu navegador habitual en su lugar — es la política del propio sitio, no algo que esta app pueda cambiar.",
+    "Dictionary": "Diccionario",
+    "Open dictionary": "Abrir diccionario",
+    "Close dictionary": "Cerrar diccionario",
+    "Your Dictionary": "Tu diccionario",
+    "Search your dictionary…": "Buscar en tu diccionario…",
+    "Filter by group": "Filtrar por grupo",
+    "Sort words": "Ordenar palabras",
+    "My order": "Mi orden",
+    "A to Z": "De la A a la Z",
+    "Newest first": "Más recientes primero",
+    "Oldest first": "Más antiguas primero",
+    "Manage groups": "Gestionar grupos",
+    "+ Add a word": "+ Añadir palabra",
+    "Word": "Palabra",
+    "Meaning / note": "Significado / nota",
+    "Group": "Grupo",
+    "‹ Back to dictionary": "‹ Volver al diccionario",
+    "Group to edit": "Grupo a editar",
+    "Rename this group": "Cambiar el nombre de este grupo",
+    "Delete this group": "Eliminar este grupo",
+    "Deleting a group keeps its words — they move to the first group.": "Al eliminar un grupo, sus palabras se conservan: pasan al primer grupo.",
+    "Add a new group": "Crear un grupo nuevo",
+    "New group": "Grupo nuevo",
+    "+ Add group": "+ Añadir grupo",
+    "Ungrouped": "Sin grupo",
+    "All groups": "Todos los grupos",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "Aún no hay palabras guardadas. Busca algo y toca la estrella para guardarlo aquí.",
+    "No words matched.": "Sin resultados.",
+    "Move {word} up": "Mover {word} hacia arriba",
+    "Move {word} down": "Mover {word} hacia abajo",
+    "Group: {group}": "Grupo: {group}",
+    "Saved {date}": "Guardado el {date}",
+    "Group {n}": "Grupo {n}",
+    "Please enter a word": "Escribe una palabra",
+    "You need at least one group.": "Necesitas al menos un grupo.",
+    "Save to your dictionary": "Guardar en tu diccionario",
+    "Remove from your dictionary": "Quitar de tu diccionario",
+    "Added to your dictionary": "Guardado en tu diccionario",
+    "Removed from your dictionary": "Quitado de tu diccionario",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "Cambia de pestaña con las píldoras sobre la página. Toca la estrella para guardar en tu diccionario la palabra que buscaste; Diccionario y Estadísticas de arriba están vacíos hasta que los tocas.",
+    "Scroll is OFF": "El scroll está desactivado",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Estas apps se abren en tu navegador normal, donde esta app no puede mantener bloqueado el scroll, así que permanecen cerradas mientras el scroll está desactivado.",
+    "Not now": "Ahora no",
+    "Install to your home screen": "Instalar en tu pantalla de inicio",
+    "Install": "Instalar",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Instalado. Ahora las otras apps se abren en una capa sobre esta app; ciérrala y vuelves aquí, con tus pestañas y el estado del scroll intactos.",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. Instálala en tu pantalla de inicio y pasarán a abrirse en una capa por encima.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. En Safari, toca el botón Compartir y elige «Añadir a pantalla de inicio»; después se abrirán en una capa sobre esta app.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Abre esta página en Chrome o Edge y usa «Instalar aplicación» (o «Añadir a pantalla de inicio») en el menú del navegador. Una vez instalada, las otras apps se abren en una capa sobre esta app en lugar de llevarte fuera.",
+    "Installed to your home screen": "Instalado en tu pantalla de inicio",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} se abre en una capa sobre MyHome Browser. Ciérrala y vuelves directamente aquí.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} se abre en una pestaña aparte del navegador, así que saldrás de MyHome Browser. Instalar esta app en tu pantalla de inicio hace que quede en una capa por encima; míralo en Ajustes.",
+    "Apps that need scroll ON": "Apps que necesitan el scroll activado",
+    "Don't let the apps below open while scroll is OFF": "No abrir las apps de abajo mientras el scroll está desactivado",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estas apps se niegan a abrirse dentro de esta app, así que funcionan en tu navegador normal, donde esta app no puede mantener bloqueado el scroll. Las apps marcadas solo se abren después de que actives el scroll con un motivo y un límite de tiempo. Las apps de feed vienen marcadas de inicio; marca cualquier otra que te coma el tiempo.",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activa el scroll con un motivo y un límite de tiempo y {app} se abrirá.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2160,7 +2216,6 @@ const UI_I18N = {
     "Timer started — app locks in {label}": "タイマー開始 — {label}後にアプリをロックします",
     "Timer started for {label}": "{label}のタイマーを開始しました",
     "Open {app}?": "{app}を開きますか？",
-    "You're about to leave MyHome Browser to open {app}.": "MyHome Browserを離れて{app}を開こうとしています。",
     "{hours}h": "{hours}時間",
     "{minutes}m": "{minutes}分",
     "{seconds}s": "{seconds}秒",
@@ -2210,24 +2265,16 @@ const UI_I18N = {
     "Step 3 of 4": "第3ステップ（全4ステップ）",
     "Step 4 of 4": "第4ステップ（全4ステップ）",
     "Blocked: this looks like an ad or tracking domain": "ブロックしました：広告・トラッキング用のドメインのようです",
-    "Remove bookmark": "ブックマークを削除",
-    "Bookmark this page": "このページをブックマーク",
-    "No bookmarks yet. Open a page and tap the star to save it.": "まだブックマークがありません。ページを開いて星マークをタップすると保存できます。",
-    "Bookmark removed": "ブックマークを削除しました",
-    "Bookmark added": "ブックマークに追加しました",
     "Close tab \"{title}\"": "タブ「{title}」を閉じる",
-    "Bookmarks": "ブックマーク",
     "Insights": "インサイト",
     "Search or enter a website above to start browsing.": "上の欄で検索するか、サイトのアドレスを入力すると閲覧できます。",
-    "Open bookmarks": "ブックマークを開く",
     "Open insights": "インサイトを開く",
     "Search or go to address": "検索またはアドレスへ移動",
     "Search or enter address": "検索またはアドレスを入力",
+    "Basic search": "簡易検索",
     "Open in browser": "ブラウザで開く",
     "Close insights": "インサイトを閉じる",
-    "Close bookmarks": "ブックマークを閉じる",
     "Type a search or a website above — it opens as a new tab you can browse right here.": "上の欄に検索語かサイトのアドレスを入力すると、新しいタブとしてここで開けます。",
-    "Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.": "タブはページ上部のピルで切り替えます。星マークでブックマーク、ブックマークとインサイトは上部のボタンをタップするまで何も表示されません。",
     "Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "広告ブロックは既知の広告・トラッキングドメインへの遷移を止めるだけです。すでに開いているページの中の広告までは取り除けません。",
     "Browsing": "ブラウジング",
     "Still finding what you needed? You've been browsing for {minutes} minutes.": "まだ探しているものは見つかりましたか？ {minutes}分間閲覧しています。",
@@ -2235,50 +2282,68 @@ const UI_I18N = {
     "Still browsing": "閲覧中",
     "Keep browsing": "閲覧を続ける",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} は埋め込み表示を許可していないため、ブラウザで開きました。",
-    "The shelf is full. Remove a book or raise the limit in Manage shelves.": "棚がいっぱいです。本を減らすか、「棚の管理」で容量を増やしてください。",
-    "— empty shelf —": "— 空きの棚 —",
-    "Not found": "見つかりませんでした",
-    "Please enter a title": "タイトルを入力してください",
     "Saved": "保存しました",
-    "{used} / {total}": "{used} / {total}",
-    "This wall is full ({count} couldn't be placed). Try another wall.": "この壁はいっぱいです({count}冊置けませんでした)。別の壁へどうぞ。",
-    "Thickness: {size} · Shelf: {wall}": "厚み: {size} · 置き場所: {wall}",
-    "Wall {n}": "壁 {n}",
-    "Shelf space": "棚の容量",
-    "‹ Back to shelf": "‹ 棚に戻る",
     "Edit": "編集",
     "Remove": "削除",
     "Title": "タイトル",
-    "Spine color": "背表紙の色",
-    "Indigo": "藍",
-    "Crimson": "えんじ",
-    "Pine": "松葉",
-    "Mustard": "芥子",
-    "Eggplant": "茄子",
-    "Teal": "浅葱",
-    "Coral": "珊瑚",
-    "Ink": "墨",
-    "Spine decoration": "背表紙の飾り",
-    "Paper label": "紙ラベル",
-    "Gold lines": "金線",
-    "Plain": "無地",
-    "Thickness:": "厚み:",
-    "Shelf": "置き場所",
-    "Rename this wall": "この壁の名前を変える",
-    "Add a new wall": "新しい壁をつくる",
-    "+ Add wall": "＋ 壁を追加",
-    "Shelf space (capacity)": "棚の容量(キャパシティ)",
-    "Search your shelves…": "本棚をさがす…",
-    "Previous wall": "前の壁",
-    "Bookshelf wall": "本棚の壁",
-    "Next wall": "次の壁",
-    "Manage shelves": "棚の管理",
-    "New wall": "新しい壁",
-    "North Wall": "北の壁",
-    "East Wall": "東の壁",
-    "South Wall": "南の壁",
-    "West Wall": "西の壁",
     "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "検索にはBingを使っています。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
+    "Dictionary": "辞書",
+    "Open dictionary": "辞書を開く",
+    "Close dictionary": "辞書を閉じる",
+    "Your Dictionary": "あなたの辞書",
+    "Search your dictionary…": "辞書の中をさがす…",
+    "Filter by group": "グループでしぼりこむ",
+    "Sort words": "並び替え",
+    "My order": "自分の並び順",
+    "A to Z": "五十音・アルファベット順",
+    "Newest first": "新しい順",
+    "Oldest first": "古い順",
+    "Manage groups": "グループの管理",
+    "+ Add a word": "＋ 言葉を追加",
+    "Word": "言葉",
+    "Meaning / note": "意味・メモ",
+    "Group": "グループ",
+    "‹ Back to dictionary": "‹ 辞書に戻る",
+    "Group to edit": "編集するグループ",
+    "Rename this group": "このグループの名前を変える",
+    "Delete this group": "このグループを削除",
+    "Deleting a group keeps its words — they move to the first group.": "グループを削除しても言葉は消えません。最初のグループに移ります。",
+    "Add a new group": "新しいグループをつくる",
+    "New group": "新しいグループ",
+    "+ Add group": "＋ グループを追加",
+    "Ungrouped": "未分類",
+    "All groups": "すべてのグループ",
+    "{shown} / {total}": "{shown} / {total}",
+    "No words saved yet. Look a word up, then tap the star to save it here.": "まだ言葉がありません。何かを調べて星マークをタップすると、ここに保存できます。",
+    "No words matched.": "見つかりませんでした。",
+    "Move {word} up": "{word} を上へ",
+    "Move {word} down": "{word} を下へ",
+    "Group: {group}": "グループ: {group}",
+    "Saved {date}": "{date} に保存",
+    "Group {n}": "グループ {n}",
+    "Please enter a word": "言葉を入力してください",
+    "You need at least one group.": "グループは少なくとも1つ必要です。",
+    "Save to your dictionary": "辞書に保存",
+    "Remove from your dictionary": "辞書から削除",
+    "Added to your dictionary": "辞書に保存しました",
+    "Removed from your dictionary": "辞書から削除しました",
+    "Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.": "タブはページ上部のピルで切り替えます。星マークで調べた言葉を辞書に保存でき、辞書とインサイトは上部のボタンをタップするまで何も表示されません。",
+    "Scroll is OFF": "スクロールはOFFです",
+    "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "これらのアプリは通常のブラウザで開くため、このアプリからスクロールを止められません。そのため、スクロールOFFの間は開かないようにしています。",
+    "Not now": "いまはやめておく",
+    "Install to your home screen": "ホーム画面に追加する",
+    "Install": "インストール",
+    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "インストール済みです。他のアプリはこのアプリの上に重なる形で開き、閉じればタブもスクロール状態もそのままここに戻ってきます。",
+    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。ホーム画面に追加すると、このアプリの上に重なる形で開くようになります。",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。Safariの共有ボタンから「ホーム画面に追加」を選ぶと、以降はこのアプリの上に重なる形で開きます。",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "このページをChromeまたはEdgeで開き、ブラウザのメニューから「アプリをインストール」（または「ホーム画面に追加」）を選んでください。追加すると、他のアプリはこのアプリから離れず、上に重なる形で開くようになります。",
+    "Installed to your home screen": "ホーム画面に追加しました",
+    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} はMyHome Browserの上に重なる形で開きます。閉じればそのままここに戻ってきます。",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} はブラウザの別タブで開くため、MyHome Browserから離れてしまいます。このアプリをホーム画面に追加しておくと、離れずに上へ重ねて開けます（設定をご覧ください）。",
+    "Apps that need scroll ON": "スクロールONが必要なアプリ",
+    "Don't let the apps below open while scroll is OFF": "スクロールOFFの間は下のアプリを開かない",
+    "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "これらのアプリはこのアプリの中に表示することを拒否しているため、通常のブラウザで開くことになり、そこではこのアプリはスクロールを止められません。チェックしたアプリは、理由と時間制限を決めてスクロールをONにしたときだけ開けます。フィード系は最初からチェックされています。時間を使ってしまう他のアプリもチェックしておけます。",
+    "Turn scroll ON with a reason and a time limit, and {app} will open.": "理由と時間制限を決めてスクロールをONにすると、{app} を開けます。",
   },
 };
 
@@ -2600,6 +2665,24 @@ function initAppLock() {
 
   document.getElementById("browsingCheckinToggle").addEventListener("change", (e) => {
     saveBrowsingCheckinsEnabled(e.target.checked);
+  });
+
+  document.getElementById("feedGateToggle").addEventListener("change", (e) => {
+    saveFeedGateEnabled(e.target.checked);
+  });
+
+  document.getElementById("scrollGatedAppList").addEventListener("change", (e) => {
+    if (e.target.type !== "checkbox") return;
+    saveScrollGatedAppIds(readScrollGatedAppSelection());
+  });
+
+  document.getElementById("installBtn").addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice.catch(() => {});
+    // promptは一度しか使えないので、結果に関わらず捨てて表示を作り直す。
+    deferredInstallPrompt = null;
+    renderInstallSection();
   });
 
   document.getElementById("saveAppLockRecoveryBtn").addEventListener("click", () => {
@@ -3700,6 +3783,9 @@ function openSettingsModal() {
   document.getElementById("biometricCameraToggle").checked = isBiometricCameraPreviewEnabled();
   document.getElementById("postureReminderToggle").checked = isPostureRemindersEnabled();
   document.getElementById("browsingCheckinToggle").checked = isBrowsingCheckinsEnabled();
+  document.getElementById("feedGateToggle").checked = isFeedGateEnabled();
+  renderScrollGatedAppList();
+  renderInstallSection();
   applyBiometricAvailabilityUI();
   settingsPageIndex = 0;
   renderSettingsPage();
@@ -4796,6 +4882,155 @@ function saveBrowsingCheckinsEnabled(value) {
   saveJSON(STORAGE_KEYS.browsingCheckinsEnabled, value);
 }
 
+/* --------------------------------------------------------------------------
+   「スクロールONでないと開けない」アプリの門番
+   Instagram等は X-Frame-Options: DENY / SAMEORIGIN を返すため、このアプリの
+   iframeの中には絶対に表示できない（ブラウザ側の決まりで、JSからは外せない）。
+   結果、開くと必ず「別タブ＝このアプリの管轄外」になり、スクロールOFFの効き目が
+   そこだけ抜けてしまう。中でスクロールを止められない以上、止められる唯一の場所は
+   入口なので、スクロールOFFの間は開かせない。
+   どのアプリを対象にするかは利用者が選ぶ（既定はフィード系の6つ）。時間を溶かす
+   相手は人によって違い、動画や買い物のアプリを止めたい人もいるため。
+   -------------------------------------------------------------------------- */
+function isFeedGateEnabled() {
+  return loadJSON(STORAGE_KEYS.feedAppsNeedScrollOn, true);
+}
+
+function saveFeedGateEnabled(value) {
+  saveJSON(STORAGE_KEYS.feedAppsNeedScrollOn, value);
+}
+
+function getScrollGatedAppIds() {
+  const stored = loadJSON(STORAGE_KEYS.scrollGatedApps, null);
+  return Array.isArray(stored) ? stored : [...SNS_FEED_PLATFORMS];
+}
+
+function saveScrollGatedAppIds(ids) {
+  saveJSON(STORAGE_KEYS.scrollGatedApps, ids);
+}
+
+// 同じサービスの別ドメインも取りこぼさないようにする。
+const DOMAIN_ALIASES = {
+  "x.com": ["twitter.com"],
+  "threads.net": ["threads.com"],
+  "youtube.com": ["youtu.be"],
+};
+
+// 対象アプリのドメイン一覧。アドレス欄に直接入力された場合の判定にも使う。
+function gatedDomains() {
+  const domains = [];
+  getScrollGatedAppIds().forEach((id) => {
+    const app = findApp(id);
+    if (!app || !app.domain) return; // 消されたカスタムタイルは無視する
+    domains.push(app.domain, ...(DOMAIN_ALIASES[app.domain] || []));
+  });
+  return domains;
+}
+
+function isGatedUrl(url) {
+  const host = hostnameOf(url).toLowerCase();
+  if (!host) return false;
+  return gatedDomains().some((domain) => host === domain || host.endsWith(`.${domain}`));
+}
+
+// 満了済みのisOnが残っていても「ON」と見なさないよう、期限も合わせて確かめる
+// （tickがOFFに倒す前の一瞬でも門が開かないようにするため）。
+function isScrollCurrentlyOn() {
+  const state = ScrollLock.getState();
+  return Boolean(state.isOn && state.expiresAt && state.expiresAt > Date.now());
+}
+
+// スクロールOFF中に開こうとしている対象アプリかどうか。
+function isFeedBlocked(url) {
+  return isFeedGateEnabled() && !isScrollCurrentlyOn() && isGatedUrl(url);
+}
+
+/* --------------------------------------------------------------------------
+   ホーム画面へのインストール（PWA）
+   ブラウザのタブとして開いている間は、他アプリを開くと「別のタブ」になり、
+   このアプリからは完全に離れてしまう。ホーム画面に入れて単独起動していると、
+   同じ操作でも“このアプリの上に重なる小窓”（AndroidのCustom Tab / iOSの
+   アプリ内ブラウザ）で開き、閉じればそのまま戻ってこられる。タブも辞書も
+   スクロール状態もそのまま残るので、離脱を避けたいならインストールが要になる。
+   -------------------------------------------------------------------------- */
+let deferredInstallPrompt = null;
+
+function isStandaloneApp() {
+  return Boolean(
+    (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+      window.navigator.standalone
+  );
+}
+
+// iOSのSafariはbeforeinstallpromptを持たないため、共有メニューからの手順を案内する。
+function isIosDevice() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function renderInstallSection() {
+  const status = document.getElementById("installStatusText");
+  const btn = document.getElementById("installBtn");
+  if (!status || !btn) return;
+
+  if (isStandaloneApp()) {
+    status.textContent = t("Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.");
+    btn.hidden = true;
+    return;
+  }
+  if (deferredInstallPrompt) {
+    status.textContent = t("Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.");
+    btn.hidden = false;
+    return;
+  }
+  status.textContent = isIosDevice()
+    ? t("Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.")
+    : t("Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.");
+  btn.hidden = true;
+}
+
+// 「スクロールONでないと開けない」対象アプリの選択欄。ホーム画面に置ける
+// 全アプリ（固定候補＋自分で足したタイル）から選べるようにする。
+function renderScrollGatedAppList() {
+  const list = document.getElementById("scrollGatedAppList");
+  if (!list) return;
+  buildAppCandidateListItems(list, getAllAppCandidates(), getScrollGatedAppIds(), "scroll-gated");
+}
+
+function readScrollGatedAppSelection() {
+  return Array.from(
+    document.querySelectorAll('#scrollGatedAppList input[type="checkbox"]:checked')
+  ).map((cb) => cb.value);
+}
+
+function initInstallPrompt() {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    renderInstallSection();
+  });
+  window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    renderInstallSection();
+    showToast(t("Installed to your home screen"));
+  });
+}
+
+let pendingBlockedFeedName = null;
+
+function openFeedBlockedModal(name) {
+  pendingBlockedFeedName = name;
+  document.getElementById("feedBlockedDesc").textContent = tf(
+    "Turn scroll ON with a reason and a time limit, and {app} will open.",
+    { app: name }
+  );
+  document.getElementById("feedBlockedModal").hidden = false;
+}
+
+function closeFeedBlockedModal() {
+  document.getElementById("feedBlockedModal").hidden = true;
+  pendingBlockedFeedName = null;
+}
+
 // その日の合計利用時間（各アプリの滞在時間 + スクロールONだった時間）をミリ秒で返す。
 function totalUsageMsForDay(date) {
   const data = aggregateInsightsForPrefix(dayPrefix(date));
@@ -4898,10 +5133,17 @@ function openApp(app) {
 let pendingConfirmApp = null;
 
 function openAppOpenConfirm(app) {
+  // スクロールOFF中のフィード系は、確認モーダルではなく門前払いにする。
+  if (isFeedBlocked(app.web)) {
+    openFeedBlockedModal(app.name);
+    return;
+  }
   pendingConfirmApp = app;
   document.getElementById("appOpenConfirmTitle").textContent = tf("Open {app}?", { app: app.name });
-  document.getElementById("appOpenConfirmDesc").textContent =
-    tf("You're about to leave MyHome Browser to open {app}.", { app: app.name });
+  // ホーム画面から起動しているかどうかで、実際に起きることが変わるので文言も変える。
+  document.getElementById("appOpenConfirmDesc").textContent = isStandaloneApp()
+    ? tf("{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.", { app: app.name })
+    : tf("{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.", { app: app.name });
   document.getElementById("appOpenConfirmModal").hidden = false;
 }
 
@@ -5147,10 +5389,17 @@ function tabStripPageForIndex(index) {
 }
 
 function openTab(rawInput) {
-  const url = resolveNavigationUrl(rawInput);
+  const raw = String(rawInput).trim();
+  const url = resolveNavigationUrl(raw);
   if (!url) return;
   if (isAdBlockedUrl(url)) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
+    return;
+  }
+  // アドレス欄や辞書から直接開こうとした場合も、ドックと同じ門をくぐらせる。
+  if (isFeedBlocked(url)) {
+    openFeedBlockedModal(hostnameOf(url));
+    document.getElementById("searchInput").value = "";
     return;
   }
   if (isNonEmbeddableUrl(url)) {
@@ -5159,8 +5408,11 @@ function openTab(rawInput) {
     document.getElementById("searchInput").value = "";
     return;
   }
+  // 検索して開いた場合は「調べた言葉」をタブに覚えておく。タブの見出しにも使い、
+  // ☆で辞書に保存するときの見出し語の既定値にもなる。
+  const query = looksLikeUrl(raw) ? "" : raw;
   const tabs = getBrowserTabs();
-  const tab = { id: makeTabId(), url, title: hostnameOf(url) || url };
+  const tab = { id: makeTabId(), url, title: query || hostnameOf(url) || url, query };
   tabs.push(tab);
   saveBrowserTabs(tabs);
   saveActiveTabId(tab.id);
@@ -5298,7 +5550,7 @@ function renderBrowser() {
 
   document.getElementById("browserViewportUrl").textContent = activeTab.title;
   document.getElementById("browserOpenExternalBtn").href = activeTab.url;
-  updateBookmarkButtonState(activeTab.url);
+  updateSaveWordButtonState(activeTab.url);
   startBrowsingSessionIfNeeded();
 }
 
@@ -5403,509 +5655,517 @@ function initOverlayBrowsingPause() {
 }
 
 /* ==========================================================================
-   ブックマーク = 「本棚」。以前作った蔵書管理アプリ(booooook/わたしの蔵書館)の
-   見た目と仕組み — 壁ごとの本棚、背表紙の色・飾り・厚み、棚の容量ゲージ、
-   検索してジャンプ、タップで詳細表示 — をURLブックマークに合わせて移植した。
-   「種類(サイト/動画/ファイル/メモ)」「見本を並べる」「JSONバックアップ」は
-   ブラウザのURLブックマークという用途に合わないため移植していない。
+   「あなたの辞書」。調べた言葉を見出し語として貯め、辞書の中を検索し、
+   自分で作ったグループへ振り分け、並び順も自由に決められるようにしたもの。
+   （旧「本棚」表示 — 壁ごとの棚・背表紙の色や厚み・容量ゲージ — は、言葉を
+   貯める用途には飾りの設定が多すぎたため素直な一覧に置き換えた。旧データは
+   migrateBookshelfToDictionary() が見出し語とグループへ移し替える）
    ========================================================================== */
 
-const BOOKMARK_COLORS = [
-  ["Indigo", "#2f4a6b"], ["Crimson", "#7a2e2a"], ["Pine", "#3c5a3a"],
-  ["Mustard", "#a8842c"], ["Eggplant", "#4a3457"], ["Teal", "#2d6e72"],
-  ["Coral", "#b25e4a"], ["Ink", "#3a3733"],
-];
-const BOOKMARK_DECOS = [
-  ["label", "Paper label"], ["gold", "Gold lines"], ["plain", "Plain"],
-];
-const DEFAULT_BOOKMARK_WALLS = ["North Wall", "East Wall", "South Wall", "West Wall"];
-const DEFAULT_BOOKMARK_CAPACITY = 300;
-const DEFAULT_BOOKMARK_SIZE = 5;
-const BOOKMARK_SHELF_ROW_GAP = 6;
+const DEFAULT_DICT_GROUPS = ["Ungrouped"];
+const DICT_SORTS = ["manual", "az", "newest", "oldest"];
 
-function getBookmarkWalls() {
-  return loadJSON(STORAGE_KEYS.bookmarkWalls, DEFAULT_BOOKMARK_WALLS.map((n) => ({ name: n })));
-}
-function saveBookmarkWalls(walls) {
-  saveJSON(STORAGE_KEYS.bookmarkWalls, walls);
-}
-function getBookmarkCapacity() {
-  return loadJSON(STORAGE_KEYS.bookmarkShelfCapacity, DEFAULT_BOOKMARK_CAPACITY);
-}
-function saveBookmarkCapacity(n) {
-  saveJSON(STORAGE_KEYS.bookmarkShelfCapacity, n);
+function makeEntryId() {
+  return `w-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-// 既存のブックマークに本棚用の項目(id/wall/color/deco/size)が無ければ補う
-// (遅延マイグレーション。一度でも補ったらそのまま保存し直す)。
-function normalizeBookmarks(bookmarks) {
-  let changed = false;
-  const normalized = bookmarks.map((b) => {
-    if (b.id && b.color && b.deco && typeof b.wall === "number" && typeof b.size === "number") return b;
-    changed = true;
-    return {
-      ...b,
-      id: b.id || makeTabId(),
-      wall: typeof b.wall === "number" ? b.wall : 0,
-      color: b.color || BOOKMARK_COLORS[0][1],
-      deco: b.deco || "label",
-      size: typeof b.size === "number" ? b.size : DEFAULT_BOOKMARK_SIZE,
-    };
-  });
-  return { normalized, changed };
+function getDictGroups() {
+  const groups = loadJSON(STORAGE_KEYS.dictGroups, null);
+  if (Array.isArray(groups) && groups.length) return groups;
+  return DEFAULT_DICT_GROUPS.map((name) => ({ name }));
+}
+function saveDictGroups(groups) {
+  saveJSON(STORAGE_KEYS.dictGroups, groups);
+}
+// 既定のグループ名だけは訳文を出したいので t() を通す（利用者が付けた名前は
+// 辞書に載っていないため、t() はそのまま返す）。
+function dictGroupName(index) {
+  const groups = getDictGroups();
+  return groups[index] ? t(groups[index].name) : t(DEFAULT_DICT_GROUPS[0]);
 }
 
-function getBookmarks() {
-  const raw = loadJSON(STORAGE_KEYS.bookmarks, []);
-  const { normalized, changed } = normalizeBookmarks(raw);
-  if (changed) saveBookmarksData(normalized);
-  return normalized;
+function getDictSort() {
+  const sort = loadJSON(STORAGE_KEYS.dictSort, "manual");
+  return DICT_SORTS.includes(sort) ? sort : "manual";
 }
-function saveBookmarksData(bookmarks) {
-  saveJSON(STORAGE_KEYS.bookmarks, bookmarks);
-}
-function isBookmarked(url) {
-  return getBookmarks().some((b) => b.url === url);
-}
-function usedBookmarkThickness() {
-  return getBookmarks().reduce((sum, b) => sum + b.size, 0);
+function saveDictSort(sort) {
+  saveJSON(STORAGE_KEYS.dictSort, sort);
 }
 
-// クイック登録(閲覧中に☆をタップ)。見た目は既定値で棚に置き、色/飾り/厚み/
-// 置き場所は本棚モーダルの詳細画面からいつでも編集できる。
-function addBookmark(url, title) {
-  const bookmarks = getBookmarks();
-  if (bookmarks.some((b) => b.url === url)) return { ok: true };
-  const used = bookmarks.reduce((sum, b) => sum + b.size, 0);
-  if (used + DEFAULT_BOOKMARK_SIZE > getBookmarkCapacity()) {
-    return { ok: false, message: t("The shelf is full. Remove a book or raise the limit in Manage shelves.") };
+// グループを消した後などに範囲外のgroupが残らないよう、読み出し時に丸める。
+function getDictEntries() {
+  const raw = loadJSON(STORAGE_KEYS.dictEntries, []);
+  if (!Array.isArray(raw)) return [];
+  const groupCount = getDictGroups().length;
+  return raw.map((e) => ({
+    id: e.id || makeEntryId(),
+    word: e.word || "",
+    note: e.note || "",
+    url: e.url || "",
+    group: typeof e.group === "number" && e.group >= 0 && e.group < groupCount ? e.group : 0,
+    savedAt: e.savedAt || 0,
+  }));
+}
+function saveDictEntries(entries) {
+  saveJSON(STORAGE_KEYS.dictEntries, entries);
+}
+
+// 旧「本棚」(ブックマーク＋壁)を辞書へ一度だけ移す。壁はそのままグループになり、
+// ブックマークのタイトルが見出し語になる。移し終えたら旧キーは消す。
+function migrateBookshelfToDictionary() {
+  const legacy = loadJSON("myhome:bookmarks", null);
+  if (!Array.isArray(legacy)) return;
+
+  const legacyWalls = loadJSON("myhome:bookmarkWalls", null);
+  if (Array.isArray(legacyWalls) && legacyWalls.length) {
+    saveDictGroups(legacyWalls.map((w) => ({ name: w.name })));
   }
-  const walls = getBookmarkWalls();
-  const wall = Math.max(0, Math.min(bookshelfWallIndex, walls.length - 1));
-  const color = BOOKMARK_COLORS[bookmarks.length % BOOKMARK_COLORS.length][1];
-  bookmarks.unshift({
-    id: makeTabId(), url, title, savedAt: Date.now(),
-    wall, color, deco: "label", size: DEFAULT_BOOKMARK_SIZE,
+  // すでに辞書を使い始めていたら上書きしない（旧キーの掃除だけ行う）。
+  if (!Array.isArray(loadJSON(STORAGE_KEYS.dictEntries, null))) {
+    saveDictEntries(legacy.map((b) => ({
+      id: b.id || makeEntryId(),
+      word: b.title || hostnameOf(b.url) || "",
+      note: "",
+      url: b.url || "",
+      group: typeof b.wall === "number" ? b.wall : 0,
+      savedAt: b.savedAt || Date.now(),
+    })));
+  }
+  ["myhome:bookmarks", "myhome:bookmarkWalls", "myhome:bookmarkShelfCapacity"].forEach((key) => {
+    try { localStorage.removeItem(key); } catch (e) {}
   });
-  saveBookmarksData(bookmarks);
+}
+
+function isWordSaved(url) {
+  if (!url) return false;
+  return getDictEntries().some((e) => e.url === url);
+}
+
+function addDictEntry({ word, note, url, group }) {
+  const trimmed = (word || "").trim();
+  if (!trimmed) return { ok: false, message: t("Please enter a word") };
+  const entries = getDictEntries();
+  if (url && entries.some((e) => e.url === url)) return { ok: true };
+  const groups = getDictGroups();
+  const groupIdx = Math.max(0, Math.min(typeof group === "number" ? group : 0, groups.length - 1));
+  entries.unshift({
+    id: makeEntryId(),
+    word: trimmed,
+    note: (note || "").trim(),
+    url: url || "",
+    group: groupIdx,
+    savedAt: Date.now(),
+  });
+  saveDictEntries(entries);
   return { ok: true };
 }
-function removeBookmark(url) {
-  saveBookmarksData(getBookmarks().filter((b) => b.url !== url));
+
+function removeDictEntryByUrl(url) {
+  saveDictEntries(getDictEntries().filter((e) => e.url !== url));
 }
-function updateBookmark(id, changes) {
-  const bookmarks = getBookmarks();
-  const idx = bookmarks.findIndex((b) => b.id === id);
+function removeDictEntryById(id) {
+  saveDictEntries(getDictEntries().filter((e) => e.id !== id));
+}
+function updateDictEntry(id, changes) {
+  const entries = getDictEntries();
+  const idx = entries.findIndex((e) => e.id === id);
   if (idx === -1) return;
-  bookmarks[idx] = { ...bookmarks[idx], ...changes };
-  saveBookmarksData(bookmarks);
+  entries[idx] = { ...entries[idx], ...changes };
+  saveDictEntries(entries);
 }
 
-function updateBookmarkButtonState(url) {
-  const btn = document.getElementById("bookmarkTabBtn");
+// 「自分の並び順」のときだけ使う入れ替え。いま画面に見えている並びの隣と交換
+// するので、グループや検索で絞り込んでいても直感どおりに動く。
+function moveDictEntry(id, delta, visibleIds) {
+  const pos = visibleIds.indexOf(id);
+  if (pos === -1) return false;
+  const neighborId = visibleIds[pos + delta];
+  if (neighborId === undefined) return false;
+  const entries = getDictEntries();
+  const a = entries.findIndex((e) => e.id === id);
+  const b = entries.findIndex((e) => e.id === neighborId);
+  if (a === -1 || b === -1) return false;
+  [entries[a], entries[b]] = [entries[b], entries[a]];
+  saveDictEntries(entries);
+  return true;
+}
+
+function updateSaveWordButtonState(url) {
+  const btn = document.getElementById("saveWordBtn");
   if (!btn) return;
-  const saved = isBookmarked(url);
+  const saved = isWordSaved(url);
   btn.textContent = saved ? "★" : "☆";
-  btn.setAttribute("aria-label", saved ? t("Remove bookmark") : t("Bookmark this page"));
+  btn.setAttribute("aria-label", saved ? t("Remove from your dictionary") : t("Save to your dictionary"));
   btn.classList.toggle("is-active", saved);
 }
 
-/* --------------------------------------------------------------------------
-   背表紙の見た目 (元の蔵書アプリのCSSをそのまま移植)
-   -------------------------------------------------------------------------- */
-function hashString(s) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
-function bookWidthPx(size) {
-  return Math.round(16 + size * 1.6);
-}
-function bookHeightPx(seed) {
-  return 74 + (hashString(seed) % 20);
-}
-function spineBackground(color) {
-  return `linear-gradient(180deg, ${color} 0%, rgba(0,0,0,.35) 140%), ${color}`;
-}
-function buildDecoOverlay(deco) {
-  const frag = document.createDocumentFragment();
-  if (deco === "label") {
-    const band = document.createElement("span");
-    band.className = "book-band";
-    frag.appendChild(band);
-  } else if (deco === "gold") {
-    const top = document.createElement("span");
-    top.className = "book-gline top";
-    const bottom = document.createElement("span");
-    bottom.className = "book-gline bottom";
-    frag.append(top, bottom);
-  }
-  return frag;
-}
-function buildBookSpine(bookmark, isHit) {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "book-spine" + (isHit ? " hit" : "");
-  btn.style.width = `${bookWidthPx(bookmark.size)}px`;
-  btn.style.height = `${bookHeightPx(bookmark.title + bookmark.id)}px`;
-  btn.style.background = spineBackground(bookmark.color);
-  btn.appendChild(buildDecoOverlay(bookmark.deco));
-  const title = document.createElement("span");
-  title.className = "book-spine-title";
-  title.textContent = bookmark.title;
-  btn.appendChild(title);
-  btn.setAttribute("aria-label", bookmark.title);
-  btn.addEventListener("click", () => openBookmarkDetail(bookmark.id));
-  return btn;
+function refreshSaveWordButton() {
+  const activeTab = getBrowserTabs().find((tb) => tb.id === getActiveTabId());
+  if (activeTab) updateSaveWordButtonState(activeTab.url);
 }
 
 /* --------------------------------------------------------------------------
-   本棚モーダルの状態: shelf(棚を見る) / detail(詳細) / manage(棚の管理)
+   辞書モーダルの状態: list(一覧) / detail(見出し語の詳細) / groups(グループ管理)
    -------------------------------------------------------------------------- */
-let bookshelfWallIndex = 0;
-let bookshelfView = "shelf";
-let bookshelfSelectedBookmarkId = null;
-let bookshelfEditOpen = false;
-let bookshelfEditPage = 0;
-const BOOKSHELF_EDIT_PAGES = 2;
+let dictView = "list";
+let dictSelectedId = null;
+let dictEditOpen = false;
+let dictQuery = "";
+let dictGroupFilter = "all"; // "all" もしくはグループのindex
+let dictGroupsEditIndex = 0;
 
-function renderBookshelfEditPage() {
-  document.getElementById("bookshelfEditPage1").hidden = bookshelfEditPage !== 0;
-  document.getElementById("bookshelfEditPage2").hidden = bookshelfEditPage !== 1;
-  document.getElementById("bookshelfEditPrevBtn").disabled = bookshelfEditPage === 0;
-  document.getElementById("bookshelfEditNextBtn").disabled = bookshelfEditPage === BOOKSHELF_EDIT_PAGES - 1;
-  const pageNumbers = document.getElementById("bookshelfEditPageNumbers");
-  pageNumbers.innerHTML = "";
-  for (let i = 0; i < BOOKSHELF_EDIT_PAGES; i++) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "page-number-btn" + (i === bookshelfEditPage ? " is-active" : "");
-    btn.textContent = String(i + 1);
-    btn.addEventListener("click", () => {
-      bookshelfEditPage = i;
-      renderBookshelfEditPage();
-    });
-    pageNumbers.appendChild(btn);
-  }
+function showDictView(view) {
+  dictView = view;
+  document.getElementById("dictListView").hidden = view !== "list";
+  document.getElementById("dictDetailView").hidden = view !== "detail";
+  document.getElementById("dictGroupsView").hidden = view !== "groups";
 }
 
-function showBookshelfView(view) {
-  bookshelfView = view;
-  document.getElementById("bookshelfShelfView").hidden = view !== "shelf";
-  document.getElementById("bookshelfDetailView").hidden = view !== "detail";
-  document.getElementById("bookshelfManageView").hidden = view !== "manage";
-}
-
-function renderBookshelfGauge() {
-  const used = usedBookmarkThickness();
-  const total = getBookmarkCapacity();
-  const pct = Math.min(100, (used / Math.max(1, total)) * 100);
-  document.getElementById("bookshelfGaugeText").textContent = tf("{used} / {total}", { used, total });
-  document.getElementById("bookshelfGaugeFill").style.width = `${pct}%`;
-}
-
-function renderBookshelfWallSelect() {
-  const walls = getBookmarkWalls();
-  const select = document.getElementById("bookshelfWallSelect");
+function fillGroupSelect(select, { includeAll = false, selected = 0 } = {}) {
   select.innerHTML = "";
-  walls.forEach((w, i) => {
+  if (includeAll) {
+    const opt = document.createElement("option");
+    opt.value = "all";
+    opt.textContent = t("All groups");
+    select.appendChild(opt);
+  }
+  getDictGroups().forEach((g, i) => {
     const opt = document.createElement("option");
     opt.value = String(i);
-    opt.textContent = t(w.name);
+    opt.textContent = t(g.name);
     select.appendChild(opt);
   });
-  select.value = String(bookshelfWallIndex);
+  select.value = String(selected);
 }
 
-// 一段の高さと横幅を実測してから、何段入るか・一段に何冊並ぶかを決める
-// (他の一覧と同じ「まず1つ仮描画して測る」方式。固定値だと端末の画面サイズや
-// 言語ごとの文字幅次第でモーダルからはみ出す/隙間だらけになるため)。
-function measureShelfMetrics(caseEl) {
-  const probe = document.createElement("div");
-  probe.className = "shelf";
-  probe.style.flex = "0 0 auto"; // 本番描画時のflex:1で引き伸ばされる前の、自然な最小高さを測る
-  caseEl.appendChild(probe);
-  const shelfHeight = probe.getBoundingClientRect().height || 92;
-  const maxWidth = probe.clientWidth || 300;
-  const available = caseEl.clientHeight || shelfHeight * 3;
-  caseEl.innerHTML = "";
-  const shelfCount = Math.max(1, Math.floor((available + BOOKMARK_SHELF_ROW_GAP) / (shelfHeight + BOOKMARK_SHELF_ROW_GAP)));
-  return { maxWidth, shelfCount };
+// 検索とグループの絞り込みを掛けたうえで、選ばれた並び順に整える。
+// manual(自分の並び順)のときは保存されている配列の順序をそのまま使う。
+function visibleDictEntries() {
+  const query = dictQuery.trim().toLowerCase();
+  let entries = getDictEntries();
+
+  if (dictGroupFilter !== "all") {
+    const groupIdx = Number(dictGroupFilter);
+    entries = entries.filter((e) => e.group === groupIdx);
+  }
+  if (query) {
+    entries = entries.filter(
+      (e) =>
+        e.word.toLowerCase().includes(query) ||
+        e.note.toLowerCase().includes(query) ||
+        e.url.toLowerCase().includes(query)
+    );
+  }
+
+  const sort = getDictSort();
+  if (sort === "az") {
+    entries = [...entries].sort((a, b) => a.word.localeCompare(b.word, currentLanguage));
+  } else if (sort === "newest") {
+    entries = [...entries].sort((a, b) => b.savedAt - a.savedAt);
+  } else if (sort === "oldest") {
+    entries = [...entries].sort((a, b) => a.savedAt - b.savedAt);
+  }
+  return entries;
 }
 
-// 幅に収まる限り詰めていく単純なビンパッキング(元のPython版と同じfirst-fit)。
-function layoutBookcase(wallIdx, maxWidth, shelfCount) {
-  const wallBooks = getBookmarks().filter((b) => b.wall === wallIdx);
-  const rows = Array.from({ length: shelfCount }, () => ({ w: 0, items: [] }));
-  let overflow = 0;
-  wallBooks.forEach((b) => {
-    const w = bookWidthPx(b.size);
-    const row = rows.find((r) => r.w + w <= maxWidth);
-    if (row) {
-      row.w += w + 2;
-      row.items.push(b);
-    } else {
-      overflow++;
-    }
-  });
-  return { rows, overflow };
+function buildDictRow(entry, index, entries, visibleIds, manualOrder) {
+  const li = document.createElement("li");
+  li.className = "dictionary-row";
+
+  const main = document.createElement("button");
+  main.type = "button";
+  main.className = "dictionary-row-main";
+  main.addEventListener("click", () => openDictDetail(entry.id));
+
+  const top = document.createElement("span");
+  top.className = "dictionary-row-top";
+
+  const word = document.createElement("span");
+  word.className = "dictionary-word";
+  word.textContent = entry.word;
+  top.appendChild(word);
+
+  const badge = document.createElement("span");
+  badge.className = "dictionary-group-badge";
+  badge.textContent = dictGroupName(entry.group);
+  top.appendChild(badge);
+  main.appendChild(top);
+
+  const sub = entry.note || entry.url;
+  if (sub) {
+    const meta = document.createElement("span");
+    meta.className = "dictionary-row-meta";
+    meta.textContent = sub;
+    main.appendChild(meta);
+  }
+  li.appendChild(main);
+
+  if (manualOrder) {
+    const controls = document.createElement("span");
+    controls.className = "dictionary-row-controls";
+    [
+      ["↑", -1, "Move {word} up", index === 0],
+      ["↓", 1, "Move {word} down", index === entries.length - 1],
+    ].forEach(([glyph, delta, label, disabled]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "order-btn";
+      btn.textContent = glyph;
+      btn.disabled = disabled;
+      btn.setAttribute("aria-label", tf(label, { word: entry.word }));
+      btn.addEventListener("click", () => {
+        if (moveDictEntry(entry.id, delta, visibleIds)) renderDictList();
+      });
+      controls.appendChild(btn);
+    });
+    li.appendChild(controls);
+  }
+  return li;
 }
 
-function renderBookcase(hitId) {
-  const caseEl = document.getElementById("bookshelfCase");
-  const overflowNote = document.getElementById("bookshelfOverflowNote");
-  const emptyNote = document.getElementById("bookshelfEmptyNote");
-  caseEl.innerHTML = "";
+function renderDictList() {
+  const list = document.getElementById("dictList");
+  const emptyNote = document.getElementById("dictEmptyNote");
+  const countNote = document.getElementById("dictCountNote");
+  list.innerHTML = "";
 
-  const allBookmarks = getBookmarks();
-  emptyNote.hidden = allBookmarks.length > 0;
-  if (allBookmarks.length === 0) {
-    overflowNote.hidden = true;
+  const total = getDictEntries().length;
+  const entries = visibleDictEntries();
+  const visibleIds = entries.map((e) => e.id);
+  const manualOrder = getDictSort() === "manual";
+
+  countNote.textContent = total === 0 ? "" : tf("{shown} / {total}", { shown: entries.length, total });
+
+  if (entries.length === 0) {
+    emptyNote.hidden = false;
+    emptyNote.textContent =
+      total === 0
+        ? t("No words saved yet. Look a word up, then tap the star to save it here.")
+        : t("No words matched.");
     return;
   }
-
-  const { maxWidth, shelfCount } = measureShelfMetrics(caseEl);
-  const { rows, overflow } = layoutBookcase(bookshelfWallIndex, maxWidth, shelfCount);
-
-  rows.forEach((row) => {
-    const shelf = document.createElement("div");
-    shelf.className = "shelf";
-    if (row.items.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "shelf-empty";
-      empty.textContent = t("— empty shelf —");
-      shelf.appendChild(empty);
-    } else {
-      row.items.forEach((b) => shelf.appendChild(buildBookSpine(b, b.id === hitId)));
-    }
-    caseEl.appendChild(shelf);
+  emptyNote.hidden = true;
+  entries.forEach((entry, index) => {
+    list.appendChild(buildDictRow(entry, index, entries, visibleIds, manualOrder));
   });
-
-  overflowNote.hidden = overflow === 0;
-  if (overflow > 0) {
-    overflowNote.textContent = tf("This wall is full ({count} couldn't be placed). Try another wall.", { count: overflow });
-  }
 }
 
-function renderBookshelfShelfView(hitId) {
-  renderBookshelfGauge();
-  renderBookshelfWallSelect();
-  renderBookcase(hitId);
+function renderDictListView() {
+  fillGroupSelect(document.getElementById("dictGroupFilter"), {
+    includeAll: true,
+    selected: dictGroupFilter,
+  });
+  document.getElementById("dictSortSelect").value = getDictSort();
+  renderDictList();
 }
 
-function switchBookshelfWall(newIndex) {
-  const walls = getBookmarkWalls();
-  bookshelfWallIndex = ((newIndex % walls.length) + walls.length) % walls.length;
-  renderBookshelfShelfView();
+/* ---- 言葉を手で足すフォーム ---- */
+function openDictAddForm() {
+  document.getElementById("dictAddWordInput").value = "";
+  document.getElementById("dictAddNoteInput").value = "";
+  fillGroupSelect(document.getElementById("dictAddGroupSelect"), {
+    selected: dictGroupFilter === "all" ? 0 : Number(dictGroupFilter),
+  });
+  document.getElementById("dictAddForm").hidden = false;
+  document.getElementById("dictAddWordInput").focus();
 }
-
-function bookshelfHandleSearch(query) {
-  const trimmed = query.trim();
-  const statusEl = document.getElementById("bookshelfSearchStatus");
-  if (!trimmed) {
-    statusEl.hidden = true;
-    renderBookshelfShelfView();
+function closeDictAddForm() {
+  document.getElementById("dictAddForm").hidden = true;
+}
+function submitDictAddForm() {
+  const result = addDictEntry({
+    word: document.getElementById("dictAddWordInput").value,
+    note: document.getElementById("dictAddNoteInput").value,
+    url: "",
+    group: Number(document.getElementById("dictAddGroupSelect").value) || 0,
+  });
+  if (!result.ok) {
+    showToast(result.message);
     return;
   }
-  const hit = getBookmarks().find((b) => b.title.toLowerCase().includes(trimmed.toLowerCase()));
-  if (hit) {
-    statusEl.hidden = true;
-    bookshelfWallIndex = hit.wall;
-    renderBookshelfShelfView(hit.id);
-  } else {
-    statusEl.hidden = false;
-    statusEl.textContent = t("Not found");
-    renderBookshelfShelfView();
+  closeDictAddForm();
+  renderDictListView();
+  showToast(t("Added to your dictionary"));
+}
+
+/* ---- 見出し語の詳細 ---- */
+function openDictDetail(id) {
+  dictSelectedId = id;
+  dictEditOpen = false;
+  showDictView("detail");
+  renderDictDetail();
+}
+function closeDictDetail() {
+  dictSelectedId = null;
+  showDictView("list");
+  renderDictListView();
+}
+
+function renderDictDetail() {
+  const entry = getDictEntries().find((e) => e.id === dictSelectedId);
+  if (!entry) {
+    closeDictDetail();
+    return;
   }
-}
-
-/* ---- 詳細画面 ---- */
-function openBookmarkDetail(id) {
-  bookshelfSelectedBookmarkId = id;
-  bookshelfEditOpen = false;
-  showBookshelfView("detail");
-  renderBookmarkDetail();
-}
-function closeBookmarkDetail() {
-  bookshelfSelectedBookmarkId = null;
-  showBookshelfView("shelf");
-  renderBookshelfShelfView();
-}
-
-function renderBookmarkDetail() {
-  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
-  if (!b) { closeBookmarkDetail(); return; }
-  const walls = getBookmarkWalls();
-  const card = document.getElementById("bookshelfDetailCard");
+  const card = document.getElementById("dictDetailCard");
   card.innerHTML = "";
 
-  const swatch = document.createElement("span");
-  swatch.className = "detail-color-swatch";
-  swatch.style.background = b.color;
-  card.appendChild(swatch);
-
   const h3 = document.createElement("h3");
-  h3.textContent = b.title;
+  h3.textContent = entry.word;
   card.appendChild(h3);
 
-  const meta1 = document.createElement("div");
-  meta1.className = "detail-meta";
-  meta1.textContent = tf("Thickness: {size} · Shelf: {wall}", {
-    size: b.size, wall: walls[b.wall] ? t(walls[b.wall].name) : "",
-  });
-  card.appendChild(meta1);
-
-  const meta2 = document.createElement("div");
-  meta2.className = "detail-meta detail-url";
-  meta2.textContent = b.url;
-  card.appendChild(meta2);
-
-  document.getElementById("bookshelfEditForm").hidden = !bookshelfEditOpen;
-  document.getElementById("bookshelfEditToggleBtn").setAttribute("aria-expanded", String(bookshelfEditOpen));
-  if (bookshelfEditOpen) {
-    bookshelfEditPage = 0;
-    renderBookshelfEditPage();
-    populateBookshelfEditForm(b);
+  if (entry.note) {
+    const note = document.createElement("p");
+    note.className = "detail-note";
+    note.textContent = entry.note;
+    card.appendChild(note);
   }
+
+  const group = document.createElement("div");
+  group.className = "detail-meta";
+  group.textContent = tf("Group: {group}", { group: dictGroupName(entry.group) });
+  card.appendChild(group);
+
+  if (entry.savedAt) {
+    const when = document.createElement("div");
+    when.className = "detail-meta";
+    when.textContent = tf("Saved {date}", { date: new Date(entry.savedAt).toLocaleDateString() });
+    card.appendChild(when);
+  }
+
+  if (entry.url) {
+    const url = document.createElement("div");
+    url.className = "detail-meta detail-url";
+    url.textContent = entry.url;
+    card.appendChild(url);
+  }
+
+  // 手で足した言葉にはURLが無いので、その時だけ「開く」を隠す。
+  document.getElementById("dictOpenBtn").hidden = !entry.url;
+  document.getElementById("dictEditForm").hidden = !dictEditOpen;
+  document.getElementById("dictEditToggleBtn").setAttribute("aria-expanded", String(dictEditOpen));
+  if (dictEditOpen) populateDictEditForm(entry);
 }
 
-function populateBookshelfEditForm(b) {
-  document.getElementById("bookshelfEditTitleInput").value = b.title;
-  document.getElementById("bookshelfEditSizeInput").value = b.size;
-  document.getElementById("bookshelfEditSizeValue").textContent = String(b.size);
-  const wallSelect = document.getElementById("bookshelfEditWallSelect");
-  wallSelect.innerHTML = "";
-  getBookmarkWalls().forEach((w, i) => {
-    const opt = document.createElement("option");
-    opt.value = String(i);
-    opt.textContent = t(w.name);
-    wallSelect.appendChild(opt);
-  });
-  wallSelect.value = String(b.wall);
-  document.querySelectorAll('#bookshelfEditColorRow input[type="radio"]').forEach((r) => {
-    r.checked = r.value === b.color;
-  });
-  document.querySelectorAll('#bookshelfEditDecoRow input[type="radio"]').forEach((r) => {
-    r.checked = r.value === b.deco;
-  });
+function populateDictEditForm(entry) {
+  document.getElementById("dictEditWordInput").value = entry.word;
+  document.getElementById("dictEditNoteInput").value = entry.note;
+  fillGroupSelect(document.getElementById("dictEditGroupSelect"), { selected: entry.group });
 }
 
-function saveBookshelfEdits() {
-  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
-  if (!b) return;
-  const title = document.getElementById("bookshelfEditTitleInput").value.trim();
-  if (!title) {
-    showToast(t("Please enter a title"));
+function saveDictEdits() {
+  const entry = getDictEntries().find((e) => e.id === dictSelectedId);
+  if (!entry) return;
+  const word = document.getElementById("dictEditWordInput").value.trim();
+  if (!word) {
+    showToast(t("Please enter a word"));
     return;
   }
-  const size = Number(document.getElementById("bookshelfEditSizeInput").value) || DEFAULT_BOOKMARK_SIZE;
-  const wall = Number(document.getElementById("bookshelfEditWallSelect").value) || 0;
-  const colorInput = document.querySelector('#bookshelfEditColorRow input[type="radio"]:checked');
-  const decoInput = document.querySelector('#bookshelfEditDecoRow input[type="radio"]:checked');
-  updateBookmark(b.id, {
-    title, size, wall,
-    color: colorInput ? colorInput.value : b.color,
-    deco: decoInput ? decoInput.value : b.deco,
+  updateDictEntry(entry.id, {
+    word,
+    note: document.getElementById("dictEditNoteInput").value.trim(),
+    group: Number(document.getElementById("dictEditGroupSelect").value) || 0,
   });
-  bookshelfEditOpen = false;
-  bookshelfWallIndex = wall;
-  renderBookmarkDetail();
+  dictEditOpen = false;
+  renderDictDetail();
   showToast(t("Saved"));
 }
 
-function deleteBookshelfSelected() {
-  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
-  if (!b) return;
-  removeBookmark(b.url);
-  const tabs = getBrowserTabs();
-  const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
-  if (activeTab) updateBookmarkButtonState(activeTab.url);
-  closeBookmarkDetail();
-}
-function openBookshelfSelected() {
-  const b = getBookmarks().find((x) => x.id === bookshelfSelectedBookmarkId);
-  if (!b) return;
-  closeBookmarksModal();
-  openTab(b.url);
+function deleteDictSelected() {
+  const entry = getDictEntries().find((e) => e.id === dictSelectedId);
+  if (!entry) return;
+  removeDictEntryById(entry.id);
+  refreshSaveWordButton();
+  closeDictDetail();
+  showToast(t("Removed from your dictionary"));
 }
 
-/* ---- 棚の管理 (壁の名前変更/追加、容量設定) ---- */
-let bookshelfManagePage = 0;
-const BOOKSHELF_MANAGE_PAGES = 2;
-
-function renderBookshelfManagePage() {
-  document.getElementById("bookshelfManagePage1").hidden = bookshelfManagePage !== 0;
-  document.getElementById("bookshelfManagePage2").hidden = bookshelfManagePage !== 1;
-  document.getElementById("bookshelfManagePrevBtn").disabled = bookshelfManagePage === 0;
-  document.getElementById("bookshelfManageNextBtn").disabled = bookshelfManagePage === BOOKSHELF_MANAGE_PAGES - 1;
-  const pageNumbers = document.getElementById("bookshelfManagePageNumbers");
-  pageNumbers.innerHTML = "";
-  for (let i = 0; i < BOOKSHELF_MANAGE_PAGES; i++) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "page-number-btn" + (i === bookshelfManagePage ? " is-active" : "");
-    btn.textContent = String(i + 1);
-    btn.addEventListener("click", () => {
-      bookshelfManagePage = i;
-      renderBookshelfManagePage();
-    });
-    pageNumbers.appendChild(btn);
-  }
+function openDictSelected() {
+  const entry = getDictEntries().find((e) => e.id === dictSelectedId);
+  if (!entry || !entry.url) return;
+  closeDictionaryModal();
+  openTab(entry.url);
 }
 
-function openBookshelfManage() {
-  bookshelfManagePage = 0;
-  showBookshelfView("manage");
-  renderBookshelfManage();
-  renderBookshelfManagePage();
+/* ---- グループの管理 (名前の変更 / 追加 / 削除) ---- */
+function openDictGroups() {
+  dictGroupsEditIndex = dictGroupFilter === "all" ? 0 : Number(dictGroupFilter);
+  showDictView("groups");
+  renderDictGroupsView();
 }
-function closeBookshelfManage() {
-  showBookshelfView("shelf");
-  renderBookshelfShelfView();
+function closeDictGroups() {
+  showDictView("list");
+  renderDictListView();
 }
-function renderBookshelfManage() {
-  const walls = getBookmarkWalls();
-  document.getElementById("bookshelfRenameInput").value = walls[bookshelfWallIndex] ? t(walls[bookshelfWallIndex].name) : "";
-  document.getElementById("bookshelfCapacityInput").value = getBookmarkCapacity();
+
+function renderDictGroupsView() {
+  const groups = getDictGroups();
+  if (dictGroupsEditIndex >= groups.length) dictGroupsEditIndex = 0;
+  fillGroupSelect(document.getElementById("dictGroupsSelect"), { selected: dictGroupsEditIndex });
+  document.getElementById("dictGroupRenameInput").value = groups[dictGroupsEditIndex]
+    ? t(groups[dictGroupsEditIndex].name)
+    : "";
+  document.getElementById("dictGroupDeleteBtn").disabled = groups.length <= 1;
 }
-function renameBookshelfWall() {
-  const input = document.getElementById("bookshelfRenameInput");
-  const name = input.value.trim();
+
+function renameDictGroup() {
+  const name = document.getElementById("dictGroupRenameInput").value.trim();
   if (!name) return;
-  const walls = getBookmarkWalls();
-  if (!walls[bookshelfWallIndex]) return;
-  walls[bookshelfWallIndex].name = name;
-  saveBookmarkWalls(walls);
-  showToast(t("Saved"));
-}
-function addBookshelfWall() {
-  const input = document.getElementById("bookshelfAddWallInput");
-  const walls = getBookmarkWalls();
-  const name = input.value.trim() || tf("Wall {n}", { n: walls.length + 1 });
-  walls.push({ name });
-  saveBookmarkWalls(walls);
-  bookshelfWallIndex = walls.length - 1;
-  input.value = "";
-  renderBookshelfManage();
-  showToast(t("Saved"));
-}
-function saveBookshelfCapacity() {
-  const value = Number(document.getElementById("bookshelfCapacityInput").value);
-  if (!value || value < 1) return;
-  saveBookmarkCapacity(Math.round(value));
+  const groups = getDictGroups();
+  if (!groups[dictGroupsEditIndex]) return;
+  groups[dictGroupsEditIndex].name = name;
+  saveDictGroups(groups);
+  renderDictGroupsView();
   showToast(t("Saved"));
 }
 
-function openBookmarksModal() {
-  bookshelfWallIndex = 0;
-  document.getElementById("bookshelfSearchInput").value = "";
-  document.getElementById("bookshelfSearchStatus").hidden = true;
-  showBookshelfView("shelf");
-  renderBookshelfShelfView();
-  document.getElementById("bookmarksModal").hidden = false;
+function addDictGroup() {
+  const input = document.getElementById("dictAddGroupInput");
+  const groups = getDictGroups();
+  const name = input.value.trim() || tf("Group {n}", { n: groups.length + 1 });
+  groups.push({ name });
+  saveDictGroups(groups);
+  dictGroupsEditIndex = groups.length - 1;
+  input.value = "";
+  renderDictGroupsView();
+  showToast(t("Saved"));
 }
-function closeBookmarksModal() {
-  document.getElementById("bookmarksModal").hidden = true;
+
+// グループを消しても言葉は消さない。中身は先頭のグループへ寄せ、後ろのグループの
+// 番号を1つずつ詰める（並べ替え前の値で振り直したいので、entriesを先に読む）。
+function deleteDictGroup() {
+  const groups = getDictGroups();
+  if (groups.length <= 1) {
+    showToast(t("You need at least one group."));
+    return;
+  }
+  const removed = dictGroupsEditIndex;
+  const entries = getDictEntries();
+  groups.splice(removed, 1);
+  saveDictGroups(groups);
+  saveDictEntries(
+    entries.map((e) => {
+      if (e.group === removed) return { ...e, group: 0 };
+      return e.group > removed ? { ...e, group: e.group - 1 } : e;
+    })
+  );
+  dictGroupFilter = "all";
+  dictGroupsEditIndex = 0;
+  renderDictGroupsView();
+  showToast(t("Saved"));
+}
+
+function openDictionaryModal() {
+  dictQuery = "";
+  dictGroupFilter = "all";
+  document.getElementById("dictSearchInput").value = "";
+  closeDictAddForm();
+  showDictView("list");
+  renderDictListView();
+  document.getElementById("dictionaryModal").hidden = false;
+}
+function closeDictionaryModal() {
+  document.getElementById("dictionaryModal").hidden = true;
 }
 
 function openInsightsModal() {
@@ -5923,6 +6183,7 @@ function closeInsightsModal() {
 function init() {
   // 画面を組み立てる前に言語を確定させ、以降 t() が正しい訳を返せるようにする。
   applyLanguage(getLanguage());
+  migrateBookshelfToDictionary();
   initAppLock();
   initOnboarding();
   initBiometricSupport();
@@ -5934,6 +6195,7 @@ function init() {
   initAwaySessionTracking();
   initOverlayBrowsingPause();
   initScrollGestureTracking();
+  initInstallPrompt();
   initInsightsPanel();
   renderAppInsights();
   renderDock();
@@ -6024,6 +6286,12 @@ function init() {
       renderAppInsights();
       openApp(app);
     }
+  });
+
+  document.getElementById("feedBlockedCancelBtn").addEventListener("click", closeFeedBlockedModal);
+  document.getElementById("feedBlockedScrollOnBtn").addEventListener("click", () => {
+    closeFeedBlockedModal();
+    openScrollOnModal();
   });
 
   initTipsPanel();
@@ -6210,77 +6478,62 @@ function init() {
     }
   });
 
-  document.getElementById("bookmarkTabBtn").addEventListener("click", () => {
-    const tabs = getBrowserTabs();
-    const activeTab = tabs.find((tb) => tb.id === getActiveTabId());
+  document.getElementById("saveWordBtn").addEventListener("click", () => {
+    const activeTab = getBrowserTabs().find((tb) => tb.id === getActiveTabId());
     if (!activeTab) return;
-    if (isBookmarked(activeTab.url)) {
-      removeBookmark(activeTab.url);
-      showToast(t("Bookmark removed"));
+    if (isWordSaved(activeTab.url)) {
+      removeDictEntryByUrl(activeTab.url);
+      showToast(t("Removed from your dictionary"));
     } else {
-      const result = addBookmark(activeTab.url, activeTab.title);
-      showToast(result.ok ? t("Bookmark added") : result.message);
+      // 検索して開いたタブなら、調べた言葉そのものを見出し語にする。
+      const result = addDictEntry({
+        word: activeTab.query || activeTab.title,
+        url: activeTab.url,
+        group: 0,
+      });
+      showToast(result.ok ? t("Added to your dictionary") : result.message);
     }
-    updateBookmarkButtonState(activeTab.url);
+    updateSaveWordButtonState(activeTab.url);
   });
 
-  document.getElementById("bookmarksBtn").addEventListener("click", openBookmarksModal);
-  document.getElementById("closeBookmarks").addEventListener("click", closeBookmarksModal);
+  document.getElementById("dictionaryBtn").addEventListener("click", openDictionaryModal);
+  document.getElementById("closeDictionary").addEventListener("click", closeDictionaryModal);
 
-  document.getElementById("bookshelfSearchInput").addEventListener("input", (e) => {
-    bookshelfHandleSearch(e.target.value);
+  document.getElementById("dictSearchInput").addEventListener("input", (e) => {
+    dictQuery = e.target.value;
+    renderDictList();
   });
-  document.getElementById("bookshelfWallPrevBtn").addEventListener("click", () => {
-    switchBookshelfWall(bookshelfWallIndex - 1);
+  document.getElementById("dictGroupFilter").addEventListener("change", (e) => {
+    dictGroupFilter = e.target.value;
+    renderDictList();
   });
-  document.getElementById("bookshelfWallNextBtn").addEventListener("click", () => {
-    switchBookshelfWall(bookshelfWallIndex + 1);
+  document.getElementById("dictSortSelect").addEventListener("change", (e) => {
+    saveDictSort(e.target.value);
+    renderDictList();
   });
-  document.getElementById("bookshelfWallSelect").addEventListener("change", (e) => {
-    switchBookshelfWall(Number(e.target.value) || 0);
-  });
-  document.getElementById("bookshelfManageBtn").addEventListener("click", openBookshelfManage);
+  document.getElementById("dictManageGroupsBtn").addEventListener("click", openDictGroups);
 
-  document.getElementById("bookshelfDetailBackBtn").addEventListener("click", closeBookmarkDetail);
-  document.getElementById("bookshelfOpenBtn").addEventListener("click", openBookshelfSelected);
-  document.getElementById("bookshelfDeleteBtn").addEventListener("click", deleteBookshelfSelected);
-  document.getElementById("bookshelfEditToggleBtn").addEventListener("click", () => {
-    bookshelfEditOpen = !bookshelfEditOpen;
-    renderBookmarkDetail();
-  });
-  document.getElementById("bookshelfEditSizeInput").addEventListener("input", (e) => {
-    document.getElementById("bookshelfEditSizeValue").textContent = e.target.value;
-  });
-  document.getElementById("bookshelfEditSaveBtn").addEventListener("click", saveBookshelfEdits);
-  document.getElementById("bookshelfEditPrevBtn").addEventListener("click", () => {
-    if (bookshelfEditPage > 0) {
-      bookshelfEditPage--;
-      renderBookshelfEditPage();
-    }
-  });
-  document.getElementById("bookshelfEditNextBtn").addEventListener("click", () => {
-    if (bookshelfEditPage < BOOKSHELF_EDIT_PAGES - 1) {
-      bookshelfEditPage++;
-      renderBookshelfEditPage();
-    }
-  });
+  document.getElementById("dictAddWordBtn").addEventListener("click", openDictAddForm);
+  document.getElementById("dictAddCancelBtn").addEventListener("click", closeDictAddForm);
+  document.getElementById("dictAddSaveBtn").addEventListener("click", submitDictAddForm);
 
-  document.getElementById("bookshelfManageBackBtn").addEventListener("click", closeBookshelfManage);
-  document.getElementById("bookshelfRenameSaveBtn").addEventListener("click", renameBookshelfWall);
-  document.getElementById("bookshelfAddWallBtn").addEventListener("click", addBookshelfWall);
-  document.getElementById("bookshelfCapacitySaveBtn").addEventListener("click", saveBookshelfCapacity);
-  document.getElementById("bookshelfManagePrevBtn").addEventListener("click", () => {
-    if (bookshelfManagePage > 0) {
-      bookshelfManagePage--;
-      renderBookshelfManagePage();
-    }
+  document.getElementById("dictDetailBackBtn").addEventListener("click", closeDictDetail);
+  document.getElementById("dictOpenBtn").addEventListener("click", openDictSelected);
+  document.getElementById("dictDeleteBtn").addEventListener("click", deleteDictSelected);
+  document.getElementById("dictEditToggleBtn").addEventListener("click", () => {
+    dictEditOpen = !dictEditOpen;
+    renderDictDetail();
   });
-  document.getElementById("bookshelfManageNextBtn").addEventListener("click", () => {
-    if (bookshelfManagePage < BOOKSHELF_MANAGE_PAGES - 1) {
-      bookshelfManagePage++;
-      renderBookshelfManagePage();
-    }
+  document.getElementById("dictEditSaveBtn").addEventListener("click", saveDictEdits);
+
+  document.getElementById("dictGroupsBackBtn").addEventListener("click", closeDictGroups);
+  document.getElementById("dictGroupsSelect").addEventListener("change", (e) => {
+    dictGroupsEditIndex = Number(e.target.value) || 0;
+    renderDictGroupsView();
   });
+  document.getElementById("dictGroupRenameBtn").addEventListener("click", renameDictGroup);
+  document.getElementById("dictGroupDeleteBtn").addEventListener("click", deleteDictGroup);
+  document.getElementById("dictAddGroupBtn").addEventListener("click", addDictGroup);
 
   document.getElementById("insightsBtn").addEventListener("click", openInsightsModal);
   document.getElementById("closeInsights").addEventListener("click", closeInsightsModal);

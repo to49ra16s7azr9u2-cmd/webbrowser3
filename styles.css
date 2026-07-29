@@ -11,14 +11,6 @@
   --accent-bright: #84cc16;
   --danger: #dc2626;
   --success: #4d7c0f;
-  /* スクロールトグルの配色（テーマのアクセントには追従しない固定色） */
-  --scroll-off-a: #ef4444;
-  --scroll-off-b: #ffffff;
-  --scroll-off-c: #a3e635;
-  --scroll-on-a: #3b82f6;
-  --scroll-on-b: #ffffff;
-  --scroll-on-c: #a3e635;
-  --scroll-toggle-text: #1f2937;
   --radius: 4px;
   --radius-card: 14px;
   --radius-pill: 999px;
@@ -74,43 +66,35 @@ body.scroll-locked {
   min-width: 0;
 }
 
+/* 既定(OFF)は隣のTimer/辞書などと同じ地味なピル。目立たせるのはONのときだけで
+   十分なので、リングや影は持たせない。 */
 .scroll-toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  background: var(--bg-subtle);
   border: none;
   border-radius: var(--radius-pill);
+  color: var(--text-dim);
   padding: 6px 10px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .scroll-toggle .dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
 }
 
-/* OFF: 黄緑の単色を赤いリングで囲む */
-.scroll-toggle.is-off {
-  background: var(--scroll-off-c);
-  color: var(--scroll-toggle-text);
-  box-shadow: 0 0 0 2px var(--scroll-off-a), 0 2px 8px rgba(16, 24, 40, 0.14);
-}
-
-/* ON: 白の単色を青いリングで囲む */
+/* ON: タブや選択中のページ番号と同じアクセント塗りに揃える */
 .scroll-toggle.is-on {
-  background: var(--scroll-on-b);
-  color: var(--scroll-toggle-text);
-  box-shadow: 0 0 0 2px var(--scroll-on-a), 0 2px 8px rgba(16, 24, 40, 0.14);
+  background: var(--accent);
+  color: #fff;
 }
-
-/* 中央が白で明るいため、状態を示す丸は端の色に合わせて濃くする */
-.scroll-toggle.is-off .dot { background: var(--scroll-off-a); }
-.scroll-toggle.is-on .dot { background: var(--scroll-on-a); }
 
 .scroll-timer {
   font-size: 11px;
@@ -419,7 +403,7 @@ body.scroll-locked {
   white-space: nowrap;
 }
 
-#bookmarkTabBtn.is-active {
+#saveWordBtn.is-active {
   color: var(--accent-strong);
 }
 
@@ -1365,17 +1349,17 @@ body.scroll-locked {
   overflow: hidden;
 }
 
-/* ---------- 本棚 (Bookmarks = bookshelf, ported from the booooook app) ---------- */
-.bookshelf-view {
+/* ---------- あなたの辞書 (調べた言葉の一覧・グループ・並び替え) ---------- */
+.dictionary-view {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
-.bookshelf-view[hidden] { display: none; }
+.dictionary-view[hidden] { display: none; }
 
-.bookshelf-search {
+.dictionary-search {
   flex: 0 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -1388,167 +1372,157 @@ body.scroll-locked {
   font-size: 12px;
   outline: none;
 }
-.bookshelf-search::placeholder { color: var(--text-dim); }
+.dictionary-search::placeholder { color: var(--text-dim); }
 
-.gauge-label {
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  letter-spacing: .04em;
-  color: var(--text-dim);
-  margin-bottom: 3px;
-}
-.gauge-bar {
-  flex: 0 0 auto;
-  height: 8px;
-  border-radius: 5px;
-  background: var(--bg-subtle);
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-.gauge-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #8a6d1f, #c9a227, #e8c95a);
-}
-
-.bookshelf-wall-nav {
+.dictionary-toolbar {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 6px;
   margin-bottom: 8px;
 }
-.bookshelf-wall-nav select {
+.dictionary-toolbar .settings-select {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.dictionary-add-row {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.dictionary-count {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
+.dictionary-add-form {
+  flex: 0 0 auto;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: var(--bg-subtle);
+  border-radius: 10px;
+}
+.dictionary-add-form .field { margin-bottom: 6px; }
+.dictionary-add-form .modal-actions { margin-top: 6px; }
+
+.dictionary-list {
   flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dictionary-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 9px;
+}
+
+.dictionary-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.dictionary-row-top {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   min-width: 0;
 }
 
-.bookcase {
+.dictionary-word {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dictionary-group-badge {
+  flex: 0 0 auto;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 9.5px;
+  color: var(--text-dim);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-pill);
+  padding: 2px 7px;
+}
+
+.dictionary-row-meta {
+  font-size: 11px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dictionary-row-controls {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 3px;
+}
+
+.dictionary-groups-body {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  background: linear-gradient(#5b3c20, #4a311a);
-  border: 5px solid #5b3c20;
-  border-radius: 8px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,.5);
-  padding: 6px 6px 0;
+  overflow-y: auto;
 }
 
-.shelf {
-  position: relative;
-  flex: 1 1 0;
-  min-height: 60px;
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  padding: 4px 5px 0;
-  background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.15));
-  border-bottom: 8px solid #7a5230;
-  overflow: hidden;
-}
-
-.shelf-empty {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: .62rem;
-  letter-spacing: .2em;
-  color: rgba(243,233,210,.3);
-}
-
-.book-spine {
-  position: relative;
-  flex-shrink: 0;
-  border: none;
-  border-radius: 2px 2px 0 0;
-  display: inline-flex;
-  align-items: flex-start;
-  justify-content: center;
-  writing-mode: vertical-rl;
-  font-size: .62rem;
-  letter-spacing: .06em;
-  color: rgba(255,250,235,.92);
-  padding-top: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: inset -3px 0 5px rgba(0,0,0,.45), inset 2px 0 3px rgba(255,255,255,.12);
-  text-shadow: 0 0 2px rgba(0,0,0,.6);
-}
-.book-spine.hit { outline: 2px solid #ffe9a0; outline-offset: 1px; }
-.book-spine-title { max-height: 100%; overflow: hidden; }
-.book-band {
-  position: absolute; top: 0; left: 0; right: 0; height: 9px;
-  background: rgba(243,233,210,.85);
-}
-.book-gline {
-  position: absolute; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, #8a6d1f, #e8c95a, #8a6d1f);
-}
-.book-gline.top { top: 6px; }
-.book-gline.bottom { bottom: 7px; }
-
-/* ---- 詳細カード ---- */
+/* ---- 見出し語の詳細カード ---- */
 .detail-card {
   flex: 0 0 auto;
-  background: linear-gradient(#fbf4e2, #efe3c5);
-  color: #1c1714;
-  border: 1px solid #c9b88a;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 10px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
 }
-.detail-card h3 { margin: 6px 0 4px; font-size: 15px; color: #4a3417; }
-.detail-color-swatch {
-  display: inline-block;
-  width: 14px; height: 14px;
-  border-radius: 3px;
+.detail-card h3 { margin: 0 0 6px; font-size: 16px; }
+.detail-note {
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
-.detail-meta { font-size: 11px; color: #6b5430; margin: 3px 0; word-break: break-all; }
+.detail-meta { font-size: 11px; color: var(--text-dim); margin: 3px 0; word-break: break-all; }
 
-.bookshelf-edit-form {
-  flex: 0 0 auto;
+.dictionary-edit-form {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--border);
 }
-.bookshelf-edit-label {
-  display: block;
-  font-size: 11px;
-  color: var(--text-dim);
-  margin: 6px 0 4px;
-}
-.bookshelf-swatch-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.bookshelf-swatch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--text-dim);
-  cursor: pointer;
-}
-.bookshelf-swatch span {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-}
-.bookshelf-deco-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
-  margin-bottom: 6px;
-}
-
 
 .settings-pagination {
   flex: 0 0 auto;
