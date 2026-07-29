@@ -72,14 +72,14 @@
 <div id="onboardingScreen" class="onboarding-screen" hidden>
   <div class="onboarding-box">
     <div id="onboardingStepLanguage" class="onboarding-step">
-      <p class="onboarding-eyebrow">Step 1 of 6</p>
+      <p class="onboarding-eyebrow">Step 1 of 4</p>
       <h2 class="onboarding-title">Choose your language</h2>
       <p class="modal-desc">This sets the language for the rest of the app.</p>
       <div id="onboardingLanguageList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepResearch" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 2 of 6</p>
+      <p class="onboarding-eyebrow">Step 2 of 4</p>
       <h2 class="onboarding-title">Why this app exists</h2>
       <p class="modal-desc">A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.</p>
       <ul class="research-list">
@@ -94,15 +94,8 @@
       </div>
     </div>
 
-    <div id="onboardingStepCountry" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 3 of 6</p>
-      <h2 class="onboarding-title">Choose your country</h2>
-      <p class="modal-desc">This helps match you with relevant local news later on. More countries will be added over time.</p>
-      <div id="onboardingCountryList" class="language-list"></div>
-    </div>
-
     <div id="onboardingStepPin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 4 of 6</p>
+      <p class="onboarding-eyebrow">Step 3 of 4</p>
       <h2 class="onboarding-title">Set up your PINs (optional)</h2>
       <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
       <label class="field">
@@ -136,22 +129,12 @@
     </div>
 
     <div id="onboardingStepSns" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 5 of 6</p>
+      <p class="onboarding-eyebrow">Step 4 of 4</p>
       <h2 class="onboarding-title">Which social media do you use?</h2>
       <p class="modal-desc">Choose the ones you want quick access to from your dock.</p>
       <ul id="onboardingSnsList" class="app-candidate-list"></ul>
       <div class="modal-actions">
-        <button id="onboardingSnsNextBtn" class="btn btn-primary" type="button">Next</button>
-      </div>
-    </div>
-
-    <div id="onboardingStepLogin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 6 of 6</p>
-      <h2 class="onboarding-title">Log in to your apps</h2>
-      <p class="modal-desc">Open each app to sign in there. You can also do this later.</p>
-      <ul id="onboardingLoginList" class="onboarding-login-list"></ul>
-      <div class="modal-actions">
-        <button id="onboardingFinishBtn" class="btn btn-primary" type="button">Finish setup</button>
+        <button id="onboardingSnsNextBtn" class="btn btn-primary" type="button">Finish setup</button>
       </div>
     </div>
   </div>
@@ -221,7 +204,7 @@
           <li>Type a search or a website above — it opens as a new tab you can browse right here.</li>
           <li>Switch tabs with the pills above the page. Tap the star to bookmark one; Bookmarks and Insights up top stay empty until you tap them.</li>
           <li>Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
-          <li>Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.</li>
+          <li>Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.</li>
           <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
@@ -456,23 +439,6 @@
     </div>
   </div>
 
-  <!-- Search results modal (Google Programmable Search) -->
-  <div id="searchResultsModal" class="modal-overlay" hidden>
-    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="searchResultsModalTitle">
-      <div class="settings-modal-header">
-        <button id="closeSearchResults" class="modal-close-btn" type="button" aria-label="Close search results">&times;</button>
-        <h2 id="searchResultsModalTitle">Search results</h2>
-      </div>
-      <p id="searchResultsStatus" class="modal-desc" hidden></p>
-      <ul id="searchResultsList" class="editable-list search-results-list"></ul>
-      <div class="search-pagination">
-        <button id="searchResultsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
-        <div id="searchResultsPageNumbers" class="search-page-numbers"></div>
-        <button id="searchResultsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
-      </div>
-    </div>
-  </div>
-
   <!-- Browsing check-in modal -->
   <div id="browsingCheckinModal" class="modal-overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="browsingCheckinTitle">
@@ -568,6 +534,10 @@
         <div id="presetRow" class="preset-row">
           <button type="button" class="preset-swatch" data-accent="#65a30d" data-bg="#ffffff" style="--swatch-a:#65a30d;--swatch-b:#ffffff;">Green</button>
           <button type="button" class="preset-swatch" data-accent="#2563eb" data-bg="#eef4ff" style="--swatch-a:#2563eb;--swatch-b:#eef4ff;">Blue</button>
+          <button type="button" class="preset-swatch" data-accent="#7c3aed" data-bg="#f5f3ff" style="--swatch-a:#7c3aed;--swatch-b:#f5f3ff;">Purple</button>
+          <button type="button" class="preset-swatch" data-accent="#ea580c" data-bg="#fff7ed" style="--swatch-a:#ea580c;--swatch-b:#fff7ed;">Orange</button>
+          <button type="button" class="preset-swatch" data-accent="#db2777" data-bg="#fdf2f8" style="--swatch-a:#db2777;--swatch-b:#fdf2f8;">Pink</button>
+          <button type="button" class="preset-swatch" data-accent="#38bdf8" data-bg="#0f172a" style="--swatch-a:#38bdf8;--swatch-b:#0f172a;">Dark</button>
         </div>
         <div class="color-row">
           <label class="color-field">
@@ -585,6 +555,29 @@
           <button id="removeBgImageBtn" class="btn btn-secondary" type="button">Remove image</button>
           <button id="resetAppearanceBtn" class="btn btn-secondary" type="button">Reset colors</button>
         </div>
+
+        <h3>Home Screen Icons</h3>
+        <div class="color-row">
+          <label class="color-field">
+            <span>Icon size</span>
+            <select id="iconSizeSelect" class="settings-select">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+          <label class="color-field">
+            <span>Icon shape</span>
+            <select id="iconShapeSelect" class="settings-select">
+              <option value="rounded">Rounded square</option>
+              <option value="circle">Circle</option>
+            </select>
+          </label>
+        </div>
+        <label class="checkbox-field">
+          <input id="showLabelsToggle" type="checkbox" />
+          <span>Show app names under icons</span>
+        </label>
 
         <h3>Language</h3>
         <p class="modal-desc">The whole app is shown in this language.</p>
@@ -709,6 +702,18 @@
     <h2 id="appPickerTitle">Choose apps (up to 10)</h2>
     <p class="modal-desc">The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.</p>
     <ul id="appCandidateList" class="app-candidate-list"></ul>
+
+    <h3>Add your own site</h3>
+    <div class="add-row">
+      <input id="customAppNameInput" type="text" placeholder="Name" autocomplete="off" />
+      <input id="customAppUrlInput" type="text" placeholder="Website address" autocomplete="off" />
+      <button id="addCustomAppBtn" class="btn btn-small" type="button">Add</button>
+    </div>
+
+    <h3>Order</h3>
+    <p class="modal-desc">Use the arrows to change the order apps appear in on your home screen.</p>
+    <ul id="appOrderList" class="app-order-list"></ul>
+
     <div class="modal-actions">
       <button id="cancelAppPicker" class="btn btn-secondary" type="button">Cancel</button>
       <button id="saveAppPicker" class="btn btn-primary" type="button">Save</button>

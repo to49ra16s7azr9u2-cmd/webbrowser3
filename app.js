@@ -18,7 +18,6 @@ const STORAGE_KEYS = {
   appLockAnswer: "myhome:appLockAnswer",
   onboardingComplete: "myhome:onboardingComplete",
   language: "myhome:language",
-  country: "myhome:country",
   focusTimer: "myhome:focusTimer",
   appInsights: "myhome:appInsights",
   scrollOnCount: "myhome:scrollOnCount",
@@ -40,9 +39,17 @@ const STORAGE_KEYS = {
   bookmarkShelfCapacity: "myhome:bookmarkShelfCapacity",
   browsingTimeMs: "myhome:browsingTimeMs",
   browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
+  customApps: "myhome:customApps",
 };
 
-const DEFAULT_APPEARANCE = { accent: "#65a30d", bg: "#ffffff", bgImage: null };
+const DEFAULT_APPEARANCE = {
+  accent: "#65a30d",
+  bg: "#ffffff",
+  bgImage: null,
+  iconSize: "medium",
+  iconShape: "rounded",
+  showLabels: true,
+};
 const DEFAULT_PIN = "0000";
 const DEFAULT_APP_LOCK_PIN = "0000";
 const DEFAULT_LANGUAGE = "en";
@@ -56,13 +63,6 @@ const LANGUAGES = [
   { code: "fr", name: "Français" },
   { code: "de", name: "Deutsch" },
   { code: "pt", name: "Português" },
-];
-
-// 対応国は当面この3か国のみ（今後のニュースAPI連携を難しくしすぎないための制限）。
-const COUNTRIES = [
-  { code: "jp", name: "Japan" },
-  { code: "mx", name: "Mexico" },
-  { code: "us", name: "United States" },
 ];
 
 /* ==========================================================================
@@ -113,6 +113,18 @@ const UI_I18N = {
     "Show Apps": "Mostrar apps",
     "Edit Apps": "Editar apps",
     "Choose apps (up to 10)": "Escolher apps (até 10)",
+    "Add your own site": "Adicionar seu próprio site",
+    "Name": "Nome",
+    "Website address": "Endereço do site",
+    "Order": "Ordem",
+    "Use the arrows to change the order apps appear in on your home screen.": "Use as setas para mudar a ordem em que os apps aparecem na sua tela inicial.",
+    "Remove {app}": "Remover {app}",
+    "Check some apps above to arrange their order.": "Marque alguns apps acima para organizar a ordem deles.",
+    "Move {app} earlier": "Mover {app} para cima",
+    "Move {app} later": "Mover {app} para baixo",
+    "Enter a name and a website address": "Digite um nome e um endereço de site",
+    "Enter a valid website address": "Digite um endereço de site válido",
+    "Added {app}": "{app} adicionado",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "A lista de apps instalados no seu celular não pode ser lida automaticamente por uma página web, então escolha entre as opções abaixo.",
     "Add up to 10 apps from \"Edit Apps\"": "Adicione até 10 apps em “Editar apps”",
     "Open this app?": "Abrir este app?",
@@ -126,11 +138,6 @@ const UI_I18N = {
     "Turn ON": "Ativar",
     "Unlock with Face ID / Fingerprint": "Desbloquear com Face ID / impressão digital",
     "Choose your language": "Escolha seu idioma",
-    "Choose your country": "Escolha seu país",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "Isso ajuda a mostrar notícias locais relevantes mais adiante. Mais países serão adicionados com o tempo.",
-    "Japan": "Japão",
-    "Mexico": "México",
-    "United States": "Estados Unidos",
     "Set up your PINs (optional)": "Configure seus PINs (opcional)",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Defina um PIN para abrir o MyHome Browser e outro para ativar a rolagem. Deixe em branco para pular. Depois, você pode usar Face ID / impressão digital nos ajustes.",
     "App Lock PIN (opens the app)": "PIN de bloqueio (abre o app)",
@@ -148,11 +155,7 @@ const UI_I18N = {
     "Save & Continue": "Salvar e continuar",
     "Which social media do you use?": "Quais redes sociais você usa?",
     "Choose the ones you want quick access to from your dock.": "Escolha aquelas que você quer acessar rapidamente pela barra.",
-    "Log in to your apps": "Entre nos seus apps",
-    "Open each app to sign in there. You can also do this later.": "Abra cada app para entrar. Você também pode fazer isso depois.",
     "Finish setup": "Concluir configuração",
-    "Log in": "Entrar",
-    "No social media selected. You can add some later from Edit Apps.": "Nenhuma rede social selecionada. Você pode adicionar depois em “Editar apps”.",
     "Settings": "Ajustes",
     "Close settings": "Fechar ajustes",
     "Open settings": "Abrir ajustes",
@@ -169,6 +172,19 @@ const UI_I18N = {
     "Choose background image": "Escolher imagem de fundo",
     "Remove image": "Remover imagem",
     "Reset colors": "Redefinir cores",
+    "Purple": "Roxo",
+    "Orange": "Laranja",
+    "Pink": "Rosa",
+    "Dark": "Escuro",
+    "Home Screen Icons": "Ícones da tela inicial",
+    "Icon size": "Tamanho do ícone",
+    "Small": "Pequeno",
+    "Medium": "Médio",
+    "Large": "Grande",
+    "Icon shape": "Formato do ícone",
+    "Rounded square": "Quadrado arredondado",
+    "Circle": "Círculo",
+    "Show app names under icons": "Mostrar nomes dos apps sob os ícones",
     "Language": "Idioma",
     "Scroll PIN": "PIN de rolagem",
     "Required to turn scroll ON. Default is 0000 until you change it.": "Necessário para ativar a rolagem. O padrão é 0000 até você alterá-lo.",
@@ -295,12 +311,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Checagem de postura: tente sentar-se ereto e segurar o celular na altura dos olhos por um instante.",
     "By hour of day": "Por horário do dia",
     "This sets the language for the rest of the app.": "Isso define o idioma de todo o app.",
-    "Step 1 of 6": "Passo 1 de 6",
-    "Step 2 of 6": "Passo 2 de 6",
-    "Step 3 of 6": "Passo 3 de 6",
-    "Step 4 of 6": "Passo 4 de 6",
-    "Step 5 of 6": "Passo 5 de 6",
-    "Step 6 of 6": "Passo 6 de 6",
+    "Step 1 of 4": "Passo 1 de 4",
+    "Step 2 of 4": "Passo 2 de 4",
+    "Step 3 of 4": "Passo 3 de 4",
+    "Step 4 of 4": "Passo 4 de 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqueado: isso parece um domínio de anúncios ou rastreamento",
     "Remove bookmark": "Remover favorito",
     "Bookmark this page": "Adicionar esta página aos favoritos",
@@ -327,13 +341,6 @@ const UI_I18N = {
     "Still browsing": "Ainda navegando",
     "Keep browsing": "Continuar navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} não permite ser exibido dentro de outra página, então foi aberto no seu navegador.",
-    "Searching…": "Pesquisando…",
-    "No results found.": "Nenhum resultado encontrado.",
-    "Search results for \"{query}\"": "Resultados da pesquisa por \"{query}\"",
-    "Search failed: {message}": "Falha na pesquisa: {message}",
-    "Search results": "Resultados da pesquisa",
-    "Close search results": "Fechar resultados da pesquisa",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Os termos de pesquisa digitados mostram resultados da Wikipédia como uma lista dentro do app — não é preciso nenhuma configuração, mas só pesquisa artigos da Wikipédia, não a web em geral. Digitar o endereço de um site grande que se recusa a ser exibido dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) o abre no seu navegador normal — essa é a política do próprio site, não algo que este app possa mudar.",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "A estante está cheia. Remova um livro ou aumente o limite em Gerenciar estantes.",
     "— empty shelf —": "— prateleira vazia —",
     "Not found": "Não encontrado",
@@ -377,6 +384,7 @@ const UI_I18N = {
     "East Wall": "Parede leste",
     "South Wall": "Parede sul",
     "West Wall": "Parede oeste",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "A pesquisa usa o Bing. Sites grandes que se recusam a ser exibidos dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) são abertos no seu navegador normal em vez disso — essa é a política do próprio site, não algo que este app possa mudar.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -419,6 +427,18 @@ const UI_I18N = {
     "Show Apps": "Apps anzeigen",
     "Edit Apps": "Apps bearbeiten",
     "Choose apps (up to 10)": "Apps wählen (max. 10)",
+    "Add your own site": "Eigene Website hinzufügen",
+    "Name": "Name",
+    "Website address": "Website-Adresse",
+    "Order": "Reihenfolge",
+    "Use the arrows to change the order apps appear in on your home screen.": "Nutze die Pfeile, um die Reihenfolge der Apps auf deinem Startbildschirm zu ändern.",
+    "Remove {app}": "{app} entfernen",
+    "Check some apps above to arrange their order.": "Wähle oben ein paar Apps aus, um ihre Reihenfolge festzulegen.",
+    "Move {app} earlier": "{app} nach vorne verschieben",
+    "Move {app} later": "{app} nach hinten verschieben",
+    "Enter a name and a website address": "Gib einen Namen und eine Website-Adresse ein",
+    "Enter a valid website address": "Gib eine gültige Website-Adresse ein",
+    "Added {app}": "{app} hinzugefügt",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "Die Liste der auf deinem Handy installierten Apps kann von einer Webseite nicht automatisch gelesen werden – wähle stattdessen aus den Vorschlägen unten.",
     "Add up to 10 apps from \"Edit Apps\"": "Füge über „Apps bearbeiten“ bis zu 10 Apps hinzu",
     "Open this app?": "Diese App öffnen?",
@@ -432,11 +452,6 @@ const UI_I18N = {
     "Turn ON": "Einschalten",
     "Unlock with Face ID / Fingerprint": "Mit Face ID / Fingerabdruck entsperren",
     "Choose your language": "Sprache wählen",
-    "Choose your country": "Land wählen",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "Das hilft später dabei, dir passende lokale Nachrichten zu zeigen. Weitere Länder kommen nach und nach dazu.",
-    "Japan": "Japan",
-    "Mexico": "Mexiko",
-    "United States": "Vereinigte Staaten",
     "Set up your PINs (optional)": "PINs einrichten (optional)",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Lege eine PIN zum Öffnen von MyHome Browser fest und eine separate PIN zum Einschalten des Scrollens. Leer lassen, um zu überspringen. Du kannst später in den Einstellungen stattdessen Face ID / Fingerabdruck aktivieren.",
     "App Lock PIN (opens the app)": "App-Sperr-PIN (öffnet die App)",
@@ -454,11 +469,7 @@ const UI_I18N = {
     "Save & Continue": "Speichern und fortfahren",
     "Which social media do you use?": "Welche sozialen Medien nutzt du?",
     "Choose the ones you want quick access to from your dock.": "Wähle die aus, auf die du schnell über das Dock zugreifen möchtest.",
-    "Log in to your apps": "Bei deinen Apps anmelden",
-    "Open each app to sign in there. You can also do this later.": "Öffne jede App, um dich dort anzumelden. Das geht auch später.",
     "Finish setup": "Einrichtung abschließen",
-    "Log in": "Anmelden",
-    "No social media selected. You can add some later from Edit Apps.": "Keine sozialen Medien ausgewählt. Du kannst später über „Apps bearbeiten“ welche hinzufügen.",
     "Settings": "Einstellungen",
     "Close settings": "Einstellungen schließen",
     "Open settings": "Einstellungen öffnen",
@@ -475,6 +486,19 @@ const UI_I18N = {
     "Choose background image": "Hintergrundbild wählen",
     "Remove image": "Bild entfernen",
     "Reset colors": "Farben zurücksetzen",
+    "Purple": "Lila",
+    "Orange": "Orange",
+    "Pink": "Pink",
+    "Dark": "Dunkel",
+    "Home Screen Icons": "Symbole des Startbildschirms",
+    "Icon size": "Symbolgröße",
+    "Small": "Klein",
+    "Medium": "Mittel",
+    "Large": "Groß",
+    "Icon shape": "Symbolform",
+    "Rounded square": "Abgerundetes Quadrat",
+    "Circle": "Kreis",
+    "Show app names under icons": "App-Namen unter den Symbolen anzeigen",
     "Language": "Sprache",
     "Scroll PIN": "Scroll-PIN",
     "Required to turn scroll ON. Default is 0000 until you change it.": "Zum Einschalten des Scrollens nötig. Standard ist 0000, bis du sie änderst.",
@@ -601,12 +625,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Haltungscheck: Setz dich für einen Moment aufrecht hin und halte das Handy auf Augenhöhe.",
     "By hour of day": "Nach Tageszeit",
     "This sets the language for the rest of the app.": "Das legt die Sprache der gesamten App fest.",
-    "Step 1 of 6": "Schritt 1 von 6",
-    "Step 2 of 6": "Schritt 2 von 6",
-    "Step 3 of 6": "Schritt 3 von 6",
-    "Step 4 of 6": "Schritt 4 von 6",
-    "Step 5 of 6": "Schritt 5 von 6",
-    "Step 6 of 6": "Schritt 6 von 6",
+    "Step 1 of 4": "Schritt 1 von 4",
+    "Step 2 of 4": "Schritt 2 von 4",
+    "Step 3 of 4": "Schritt 3 von 4",
+    "Step 4 of 4": "Schritt 4 von 4",
     "Blocked: this looks like an ad or tracking domain": "Blockiert: sieht nach einer Werbe- oder Tracking-Domain aus",
     "Remove bookmark": "Lesezeichen entfernen",
     "Bookmark this page": "Diese Seite als Lesezeichen speichern",
@@ -633,13 +655,6 @@ const UI_I18N = {
     "Still browsing": "Du browst noch",
     "Keep browsing": "Weiter browsen",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} erlaubt keine eingebettete Anzeige und wurde deshalb im Browser geöffnet.",
-    "Searching…": "Suche läuft…",
-    "No results found.": "Keine Ergebnisse gefunden.",
-    "Search results for \"{query}\"": "Suchergebnisse für „{query}“",
-    "Search failed: {message}": "Suche fehlgeschlagen: {message}",
-    "Search results": "Suchergebnisse",
-    "Close search results": "Suchergebnisse schließen",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Eingegebene Suchbegriffe zeigen Wikipedia-Ergebnisse als Liste innerhalb der App — keine Einrichtung nötig, durchsucht wird aber nur Wikipedia, nicht das gesamte Web. Die Eingabe der Adresse einer großen Website, die sich weigert, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), öffnet diese stattdessen in deinem normalen Browser — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "Das Regal ist voll. Entferne ein Buch oder erhöhe das Limit unter Regale verwalten.",
     "— empty shelf —": "— leeres Fach —",
     "Not found": "Nicht gefunden",
@@ -683,6 +698,7 @@ const UI_I18N = {
     "East Wall": "Ostwand",
     "South Wall": "Südwand",
     "West Wall": "Westwand",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "Die Suche verwendet Bing. Große Websites, die sich weigern, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), werden stattdessen in deinem normalen Browser geöffnet — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -725,6 +741,18 @@ const UI_I18N = {
     "Show Apps": "Afficher les apps",
     "Edit Apps": "Modifier les apps",
     "Choose apps (up to 10)": "Choisir des apps (10 max)",
+    "Add your own site": "Ajouter votre propre site",
+    "Name": "Nom",
+    "Website address": "Adresse du site",
+    "Order": "Ordre",
+    "Use the arrows to change the order apps appear in on your home screen.": "Utilisez les flèches pour changer l'ordre d'affichage des apps sur votre écran d'accueil.",
+    "Remove {app}": "Supprimer {app}",
+    "Check some apps above to arrange their order.": "Cochez des apps ci-dessus pour organiser leur ordre.",
+    "Move {app} earlier": "Déplacer {app} plus tôt",
+    "Move {app} later": "Déplacer {app} plus tard",
+    "Enter a name and a website address": "Saisissez un nom et une adresse de site",
+    "Enter a valid website address": "Saisissez une adresse de site valide",
+    "Added {app}": "{app} ajouté",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "La liste des apps installées sur votre téléphone ne peut pas être lue automatiquement depuis une page web ; choisissez plutôt parmi les propositions ci-dessous.",
     "Add up to 10 apps from \"Edit Apps\"": "Ajoutez jusqu'à 10 apps depuis « Modifier les apps »",
     "Open this app?": "Ouvrir cette app ?",
@@ -738,11 +766,6 @@ const UI_I18N = {
     "Turn ON": "Activer",
     "Unlock with Face ID / Fingerprint": "Déverrouiller avec Face ID / empreinte",
     "Choose your language": "Choisissez votre langue",
-    "Choose your country": "Choisissez votre pays",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "Cela permettra de vous proposer des actualités locales pertinentes. D'autres pays seront ajoutés progressivement.",
-    "Japan": "Japon",
-    "Mexico": "Mexique",
-    "United States": "États-Unis",
     "Set up your PINs (optional)": "Configurez vos codes PIN (facultatif)",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Définissez un code PIN pour ouvrir MyHome Browser, et un autre pour activer le défilement. Laissez vide pour ignorer. Vous pourrez utiliser Face ID / l'empreinte à la place plus tard, dans les réglages.",
     "App Lock PIN (opens the app)": "PIN de verrouillage (ouvre l'app)",
@@ -760,11 +783,7 @@ const UI_I18N = {
     "Save & Continue": "Enregistrer et continuer",
     "Which social media do you use?": "Quels réseaux sociaux utilisez-vous ?",
     "Choose the ones you want quick access to from your dock.": "Choisissez ceux auxquels vous voulez accéder rapidement depuis le dock.",
-    "Log in to your apps": "Connectez-vous à vos apps",
-    "Open each app to sign in there. You can also do this later.": "Ouvrez chaque app pour vous y connecter. Vous pouvez aussi le faire plus tard.",
     "Finish setup": "Terminer la configuration",
-    "Log in": "Se connecter",
-    "No social media selected. You can add some later from Edit Apps.": "Aucun réseau social sélectionné. Vous pourrez en ajouter plus tard depuis « Modifier les apps ».",
     "Settings": "Réglages",
     "Close settings": "Fermer les réglages",
     "Open settings": "Ouvrir les réglages",
@@ -781,6 +800,19 @@ const UI_I18N = {
     "Choose background image": "Choisir une image de fond",
     "Remove image": "Supprimer l'image",
     "Reset colors": "Réinitialiser les couleurs",
+    "Purple": "Violet",
+    "Orange": "Orange",
+    "Pink": "Rose",
+    "Dark": "Sombre",
+    "Home Screen Icons": "Icônes de l'écran d'accueil",
+    "Icon size": "Taille des icônes",
+    "Small": "Petite",
+    "Medium": "Moyenne",
+    "Large": "Grande",
+    "Icon shape": "Forme des icônes",
+    "Rounded square": "Carré arrondi",
+    "Circle": "Cercle",
+    "Show app names under icons": "Afficher le nom des apps sous les icônes",
     "Language": "Langue",
     "Scroll PIN": "PIN de défilement",
     "Required to turn scroll ON. Default is 0000 until you change it.": "Requis pour activer le défilement. 0000 par défaut jusqu'à modification.",
@@ -907,12 +939,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Vérification de posture : essayez de vous redresser et de tenir le téléphone à hauteur des yeux un instant.",
     "By hour of day": "Par heure de la journée",
     "This sets the language for the rest of the app.": "Cela définit la langue de toute l'application.",
-    "Step 1 of 6": "Étape 1 sur 6",
-    "Step 2 of 6": "Étape 2 sur 6",
-    "Step 3 of 6": "Étape 3 sur 6",
-    "Step 4 of 6": "Étape 4 sur 6",
-    "Step 5 of 6": "Étape 5 sur 6",
-    "Step 6 of 6": "Étape 6 sur 6",
+    "Step 1 of 4": "Étape 1 sur 4",
+    "Step 2 of 4": "Étape 2 sur 4",
+    "Step 3 of 4": "Étape 3 sur 4",
+    "Step 4 of 4": "Étape 4 sur 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqué : ceci ressemble à un domaine publicitaire ou de suivi",
     "Remove bookmark": "Retirer le favori",
     "Bookmark this page": "Ajouter cette page aux favoris",
@@ -939,13 +969,6 @@ const UI_I18N = {
     "Still browsing": "Navigation en cours",
     "Keep browsing": "Continuer à naviguer",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} n'autorise pas l'affichage intégré, elle s'est donc ouverte dans votre navigateur.",
-    "Searching…": "Recherche en cours…",
-    "No results found.": "Aucun résultat trouvé.",
-    "Search results for \"{query}\"": "Résultats de recherche pour « {query} »",
-    "Search failed: {message}": "Échec de la recherche : {message}",
-    "Search results": "Résultats de recherche",
-    "Close search results": "Fermer les résultats de recherche",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Les termes de recherche saisis affichent les résultats Wikipédia sous forme de liste dans l'application — aucune configuration n'est nécessaire, mais seuls les articles Wikipédia sont recherchés, pas le web dans son ensemble. Saisir l'adresse d'un grand site qui refuse d'être affiché dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) l'ouvre plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "L'étagère est pleine. Retirez un livre ou augmentez la limite dans Gérer les étagères.",
     "— empty shelf —": "— étagère vide —",
     "Not found": "Introuvable",
@@ -989,6 +1012,7 @@ const UI_I18N = {
     "East Wall": "Mur est",
     "South Wall": "Mur sud",
     "West Wall": "Mur ouest",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La recherche utilise Bing. Les grands sites qui refusent d'être affichés dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) s'ouvrent plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1031,6 +1055,18 @@ const UI_I18N = {
     "Show Apps": "앱 표시",
     "Edit Apps": "앱 편집",
     "Choose apps (up to 10)": "앱 선택 (최대 10개)",
+    "Add your own site": "나만의 사이트 추가",
+    "Name": "이름",
+    "Website address": "웹사이트 주소",
+    "Order": "순서",
+    "Use the arrows to change the order apps appear in on your home screen.": "화살표를 사용해 홈 화면에서 앱이 표시되는 순서를 바꾸세요.",
+    "Remove {app}": "{app} 삭제",
+    "Check some apps above to arrange their order.": "위에서 앱을 선택하면 순서를 정할 수 있어요.",
+    "Move {app} earlier": "{app} 앞으로 이동",
+    "Move {app} later": "{app} 뒤로 이동",
+    "Enter a name and a website address": "이름과 웹사이트 주소를 입력하세요",
+    "Enter a valid website address": "올바른 웹사이트 주소를 입력하세요",
+    "Added {app}": "{app} 추가됨",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "웹 페이지에서는 휴대폰에 설치된 앱 목록을 자동으로 읽을 수 없으므로, 아래 후보에서 선택해 주세요.",
     "Add up to 10 apps from \"Edit Apps\"": "‘앱 편집’에서 최대 10개까지 추가할 수 있습니다",
     "Open this app?": "이 앱을 열까요?",
@@ -1044,11 +1080,6 @@ const UI_I18N = {
     "Turn ON": "켜기",
     "Unlock with Face ID / Fingerprint": "Face ID / 지문으로 잠금 해제",
     "Choose your language": "언어를 선택하세요",
-    "Choose your country": "국가를 선택하세요",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "앞으로 지역에 맞는 뉴스를 보여주기 위해 사용됩니다. 지원 국가는 계속 추가될 예정입니다.",
-    "Japan": "일본",
-    "Mexico": "멕시코",
-    "United States": "미국",
     "Set up your PINs (optional)": "PIN 설정 (선택)",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "MyHome Browser를 여는 PIN과 스크롤을 켜는 PIN을 각각 설정합니다. 비워 두면 건너뜁니다. 나중에 설정에서 Face ID / 지문으로 바꿀 수도 있습니다.",
     "App Lock PIN (opens the app)": "앱 잠금 PIN (앱 열기용)",
@@ -1066,11 +1097,7 @@ const UI_I18N = {
     "Save & Continue": "저장하고 계속",
     "Which social media do you use?": "어떤 SNS를 사용하나요?",
     "Choose the ones you want quick access to from your dock.": "독에서 바로 열고 싶은 앱을 선택하세요.",
-    "Log in to your apps": "앱에 로그인",
-    "Open each app to sign in there. You can also do this later.": "각 앱을 열어 로그인하세요. 나중에 해도 됩니다.",
     "Finish setup": "설정 완료",
-    "Log in": "로그인",
-    "No social media selected. You can add some later from Edit Apps.": "선택한 SNS가 없습니다. 나중에 ‘앱 편집’에서 추가할 수 있습니다.",
     "Settings": "설정",
     "Close settings": "설정 닫기",
     "Open settings": "설정 열기",
@@ -1087,6 +1114,19 @@ const UI_I18N = {
     "Choose background image": "배경 이미지 선택",
     "Remove image": "이미지 삭제",
     "Reset colors": "색 초기화",
+    "Purple": "보라색",
+    "Orange": "주황색",
+    "Pink": "분홍색",
+    "Dark": "다크",
+    "Home Screen Icons": "홈 화면 아이콘",
+    "Icon size": "아이콘 크기",
+    "Small": "작게",
+    "Medium": "보통",
+    "Large": "크게",
+    "Icon shape": "아이콘 모양",
+    "Rounded square": "둥근 사각형",
+    "Circle": "원형",
+    "Show app names under icons": "아이콘 아래에 앱 이름 표시",
     "Language": "언어",
     "Scroll PIN": "스크롤 PIN",
     "Required to turn scroll ON. Default is 0000 until you change it.": "스크롤을 켤 때 필요합니다. 변경 전까지 기본값은 0000입니다.",
@@ -1213,12 +1253,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "자세 확인: 잠시 허리를 펴고 휴대폰을 눈높이에 맞춰 들어보세요.",
     "By hour of day": "시간대별",
     "This sets the language for the rest of the app.": "앱 전체의 표시 언어가 됩니다.",
-    "Step 1 of 6": "6단계 중 1단계",
-    "Step 2 of 6": "6단계 중 2단계",
-    "Step 3 of 6": "6단계 중 3단계",
-    "Step 4 of 6": "6단계 중 4단계",
-    "Step 5 of 6": "6단계 중 5단계",
-    "Step 6 of 6": "6단계 중 6단계",
+    "Step 1 of 4": "4단계 중 1단계",
+    "Step 2 of 4": "4단계 중 2단계",
+    "Step 3 of 4": "4단계 중 3단계",
+    "Step 4 of 4": "4단계 중 4단계",
     "Blocked: this looks like an ad or tracking domain": "차단됨: 광고 또는 추적 도메인으로 보입니다",
     "Remove bookmark": "북마크 삭제",
     "Bookmark this page": "이 페이지 북마크",
@@ -1245,13 +1283,6 @@ const UI_I18N = {
     "Still browsing": "계속 둘러보는 중",
     "Keep browsing": "계속 둘러보기",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain}은(는) 다른 페이지 안에 표시하는 것을 허용하지 않아 브라우저에서 열었습니다.",
-    "Searching…": "검색 중…",
-    "No results found.": "결과를 찾을 수 없습니다.",
-    "Search results for \"{query}\"": "\"{query}\" 검색 결과",
-    "Search failed: {message}": "검색 실패: {message}",
-    "Search results": "검색 결과",
-    "Close search results": "검색 결과 닫기",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "입력한 검색어는 위키백과 검색 결과가 앱 내 목록으로 표시됩니다 — 별도 설정은 필요 없지만, 검색 대상은 위키백과 문서로 한정되며 웹 전체가 아닙니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)의 주소를 직접 입력하면 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "책장이 가득 찼습니다. 책을 정리하거나 '책장 관리'에서 용량을 늘리세요.",
     "— empty shelf —": "— 빈 칸 —",
     "Not found": "찾을 수 없습니다",
@@ -1295,6 +1326,7 @@ const UI_I18N = {
     "East Wall": "동쪽 벽",
     "South Wall": "남쪽 벽",
     "West Wall": "서쪽 벽",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "검색은 Bing을 사용합니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)는 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1337,6 +1369,18 @@ const UI_I18N = {
     "Show Apps": "显示应用",
     "Edit Apps": "编辑应用",
     "Choose apps (up to 10)": "选择应用（最多 10 个）",
+    "Add your own site": "添加你自己的网站",
+    "Name": "名称",
+    "Website address": "网站地址",
+    "Order": "排序",
+    "Use the arrows to change the order apps appear in on your home screen.": "使用箭头调整应用在主屏幕上的显示顺序。",
+    "Remove {app}": "移除{app}",
+    "Check some apps above to arrange their order.": "在上方勾选一些应用即可排列顺序。",
+    "Move {app} earlier": "将{app}前移",
+    "Move {app} later": "将{app}后移",
+    "Enter a name and a website address": "请输入名称和网站地址",
+    "Enter a valid website address": "请输入有效的网站地址",
+    "Added {app}": "已添加{app}",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "网页无法自动读取手机上已安装的应用列表，请从下面的候选中选择。",
     "Add up to 10 apps from \"Edit Apps\"": "可从「编辑应用」中最多添加 10 个",
     "Open this app?": "要打开这个应用吗？",
@@ -1350,11 +1394,6 @@ const UI_I18N = {
     "Turn ON": "开启",
     "Unlock with Face ID / Fingerprint": "使用面容 / 指纹解锁",
     "Choose your language": "选择语言",
-    "Choose your country": "选择国家",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "用于今后为你匹配相关的本地新闻。将陆续增加更多国家。",
-    "Japan": "日本",
-    "Mexico": "墨西哥",
-    "United States": "美国",
     "Set up your PINs (optional)": "设置 PIN（可选）",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "分别设置打开 MyHome Browser 的 PIN 和开启滚动的 PIN。留空即可跳过。之后也可以在设置中改用面容 / 指纹。",
     "App Lock PIN (opens the app)": "应用锁 PIN（用于打开应用）",
@@ -1372,11 +1411,7 @@ const UI_I18N = {
     "Save & Continue": "保存并继续",
     "Which social media do you use?": "你使用哪些社交应用？",
     "Choose the ones you want quick access to from your dock.": "请选择希望在下方栏中快速打开的应用。",
-    "Log in to your apps": "登录你的应用",
-    "Open each app to sign in there. You can also do this later.": "逐个打开应用进行登录。也可以稍后再做。",
     "Finish setup": "完成设置",
-    "Log in": "登录",
-    "No social media selected. You can add some later from Edit Apps.": "尚未选择社交应用。之后可从「编辑应用」中添加。",
     "Settings": "设置",
     "Close settings": "关闭设置",
     "Open settings": "打开设置",
@@ -1393,6 +1428,19 @@ const UI_I18N = {
     "Choose background image": "选择背景图片",
     "Remove image": "移除图片",
     "Reset colors": "重置颜色",
+    "Purple": "紫色",
+    "Orange": "橙色",
+    "Pink": "粉色",
+    "Dark": "深色",
+    "Home Screen Icons": "主屏幕图标",
+    "Icon size": "图标大小",
+    "Small": "小",
+    "Medium": "中",
+    "Large": "大",
+    "Icon shape": "图标形状",
+    "Rounded square": "圆角方形",
+    "Circle": "圆形",
+    "Show app names under icons": "在图标下方显示应用名称",
     "Language": "语言",
     "Scroll PIN": "滚动 PIN",
     "Required to turn scroll ON. Default is 0000 until you change it.": "开启滚动时需要。修改前默认为 0000。",
@@ -1519,12 +1567,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿势提醒：试着坐直，把手机拿到与眼睛齐平的高度片刻。",
     "By hour of day": "按时段",
     "This sets the language for the rest of the app.": "这将作为整个应用的显示语言。",
-    "Step 1 of 6": "第1步（共6步）",
-    "Step 2 of 6": "第2步（共6步）",
-    "Step 3 of 6": "第3步（共6步）",
-    "Step 4 of 6": "第4步（共6步）",
-    "Step 5 of 6": "第5步（共6步）",
-    "Step 6 of 6": "第6步（共6步）",
+    "Step 1 of 4": "第1步（共4步）",
+    "Step 2 of 4": "第2步（共4步）",
+    "Step 3 of 4": "第3步（共4步）",
+    "Step 4 of 4": "第4步（共4步）",
     "Blocked: this looks like an ad or tracking domain": "已拦截：这看起来是广告或跟踪域名",
     "Remove bookmark": "移除书签",
     "Bookmark this page": "收藏此页面",
@@ -1551,13 +1597,6 @@ const UI_I18N = {
     "Still browsing": "仍在浏览",
     "Keep browsing": "继续浏览",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} 不允许被嵌入显示，因此已在你的浏览器中打开。",
-    "Searching…": "搜索中…",
-    "No results found.": "未找到结果。",
-    "Search results for \"{query}\"": "“{query}”的搜索结果",
-    "Search failed: {message}": "搜索失败：{message}",
-    "Search results": "搜索结果",
-    "Close search results": "关闭搜索结果",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "输入的搜索词会以列表形式显示维基百科的搜索结果——无需任何设置，但只能搜索维基百科的条目，而非整个网络。如果直接输入拒绝在其他页面中显示的大型网站地址（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo），则会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "书架已满。请移除一本书，或在「管理书架」中提高容量上限。",
     "— empty shelf —": "— 空书架 —",
     "Not found": "未找到",
@@ -1601,6 +1640,7 @@ const UI_I18N = {
     "East Wall": "东墙",
     "South Wall": "南墙",
     "West Wall": "西墙",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "搜索使用Bing。拒绝在其他页面中显示的大型网站（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -1643,6 +1683,18 @@ const UI_I18N = {
     "Show Apps": "Mostrar apps",
     "Edit Apps": "Editar apps",
     "Choose apps (up to 10)": "Elegir apps (hasta 10)",
+    "Add your own site": "Agrega tu propio sitio",
+    "Name": "Nombre",
+    "Website address": "Dirección del sitio web",
+    "Order": "Orden",
+    "Use the arrows to change the order apps appear in on your home screen.": "Usa las flechas para cambiar el orden en que aparecen las apps en tu pantalla de inicio.",
+    "Remove {app}": "Quitar {app}",
+    "Check some apps above to arrange their order.": "Marca algunas apps arriba para ordenarlas.",
+    "Move {app} earlier": "Mover {app} antes",
+    "Move {app} later": "Mover {app} después",
+    "Enter a name and a website address": "Escribe un nombre y una dirección de sitio web",
+    "Enter a valid website address": "Escribe una dirección de sitio web válida",
+    "Added {app}": "Se agregó {app}",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "Una página web no puede leer automáticamente las apps instaladas en tu móvil, así que elige entre las opciones de abajo.",
     "Add up to 10 apps from \"Edit Apps\"": "Añade hasta 10 apps desde «Editar apps»",
     "Open this app?": "¿Abrir esta app?",
@@ -1656,11 +1708,6 @@ const UI_I18N = {
     "Turn ON": "Activar",
     "Unlock with Face ID / Fingerprint": "Desbloquear con Face ID / huella",
     "Choose your language": "Elige tu idioma",
-    "Choose your country": "Elige tu país",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "Sirve para mostrarte noticias locales relevantes más adelante. Se añadirán más países con el tiempo.",
-    "Japan": "Japón",
-    "Mexico": "México",
-    "United States": "Estados Unidos",
     "Set up your PINs (optional)": "Configura tus PIN (opcional)",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Define un PIN para abrir MyHome Browser y otro distinto para activar el scroll. Deja cualquiera en blanco para omitirlo. Más adelante puedes usar Face ID / huella desde Ajustes.",
     "App Lock PIN (opens the app)": "PIN de bloqueo (para abrir la app)",
@@ -1678,11 +1725,7 @@ const UI_I18N = {
     "Save & Continue": "Guardar y continuar",
     "Which social media do you use?": "¿Qué redes sociales usas?",
     "Choose the ones you want quick access to from your dock.": "Elige las que quieras tener a mano en el dock.",
-    "Log in to your apps": "Inicia sesión en tus apps",
-    "Open each app to sign in there. You can also do this later.": "Abre cada app para iniciar sesión. También puedes hacerlo más tarde.",
     "Finish setup": "Finalizar configuración",
-    "Log in": "Iniciar sesión",
-    "No social media selected. You can add some later from Edit Apps.": "No has elegido ninguna red social. Puedes añadirlas después desde «Editar apps».",
     "Settings": "Ajustes",
     "Close settings": "Cerrar ajustes",
     "Open settings": "Abrir ajustes",
@@ -1699,6 +1742,19 @@ const UI_I18N = {
     "Choose background image": "Elegir imagen de fondo",
     "Remove image": "Quitar imagen",
     "Reset colors": "Restablecer colores",
+    "Purple": "Morado",
+    "Orange": "Naranja",
+    "Pink": "Rosa",
+    "Dark": "Oscuro",
+    "Home Screen Icons": "Iconos de la pantalla de inicio",
+    "Icon size": "Tamaño del icono",
+    "Small": "Pequeño",
+    "Medium": "Mediano",
+    "Large": "Grande",
+    "Icon shape": "Forma del icono",
+    "Rounded square": "Cuadrado redondeado",
+    "Circle": "Círculo",
+    "Show app names under icons": "Mostrar el nombre de las apps bajo los iconos",
     "Language": "Idioma",
     "Scroll PIN": "PIN de scroll",
     "Required to turn scroll ON. Default is 0000 until you change it.": "Necesario para activar el scroll. Por defecto es 0000 hasta que lo cambies.",
@@ -1825,12 +1881,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "Revisa tu postura: intenta sentarte derecho y sostener el teléfono a la altura de los ojos por un momento.",
     "By hour of day": "Por hora del día",
     "This sets the language for the rest of the app.": "Esto define el idioma de toda la app.",
-    "Step 1 of 6": "Paso 1 de 6",
-    "Step 2 of 6": "Paso 2 de 6",
-    "Step 3 of 6": "Paso 3 de 6",
-    "Step 4 of 6": "Paso 4 de 6",
-    "Step 5 of 6": "Paso 5 de 6",
-    "Step 6 of 6": "Paso 6 de 6",
+    "Step 1 of 4": "Paso 1 de 4",
+    "Step 2 of 4": "Paso 2 de 4",
+    "Step 3 of 4": "Paso 3 de 4",
+    "Step 4 of 4": "Paso 4 de 4",
     "Blocked: this looks like an ad or tracking domain": "Bloqueado: parece un dominio publicitario o de rastreo",
     "Remove bookmark": "Quitar marcador",
     "Bookmark this page": "Marcar esta página",
@@ -1857,13 +1911,6 @@ const UI_I18N = {
     "Still browsing": "Sigues navegando",
     "Keep browsing": "Seguir navegando",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} no permite mostrarse dentro de otra página, así que se abrió en tu navegador.",
-    "Searching…": "Buscando…",
-    "No results found.": "No se encontraron resultados.",
-    "Search results for \"{query}\"": "Resultados de búsqueda de \"{query}\"",
-    "Search failed: {message}": "Error en la búsqueda: {message}",
-    "Search results": "Resultados de búsqueda",
-    "Close search results": "Cerrar resultados de búsqueda",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Los términos de búsqueda escritos muestran resultados de Wikipedia como una lista dentro de la app — no requiere configuración, pero solo busca artículos de Wikipedia, no la web en general. Escribir la dirección de un sitio grande que se niega a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) lo abre en tu navegador habitual — es la política del propio sitio, no algo que esta app pueda cambiar.",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "La estantería está llena. Quita un libro o aumenta el límite en Gestionar estanterías.",
     "— empty shelf —": "— estante vacío —",
     "Not found": "No encontrado",
@@ -1907,6 +1954,7 @@ const UI_I18N = {
     "East Wall": "Pared este",
     "South Wall": "Pared sur",
     "West Wall": "Pared oeste",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "La búsqueda funciona con Bing. Los sitios grandes que se niegan a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) se abren en tu navegador habitual en su lugar — es la política del propio sitio, no algo que esta app pueda cambiar.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -1954,6 +2002,18 @@ const UI_I18N = {
     "Show Apps": "アプリを表示",
     "Edit Apps": "アプリを編集",
     "Choose apps (up to 10)": "アプリを選ぶ（最大10個）",
+    "Add your own site": "自分のサイトを追加",
+    "Name": "名前",
+    "Website address": "サイトのアドレス",
+    "Order": "並び順",
+    "Use the arrows to change the order apps appear in on your home screen.": "矢印でホーム画面に表示するアプリの順番を変えられます。",
+    "Remove {app}": "{app}を削除",
+    "Check some apps above to arrange their order.": "上でアプリにチェックを入れると、順番を並べ替えられます。",
+    "Move {app} earlier": "{app}を前に移動",
+    "Move {app} later": "{app}を後ろに移動",
+    "Enter a name and a website address": "名前とサイトのアドレスを入力してください",
+    "Enter a valid website address": "有効なサイトのアドレスを入力してください",
+    "Added {app}": "{app}を追加しました",
     "The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.": "スマホにインストール済みのアプリ一覧はWebページからは自動取得できないため、以下の候補から選んでください。",
     "Add up to 10 apps from \"Edit Apps\"": "「アプリを編集」から最大10個まで追加できます",
     "Open this app?": "このアプリを開きますか？",
@@ -1969,11 +2029,6 @@ const UI_I18N = {
     "Unlock with Face ID / Fingerprint": "Face ID / 指紋認証で解除",
     // ---- オンボーディング ----
     "Choose your language": "言語を選んでください",
-    "Choose your country": "国を選んでください",
-    "This helps match you with relevant local news later on. More countries will be added over time.": "今後、地域に合ったニュースを表示するために使います。対応国は順次追加予定です。",
-    "Japan": "日本",
-    "Mexico": "メキシコ",
-    "United States": "アメリカ合衆国",
     "Set up your PINs (optional)": "PINを設定する（任意）",
     "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "MyHome Browserを開くためのPINと、スクロールをONにするためのPINをそれぞれ設定します。空欄のままにすれば省略できます。あとから設定でFace ID / 指紋認証に切り替えることもできます。",
     "App Lock PIN (opens the app)": "アプリロックPIN（アプリを開く用）",
@@ -1991,11 +2046,7 @@ const UI_I18N = {
     "Save & Continue": "保存して次へ",
     "Which social media do you use?": "どのSNSを使っていますか？",
     "Choose the ones you want quick access to from your dock.": "ドックからすぐ開けるようにしたいものを選んでください。",
-    "Log in to your apps": "アプリにログイン",
-    "Open each app to sign in there. You can also do this later.": "各アプリを開いてログインしてください。あとで行うこともできます。",
     "Finish setup": "設定を完了",
-    "Log in": "ログイン",
-    "No social media selected. You can add some later from Edit Apps.": "SNSが選ばれていません。あとから「アプリを編集」で追加できます。",
     // ---- 設定 ----
     "Settings": "設定",
     "Close settings": "設定を閉じる",
@@ -2013,6 +2064,19 @@ const UI_I18N = {
     "Choose background image": "背景画像を選ぶ",
     "Remove image": "画像を削除",
     "Reset colors": "色をリセット",
+    "Purple": "パープル",
+    "Orange": "オレンジ",
+    "Pink": "ピンク",
+    "Dark": "ダーク",
+    "Home Screen Icons": "ホーム画面のアイコン",
+    "Icon size": "アイコンのサイズ",
+    "Small": "小",
+    "Medium": "中",
+    "Large": "大",
+    "Icon shape": "アイコンの形",
+    "Rounded square": "角丸四角",
+    "Circle": "円形",
+    "Show app names under icons": "アイコンの下にアプリ名を表示",
     "Language": "言語",
     "Scroll PIN": "スクロールPIN",
     "Required to turn scroll ON. Default is 0000 until you change it.": "スクロールをONにするために必要です。変更するまでは初期値の0000です。",
@@ -2141,12 +2205,10 @@ const UI_I18N = {
     "Posture check: try sitting up and holding the phone at eye level for a moment.": "姿勢チェック：少しの間、背筋を伸ばしてスマホを目の高さに持ってみましょう。",
     "By hour of day": "時間帯別",
     "This sets the language for the rest of the app.": "アプリ全体の表示言語になります。",
-    "Step 1 of 6": "第1ステップ（全6ステップ）",
-    "Step 2 of 6": "第2ステップ（全6ステップ）",
-    "Step 3 of 6": "第3ステップ（全6ステップ）",
-    "Step 4 of 6": "第4ステップ（全6ステップ）",
-    "Step 5 of 6": "第5ステップ（全6ステップ）",
-    "Step 6 of 6": "第6ステップ（全6ステップ）",
+    "Step 1 of 4": "第1ステップ（全4ステップ）",
+    "Step 2 of 4": "第2ステップ（全4ステップ）",
+    "Step 3 of 4": "第3ステップ（全4ステップ）",
+    "Step 4 of 4": "第4ステップ（全4ステップ）",
     "Blocked: this looks like an ad or tracking domain": "ブロックしました：広告・トラッキング用のドメインのようです",
     "Remove bookmark": "ブックマークを削除",
     "Bookmark this page": "このページをブックマーク",
@@ -2173,13 +2235,6 @@ const UI_I18N = {
     "Still browsing": "閲覧中",
     "Keep browsing": "閲覧を続ける",
     "{domain} doesn't allow embedding, so it opened in your browser instead.": "{domain} は埋め込み表示を許可していないため、ブラウザで開きました。",
-    "Searching…": "検索中…",
-    "No results found.": "結果が見つかりませんでした。",
-    "Search results for \"{query}\"": "「{query}」の検索結果",
-    "Search failed: {message}": "検索に失敗しました: {message}",
-    "Search results": "検索結果",
-    "Close search results": "検索結果を閉じる",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "検索語を入力すると、Wikipediaの検索結果がアプリ内の一覧として表示されます — 設定は不要ですが、検索できるのはWikipediaの記事のみで、Web全体ではありません。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）のアドレスを直接入力した場合は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
     "The shelf is full. Remove a book or raise the limit in Manage shelves.": "棚がいっぱいです。本を減らすか、「棚の管理」で容量を増やしてください。",
     "— empty shelf —": "— 空きの棚 —",
     "Not found": "見つかりませんでした",
@@ -2223,6 +2278,7 @@ const UI_I18N = {
     "East Wall": "東の壁",
     "South Wall": "南の壁",
     "West Wall": "西の壁",
+    "Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.": "検索にはBingを使っています。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
   },
 };
 
@@ -2334,14 +2390,6 @@ function applyLanguage(code) {
     if (!el.isConnected) return;
     Object.keys(saved).forEach((name) => el.setAttribute(name, t(saved[name])));
   });
-}
-
-function getCountry() {
-  return loadJSON(STORAGE_KEYS.country, null);
-}
-
-function saveCountry(code) {
-  saveJSON(STORAGE_KEYS.country, code);
 }
 
 function getPin() {
@@ -2658,10 +2706,8 @@ function initOnboarding() {
 
   const stepLanguage = document.getElementById("onboardingStepLanguage");
   const stepResearch = document.getElementById("onboardingStepResearch");
-  const stepCountry = document.getElementById("onboardingStepCountry");
   const stepPin = document.getElementById("onboardingStepPin");
   const stepSns = document.getElementById("onboardingStepSns");
-  const stepLogin = document.getElementById("onboardingStepLogin");
 
   /* ---- Step 1: language ---- */
   function applyOnboardingLanguage(code) {
@@ -2669,7 +2715,6 @@ function initOnboarding() {
     // 起動時に英語で組み立て済みの表示（スクロールボタン等）も作り直す必要がある。
     applyLanguage(code);
     refreshTranslatedViews();
-    renderOnboardingCountryList();
   }
 
   const languageList = document.getElementById("onboardingLanguageList");
@@ -2691,29 +2736,10 @@ function initOnboarding() {
   /* ---- Step 2: 触る/スクロールする/スワイプするに関する研究の紹介 ---- */
   document.getElementById("onboardingResearchNextBtn").addEventListener("click", () => {
     stepResearch.hidden = true;
-    stepCountry.hidden = false;
+    stepPin.hidden = false;
   });
 
-  /* ---- Step 3: country ---- */
-  function renderOnboardingCountryList() {
-    const countryList = document.getElementById("onboardingCountryList");
-    countryList.innerHTML = "";
-    COUNTRIES.forEach((country) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "language-option";
-      btn.textContent = t(country.name);
-      btn.addEventListener("click", () => {
-        saveCountry(country.code);
-        stepCountry.hidden = true;
-        stepPin.hidden = false;
-      });
-      countryList.appendChild(btn);
-    });
-  }
-  renderOnboardingCountryList();
-
-  /* ---- Step 4: app lock PIN + recovery question (optional) ---- */
+  /* ---- Step 3: app lock PIN + recovery question (optional) ---- */
   function goToSnsStep() {
     stepPin.hidden = true;
     stepSns.hidden = false;
@@ -2755,19 +2781,12 @@ function initOnboarding() {
     goToSnsStep();
   });
 
-  /* ---- Step 5: which SNS to use ---- */
+  /* ---- Step 4: which SNS to use ---- */
   document.getElementById("onboardingSnsNextBtn").addEventListener("click", () => {
     const checked = Array.from(
       document.querySelectorAll('#onboardingSnsList input[type="checkbox"]:checked')
     ).map((cb) => cb.value);
     saveJSON(STORAGE_KEYS.selectedApps, checked);
-    stepSns.hidden = true;
-    stepLogin.hidden = false;
-    renderOnboardingLoginList(checked);
-  });
-
-  /* ---- Step 6: log in to the chosen SNS ---- */
-  document.getElementById("onboardingFinishBtn").addEventListener("click", () => {
     saveOnboardingComplete(true);
     screen.hidden = true;
     renderDock();
@@ -2780,46 +2799,6 @@ function renderOnboardingSnsList() {
   const list = document.getElementById("onboardingSnsList");
   const snsCandidates = APP_CANDIDATES.filter((app) => SNS_FEED_PLATFORMS.includes(app.id));
   buildAppCandidateListItems(list, snsCandidates, [], "onboarding-sns");
-}
-
-function renderOnboardingLoginList(ids) {
-  const list = document.getElementById("onboardingLoginList");
-  list.innerHTML = "";
-
-  if (ids.length === 0) {
-    const li = document.createElement("li");
-    li.className = "onboarding-login-empty";
-    li.textContent = t("No social media selected. You can add some later from Edit Apps.");
-    list.appendChild(li);
-    return;
-  }
-
-  ids.forEach((id) => {
-    const app = APP_CANDIDATES.find((a) => a.id === id);
-    if (!app) return;
-
-    const li = document.createElement("li");
-    li.className = "onboarding-login-row";
-
-    const iconWrap = document.createElement("span");
-    iconWrap.className = "candidate-icon";
-    iconWrap.appendChild(buildAppIcon(app));
-    li.appendChild(iconWrap);
-
-    const name = document.createElement("span");
-    name.className = "onboarding-login-name";
-    name.textContent = app.name;
-    li.appendChild(name);
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "btn btn-small";
-    btn.textContent = t("Log in");
-    btn.addEventListener("click", () => openApp(app));
-    li.appendChild(btn);
-
-    list.appendChild(li);
-  });
 }
 
 const DEFAULT_REASONS = [
@@ -2870,6 +2849,55 @@ function buildAppIcon(app) {
   img.addEventListener("error", () => { wrapper.textContent = app.initial; }, { once: true });
   wrapper.appendChild(img);
   return wrapper;
+}
+
+/* ==========================================================================
+   ホーム画面に自由に追加できるカスタムタイル（自分のお気に入りサイト）
+   固定候補(APP_CANDIDATES)に無いサイトも、名前とURLだけで即座にアイコン
+   タイルとして追加できるようにする。favicon.domainはURLのホスト名から作る。
+   ========================================================================== */
+
+function getCustomApps() {
+  return loadJSON(STORAGE_KEYS.customApps, []);
+}
+
+function saveCustomApps(apps) {
+  saveJSON(STORAGE_KEYS.customApps, apps);
+}
+
+function makeCustomAppId() {
+  return `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function addCustomApp(name, url) {
+  const domain = hostnameOf(url);
+  const app = {
+    id: makeCustomAppId(),
+    name,
+    initial: name.trim().charAt(0).toUpperCase() || "?",
+    web: url,
+    domain,
+    custom: true,
+  };
+  const apps = getCustomApps();
+  apps.push(app);
+  saveCustomApps(apps);
+  return app;
+}
+
+function removeCustomApp(id) {
+  saveCustomApps(getCustomApps().filter((a) => a.id !== id));
+  const selected = getSelectedAppIds().filter((sid) => sid !== id);
+  saveJSON(STORAGE_KEYS.selectedApps, selected);
+}
+
+// 固定候補とカスタムタイルをまとめた、ホーム画面に置ける全アプリの一覧。
+function getAllAppCandidates() {
+  return APP_CANDIDATES.concat(getCustomApps());
+}
+
+function findApp(id) {
+  return getAllAppCandidates().find((a) => a.id === id);
 }
 
 /* ==========================================================================
@@ -2976,6 +3004,13 @@ function applyAppearance() {
   document.body.style.backgroundSize = "cover";
   document.body.style.backgroundPosition = "center";
   document.body.style.backgroundAttachment = "fixed";
+
+  const iconSizePx = { small: 30, medium: 38, large: 46 }[a.iconSize] || 38;
+  root.setProperty("--dock-icon-size", `${iconSizePx}px`);
+  root.setProperty("--dock-icon-radius", a.iconShape === "circle" ? "50%" : "12px");
+
+  const dockGrid = document.getElementById("dockGrid");
+  if (dockGrid) dockGrid.classList.toggle("hide-labels", a.showLabels === false);
 }
 
 // アクセントカラーを起点に、棒グラフの区画ごとに見分けやすい濃淡を作る
@@ -3021,6 +3056,9 @@ function populateAppearanceInputs() {
   const a = getAppearance();
   document.getElementById("accentColorInput").value = a.accent;
   document.getElementById("bgColorInput").value = a.bg;
+  document.getElementById("iconSizeSelect").value = a.iconSize;
+  document.getElementById("iconShapeSelect").value = a.iconShape;
+  document.getElementById("showLabelsToggle").checked = a.showLabels !== false;
 }
 
 /* ==========================================================================
@@ -3754,7 +3792,7 @@ function renderInsightsTimeChart(apps) {
 
   cols.innerHTML = "";
   ids.forEach((id, index) => {
-    const app = APP_CANDIDATES.find((a) => a.id === id);
+    const app = findApp(id);
     const ms = apps[id].totalTimeMs;
 
     const col = document.createElement("div");
@@ -3850,7 +3888,7 @@ function collectInsightsRows(data) {
   }
 
   ids.forEach((id, index) => {
-    const app = APP_CANDIDATES.find((a) => a.id === id);
+    const app = findApp(id);
     const entry = apps[id];
     const avgMs = entry.sessionCount > 0 ? entry.totalTimeMs / entry.sessionCount : 0;
 
@@ -4499,7 +4537,7 @@ function renderDock() {
   }
 
   selectedIds.forEach((id) => {
-    const app = APP_CANDIDATES.find((a) => a.id === id);
+    const app = findApp(id);
     if (!app) return;
     const btn = document.createElement("button");
     btn.type = "button";
@@ -4874,7 +4912,7 @@ function closeAppOpenConfirm() {
 
 // アプリ候補のチェックボックス一覧を作る共通処理。
 // Edit Appsモーダルと初回起動時のSNS選択ステップの両方から使う。
-function buildAppCandidateListItems(list, candidates, selectedIds, idPrefix) {
+function buildAppCandidateListItems(list, candidates, selectedIds, idPrefix, options = {}) {
   list.innerHTML = "";
 
   candidates.forEach((app) => {
@@ -4899,13 +4937,39 @@ function buildAppCandidateListItems(list, candidates, selectedIds, idPrefix) {
     label.appendChild(document.createTextNode(app.name));
     li.appendChild(label);
 
+    if (options.onRemove && app.custom) {
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "candidate-remove-btn";
+      removeBtn.setAttribute("aria-label", tf("Remove {app}", { app: app.name }));
+      removeBtn.textContent = "×";
+      removeBtn.addEventListener("click", () => options.onRemove(app.id));
+      li.appendChild(removeBtn);
+    }
+
     list.appendChild(li);
   });
 }
 
+// ドックの並び順を編集中の一時状態。ピッカーを開いている間だけ使い、
+// 保存ボタンを押した時にこの順序でSTORAGE_KEYS.selectedAppsへ書き込む。
+let pendingAppOrder = [];
+
+function initPendingAppOrder() {
+  const validIds = new Set(getAllAppCandidates().map((a) => a.id));
+  pendingAppOrder = getSelectedAppIds().filter((id) => validIds.has(id));
+}
+
 function renderAppPickerList() {
   const list = document.getElementById("appCandidateList");
-  buildAppCandidateListItems(list, APP_CANDIDATES, getSelectedAppIds(), "app");
+  buildAppCandidateListItems(list, getAllAppCandidates(), pendingAppOrder, "app", {
+    onRemove: (id) => {
+      removeCustomApp(id);
+      pendingAppOrder = pendingAppOrder.filter((oid) => oid !== id);
+      renderAppPickerList();
+      renderAppOrderList();
+    },
+  });
   updateAppPickerDisabledState();
 }
 
@@ -4921,8 +4985,68 @@ function updateAppPickerDisabledState() {
   });
 }
 
+function moveAppOrder(index, delta) {
+  const target = index + delta;
+  if (target < 0 || target >= pendingAppOrder.length) return;
+  [pendingAppOrder[index], pendingAppOrder[target]] = [pendingAppOrder[target], pendingAppOrder[index]];
+  renderAppOrderList();
+}
+
+function renderAppOrderList() {
+  const list = document.getElementById("appOrderList");
+  list.innerHTML = "";
+
+  if (pendingAppOrder.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "app-order-empty";
+    empty.textContent = t("Check some apps above to arrange their order.");
+    list.appendChild(empty);
+    return;
+  }
+
+  pendingAppOrder.forEach((id, index) => {
+    const app = findApp(id);
+    if (!app) return;
+
+    const li = document.createElement("li");
+    li.className = "app-order-row";
+
+    const iconWrap = document.createElement("span");
+    iconWrap.className = "candidate-icon";
+    iconWrap.appendChild(buildAppIcon(app));
+    li.appendChild(iconWrap);
+
+    const name = document.createElement("span");
+    name.className = "app-order-name";
+    name.textContent = app.name;
+    li.appendChild(name);
+
+    const upBtn = document.createElement("button");
+    upBtn.type = "button";
+    upBtn.className = "order-btn";
+    upBtn.textContent = "↑";
+    upBtn.disabled = index === 0;
+    upBtn.setAttribute("aria-label", tf("Move {app} earlier", { app: app.name }));
+    upBtn.addEventListener("click", () => moveAppOrder(index, -1));
+    li.appendChild(upBtn);
+
+    const downBtn = document.createElement("button");
+    downBtn.type = "button";
+    downBtn.className = "order-btn";
+    downBtn.textContent = "↓";
+    downBtn.disabled = index === pendingAppOrder.length - 1;
+    downBtn.setAttribute("aria-label", tf("Move {app} later", { app: app.name }));
+    downBtn.addEventListener("click", () => moveAppOrder(index, 1));
+    li.appendChild(downBtn);
+
+    list.appendChild(li);
+  });
+}
+
 function openAppPicker() {
+  initPendingAppOrder();
   renderAppPickerList();
+  renderAppOrderList();
   document.getElementById("appPickerModal").hidden = false;
 }
 function closeAppPicker() {
@@ -4986,36 +5110,17 @@ function normalizeUrl(input) {
   return /^https?:\/\//i.test(input) ? input : `https://${input}`;
 }
 
-/* --------------------------------------------------------------------------
-   検索: Wikipedia API (action=query&list=search) を使う。
-   主要な検索エンジンのページ自体をiframeで開こうとするとX-Frame-Options等で
-   軒並み拒否される（DuckDuckGo/Google/Bing含む多くのサイトで確認済み）ため、
-   検索エンジンのページを埋め込むのではなく、JSON APIを直接叩いて結果を
-   アプリ自身のUIに一覧表示する方式にした。Wikipedia APIはCORS対応済み・
-   APIキー不要（ヘッダーで access-control-allow-origin: * を確認済み）なので、
-   Google Programmable Searchのようなユーザー自身のAPIキー登録が要らない。
-   一方でWikipedia内の記事しか検索できない（一般的なWeb検索ではない）。
-   -------------------------------------------------------------------------- */
-function wikipediaApiUrl(query) {
-  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
-  return `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=10&srsearch=${encodeURIComponent(query)}`;
-}
-function wikipediaArticleUrl(title) {
-  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
-  return `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`;
-}
-// snippetにはWikipedia側が付けた<span class="searchmatch">等のHTMLが含まれるため、
-// 表示前にプレーンテキストへ落とす（未挿入のdivなのでscriptは実行されない）。
-function stripHtml(html) {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || "";
+// APIキーなしで使える簡易検索として、Bingの検索結果ページを使う。DuckDuckGoは
+// /html/ 版も含めサイト全体でフレーム埋め込みを拒否するため使えなかった
+// （実際にヘッダーを確認: x-frame-options: SAMEORIGIN, frame-ancestors 'self'）。
+function buildSearchUrl(query) {
+  return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
 }
 
 function resolveNavigationUrl(input) {
   const trimmed = input.trim();
   if (!trimmed) return null;
-  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : null;
+  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : buildSearchUrl(trimmed);
 }
 
 function getBrowserTabs() {
@@ -5041,23 +5146,9 @@ function tabStripPageForIndex(index) {
   return index < 0 ? 0 : Math.floor(index / TAB_STRIP_PER_PAGE);
 }
 
-// アドレスらしい入力ならそのまま開き、そうでなければ検索クエリとして
-// Google Programmable Search の結果一覧を開く。
 function openTab(rawInput) {
-  const trimmed = rawInput.trim();
-  if (!trimmed) return;
-  document.getElementById("searchInput").value = "";
-  const url = resolveNavigationUrl(trimmed);
-  if (url) {
-    openResolvedUrl(url);
-  } else {
-    performSearch(trimmed);
-  }
-}
-
-// 解決済みの絶対URLをタブとして開く（広告/トラッキングドメインは拒否、
-// 埋め込み不可と分かっているドメインは外部ブラウザで開く）。
-function openResolvedUrl(url) {
+  const url = resolveNavigationUrl(rawInput);
+  if (!url) return;
   if (isAdBlockedUrl(url)) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
     return;
@@ -5065,6 +5156,7 @@ function openResolvedUrl(url) {
   if (isNonEmbeddableUrl(url)) {
     window.open(url, "_blank", "noopener");
     showToast(tf("{domain} doesn't allow embedding, so it opened in your browser instead.", { domain: hostnameOf(url) }));
+    document.getElementById("searchInput").value = "";
     return;
   }
   const tabs = getBrowserTabs();
@@ -5073,6 +5165,7 @@ function openResolvedUrl(url) {
   saveBrowserTabs(tabs);
   saveActiveTabId(tab.id);
   tabStripPage = tabStripPageForIndex(tabs.length - 1);
+  document.getElementById("searchInput").value = "";
   renderBrowser();
 }
 
@@ -5815,154 +5908,6 @@ function closeBookmarksModal() {
   document.getElementById("bookmarksModal").hidden = true;
 }
 
-/* --------------------------------------------------------------------------
-   検索結果一覧（Wikipedia API）。結果ページをiframeで開くのではなく、
-   JSON APIから受け取ったタイトル/抜粋/URLをこのアプリ自身の一覧UIで表示する。
-   行をタップすると初めてopenResolvedUrl()でタブとして開く。
-   -------------------------------------------------------------------------- */
-let searchResultsPage = 0;
-let searchResultsQuery = "";
-let searchResultsItems = [];
-let searchResultsState = "idle"; // idle | loading | results | empty | error
-let searchResultsErrorMessage = "";
-let searchResultsRequestId = 0;
-const SEARCH_RESULTS_FALLBACK_PER_PAGE = 4;
-const SEARCH_RESULTS_ROW_GAP = 8;
-
-async function performSearch(query) {
-  searchResultsQuery = query;
-  searchResultsPage = 0;
-  const requestId = ++searchResultsRequestId;
-
-  searchResultsState = "loading";
-  searchResultsItems = [];
-  openSearchResultsModal();
-
-  try {
-    const res = await fetch(wikipediaApiUrl(query));
-    const data = await res.json().catch(() => ({}));
-    if (requestId !== searchResultsRequestId) return; // 別の検索が割り込んでいたら破棄
-
-    if (!res.ok || (data && data.error)) {
-      searchResultsState = "error";
-      searchResultsErrorMessage = (data && data.error && data.error.info) || `HTTP ${res.status}`;
-      searchResultsItems = [];
-    } else {
-      const results = (data.query && data.query.search) || [];
-      searchResultsItems = results.map((item) => ({
-        title: item.title,
-        snippet: stripHtml(item.snippet || ""),
-        url: wikipediaArticleUrl(item.title),
-        displayUrl: hostnameOf(wikipediaArticleUrl(item.title)),
-      }));
-      searchResultsState = searchResultsItems.length ? "results" : "empty";
-    }
-  } catch (e) {
-    if (requestId !== searchResultsRequestId) return;
-    searchResultsState = "error";
-    searchResultsErrorMessage = String((e && e.message) || e);
-    searchResultsItems = [];
-  }
-  renderSearchResults();
-}
-
-function buildSearchResultRow(item) {
-  const li = document.createElement("li");
-  li.className = "search-result-row";
-
-  const open = document.createElement("button");
-  open.type = "button";
-  open.className = "search-result-open-btn";
-  const title = document.createElement("span");
-  title.className = "search-result-title";
-  title.textContent = item.title;
-  const snippet = document.createElement("span");
-  snippet.className = "search-result-snippet";
-  snippet.textContent = item.snippet;
-  const url = document.createElement("span");
-  url.className = "search-result-url";
-  url.textContent = item.displayUrl;
-  open.append(title, snippet, url);
-  open.addEventListener("click", () => {
-    closeSearchResultsModal();
-    openResolvedUrl(item.url);
-  });
-  li.appendChild(open);
-  return li;
-}
-
-// 一覧に割り当てられている高さに何件入るかを実測して決める（他の一覧と同じ手法）。
-function measureSearchResultsPerPage(list, items) {
-  const available = list.clientHeight;
-  if (!available) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
-  list.appendChild(buildSearchResultRow(items[0]));
-  const rowHeight = list.firstElementChild.getBoundingClientRect().height;
-  list.innerHTML = "";
-  if (!rowHeight) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
-  return Math.max(1, Math.floor((available + SEARCH_RESULTS_ROW_GAP) / (rowHeight + SEARCH_RESULTS_ROW_GAP)));
-}
-
-function renderSearchResults() {
-  const list = document.getElementById("searchResultsList");
-  const pagination = document.querySelector("#searchResultsModal .search-pagination");
-  const statusEl = document.getElementById("searchResultsStatus");
-  document.getElementById("searchResultsModalTitle").textContent =
-    tf('Search results for "{query}"', { query: searchResultsQuery });
-  list.innerHTML = "";
-  statusEl.hidden = true;
-
-  if (searchResultsState === "loading") {
-    pagination.hidden = true;
-    statusEl.hidden = false;
-    statusEl.textContent = t("Searching…");
-    return;
-  }
-  if (searchResultsState === "error") {
-    pagination.hidden = true;
-    statusEl.hidden = false;
-    statusEl.textContent = tf("Search failed: {message}", { message: searchResultsErrorMessage });
-    return;
-  }
-  if (searchResultsState === "empty") {
-    pagination.hidden = true;
-    statusEl.hidden = false;
-    statusEl.textContent = t("No results found.");
-    return;
-  }
-
-  const perPage = measureSearchResultsPerPage(list, searchResultsItems);
-  const totalPages = Math.max(1, Math.ceil(searchResultsItems.length / perPage));
-  if (searchResultsPage >= totalPages) searchResultsPage = totalPages - 1;
-  pagination.hidden = totalPages <= 1;
-
-  const start = searchResultsPage * perPage;
-  searchResultsItems.slice(start, start + perPage).forEach((item) => list.appendChild(buildSearchResultRow(item)));
-
-  document.getElementById("searchResultsPrevBtn").disabled = searchResultsPage === 0;
-  document.getElementById("searchResultsNextBtn").disabled = searchResultsPage >= totalPages - 1;
-  const pageNumbers = document.getElementById("searchResultsPageNumbers");
-  pageNumbers.innerHTML = "";
-  for (let i = 0; i < totalPages; i++) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "page-number-btn" + (i === searchResultsPage ? " is-active" : "");
-    btn.textContent = String(i + 1);
-    btn.addEventListener("click", () => {
-      searchResultsPage = i;
-      renderSearchResults();
-    });
-    pageNumbers.appendChild(btn);
-  }
-}
-
-function openSearchResultsModal() {
-  renderSearchResults();
-  document.getElementById("searchResultsModal").hidden = false;
-}
-function closeSearchResultsModal() {
-  document.getElementById("searchResultsModal").hidden = true;
-}
-
 function openInsightsModal() {
   document.getElementById("insightsModal").hidden = false;
   renderAppInsights();
@@ -6176,6 +6121,27 @@ function init() {
     applyAppearance();
   });
 
+  document.getElementById("iconSizeSelect").addEventListener("change", (e) => {
+    const appearance = getAppearance();
+    appearance.iconSize = e.target.value;
+    saveAppearance(appearance);
+    applyAppearance();
+  });
+
+  document.getElementById("iconShapeSelect").addEventListener("change", (e) => {
+    const appearance = getAppearance();
+    appearance.iconShape = e.target.value;
+    saveAppearance(appearance);
+    applyAppearance();
+  });
+
+  document.getElementById("showLabelsToggle").addEventListener("change", (e) => {
+    const appearance = getAppearance();
+    appearance.showLabels = e.target.checked;
+    saveAppearance(appearance);
+    applyAppearance();
+  });
+
   document.getElementById("resetAppearanceBtn").addEventListener("click", () => {
     saveAppearance({ ...DEFAULT_APPEARANCE });
     applyAppearance();
@@ -6185,13 +6151,39 @@ function init() {
   document.getElementById("editDockBtn").addEventListener("click", openAppPicker);
   document.getElementById("cancelAppPicker").addEventListener("click", closeAppPicker);
   document.getElementById("appCandidateList").addEventListener("change", (e) => {
-    if (e.target.matches('input[type="checkbox"]')) updateAppPickerDisabledState();
+    if (!e.target.matches('input[type="checkbox"]')) return;
+    const id = e.target.value;
+    if (e.target.checked) {
+      if (!pendingAppOrder.includes(id)) pendingAppOrder.push(id);
+    } else {
+      pendingAppOrder = pendingAppOrder.filter((oid) => oid !== id);
+    }
+    updateAppPickerDisabledState();
+    renderAppOrderList();
+  });
+  document.getElementById("addCustomAppBtn").addEventListener("click", () => {
+    const nameInput = document.getElementById("customAppNameInput");
+    const urlInput = document.getElementById("customAppUrlInput");
+    const name = nameInput.value.trim();
+    const rawUrl = urlInput.value.trim();
+    if (!name || !rawUrl) {
+      showToast(t("Enter a name and a website address"));
+      return;
+    }
+    if (!looksLikeUrl(rawUrl)) {
+      showToast(t("Enter a valid website address"));
+      return;
+    }
+    const app = addCustomApp(name, normalizeUrl(rawUrl));
+    nameInput.value = "";
+    urlInput.value = "";
+    if (pendingAppOrder.length < 10) pendingAppOrder.push(app.id);
+    renderAppPickerList();
+    renderAppOrderList();
+    showToast(tf("Added {app}", { app: app.name }));
   });
   document.getElementById("saveAppPicker").addEventListener("click", () => {
-    const checked = Array.from(
-      document.querySelectorAll('#appCandidateList input[type="checkbox"]:checked')
-    ).map((cb) => cb.value);
-    saveJSON(STORAGE_KEYS.selectedApps, checked.slice(0, 10));
+    saveJSON(STORAGE_KEYS.selectedApps, pendingAppOrder.slice(0, 10));
     renderDock();
     closeAppPicker();
   });
@@ -6287,20 +6279,6 @@ function init() {
     if (bookshelfManagePage < BOOKSHELF_MANAGE_PAGES - 1) {
       bookshelfManagePage++;
       renderBookshelfManagePage();
-    }
-  });
-
-  document.getElementById("closeSearchResults").addEventListener("click", closeSearchResultsModal);
-  document.getElementById("searchResultsPrevBtn").addEventListener("click", () => {
-    if (searchResultsPage > 0) {
-      searchResultsPage--;
-      renderSearchResults();
-    }
-  });
-  document.getElementById("searchResultsNextBtn").addEventListener("click", () => {
-    if (!document.getElementById("searchResultsNextBtn").disabled) {
-      searchResultsPage++;
-      renderSearchResults();
     }
   });
 
