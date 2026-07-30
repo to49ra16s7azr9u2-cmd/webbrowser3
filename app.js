@@ -41,6 +41,8 @@ const STORAGE_KEYS = {
   browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
   feedAppsNeedScrollOn: "myhome:feedAppsNeedScrollOn",
   scrollGatedApps: "myhome:scrollGatedApps",
+  openAppsInSameWindow: "myhome:openAppsInSameWindow",
+  pendingAwaySession: "myhome:pendingAwaySession",
   customApps: "myhome:customApps",
 };
 
@@ -385,17 +387,20 @@ const UI_I18N = {
     "Not now": "Agora não",
     "Install to your home screen": "Instalar na sua tela inicial",
     "Install": "Instalar",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Instalado. Agora os outros apps abrem em uma camada sobre este app — feche essa camada e você volta para cá, com suas abas e o estado da rolagem intactos.",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. Instale-o na sua tela inicial e eles passarão a abrir em uma camada sobre ele.",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. No Safari, toque no botão Compartilhar e escolha “Adicionar à Tela de Início”; depois disso eles abrem em uma camada sobre este app.",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Abra esta página no Chrome ou no Edge e use “Instalar app” (ou “Adicionar à tela inicial”) no menu do navegador. Depois de instalado, os outros apps abrem em uma camada sobre este app em vez de levar você embora.",
     "Installed to your home screen": "Instalado na sua tela inicial",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} abre em uma camada sobre o MyHome Browser. Feche-a e você volta direto para cá.",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} abre em uma aba separada do navegador, então você sairá do MyHome Browser. Instalar este app na sua tela inicial faz com que ele fique em camada por cima — veja os Ajustes.",
     "Apps that need scroll ON": "Apps que exigem a rolagem ativa",
     "Don't let the apps below open while scroll is OFF": "Não abrir os apps abaixo enquanto a rolagem estiver desativada",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estes apps se recusam a abrir dentro deste app, então rodam no seu navegador normal, onde este app não consegue manter a rolagem travada. Os apps marcados só abrem depois que você ativar a rolagem com um motivo e um limite de tempo. Os apps de feed já vêm marcados — marque outros que consumam o seu tempo.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Ative a rolagem com um motivo e um limite de tempo, e {app} abrirá.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} abre em uma aba separada do navegador, então você sairá do MyHome Browser e terá que achar o caminho de volta. Instalar este app na sua tela inicial costuma melhorar isso — veja os Ajustes.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Instalado. Os outros apps ainda abrem fora deste app, mas a maioria dos celulares agora os mostra como uma camada que você pode fechar para voltar direto, em vez de trocar de app. De qualquer forma, suas abas, o dicionário e o estado da rolagem são mantidos.",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app e precisa achar o caminho de volta. Instalá-lo na sua tela inicial costuma fazer com que abram como uma camada que dá para fechar — o comportamento exato é decisão do seu celular, não deste app.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. No Safari, toque no botão Compartilhar e escolha “Adicionar à Tela de Início” — isso costuma ajudar, embora o iOS às vezes ainda leve você para o Safari.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Abra esta página no Chrome ou no Edge e use “Instalar app” (ou “Adicionar à tela inicial”) no menu do navegador. Depois de instalado, os outros apps geralmente abrem como uma camada que você pode fechar para voltar direto, em vez de levar você embora.",
+    "How other apps open": "Como os outros apps abrem",
+    "Open other apps in this same window": "Abrir os outros apps nesta mesma janela",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Ativado, o app carrega nesta janela em vez de uma nova aba, então o seu celular nunca sai do MyHome Browser — toque em voltar para retornar. Desativado, abre uma nova aba, o que em alguns celulares entrega você a um navegador separado. Teste os dois e fique com o que voltar melhor no seu aparelho.",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} carrega nesta janela, então o seu celular não sai do MyHome Browser. Toque em voltar para retornar — tudo aqui estará como você deixou.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -708,17 +713,20 @@ const UI_I18N = {
     "Not now": "Jetzt nicht",
     "Install to your home screen": "Auf dem Startbildschirm installieren",
     "Install": "Installieren",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Installiert. Andere Apps öffnen sich jetzt in einer Ebene über dieser App — schließe sie, und du bist wieder hier, mit unveränderten Tabs und Scroll-Status.",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Installiere sie auf dem Startbildschirm, dann öffnen sie sich stattdessen in einer Ebene darüber.",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Tippe in Safari auf „Teilen“ und wähle „Zum Home-Bildschirm“ — danach öffnen sie sich in einer Ebene über dieser App.",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Öffne diese Seite in Chrome oder Edge und wähle im Browsermenü „App installieren“ (oder „Zum Startbildschirm hinzufügen“). Nach der Installation öffnen sich andere Apps in einer Ebene über dieser App, statt dich wegzuführen.",
     "Installed to your home screen": "Auf dem Startbildschirm installiert",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} öffnet sich in einer Ebene über MyHome Browser. Schließe sie, und du bist sofort wieder hier.",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} öffnet sich in einem separaten Browser-Tab, du verlässt MyHome Browser also. Wenn du diese App auf dem Startbildschirm installierst, bleibt sie stattdessen darüber liegen — siehe Einstellungen.",
     "Apps that need scroll ON": "Apps, die eingeschaltetes Scrollen brauchen",
     "Don't let the apps below open while scroll is OFF": "Die Apps unten nicht öffnen, solange Scrollen AUS ist",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Diese Apps lassen sich nicht in dieser App öffnen und laufen deshalb in deinem normalen Browser, wo diese App die Scrollsperre nicht halten kann. Angehakte Apps öffnen sich erst, wenn du Scrollen mit Grund und Zeitlimit eingeschaltet hast. Feed-Apps sind von Anfang an angehakt — hake alles Weitere an, das deine Zeit frisst.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Schalte Scrollen mit Grund und Zeitlimit ein, dann öffnet sich {app}.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} öffnet sich in einem separaten Browser-Tab, du verlässt MyHome Browser also und musst den Weg zurück suchen. Diese App auf dem Startbildschirm zu installieren verbessert das meistens — siehe Einstellungen.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Installiert. Andere Apps öffnen sich weiterhin außerhalb dieser App, aber die meisten Handys zeigen sie jetzt als schließbare Ebene, statt komplett umzuschalten. So oder so bleiben deine Tabs, das Wörterbuch und der Scroll-Status erhalten.",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also und musst den Weg zurück suchen. Wenn du sie auf dem Startbildschirm installierst, öffnen sie sich meist als schließbare Ebene — was genau passiert, entscheidet dein Handy, nicht diese App.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Tippe in Safari auf „Teilen“ und wähle „Zum Home-Bildschirm“ — das hilft meistens, auch wenn iOS dich manchmal trotzdem zu Safari schickt.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Öffne diese Seite in Chrome oder Edge und wähle im Browsermenü „App installieren“ (oder „Zum Startbildschirm hinzufügen“). Nach der Installation öffnen sich andere Apps meist als Ebene, die du schließen kannst, statt dich wegzuführen.",
+    "How other apps open": "Wie andere Apps geöffnet werden",
+    "Open other apps in this same window": "Andere Apps in diesem Fenster öffnen",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Aktiviert lädt die App in diesem Fenster statt in einem neuen Tab, dein Handy wechselt also nie von MyHome Browser weg — mit „Zurück“ kommst du hierher zurück. Deaktiviert öffnet einen neuen Tab, der dich auf manchen Handys an einen separaten Browser übergibt. Probiere beides und behalte, was auf deinem Gerät sauberer zurückkommt.",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} lädt in diesem Fenster, dein Handy wechselt also nicht von MyHome Browser weg. Mit „Zurück“ kommst du hierher zurück — alles ist noch so, wie du es verlassen hast.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1031,17 +1039,20 @@ const UI_I18N = {
     "Not now": "Pas maintenant",
     "Install to your home screen": "Installer sur votre écran d'accueil",
     "Install": "Installer",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Installé. Les autres applis s'ouvrent maintenant dans une couche par-dessus cette appli — fermez-la et vous revenez ici, avec vos onglets et l'état du défilement intacts.",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Installez-la sur votre écran d'accueil et elles s'ouvriront dans une couche par-dessus.",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Dans Safari, touchez le bouton Partager et choisissez « Sur l'écran d'accueil » ; ensuite elles s'ouvriront dans une couche par-dessus cette appli.",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Ouvrez cette page dans Chrome ou Edge et utilisez « Installer l'application » (ou « Ajouter à l'écran d'accueil ») dans le menu du navigateur. Une fois installée, les autres applis s'ouvrent dans une couche par-dessus cette appli au lieu de vous emmener ailleurs.",
     "Installed to your home screen": "Installé sur votre écran d'accueil",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} s'ouvre dans une couche par-dessus MyHome Browser. Fermez-la et vous revenez directement ici.",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} s'ouvre dans un onglet séparé du navigateur, vous quitterez donc MyHome Browser. Installer cette appli sur votre écran d'accueil la garde en couche par-dessus — voir les Réglages.",
     "Apps that need scroll ON": "Applis qui exigent le défilement activé",
     "Don't let the apps below open while scroll is OFF": "Ne pas ouvrir les applis ci-dessous tant que le défilement est désactivé",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Ces applis refusent de s'ouvrir dans cette appli ; elles s'ouvrent donc dans votre navigateur habituel, où cette appli ne peut pas bloquer le défilement. Les applis cochées ne s'ouvrent qu'une fois le défilement activé avec un motif et une limite de temps. Les applis à fil sont cochées au départ — cochez toutes celles qui vous prennent du temps.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activez le défilement avec un motif et une limite de temps, et {app} s'ouvrira.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} s'ouvre dans un onglet séparé du navigateur, vous quitterez donc MyHome Browser et devrez retrouver votre chemin. Installer cette appli sur votre écran d'accueil améliore généralement cela — voir les Réglages.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Installé. Les autres applis s'ouvrent toujours en dehors de cette appli, mais la plupart des téléphones les affichent désormais comme une couche que vous pouvez fermer pour revenir directement, au lieu de basculer ailleurs. Dans tous les cas, vos onglets, le dictionnaire et l'état du défilement sont conservés.",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli et devez retrouver votre chemin. L'installer sur votre écran d'accueil les fait généralement s'ouvrir comme une couche que l'on peut fermer — le comportement exact dépend de votre téléphone, pas de cette appli.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Dans Safari, touchez le bouton Partager et choisissez « Sur l'écran d'accueil » — cela aide généralement, même si iOS vous bascule parfois quand même vers Safari.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Ouvrez cette page dans Chrome ou Edge et utilisez « Installer l'application » (ou « Ajouter à l'écran d'accueil ») dans le menu du navigateur. Une fois installée, les autres applis s'ouvrent généralement comme une couche que vous pouvez fermer pour revenir directement, au lieu de vous emmener ailleurs.",
+    "How other apps open": "Comment les autres applis s'ouvrent",
+    "Open other apps in this same window": "Ouvrir les autres applis dans cette même fenêtre",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Activé, l'appli se charge dans cette fenêtre plutôt que dans un nouvel onglet : votre téléphone ne quitte donc jamais MyHome Browser — appuyez sur retour pour revenir ici. Désactivé, un nouvel onglet s'ouvre, ce qui sur certains téléphones vous confie à un navigateur séparé. Essayez les deux et gardez celui qui revient le plus proprement sur votre appareil.",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} se charge dans cette fenêtre, votre téléphone ne quitte donc pas MyHome Browser. Appuyez sur retour pour revenir — tout sera comme vous l'avez laissé.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1354,17 +1365,20 @@ const UI_I18N = {
     "Not now": "나중에",
     "Install to your home screen": "홈 화면에 설치",
     "Install": "설치",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "설치되었습니다. 이제 다른 앱은 이 앱 위에 겹쳐진 층으로 열리며, 그 층을 닫으면 탭과 스크롤 상태가 그대로인 채 이곳으로 돌아옵니다.",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. 홈 화면에 설치하면 이 앱 위에 겹쳐진 층으로 열립니다.",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. Safari에서 공유 버튼을 누르고 ‘홈 화면에 추가’를 선택하면, 이후에는 이 앱 위에 겹쳐진 층으로 열립니다.",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "이 페이지를 Chrome이나 Edge에서 열고 브라우저 메뉴의 ‘앱 설치’(또는 ‘홈 화면에 추가’)를 사용하세요. 설치하면 다른 앱이 이 앱을 떠나지 않고 위에 겹쳐진 층으로 열립니다.",
     "Installed to your home screen": "홈 화면에 설치했습니다",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app}은(는) MyHome Browser 위에 겹쳐진 층으로 열립니다. 닫으면 바로 이곳으로 돌아옵니다.",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app}은(는) 별도의 브라우저 탭에서 열리므로 MyHome Browser를 떠나게 됩니다. 이 앱을 홈 화면에 설치하면 대신 위에 겹쳐진 층으로 열립니다 — 설정을 확인하세요.",
     "Apps that need scroll ON": "스크롤을 켜야 열리는 앱",
     "Don't let the apps below open while scroll is OFF": "스크롤이 꺼져 있는 동안에는 아래 앱을 열지 않기",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "이 앱들은 이 앱 안에서 열리지 않아 일반 브라우저에서 실행되며, 그곳에서는 이 앱이 스크롤을 잠글 수 없습니다. 체크한 앱은 이유와 시간제한을 정해 스크롤을 켠 뒤에만 열립니다. 피드 앱은 처음부터 체크되어 있으며, 시간을 많이 쓰는 다른 앱도 체크해 두세요.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "이유와 시간제한을 정해 스크롤을 켜면 {app}이(가) 열립니다.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app}은(는) 별도의 브라우저 탭에서 열리므로 MyHome Browser를 떠나게 되고 돌아올 길을 찾아야 합니다. 이 앱을 홈 화면에 설치하면 대개 나아집니다 — 설정을 확인하세요.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "설치되었습니다. 다른 앱은 여전히 이 앱 바깥에서 열리지만, 대부분의 휴대폰에서는 완전히 전환되는 대신 닫으면 바로 돌아올 수 있는 층으로 표시됩니다. 어느 쪽이든 탭과 사전, 스크롤 상태는 그대로 유지됩니다.",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 되고, 돌아올 길을 찾아야 합니다. 홈 화면에 설치하면 대개 닫을 수 있는 층으로 열립니다. 정확한 동작은 이 앱이 아니라 휴대폰이 결정합니다.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. Safari에서 공유 버튼을 누르고 ‘홈 화면에 추가’를 선택하세요. 대개 도움이 되지만, iOS가 여전히 Safari로 전환하는 경우도 있습니다.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "이 페이지를 Chrome이나 Edge에서 열고 브라우저 메뉴의 ‘앱 설치’(또는 ‘홈 화면에 추가’)를 사용하세요. 설치하면 다른 앱이 대개 닫으면 바로 돌아올 수 있는 층으로 열리며, 아예 떠나게 되지는 않습니다.",
+    "How other apps open": "다른 앱을 여는 방식",
+    "Open other apps in this same window": "다른 앱을 이 창에서 열기",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "켜면 새 탭 대신 이 창에서 앱이 열려, 휴대폰이 MyHome Browser를 벗어나지 않습니다. 뒤로 가기를 누르면 돌아옵니다. 끄면 새 탭에서 열리며, 일부 휴대폰에서는 별도의 브라우저로 넘어갑니다. 두 가지를 모두 시험해 보고 기기에서 더 깔끔하게 돌아오는 쪽을 쓰세요.",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app}이(가) 이 창에서 열리므로 휴대폰이 MyHome Browser를 벗어나지 않습니다. 뒤로 가기를 누르면 돌아오며, 여기 있던 것은 그대로입니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1677,17 +1691,20 @@ const UI_I18N = {
     "Not now": "暂时不用",
     "Install to your home screen": "安装到主屏幕",
     "Install": "安装",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "已安装。现在其他应用会在本应用之上的一层中打开——关闭该层即可回到这里，标签页和滚动状态都保持不变。",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。把它安装到主屏幕后，它们将改为在本应用之上的一层中打开。",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。在 Safari 中点按“分享”按钮并选择“添加到主屏幕”，之后它们会在本应用之上的一层中打开。",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "请在 Chrome 或 Edge 中打开本页面，并从浏览器菜单中选择“安装应用”（或“添加到主屏幕”）。安装后，其他应用会在本应用之上的一层中打开，而不会把你带走。",
     "Installed to your home screen": "已安装到主屏幕",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} 会在 MyHome Browser 之上的一层中打开。关闭它就能直接回到这里。",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} 会在单独的浏览器标签页中打开，因此你会离开 MyHome Browser。把本应用安装到主屏幕，它就会改为叠加在上层——请查看设置。",
     "Apps that need scroll ON": "需要开启滚动才能打开的应用",
     "Don't let the apps below open while scroll is OFF": "滚动关闭时不打开下列应用",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "这些应用拒绝在本应用内打开，只能在你的常规浏览器中运行，而本应用无法在那里锁定滚动。勾选的应用只有在你填写理由和时限并开启滚动之后才会打开。信息流应用默认已勾选，你也可以勾选其他消耗你时间的应用。",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "填写理由和时限并开启滚动后，{app} 即可打开。",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} 会在单独的浏览器标签页中打开，因此你会离开 MyHome Browser，并且需要自己找回来。把本应用安装到主屏幕通常会改善这一点——请查看设置。",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "已安装。其他应用仍会在本应用之外打开，但大多数手机现在会把它们显示为一层，关闭即可直接返回，而不是把你整个切换走。无论哪种情况，你的标签页、词典和滚动状态都会保留。",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用并需要自己找回来。安装到主屏幕后，它们通常会以可关闭的一层打开——具体行为由你的手机决定，而非本应用。",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。在 Safari 中点按“分享”按钮并选择“添加到主屏幕”，这通常会有帮助，不过 iOS 有时仍会把你切换到 Safari。",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "请在 Chrome 或 Edge 中打开本页面，并从浏览器菜单中选择“安装应用”（或“添加到主屏幕”）。安装后，其他应用通常会以一层的形式打开，关闭即可直接返回，而不会把你带走。",
+    "How other apps open": "其他应用的打开方式",
+    "Open other apps in this same window": "在本窗口中打开其他应用",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "开启后，应用会在本窗口加载而不是新标签页，手机不会离开 MyHome Browser——按返回即可回到这里。关闭则会打开新标签页，在某些手机上会把你交给另一个浏览器。两种都试试，保留在你的设备上返回更顺畅的那种。",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} 会在本窗口加载，手机不会离开 MyHome Browser。按返回即可回来，这里的一切都保持原样。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -2000,17 +2017,20 @@ const UI_I18N = {
     "Not now": "Ahora no",
     "Install to your home screen": "Instalar en tu pantalla de inicio",
     "Install": "Instalar",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "Instalado. Ahora las otras apps se abren en una capa sobre esta app; ciérrala y vuelves aquí, con tus pestañas y el estado del scroll intactos.",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. Instálala en tu pantalla de inicio y pasarán a abrirse en una capa por encima.",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. En Safari, toca el botón Compartir y elige «Añadir a pantalla de inicio»; después se abrirán en una capa sobre esta app.",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "Abre esta página en Chrome o Edge y usa «Instalar aplicación» (o «Añadir a pantalla de inicio») en el menú del navegador. Una vez instalada, las otras apps se abren en una capa sobre esta app en lugar de llevarte fuera.",
     "Installed to your home screen": "Instalado en tu pantalla de inicio",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} se abre en una capa sobre MyHome Browser. Ciérrala y vuelves directamente aquí.",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} se abre en una pestaña aparte del navegador, así que saldrás de MyHome Browser. Instalar esta app en tu pantalla de inicio hace que quede en una capa por encima; míralo en Ajustes.",
     "Apps that need scroll ON": "Apps que necesitan el scroll activado",
     "Don't let the apps below open while scroll is OFF": "No abrir las apps de abajo mientras el scroll está desactivado",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estas apps se niegan a abrirse dentro de esta app, así que funcionan en tu navegador normal, donde esta app no puede mantener bloqueado el scroll. Las apps marcadas solo se abren después de que actives el scroll con un motivo y un límite de tiempo. Las apps de feed vienen marcadas de inicio; marca cualquier otra que te coma el tiempo.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activa el scroll con un motivo y un límite de tiempo y {app} se abrirá.",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} se abre en una pestaña aparte del navegador, así que saldrás de MyHome Browser y tendrás que encontrar el camino de vuelta. Instalar esta app en tu pantalla de inicio suele mejorarlo; míralo en Ajustes.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Instalado. Las otras apps siguen abriéndose fuera de esta app, pero la mayoría de los móviles ahora las muestran como una capa que puedes cerrar para volver directamente, en lugar de cambiarte de app. En cualquier caso, tus pestañas, el diccionario y el estado del scroll se conservan.",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app y tienes que encontrar el camino de vuelta. Instalarla en tu pantalla de inicio suele hacer que se abran como una capa que puedes cerrar; el comportamiento exacto lo decide tu móvil, no esta app.",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. En Safari, toca el botón Compartir y elige «Añadir a pantalla de inicio»; suele ayudar, aunque iOS a veces te sigue llevando a Safari.",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Abre esta página en Chrome o Edge y usa «Instalar aplicación» (o «Añadir a pantalla de inicio») en el menú del navegador. Una vez instalada, las otras apps suelen abrirse como una capa que puedes cerrar para volver directamente, en lugar de llevarte fuera.",
+    "How other apps open": "Cómo se abren las otras apps",
+    "Open other apps in this same window": "Abrir las otras apps en esta misma ventana",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Activado, la app se carga en esta ventana en lugar de una pestaña nueva, así que tu teléfono nunca sale de MyHome Browser; pulsa atrás para volver aquí. Desactivado abre una pestaña nueva, que en algunos teléfonos te entrega a un navegador aparte. Prueba las dos y quédate con la que vuelva mejor en tu dispositivo.",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} se carga en esta ventana, así que tu teléfono no sale de MyHome Browser. Pulsa atrás para volver: todo estará como lo dejaste.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2333,17 +2353,20 @@ const UI_I18N = {
     "Not now": "いまはやめておく",
     "Install to your home screen": "ホーム画面に追加する",
     "Install": "インストール",
-    "Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.": "インストール済みです。他のアプリはこのアプリの上に重なる形で開き、閉じればタブもスクロール状態もそのままここに戻ってきます。",
-    "Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。ホーム画面に追加すると、このアプリの上に重なる形で開くようになります。",
-    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。Safariの共有ボタンから「ホーム画面に追加」を選ぶと、以降はこのアプリの上に重なる形で開きます。",
-    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.": "このページをChromeまたはEdgeで開き、ブラウザのメニューから「アプリをインストール」（または「ホーム画面に追加」）を選んでください。追加すると、他のアプリはこのアプリから離れず、上に重なる形で開くようになります。",
     "Installed to your home screen": "ホーム画面に追加しました",
-    "{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.": "{app} はMyHome Browserの上に重なる形で開きます。閉じればそのままここに戻ってきます。",
-    "{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.": "{app} はブラウザの別タブで開くため、MyHome Browserから離れてしまいます。このアプリをホーム画面に追加しておくと、離れずに上へ重ねて開けます（設定をご覧ください）。",
     "Apps that need scroll ON": "スクロールONが必要なアプリ",
     "Don't let the apps below open while scroll is OFF": "スクロールOFFの間は下のアプリを開かない",
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "これらのアプリはこのアプリの中に表示することを拒否しているため、通常のブラウザで開くことになり、そこではこのアプリはスクロールを止められません。チェックしたアプリは、理由と時間制限を決めてスクロールをONにしたときだけ開けます。フィード系は最初からチェックされています。時間を使ってしまう他のアプリもチェックしておけます。",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "理由と時間制限を決めてスクロールをONにすると、{app} を開けます。",
+    "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} はブラウザの別タブで開くため、MyHome Browserから離れ、自分で戻ってくる必要があります。このアプリをホーム画面に追加しておくと、たいていは改善します（設定をご覧ください）。",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "インストール済みです。他のアプリは今もこのアプリの外で開きますが、多くの端末では画面ごと切り替わるのではなく、閉じればそのまま戻れる重なり表示になります。どちらの場合でも、タブ・辞書・スクロール状態は保たれます。",
+    "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れ、自分で戻ってくる必要があります。ホーム画面に追加すると、たいていは閉じられる重なり表示で開くようになります。実際の挙動を決めるのはこのアプリではなく端末側です。",
+    "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。Safariの共有ボタンから「ホーム画面に追加」を選んでください。たいていは改善しますが、iOSではSafariへ切り替わってしまう場合もあります。",
+    "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "このページをChromeまたはEdgeで開き、ブラウザのメニューから「アプリをインストール」（または「ホーム画面に追加」）を選んでください。追加すると、他のアプリはたいてい、閉じればそのまま戻れる重なり表示で開くようになります。",
+    "How other apps open": "他のアプリの開き方",
+    "Open other apps in this same window": "他のアプリを同じ画面で開く",
+    "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "ONにすると新しいタブではなくこの画面で読み込むため、端末がMyHome Browserから切り替わりません。戻る操作でここに帰ってこられます。OFFだと新しいタブで開き、端末によっては別のブラウザに引き渡されます。両方試して、お使いの端末できれいに戻れるほうをお使いください。",
+    "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} はこの画面で読み込むため、端末がMyHome Browserから切り替わりません。戻る操作でここに帰ってこられ、中身も元のままです。",
   },
 };
 
@@ -2669,6 +2692,10 @@ function initAppLock() {
 
   document.getElementById("feedGateToggle").addEventListener("change", (e) => {
     saveFeedGateEnabled(e.target.checked);
+  });
+
+  document.getElementById("sameWindowToggle").addEventListener("change", (e) => {
+    saveOpenAppsInSameWindow(e.target.checked);
   });
 
   document.getElementById("scrollGatedAppList").addEventListener("change", (e) => {
@@ -3784,6 +3811,7 @@ function openSettingsModal() {
   document.getElementById("postureReminderToggle").checked = isPostureRemindersEnabled();
   document.getElementById("browsingCheckinToggle").checked = isBrowsingCheckinsEnabled();
   document.getElementById("feedGateToggle").checked = isFeedGateEnabled();
+  document.getElementById("sameWindowToggle").checked = isOpenAppsInSameWindow();
   renderScrollGatedAppList();
   renderInstallSection();
   applyBiometricAvailabilityUI();
@@ -4973,18 +5001,18 @@ function renderInstallSection() {
   if (!status || !btn) return;
 
   if (isStandaloneApp()) {
-    status.textContent = t("Installed. Other apps now open in a layer on top of this app — close that layer and you're back here, with your tabs and scroll state untouched.");
+    status.textContent = t("Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.");
     btn.hidden = true;
     return;
   }
   if (deferredInstallPrompt) {
-    status.textContent = t("Right now other apps open in a separate browser tab, so you leave this app. Install it to your home screen and they open in a layer on top of it instead.");
+    status.textContent = t("Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.");
     btn.hidden = false;
     return;
   }
   status.textContent = isIosDevice()
-    ? t("Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — after that they open in a layer on top of this app instead.")
-    : t("Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps open in a layer on top of this app instead of taking you away.");
+    ? t("Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.")
+    : t("Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.");
   btn.hidden = true;
 }
 
@@ -5091,21 +5119,25 @@ function goalStreakDays(referenceDate, goalMs) {
 
 // アプリの中身は見えないため、「開くために離脱してから、このタブに戻ってくるまでの
 // 経過時間」を滞在時間の目安として記録する（詳細は前回の会話で説明した通りの近似値）。
-let pendingAwaySession = null;
-
+// 同じ画面で遷移して開く設定のときは、このページ自体が破棄されてから戻ってくる。
+// メモリ上の変数では滞在時間を数え損ねるので、保存領域に置いて再訪時に拾い直す。
 function startAwaySession(appId) {
   if (!appId) return;
-  pendingAwaySession = { appId, startedAt: Date.now() };
+  saveJSON(STORAGE_KEYS.pendingAwaySession, { appId, startedAt: Date.now() });
 }
 
 function endAwaySessionIfAny() {
-  if (!pendingAwaySession) return;
-  const durationMs = Date.now() - pendingAwaySession.startedAt;
-  recordAppSession(pendingAwaySession.appId, durationMs);
-  pendingAwaySession = null;
+  const pending = loadJSON(STORAGE_KEYS.pendingAwaySession, null);
+  if (!pending || !pending.appId || !pending.startedAt) return;
+  recordAppSession(pending.appId, Date.now() - pending.startedAt);
+  saveJSON(STORAGE_KEYS.pendingAwaySession, null);
 }
 
 function initAwaySessionTracking() {
+  // 同じ画面で開いた場合、戻ってくるのは「再訪」ではなく読み込み直しなので
+  // visibilitychangeは発火しない。起動時にも取り残しを締める。
+  endAwaySessionIfAny();
+
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       endBrowsingSessionIfAny();
@@ -5118,12 +5150,31 @@ function initAwaySessionTracking() {
   window.addEventListener("pagehide", endBrowsingSessionIfAny);
 }
 
+// 他アプリの開き方は2通りあり、どちらが快適かは端末とブラウザで変わるので選べる。
+//
+// 同じ画面で開く(既定): location.href で移動する。iframeではなく最上位の遷移なので
+//   X-Frame-Options に阻まれず、しかも新しいタブやSafari本体へ切り替わらないため、
+//   OSから見れば「MyHome Browserを開いたまま」になる。戻るジェスチャ/戻るボタンで
+//   このアプリへ帰ってくる（状態はすべて保存済みなので読み直して復元される）。
+// 別タブで開く: 従来どおり window.open。このアプリは残るが、別のタブ（環境により
+//   別アプリ）に切り替わる。
+function isOpenAppsInSameWindow() {
+  return loadJSON(STORAGE_KEYS.openAppsInSameWindow, true);
+}
+
+function saveOpenAppsInSameWindow(value) {
+  saveJSON(STORAGE_KEYS.openAppsInSameWindow, value);
+}
+
 function openApp(app) {
-  // Instagram/Facebook/X/TikTokは埋め込み表示をX-Frame-Options等で拒否しており、
-  // このアプリからは中身を操作できないため、ネイティブアプリのschemeへ直接遷移する
-  // 従来方式はやめ、常にWeb版を新しいタブで開く（ユーザーの選択に基づく仕様）。
-  window.open(app.web, "_blank", "noopener");
+  // 数え始めてから移動する。同じ画面で開く場合はこの直後にページが破棄されるため、
+  // 先に保存しておかないと滞在時間を取り逃す。
   startAwaySession(app.id);
+  if (isOpenAppsInSameWindow()) {
+    window.location.href = app.web;
+    return;
+  }
+  window.open(app.web, "_blank", "noopener");
 }
 
 /* ==========================================================================
@@ -5140,10 +5191,10 @@ function openAppOpenConfirm(app) {
   }
   pendingConfirmApp = app;
   document.getElementById("appOpenConfirmTitle").textContent = tf("Open {app}?", { app: app.name });
-  // ホーム画面から起動しているかどうかで、実際に起きることが変わるので文言も変える。
-  document.getElementById("appOpenConfirmDesc").textContent = isStandaloneApp()
-    ? tf("{app} opens in a layer on top of MyHome Browser. Close it and you're straight back here.", { app: app.name })
-    : tf("{app} opens in a separate browser tab, so you'll leave MyHome Browser. Installing this app to your home screen keeps it layered on top instead — see Settings.", { app: app.name });
+  // 開き方の設定で実際に起きることが変わるので、文言もそれに合わせる。
+  document.getElementById("appOpenConfirmDesc").textContent = isOpenAppsInSameWindow()
+    ? tf("{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.", { app: app.name })
+    : tf("{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.", { app: app.name });
   document.getElementById("appOpenConfirmModal").hidden = false;
 }
 
@@ -5403,9 +5454,14 @@ function openTab(rawInput) {
     return;
   }
   if (isNonEmbeddableUrl(url)) {
+    document.getElementById("searchInput").value = "";
+    // 枠内に出せないサイトも、アプリの開き方の設定に合わせる。
+    if (isOpenAppsInSameWindow()) {
+      window.location.href = url;
+      return;
+    }
     window.open(url, "_blank", "noopener");
     showToast(tf("{domain} doesn't allow embedding, so it opened in your browser instead.", { domain: hostnameOf(url) }));
-    document.getElementById("searchInput").value = "";
     return;
   }
   // 検索して開いた場合は「調べた言葉」をタブに覚えておく。タブの見出しにも使い、
