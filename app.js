@@ -42,7 +42,10 @@ const STORAGE_KEYS = {
   feedAppsNeedScrollOn: "myhome:feedAppsNeedScrollOn",
   scrollGatedApps: "myhome:scrollGatedApps",
   openAppsInSameWindow: "myhome:openAppsInSameWindow",
+  closeOnScrollTimeUp: "myhome:closeOnScrollTimeUp",
   pendingAwaySession: "myhome:pendingAwaySession",
+  notifyPrefs: "myhome:notifyPrefs",
+  notifyGoalDay: "myhome:notifyGoalDay",
   customApps: "myhome:customApps",
 };
 
@@ -401,6 +404,28 @@ const UI_I18N = {
     "Open other apps in this same window": "Abrir os outros apps nesta mesma janela",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Ativado, o app carrega nesta janela em vez de uma nova aba, então o seu celular nunca sai do MyHome Browser — toque em voltar para retornar. Desativado, abre uma nova aba, o que em alguns celulares entrega você a um navegador separado. Teste os dois e fique com o que voltar melhor no seu aparelho.",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} carrega nesta janela, então o seu celular não sai do MyHome Browser. Toque em voltar para retornar — tudo aqui estará como você deixou.",
+    "Notifications": "Notificações",
+    "Allow notifications": "Permitir notificações",
+    "This browser can't show notifications.": "Este navegador não consegue exibir notificações.",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "Notificações permitidas. Elas só chegam enquanto este app continua rodando em segundo plano — depois de fechado por completo, nada consegue acordá-lo.",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "Notificações bloqueadas. Permita-as para este app nas configurações do navegador ou do celular e volte aqui.",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "Deixe este app avisar você quando o tempo de rolagem acabar, um temporizador terminar ou você passar do seu limite diário.",
+    "Notifications are on": "Notificações ativadas",
+    "This is what they'll look like.": "É assim que elas aparecem.",
+    "A minute before scroll time runs out": "Um minuto antes de acabar o tempo de rolagem",
+    "When scroll switches back OFF": "Quando a rolagem for desativada",
+    "When the timer finishes": "Quando o temporizador terminar",
+    "Posture reminders": "Lembretes de postura",
+    "When you pass your daily limit": "Quando você passar do limite diário",
+    "Scroll time is nearly up": "O tempo de rolagem está acabando",
+    "About a minute left before scroll switches back OFF.": "Falta cerca de um minuto para a rolagem ser desativada.",
+    "You've passed your daily limit": "Você passou do seu limite diário",
+    "Today is over your {minutes} min goal.": "Hoje já passou da sua meta de {minutes} min.",
+    "Playing here, without the feed": "Reproduzindo aqui, sem o feed",
+    "Showing this post here, without the feed": "Mostrando esta publicação aqui, sem o feed",
+    "Close the app I opened when scroll time runs out": "Fechar o app que abri quando o tempo de rolagem acabar",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "É a única forma de o limite de tempo alcançar o outro app: este app mantém a aba que abriu e a fecha quando o seu tempo acaba. Exige que a opção acima esteja DESLIGADA, pois do contrário não há aba separada para fechar. O custo é que o site aberto consegue ver que foi aberto por este app e poderia levar esta página para outro lugar — improvável com os grandes sites, mas não impossível; desative se preferir.",
+    "Time's up — scroll is back OFF and the app you opened was closed": "Tempo esgotado — a rolagem foi desativada e o app que você abriu foi fechado",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -727,6 +752,28 @@ const UI_I18N = {
     "Open other apps in this same window": "Andere Apps in diesem Fenster öffnen",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Aktiviert lädt die App in diesem Fenster statt in einem neuen Tab, dein Handy wechselt also nie von MyHome Browser weg — mit „Zurück“ kommst du hierher zurück. Deaktiviert öffnet einen neuen Tab, der dich auf manchen Handys an einen separaten Browser übergibt. Probiere beides und behalte, was auf deinem Gerät sauberer zurückkommt.",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} lädt in diesem Fenster, dein Handy wechselt also nicht von MyHome Browser weg. Mit „Zurück“ kommst du hierher zurück — alles ist noch so, wie du es verlassen hast.",
+    "Notifications": "Mitteilungen",
+    "Allow notifications": "Mitteilungen erlauben",
+    "This browser can't show notifications.": "Dieser Browser kann keine Mitteilungen anzeigen.",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "Mitteilungen sind erlaubt. Sie erreichen dich nur, solange diese App noch im Hintergrund läuft — ist sie ganz geschlossen, kann nichts sie wecken.",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "Mitteilungen sind blockiert. Erlaube sie für diese App in den Browser- oder Handyeinstellungen und komm dann zurück.",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "Lass dich benachrichtigen, wenn die Scrollzeit abläuft, ein Timer endet oder du dein Tageslimit überschreitest.",
+    "Notifications are on": "Mitteilungen sind an",
+    "This is what they'll look like.": "So sehen sie aus.",
+    "A minute before scroll time runs out": "Eine Minute bevor die Scrollzeit abläuft",
+    "When scroll switches back OFF": "Wenn Scrollen wieder ausgeschaltet wird",
+    "When the timer finishes": "Wenn der Timer endet",
+    "Posture reminders": "Haltungserinnerungen",
+    "When you pass your daily limit": "Wenn du dein Tageslimit überschreitest",
+    "Scroll time is nearly up": "Die Scrollzeit ist fast vorbei",
+    "About a minute left before scroll switches back OFF.": "Noch etwa eine Minute, dann wird Scrollen wieder ausgeschaltet.",
+    "You've passed your daily limit": "Du hast dein Tageslimit überschritten",
+    "Today is over your {minutes} min goal.": "Heute liegst du über deinem Ziel von {minutes} Min.",
+    "Playing here, without the feed": "Läuft hier, ohne den Feed",
+    "Showing this post here, without the feed": "Dieser Beitrag wird hier gezeigt, ohne den Feed",
+    "Close the app I opened when scroll time runs out": "Die geöffnete App schließen, wenn die Scrollzeit abläuft",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "Nur so reicht das Zeitlimit in die andere App hinein: Diese App behält den geöffneten Tab und schließt ihn, wenn deine Zeit um ist. Dafür muss die Einstellung darüber AUS sein, sonst gibt es keinen eigenen Tab zum Schließen. Der Preis: Die geöffnete Seite sieht, dass diese App sie geöffnet hat, und könnte diese Seite woanders hin schicken — bei den großen Seiten unwahrscheinlich, aber nicht unmöglich; schalte es sonst ab.",
+    "Time's up — scroll is back OFF and the app you opened was closed": "Zeit ist um — Scrollen ist wieder aus und die geöffnete App wurde geschlossen",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1053,6 +1100,28 @@ const UI_I18N = {
     "Open other apps in this same window": "Ouvrir les autres applis dans cette même fenêtre",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Activé, l'appli se charge dans cette fenêtre plutôt que dans un nouvel onglet : votre téléphone ne quitte donc jamais MyHome Browser — appuyez sur retour pour revenir ici. Désactivé, un nouvel onglet s'ouvre, ce qui sur certains téléphones vous confie à un navigateur séparé. Essayez les deux et gardez celui qui revient le plus proprement sur votre appareil.",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} se charge dans cette fenêtre, votre téléphone ne quitte donc pas MyHome Browser. Appuyez sur retour pour revenir — tout sera comme vous l'avez laissé.",
+    "Notifications": "Notifications",
+    "Allow notifications": "Autoriser les notifications",
+    "This browser can't show notifications.": "Ce navigateur ne peut pas afficher de notifications.",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "Notifications autorisées. Elles ne vous parviennent que tant que cette appli tourne encore en arrière-plan — une fois complètement fermée, rien ne peut la réveiller.",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "Notifications bloquées. Autorisez-les pour cette appli dans les réglages du navigateur ou du téléphone, puis revenez.",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "Laissez cette appli vous prévenir quand le temps de défilement s'achève, qu'un minuteur se termine ou que vous dépassez votre limite quotidienne.",
+    "Notifications are on": "Notifications activées",
+    "This is what they'll look like.": "Voilà à quoi elles ressemblent.",
+    "A minute before scroll time runs out": "Une minute avant la fin du temps de défilement",
+    "When scroll switches back OFF": "Quand le défilement se désactive",
+    "When the timer finishes": "Quand le minuteur se termine",
+    "Posture reminders": "Rappels de posture",
+    "When you pass your daily limit": "Quand vous dépassez votre limite quotidienne",
+    "Scroll time is nearly up": "Le temps de défilement touche à sa fin",
+    "About a minute left before scroll switches back OFF.": "Il reste environ une minute avant que le défilement se désactive.",
+    "You've passed your daily limit": "Vous avez dépassé votre limite quotidienne",
+    "Today is over your {minutes} min goal.": "Aujourd'hui dépasse votre objectif de {minutes} min.",
+    "Playing here, without the feed": "Lecture ici, sans le fil",
+    "Showing this post here, without the feed": "Ce post s'affiche ici, sans le fil",
+    "Close the app I opened when scroll time runs out": "Fermer l'appli ouverte quand le temps de défilement est écoulé",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "C'est le seul moyen pour que la limite de temps atteigne l'autre appli : cette appli garde l'onglet qu'elle a ouvert et le ferme quand votre temps est écoulé. Cela exige que le réglage ci-dessus soit désactivé, sinon il n'y a pas d'onglet séparé à fermer. En contrepartie, le site ouvert voit qu'il a été ouvert par cette appli et pourrait envoyer cette page ailleurs — peu probable avec les grands sites, mais pas impossible ; désactivez si vous préférez.",
+    "Time's up — scroll is back OFF and the app you opened was closed": "Temps écoulé — le défilement est désactivé et l'appli ouverte a été fermée",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1379,6 +1448,28 @@ const UI_I18N = {
     "Open other apps in this same window": "다른 앱을 이 창에서 열기",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "켜면 새 탭 대신 이 창에서 앱이 열려, 휴대폰이 MyHome Browser를 벗어나지 않습니다. 뒤로 가기를 누르면 돌아옵니다. 끄면 새 탭에서 열리며, 일부 휴대폰에서는 별도의 브라우저로 넘어갑니다. 두 가지를 모두 시험해 보고 기기에서 더 깔끔하게 돌아오는 쪽을 쓰세요.",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app}이(가) 이 창에서 열리므로 휴대폰이 MyHome Browser를 벗어나지 않습니다. 뒤로 가기를 누르면 돌아오며, 여기 있던 것은 그대로입니다.",
+    "Notifications": "알림",
+    "Allow notifications": "알림 허용",
+    "This browser can't show notifications.": "이 브라우저는 알림을 표시할 수 없습니다.",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "알림이 허용되었습니다. 이 앱이 백그라운드에서 계속 실행 중일 때만 전달되며, 완전히 종료되면 아무것도 깨울 수 없습니다.",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "알림이 차단되어 있습니다. 브라우저나 휴대폰 설정에서 이 앱의 알림을 허용한 뒤 다시 오세요.",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "스크롤 시간이 끝나거나 타이머가 종료되거나 하루 한도를 넘겼을 때 알려드립니다.",
+    "Notifications are on": "알림이 켜졌습니다",
+    "This is what they'll look like.": "이런 모습으로 표시됩니다.",
+    "A minute before scroll time runs out": "스크롤 시간이 끝나기 1분 전",
+    "When scroll switches back OFF": "스크롤이 다시 꺼질 때",
+    "When the timer finishes": "타이머가 끝났을 때",
+    "Posture reminders": "자세 알림",
+    "When you pass your daily limit": "하루 한도를 넘겼을 때",
+    "Scroll time is nearly up": "스크롤 시간이 거의 끝났습니다",
+    "About a minute left before scroll switches back OFF.": "약 1분 뒤에 스크롤이 다시 꺼집니다.",
+    "You've passed your daily limit": "하루 한도를 넘겼습니다",
+    "Today is over your {minutes} min goal.": "오늘은 {minutes}분 목표를 넘었습니다.",
+    "Playing here, without the feed": "피드 없이 여기서 재생합니다",
+    "Showing this post here, without the feed": "피드 없이 이 게시물만 여기에 표시합니다",
+    "Close the app I opened when scroll time runs out": "스크롤 시간이 끝나면 열었던 앱을 닫기",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "시간제한이 다른 앱까지 미치는 유일한 방법입니다. 이 앱이 열었던 탭을 계속 붙잡고 있다가 시간이 끝나면 닫습니다. 위 설정이 꺼져 있어야 합니다. 그렇지 않으면 닫을 별도의 탭이 없습니다. 대신 열린 사이트가 이 앱이 열었다는 사실을 알 수 있고, 이 페이지를 다른 곳으로 보낼 여지가 생깁니다. 큰 사이트에서는 거의 없는 일이지만 불가능하지는 않으니, 꺼리신다면 끄세요.",
+    "Time's up — scroll is back OFF and the app you opened was closed": "시간이 끝났습니다 — 스크롤이 꺼지고 열었던 앱도 닫았습니다",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1705,6 +1796,28 @@ const UI_I18N = {
     "Open other apps in this same window": "在本窗口中打开其他应用",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "开启后，应用会在本窗口加载而不是新标签页，手机不会离开 MyHome Browser——按返回即可回到这里。关闭则会打开新标签页，在某些手机上会把你交给另一个浏览器。两种都试试，保留在你的设备上返回更顺畅的那种。",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} 会在本窗口加载，手机不会离开 MyHome Browser。按返回即可回来，这里的一切都保持原样。",
+    "Notifications": "通知",
+    "Allow notifications": "允许通知",
+    "This browser can't show notifications.": "此浏览器无法显示通知。",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "已允许通知。只有在本应用仍在后台运行时才能送达；完全关闭后，没有任何方式能唤醒它。",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "通知已被阻止。请在浏览器或手机设置中为本应用允许通知，然后再回来。",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "在滚动时间结束、计时器结束或超出每日上限时通知你。",
+    "Notifications are on": "通知已开启",
+    "This is what they'll look like.": "通知就是这个样子。",
+    "A minute before scroll time runs out": "滚动时间结束前一分钟",
+    "When scroll switches back OFF": "滚动重新关闭时",
+    "When the timer finishes": "计时器结束时",
+    "Posture reminders": "姿势提醒",
+    "When you pass your daily limit": "超出每日上限时",
+    "Scroll time is nearly up": "滚动时间快到了",
+    "About a minute left before scroll switches back OFF.": "大约还有一分钟，滚动就会重新关闭。",
+    "You've passed your daily limit": "你已超出每日上限",
+    "Today is over your {minutes} min goal.": "今天已超过你 {minutes} 分钟的目标。",
+    "Playing here, without the feed": "在此播放，不打开信息流",
+    "Showing this post here, without the feed": "在此显示该帖子，不打开信息流",
+    "Close the app I opened when scroll time runs out": "滚动时间结束时关闭我打开的应用",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "这是让时限触及另一个应用的唯一方式：本应用会一直握住它打开的标签页，时间到就把它关掉。需要上面的选项处于关闭状态，否则没有单独的标签页可关。代价是被打开的网站能知道是本应用打开的，并可能把本页面带到别处——大型网站几乎不会这么做，但并非不可能；若介意请关闭此项。",
+    "Time's up — scroll is back OFF and the app you opened was closed": "时间到——滚动已关闭，你打开的应用也已关闭",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -2031,6 +2144,28 @@ const UI_I18N = {
     "Open other apps in this same window": "Abrir las otras apps en esta misma ventana",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "Activado, la app se carga en esta ventana en lugar de una pestaña nueva, así que tu teléfono nunca sale de MyHome Browser; pulsa atrás para volver aquí. Desactivado abre una pestaña nueva, que en algunos teléfonos te entrega a un navegador aparte. Prueba las dos y quédate con la que vuelva mejor en tu dispositivo.",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} se carga en esta ventana, así que tu teléfono no sale de MyHome Browser. Pulsa atrás para volver: todo estará como lo dejaste.",
+    "Notifications": "Notificaciones",
+    "Allow notifications": "Permitir notificaciones",
+    "This browser can't show notifications.": "Este navegador no puede mostrar notificaciones.",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "Notificaciones permitidas. Solo llegan mientras esta app sigue funcionando en segundo plano; una vez cerrada del todo, nada puede despertarla.",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "Las notificaciones están bloqueadas. Permítelas para esta app en los ajustes del navegador o del teléfono y vuelve aquí.",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "Deja que esta app te avise cuando se acabe el tiempo de scroll, termine un temporizador o superes tu límite diario.",
+    "Notifications are on": "Notificaciones activadas",
+    "This is what they'll look like.": "Así se verán.",
+    "A minute before scroll time runs out": "Un minuto antes de que se acabe el tiempo de scroll",
+    "When scroll switches back OFF": "Cuando el scroll se desactive",
+    "When the timer finishes": "Cuando termine el temporizador",
+    "Posture reminders": "Recordatorios de postura",
+    "When you pass your daily limit": "Cuando superes tu límite diario",
+    "Scroll time is nearly up": "El tiempo de scroll está por acabarse",
+    "About a minute left before scroll switches back OFF.": "Queda alrededor de un minuto para que el scroll se desactive.",
+    "You've passed your daily limit": "Has superado tu límite diario",
+    "Today is over your {minutes} min goal.": "Hoy has superado tu meta de {minutes} min.",
+    "Playing here, without the feed": "Reproduciendo aquí, sin el feed",
+    "Showing this post here, without the feed": "Mostrando esta publicación aquí, sin el feed",
+    "Close the app I opened when scroll time runs out": "Cerrar la app que abrí cuando se acabe el tiempo de scroll",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "Es la única forma de que el límite de tiempo llegue dentro de la otra app: esta app conserva la pestaña que abrió y la cierra cuando se acaba tu tiempo. Requiere que la opción de arriba esté desactivada, porque si no, no hay una pestaña aparte que cerrar. A cambio, el sitio abierto puede ver que lo abrió esta app y podría llevar esta página a otro lado; improbable con los sitios grandes, pero no imposible, así que desactívalo si lo prefieres.",
+    "Time's up — scroll is back OFF and the app you opened was closed": "Se acabó el tiempo: el scroll se desactivó y la app que abriste se cerró",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2367,6 +2502,28 @@ const UI_I18N = {
     "Open other apps in this same window": "他のアプリを同じ画面で開く",
     "On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.": "ONにすると新しいタブではなくこの画面で読み込むため、端末がMyHome Browserから切り替わりません。戻る操作でここに帰ってこられます。OFFだと新しいタブで開き、端末によっては別のブラウザに引き渡されます。両方試して、お使いの端末できれいに戻れるほうをお使いください。",
     "{app} loads in this window, so your phone never switches away from MyHome Browser. Press back to return — everything here will be as you left it.": "{app} はこの画面で読み込むため、端末がMyHome Browserから切り替わりません。戻る操作でここに帰ってこられ、中身も元のままです。",
+    "Notifications": "通知",
+    "Allow notifications": "通知を許可する",
+    "This browser can't show notifications.": "このブラウザは通知を表示できません。",
+    "Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.": "通知は許可されています。このアプリが裏で動いている間だけ届きます。完全に閉じた後は、何をしても呼び起こせません。",
+    "Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.": "通知がブロックされています。ブラウザまたは端末の設定でこのアプリの通知を許可してから、戻ってきてください。",
+    "Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.": "スクロールの時間切れ、タイマーの終了、1日の上限超過をお知らせします。",
+    "Notifications are on": "通知をONにしました",
+    "This is what they'll look like.": "こういう形で表示されます。",
+    "A minute before scroll time runs out": "スクロールの時間切れ1分前",
+    "When scroll switches back OFF": "スクロールがOFFに戻ったとき",
+    "When the timer finishes": "タイマーが終わったとき",
+    "Posture reminders": "姿勢のリマインド",
+    "When you pass your daily limit": "1日の上限を超えたとき",
+    "Scroll time is nearly up": "スクロールの時間がもうすぐ終わります",
+    "About a minute left before scroll switches back OFF.": "あと1分ほどでスクロールがOFFに戻ります。",
+    "You've passed your daily limit": "1日の上限を超えました",
+    "Today is over your {minutes} min goal.": "本日は{minutes}分の目標を超えています。",
+    "Playing here, without the feed": "フィードは開かず、ここで再生します",
+    "Showing this post here, without the feed": "フィードは開かず、この投稿だけここに表示します",
+    "Close the app I opened when scroll time runs out": "スクロールの時間が切れたら、開いたアプリを閉じる",
+    "This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.": "時間制限を相手のアプリにまで効かせる唯一の方法です。このアプリが開いたタブを握り続け、時間が来たら閉じます。上の設定がOFFである必要があります（同じ画面で開くと、閉じる対象のタブがそもそも無いため）。引き換えに、開いた先のサイトから「このアプリが開いた」ことが見え、このページを別の場所へ飛ばす余地が生まれます。大手サイトでまず起きないことですが、皆無ではないので、気になる場合はOFFにしてください。",
+    "Time's up — scroll is back OFF and the app you opened was closed": "時間切れ — スクロールをOFFに戻し、開いていたアプリも閉じました",
   },
 };
 
@@ -2696,6 +2853,18 @@ function initAppLock() {
 
   document.getElementById("sameWindowToggle").addEventListener("change", (e) => {
     saveOpenAppsInSameWindow(e.target.checked);
+  });
+
+  document.getElementById("closeOnTimeUpToggle").addEventListener("change", (e) => {
+    saveCloseOnScrollTimeUpEnabled(e.target.checked);
+  });
+
+  // 許可を求める操作は利用者の操作起点でないと弾かれるので、ボタンから呼ぶ。
+  document.getElementById("notifyEnableBtn").addEventListener("click", requestNotificationPermission);
+
+  document.getElementById("notifyPrefList").addEventListener("change", (e) => {
+    if (e.target.type !== "checkbox") return;
+    saveNotifyPrefs({ ...getNotifyPrefs(), [e.target.value]: e.target.checked });
   });
 
   document.getElementById("scrollGatedAppList").addEventListener("change", (e) => {
@@ -3313,9 +3482,12 @@ function applyBiometricAvailabilityUI() {
 // 姿勢リマインダーの間隔（分）。頻繁すぎず、かつ意味のある間隔として10分ごとにする。
 const POSTURE_REMINDER_INTERVAL_MIN = 10;
 
+const SCROLL_ALMOST_UP_MS = 60 * 1000;
+
 const ScrollLock = (() => {
   let countdownTimer = null;
   let lastPostureReminderMinute = -1;
+  let almostUpNotified = false;
 
   function getState() {
     return loadJSON(STORAGE_KEYS.scrollState, { isOn: false, expiresAt: null, reason: null, durationLabel: null, startedAt: null });
@@ -3389,7 +3561,7 @@ const ScrollLock = (() => {
     if (elapsedMin <= 0 || elapsedMin % POSTURE_REMINDER_INTERVAL_MIN !== 0) return;
     if (elapsedMin === lastPostureReminderMinute) return;
     lastPostureReminderMinute = elapsedMin;
-    showToast(t("Posture check: try sitting up and holding the phone at eye level for a moment."));
+    alertUser("posture", t("Posture check: try sitting up and holding the phone at eye level for a moment."));
   }
 
   function tick() {
@@ -3401,6 +3573,18 @@ const ScrollLock = (() => {
     }
     updateTimerUI(state);
     maybeShowPostureReminder(state);
+    maybeNotifyScrollAlmostUp(state);
+    // スクロールON中の時間も1日の合計に入るので、超えるならたいていこの最中。
+    maybeNotifyDailyGoal();
+  }
+
+  // 打ち切られる前に一声かけて、切り上げる余地を作る。1回のONにつき一度だけ。
+  function maybeNotifyScrollAlmostUp(state) {
+    if (almostUpNotified || !state.expiresAt) return;
+    const remainingMs = state.expiresAt - Date.now();
+    if (remainingMs > SCROLL_ALMOST_UP_MS || remainingMs <= 0) return;
+    almostUpNotified = true;
+    showNotification("scrollAlmostUp", t("Scroll time is nearly up"), t("About a minute left before scroll switches back OFF."));
   }
 
   function turnOn(reason, durationLabel, minutes) {
@@ -3412,6 +3596,7 @@ const ScrollLock = (() => {
     updateTimerUI(state);
     stopCountdown();
     lastPostureReminderMinute = -1;
+    almostUpNotified = false;
     countdownTimer = setInterval(tick, 1000);
     incrementScrollOnCount();
     renderAppInsights();
@@ -3428,7 +3613,14 @@ const ScrollLock = (() => {
     document.getElementById("scrollTimer").hidden = true;
     stopCountdown();
     if (opts.expired) {
-      showToast(t("Time's up — scroll switched back OFF"));
+      // 約束した時間が来たので、こちらから開いたタブも一緒に畳む。
+      const closed = isCloseOnScrollTimeUpEnabled() ? closeOpenedAppWindows() : 0;
+      alertUser(
+        "scrollTimeUp",
+        closed > 0
+          ? t("Time's up — scroll is back OFF and the app you opened was closed")
+          : t("Time's up — scroll switched back OFF")
+      );
     }
     renderAppInsights();
   }
@@ -3520,7 +3712,7 @@ const FocusTimer = (() => {
     if (state.lockOnExpire) {
       showAppLockScreen(t("Time's up! MyHome Browser is locked until you unlock it."));
     } else {
-      showToast(t("Timer's up"));
+      alertUser("focusTimer", t("Timer's up"));
     }
   }
 
@@ -3812,6 +4004,8 @@ function openSettingsModal() {
   document.getElementById("browsingCheckinToggle").checked = isBrowsingCheckinsEnabled();
   document.getElementById("feedGateToggle").checked = isFeedGateEnabled();
   document.getElementById("sameWindowToggle").checked = isOpenAppsInSameWindow();
+  document.getElementById("closeOnTimeUpToggle").checked = isCloseOnScrollTimeUpEnabled();
+  renderNotificationSection();
   renderScrollGatedAppList();
   renderInstallSection();
   applyBiometricAvailabilityUI();
@@ -5030,6 +5224,120 @@ function readScrollGatedAppSelection() {
   ).map((cb) => cb.value);
 }
 
+/* --------------------------------------------------------------------------
+   通知
+   画面を見ていない相手にも届かせるための仕組み。ただしサーバーを持たないアプリ
+   なので、押し配りの通知(Web Push)は使えない。出せるのは「このページかService
+   Workerが動いている間」だけで、アプリを完全に閉じた後や、同じ画面で他サイトへ
+   遷移してこのページが破棄された後には出せない。
+   画面を見ている間は既存のトーストで足りるため、隠れている時だけ通知を出す。
+   -------------------------------------------------------------------------- */
+const NOTIFY_DEFAULTS = {
+  scrollAlmostUp: true,
+  scrollTimeUp: true,
+  focusTimer: true,
+  posture: true,
+  dailyGoal: true,
+};
+
+function getNotifyPrefs() {
+  const stored = loadJSON(STORAGE_KEYS.notifyPrefs, null);
+  return { ...NOTIFY_DEFAULTS, ...(stored && typeof stored === "object" ? stored : {}) };
+}
+
+function saveNotifyPrefs(prefs) {
+  saveJSON(STORAGE_KEYS.notifyPrefs, prefs);
+}
+
+function notificationsSupported() {
+  return typeof Notification !== "undefined";
+}
+
+function notificationPermission() {
+  return notificationsSupported() ? Notification.permission : "unsupported";
+}
+
+async function requestNotificationPermission() {
+  if (!notificationsSupported()) return "unsupported";
+  try {
+    const result = await Notification.requestPermission();
+    renderNotificationSection();
+    if (result === "granted") {
+      showNotification("scrollTimeUp", t("Notifications are on"), t("This is what they'll look like."), { force: true });
+    }
+    return result;
+  } catch (e) {
+    return "denied";
+  }
+}
+
+// Service Worker経由で出すと、通知をタップしたときにこのアプリへ戻せる。
+async function showNotification(kind, title, body, options = {}) {
+  if (!options.force && !getNotifyPrefs()[kind]) return false;
+  if (notificationPermission() !== "granted") return false;
+  if (!options.force && !document.hidden) return false;
+  const payload = { body, tag: `myhome-${kind}`, lang: currentLanguage };
+  try {
+    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+      const reg = await navigator.serviceWorker.ready;
+      await reg.showNotification(title, payload);
+      return true;
+    }
+    new Notification(title, payload);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// 画面を見ていれば今までどおりトースト、見ていなければ通知。取り逃しを防ぐ。
+// 見出しはアプリ名（訳さない）、本文に伝えたい内容を置く。
+function alertUser(kind, message, title) {
+  showNotification(kind, title || "MyHome Browser", message);
+  showToast(message);
+}
+
+// 1日の目標を超えた瞬間に一度だけ知らせる（同じ日に何度も鳴らさない）。
+function maybeNotifyDailyGoal() {
+  const goalMinutes = getInsightsGoalMinutes();
+  if (!goalMinutes) return;
+  const today = dayPrefix(new Date());
+  if (loadJSON(STORAGE_KEYS.notifyGoalDay, null) === today) return;
+  if (totalUsageMsForDay(new Date()) <= goalMinutes * 60000) return;
+  saveJSON(STORAGE_KEYS.notifyGoalDay, today);
+  showNotification(
+    "dailyGoal",
+    t("You've passed your daily limit"),
+    tf("Today is over your {minutes} min goal.", { minutes: goalMinutes })
+  );
+}
+
+function renderNotificationSection() {
+  const status = document.getElementById("notifyStatusText");
+  const btn = document.getElementById("notifyEnableBtn");
+  const list = document.getElementById("notifyPrefList");
+  if (!status || !btn || !list) return;
+
+  const permission = notificationPermission();
+  list.hidden = permission !== "granted";
+  btn.hidden = permission !== "default";
+
+  if (permission === "unsupported") {
+    status.textContent = t("This browser can't show notifications.");
+  } else if (permission === "granted") {
+    status.textContent = t("Notifications are allowed. They can only reach you while this app is still running in the background — once it's fully closed, nothing can wake it.");
+  } else if (permission === "denied") {
+    status.textContent = t("Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.");
+  } else {
+    status.textContent = t("Let this app notify you when scroll time runs out, a timer ends, or you pass your daily limit.");
+  }
+
+  const prefs = getNotifyPrefs();
+  list.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.checked = Boolean(prefs[cb.value]);
+  });
+}
+
 function initInstallPrompt() {
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
@@ -5043,20 +5351,45 @@ function initInstallPrompt() {
   });
 }
 
-let pendingBlockedFeedName = null;
+// 断ったアプリ(またはURL)を覚えておき、スクロールONが済んだらそのまま開く。
+// 理由と時間制限とPINまで通した後に、もう一度アイコンを押させて「本当に開きますか」
+// と訊くのは、同じ意思を三度確かめているだけなので省く。
+let pendingBlockedTarget = null;
 
-function openFeedBlockedModal(name) {
-  pendingBlockedFeedName = name;
+function openFeedBlockedModal(target) {
+  pendingBlockedTarget = target;
   document.getElementById("feedBlockedDesc").textContent = tf(
     "Turn scroll ON with a reason and a time limit, and {app} will open.",
-    { app: name }
+    { app: target.name }
   );
   document.getElementById("feedBlockedModal").hidden = false;
 }
 
-function closeFeedBlockedModal() {
+function hideFeedBlockedModal() {
   document.getElementById("feedBlockedModal").hidden = true;
-  pendingBlockedFeedName = null;
+}
+
+function closeFeedBlockedModal() {
+  hideFeedBlockedModal();
+  pendingBlockedTarget = null;
+}
+
+// スクロールONに成功した直後に呼ぶ。覚えていた相手をそのまま開く。
+function resumeBlockedTarget() {
+  const target = pendingBlockedTarget;
+  pendingBlockedTarget = null;
+  if (!target) return false;
+  if (target.app) {
+    recordAppOpenDecision(target.app.id, true);
+    renderAppInsights();
+    openApp(target.app);
+    return true;
+  }
+  if (target.url) {
+    openTab(target.url);
+    return true;
+  }
+  return false;
 }
 
 // その日の合計利用時間（各アプリの滞在時間 + スクロールONだった時間）をミリ秒で返す。
@@ -5166,12 +5499,69 @@ function saveOpenAppsInSameWindow(value) {
   saveJSON(STORAGE_KEYS.openAppsInSameWindow, value);
 }
 
+/* --------------------------------------------------------------------------
+   開いたタブを握っておく
+   window.open の戻り値(タブへの参照)を捨てずに持っておくと、中身は読めなくても
+   close() だけは呼べる。つまり時間切れの瞬間に、こちらからそのタブを閉じられる。
+   決めた時間制限が、初めて向こう側にも効くことになる。
+   引き換えに noopener を外すことになり、開いた先から window.opener 経由で
+   こちらのページを別の場所へ飛ばせる余地が生まれる（相手は自分で選んだ大手
+   サイトなので実害は考えにくいが、皆無ではない）。だから設定で切れるようにする。
+   -------------------------------------------------------------------------- */
+function isCloseOnScrollTimeUpEnabled() {
+  return loadJSON(STORAGE_KEYS.closeOnScrollTimeUp, true);
+}
+
+function saveCloseOnScrollTimeUpEnabled(value) {
+  saveJSON(STORAGE_KEYS.closeOnScrollTimeUp, value);
+}
+
+// 参照はメモリ上にしか持てない。別タブで開く設定のときはこのページが生き続ける
+// ので保つが、同じ画面で開く設定では遷移した時点で失われる（その場合そもそも
+// 閉じる対象のタブが無い）。
+let openedAppWindows = [];
+
+function trackOpenedWindow(win) {
+  if (win) openedAppWindows.push(win);
+}
+
+function forgetClosedWindows() {
+  openedAppWindows = openedAppWindows.filter((win) => {
+    try {
+      return win && !win.closed;
+    } catch (e) {
+      return false;
+    }
+  });
+}
+
+function closeOpenedAppWindows() {
+  let closed = 0;
+  openedAppWindows.forEach((win) => {
+    try {
+      if (win && !win.closed) {
+        win.close();
+        closed++;
+      }
+    } catch (e) {
+      /* 既に閉じられている等。閉じられなくても数えないだけ */
+    }
+  });
+  openedAppWindows = [];
+  return closed;
+}
+
 function openApp(app) {
   // 数え始めてから移動する。同じ画面で開く場合はこの直後にページが破棄されるため、
   // 先に保存しておかないと滞在時間を取り逃す。
   startAwaySession(app.id);
   if (isOpenAppsInSameWindow()) {
     window.location.href = app.web;
+    return;
+  }
+  forgetClosedWindows();
+  if (isCloseOnScrollTimeUpEnabled()) {
+    trackOpenedWindow(window.open(app.web, "_blank"));
     return;
   }
   window.open(app.web, "_blank", "noopener");
@@ -5186,7 +5576,7 @@ let pendingConfirmApp = null;
 function openAppOpenConfirm(app) {
   // スクロールOFF中のフィード系は、確認モーダルではなく門前払いにする。
   if (isFeedBlocked(app.web)) {
-    openFeedBlockedModal(app.name);
+    openFeedBlockedModal({ name: app.name, app });
     return;
   }
   pendingConfirmApp = app;
@@ -5439,6 +5829,52 @@ function tabStripPageForIndex(index) {
   return index < 0 ? 0 : Math.floor(index / TAB_STRIP_PER_PAGE);
 }
 
+/* --------------------------------------------------------------------------
+   1件だけを枠の中に出す
+   これらのサイトはトップページ(フィード)の枠内表示を拒否する一方、自分たちが
+   配っている「埋め込み用アドレス」は拒否していない（ヘッダーで確認済み）。
+   つまり「無限に流れてくる部分」は入らないが、「見たかった1本の動画・1件の
+   投稿」なら、このアプリを離れずにその場で見られる。
+   このアプリの目的からすると、これは制限ではなくむしろ望ましい形——欲しかった
+   物だけ渡して、フィードは渡さない。
+   -------------------------------------------------------------------------- */
+function toEmbeddableUrl(url) {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch (e) {
+    return null;
+  }
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+  const path = parsed.pathname;
+
+  // YouTube: watch?v= / youtu.be/ / shorts/ のいずれも動画IDを取り出す。
+  // rel=0 で終了後の関連動画を抑え、nocookie版を使う。
+  const youtubeId =
+    host === "youtu.be" ? path.slice(1).split("/")[0]
+    : host.endsWith("youtube.com") && path === "/watch" ? parsed.searchParams.get("v")
+    : host.endsWith("youtube.com") && path.startsWith("/shorts/") ? path.split("/")[2]
+    : host.endsWith("youtube.com") && path.startsWith("/embed/") ? path.split("/")[2]
+    : null;
+  if (youtubeId && /^[\w-]{6,20}$/.test(youtubeId)) {
+    return { url: `https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0`, kind: "video" };
+  }
+
+  // Instagram: 投稿とリールの個別ページ。
+  const instaMatch = host.endsWith("instagram.com") && path.match(/^\/(p|reel|tv)\/([\w-]+)/);
+  if (instaMatch) {
+    return { url: `https://www.instagram.com/${instaMatch[1]}/${instaMatch[2]}/embed/`, kind: "post" };
+  }
+
+  // X / Twitter: 個別のポスト。
+  const xMatch = (host.endsWith("x.com") || host.endsWith("twitter.com")) && path.match(/\/status\/(\d+)/);
+  if (xMatch) {
+    return { url: `https://platform.twitter.com/embed/Tweet.html?id=${xMatch[1]}`, kind: "post" };
+  }
+
+  return null;
+}
+
 function openTab(rawInput) {
   const raw = String(rawInput).trim();
   const url = resolveNavigationUrl(raw);
@@ -5447,9 +5883,18 @@ function openTab(rawInput) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
     return;
   }
+  // 1件ものは門番より先に拾う。フィードではないので止める理由がなく、しかも
+  // 離れずに済む唯一の形なので、スクロールOFF中でもここだけは通す。
+  const embed = toEmbeddableUrl(url);
+  if (embed) {
+    const label = looksLikeUrl(raw) ? "" : raw;
+    openEmbedTab(embed.url, label || hostnameOf(url), embed.kind);
+    document.getElementById("searchInput").value = "";
+    return;
+  }
   // アドレス欄や辞書から直接開こうとした場合も、ドックと同じ門をくぐらせる。
   if (isFeedBlocked(url)) {
-    openFeedBlockedModal(hostnameOf(url));
+    openFeedBlockedModal({ name: hostnameOf(url), url });
     document.getElementById("searchInput").value = "";
     return;
   }
@@ -5460,7 +5905,12 @@ function openTab(rawInput) {
       window.location.href = url;
       return;
     }
-    window.open(url, "_blank", "noopener");
+    forgetClosedWindows();
+    if (isCloseOnScrollTimeUpEnabled()) {
+      trackOpenedWindow(window.open(url, "_blank"));
+    } else {
+      window.open(url, "_blank", "noopener");
+    }
     showToast(tf("{domain} doesn't allow embedding, so it opened in your browser instead.", { domain: hostnameOf(url) }));
     return;
   }
@@ -5475,6 +5925,19 @@ function openTab(rawInput) {
   tabStripPage = tabStripPageForIndex(tabs.length - 1);
   document.getElementById("searchInput").value = "";
   renderBrowser();
+}
+
+// 埋め込み用アドレスをタブとして開く。見出しは元のサイト名にしておかないと
+// 「platform.twitter.com」のような内部向けの名前が並んでしまう。
+function openEmbedTab(embedUrl, title, kind) {
+  const tabs = getBrowserTabs();
+  const tab = { id: makeTabId(), url: embedUrl, title, query: "", embed: kind };
+  tabs.push(tab);
+  saveBrowserTabs(tabs);
+  saveActiveTabId(tab.id);
+  tabStripPage = tabStripPageForIndex(tabs.length - 1);
+  renderBrowser();
+  showToast(kind === "video" ? t("Playing here, without the feed") : t("Showing this post here, without the feed"));
 }
 
 function closeTab(id) {
@@ -5512,7 +5975,14 @@ function ensureFrameForTab(tab) {
   frame.className = "browser-frame";
   frame.src = tab.url;
   frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
-  frame.setAttribute("referrerpolicy", "no-referrer");
+  if (tab.embed) {
+    // 埋め込みは再生させたいので、全画面と再生系の許可を明示する。
+    // リファラも送らないと埋め込みを拒む配信元があるため、ここだけ既定に戻す。
+    frame.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen");
+    frame.setAttribute("allowfullscreen", "");
+  } else {
+    frame.setAttribute("referrerpolicy", "no-referrer");
+  }
   document.getElementById("browserFrames").appendChild(frame);
   return frame;
 }
@@ -6279,7 +6749,10 @@ function init() {
   // 選択肢は開くたびに作り直すが、select自体は使い回すのでここで一度だけ繋ぐ。
   document.getElementById("durationSelect").addEventListener("change", applyCustomDurationVisibility);
 
-  document.getElementById("cancelScrollOn").addEventListener("click", closeScrollOnModal);
+  document.getElementById("cancelScrollOn").addEventListener("click", () => {
+    pendingBlockedTarget = null;
+    closeScrollOnModal();
+  });
   document.getElementById("confirmScrollOn").addEventListener("click", () => {
     const picked = pickScrollOnReasonDuration();
     if (!picked) return;
@@ -6292,6 +6765,7 @@ function init() {
     }
     ScrollLock.turnOn(picked.reason, picked.durationLabel, picked.minutes);
     closeScrollOnModal();
+    resumeBlockedTarget();
   });
 
   document.getElementById("scrollOnBiometricBtn").addEventListener("click", async () => {
@@ -6306,6 +6780,7 @@ function init() {
       stopCameraPreview(videoEl);
       ScrollLock.turnOn(picked.reason, picked.durationLabel, picked.minutes);
       closeScrollOnModal();
+      resumeBlockedTarget();
     } catch (e) {
       stopCameraPreview(videoEl);
       showToast(t("Face ID / Fingerprint failed"));
@@ -6346,7 +6821,7 @@ function init() {
 
   document.getElementById("feedBlockedCancelBtn").addEventListener("click", closeFeedBlockedModal);
   document.getElementById("feedBlockedScrollOnBtn").addEventListener("click", () => {
-    closeFeedBlockedModal();
+    hideFeedBlockedModal();
     openScrollOnModal();
   });
 

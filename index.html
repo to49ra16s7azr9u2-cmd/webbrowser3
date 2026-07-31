@@ -689,12 +689,44 @@
           <span>Check in with me every 10 minutes while I'm browsing a tab</span>
         </label>
 
+        <h3>Notifications</h3>
+        <p id="notifyStatusText" class="modal-desc"></p>
+        <button id="notifyEnableBtn" class="btn btn-small" type="button" hidden>Allow notifications</button>
+        <div id="notifyPrefList" hidden>
+          <label class="checkbox-field">
+            <input type="checkbox" value="scrollAlmostUp" />
+            <span>A minute before scroll time runs out</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="scrollTimeUp" />
+            <span>When scroll switches back OFF</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="focusTimer" />
+            <span>When the timer finishes</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="posture" />
+            <span>Posture reminders</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="dailyGoal" />
+            <span>When you pass your daily limit</span>
+          </label>
+        </div>
+
         <h3>How other apps open</h3>
         <label class="checkbox-field">
           <input id="sameWindowToggle" type="checkbox" />
           <span>Open other apps in this same window</span>
         </label>
         <p class="modal-desc">On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.</p>
+
+        <label class="checkbox-field">
+          <input id="closeOnTimeUpToggle" type="checkbox" />
+          <span>Close the app I opened when scroll time runs out</span>
+        </label>
+        <p class="modal-desc">This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.</p>
 
         <h3>Apps that need scroll ON</h3>
         <label class="checkbox-field">

@@ -1,4 +1,4 @@
-const CACHE_NAME = "myhome-browser-v3";
+const CACHE_NAME = "myhome-browser-v4";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -38,5 +38,20 @@ self.addEventListener("fetch", (event) => {
         return response;
       })
       .catch(() => caches.match(event.request))
+  );
+});
+
+// 通知をタップしたら、開いたままのMyHome Browserへ戻す（無ければ開き直す）。
+// 他のアプリを見ている最中に「時間切れ」を受け取った時、そのまま帰ってこられる。
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if ("focus" in client) return client.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("./index.html");
+      return undefined;
+    })
   );
 });
