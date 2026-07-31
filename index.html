@@ -201,11 +201,12 @@
       <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
       <div id="tipsPanel" class="tips-panel" hidden>
         <ul class="tips-list">
-          <li>Type a search or a website above — it opens as a new tab you can browse right here.</li>
+          <li>Type a search or a website above — it opens as a tab you can read right here.</li>
+          <li>A link to one video or one post opens here too. A whole feed can't be shown inside this app, so those still open outside — that's the site's own rule, not something this app can change.</li>
           <li>Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.</li>
-          <li>Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
-          <li>Search runs on Bing. Big sites that refuse to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) open in your regular browser instead — that's the site's own policy, not something this app can change.</li>
-          <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit, and your PIN only when you really need to scroll freely.</li>
+          <li>Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
+          <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.</li>
+          <li>When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
       </div>
@@ -456,7 +457,7 @@
 <div id="scrollOnModal" class="modal-overlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scrollOnTitle">
     <h2 id="scrollOnTitle">Turn scroll ON</h2>
-    <p class="modal-desc">Choose a reason and a time limit. Scroll will switch back OFF automatically when time is up.</p>
+    <p id="scrollOnDesc" class="modal-desc">Choose a reason and a time limit. Scroll will switch back OFF automatically when time is up.</p>
 
     <label class="field">
       <span>Reason</span>
