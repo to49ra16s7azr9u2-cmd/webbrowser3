@@ -52,6 +52,15 @@ const STORAGE_KEYS = {
   notifyPrefs: "myhome:notifyPrefs",
   notifyGoalDay: "myhome:notifyGoalDay",
   customApps: "myhome:customApps",
+  promiseHistory: "myhome:promiseHistory",
+  intentCheckEnabled: "myhome:intentCheckEnabled",
+  intentLog: "myhome:intentLog",
+  lastIntentCheckAt: "myhome:lastIntentCheckAt",
+  lastLookBackAt: "myhome:lastLookBackAt",
+  aspirations: "myhome:aspirations",
+  ifThenRules: "myhome:ifThenRules",
+  coolOffEnabled: "myhome:coolOffEnabled",
+  pendingChanges: "myhome:pendingChanges",
 };
 
 const DEFAULT_APPEARANCE = {
@@ -432,9 +441,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "A busca usa o Bing. O bloqueio de anúncios só impede ir direto a domínios conhecidos de anúncio/rastreamento — não remove anúncios de uma página já aberta.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "A rolagem vem desativada para reduzir distrações. Ative-a com um motivo, um limite de tempo e seu PIN — até lá, os apps marcados nos Ajustes não abrem.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Quando o tempo acaba, a rolagem é desativada e este app pode fechar o app que abriu para você. Isso e o modo de abertura ficam nos Ajustes.",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Tudo que você envia para a Sala de espera fica aqui por 60 segundos antes de você poder abrir, guardar na estante ou deixar ir.",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "Tudo que você envia para a Sala de espera aguarda antes de você poder abrir, guardar na estante ou deixar ir — cerca de um minuto e meio para os apps filtrados, uns 25 segundos para o resto.",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "Se você abre o app depois de um tempo, ele pergunta uma vez para que você veio. Responder \"sem motivo específico\" oferece algo que você disse que queria fazer.",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "A estante guarda o que você mantém. Pesquise nela, marque itens como Alta/Média/Baixa e toque em Concluído quando terminar um — itens concluídos vão para sua própria estante.",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De vez em quando (30 minutos por padrão, ou após rolar o suficiente) uma pausa aparece e recomenda um item da estante, onde quer que você esteja. Mude o intervalo e a ordem de escolha nos Ajustes.",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "De vez em quando (30 minutos por padrão, ou após rolar o suficiente) um aviso discreto oferece algo — primeiro o que você anotou em \"O que você quer fazer\" nos Ajustes e, de vez em quando, algo da sua estante.",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "Afrouxar seus próprios limites espera 24 horas; apertá-los vale na hora. Uma alteração pendente pode ser cancelada enquanto espera.",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Adicione este app à tela inicial e o botão Compartilhar de outros apps poderá enviar links, textos e arquivos direto para cá.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Escolha um motivo e um limite de tempo. Quando o tempo acabar, a rolagem será desativada e o app aberto daqui será fechado.",
     "Waiting room": "Sala de espera",
@@ -474,6 +485,69 @@ const UI_I18N = {
     "Something to look at": "Algo para ver",
     "Received 1 item from another app": "1 item recebido de outro aplicativo",
     "Received {n} items from another app": "{n} itens recebidos de outro aplicativo",
+    "Morning": "Manhã",
+    "Afternoon": "Tarde",
+    "Evening": "Noite",
+    "Late night": "Madrugada",
+    "Any time": "Qualquer hora",
+    "done {count}x": "feito {count}x",
+    "{idle} of your last {total} opens had nothing particular behind them.": "{idle} das suas últimas {total} aberturas não tinham nada específico por trás.",
+    "You finished {count} things these last two weeks.": "Você concluiu {count} coisas nestas últimas duas semanas.",
+    "You opened this without anything particular in mind.": "Você abriu isto sem nada específico em mente.",
+    "Since you last looked": "Desde a última vez",
+    "Good": "Ótimo",
+    "What did you come here for?": "Você veio para quê?",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "Não há resposta errada — é só para que o motivo seja seu e não do telefone.",
+    "To look something up": "Para procurar algo",
+    "To get to something I set aside": "Para ver algo que deixei de lado",
+    "No particular reason": "Sem motivo específico",
+    "When you open the app": "Ao abrir o app",
+    "Ask what I came here for": "Perguntar para que eu vim",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "Perguntado no máximo a cada poucos minutos, nunca no meio de uma tarefa. Cada resposta é um toque. Responder \"sem motivo específico\" traz algo que você disse que queria fazer.",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "Definir um período do dia facilita cumpri-las, e uma pausa que caia nessa janela vai oferecê-las primeiro.",
+    "Stop asking what you came for": "Parar de perguntar para que você veio",
+    "When": "Quando",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "Você disse {promised}. Foram {actual} — {over} das suas últimas {total} vezes passaram.",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "Você passou do seu próprio limite em {over} das últimas {total} saídas, em média por {avg}.",
+    "You came back within your own limit all {total} of the last times you left.": "Você voltou dentro do seu próprio limite todas as {total} últimas vezes.",
+    "If {trigger}, then {action}": "Se {trigger}, então {action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "Salvo. Entra em vigor em {wait} — você pode cancelar até lá.",
+    "{change} — in {wait}": "{change} — em {wait}",
+    "Cancel this change": "Cancelar esta alteração",
+    "Change cancelled": "Alteração cancelada",
+    "{text} · done {count}x": "{text} · feito {count}x",
+    "Remove this rule": "Remover esta regra",
+    "How about this now?": "Que tal isto agora?",
+    "Away from the screen": "Longe da tela",
+    "Did it": "Feito",
+    "There's something you said you wanted to do.": "Há algo que você disse que queria fazer.",
+    "Nice.": "Ótimo.",
+    "finished": "concluídos",
+    "You decided": "Você decidiu",
+    "Turn scroll ON anyway": "Ativar a rolagem mesmo assim",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "Anote nos Ajustes o que você quer fazer — assim isto oferece aquilo em vez de só algo para ler.",
+    "What you want to get to": "O que você quer fazer",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "Sua estante só guarda o que você adiou. Anote no que realmente quer gastar tempo, e as pausas oferecerão isso primeiro.",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "Nada aqui ainda — as pausas recorrerão à sua estante e a pequenos empurrões longe da tela.",
+    "e.g. Practise guitar for 10 minutes": "ex.: Praticar violão por 10 minutos",
+    "If this, then that": "Se isto, então aquilo",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "Decida agora, enquanto é fácil, o que fará no momento em que não for. Isto é relido para você quando um app fica fechado.",
+    "No rules yet.": "Ainda não há regras.",
+    "If… (e.g. it's past 11pm)": "Se… (ex.: passou das 23h)",
+    "then… (e.g. I'll read one shelved thing)": "então… (ex.: vou ler algo da estante)",
+    "Cooling-off period": "Período de reflexão",
+    "Make loosening these settings wait 24 hours": "Fazer o afrouxamento destes ajustes esperar 24 horas",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "A versão de você que define estes limites e a que quer ultrapassá-los nunca estão na sala ao mesmo tempo. Apertar continua valendo na hora; só afrouxar espera, e você pode cancelar o tempo todo.",
+    "Waiting to take effect:": "Aguardando entrar em vigor:",
+    "Turn forced breaks off": "Desativar as pausas forçadas",
+    "Make breaks less frequent": "Espaçar mais as pausas",
+    "Raise the scroll count before a break": "Aumentar a contagem de rolagens antes de uma pausa",
+    "Turn the cooling-off period off": "Desativar o período de reflexão",
+    "Stop requiring scroll ON for those apps": "Parar de exigir rolagem ativada para esses apps",
+    "Remove apps from the scroll gate": "Remover apps do filtro de rolagem",
+    "1 thing waiting on your shelf": "1 item esperando na sua estante",
+    "{count} things waiting on your shelf": "{count} itens esperando na sua estante",
+    "Added shelf {name}": "Estante {name} adicionada",
     "File": "Arquivo",
     "Later": "Depois",
     "Shelf space": "Espaço da estante",
@@ -879,9 +953,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Die Suche läuft über Bing. Werbeblockierung verhindert nur das direkte Ansteuern bekannter Werbe-/Tracking-Domains — sie entfernt keine Werbung aus einer bereits geöffneten Seite.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "Scrollen ist standardmäßig aus. Schalte es mit Grund, Zeitlimit und PIN ein — bis dahin öffnen sich die in den Einstellungen angehakten Apps gar nicht.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Wenn die Zeit um ist, geht Scrollen wieder aus und diese App kann die geöffnete App schließen. Beides steht in den Einstellungen.",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Alles, was du in den Warteraum schickst, wartet hier 60 Sekunden, bevor du es öffnen, ins Regal stellen oder loslassen kannst.",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "Alles, was du in den Warteraum schickst, wartet, bevor du es öffnen, ins Regal stellen oder loslassen kannst — rund anderthalb Minuten für die gesperrten Apps, etwa 25 Sekunden für alles andere.",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "Öffnest du die App nach einer Weile, fragt sie einmal, wofür du kommst. „Kein bestimmter Anlass\" holt stattdessen etwas hervor, das du tun wolltest.",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "Das Regal enthält, was du behalten hast. Durchsuche es, markiere Einträge mit Hoch/Mittel/Niedrig und tippe auf Erledigt, wenn du mit einem fertig bist — erledigte Einträge wandern in ihr eigenes Regal.",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "Von Zeit zu Zeit (standardmäßig alle 30 Minuten oder nach genug Scrollen) unterbricht dich eine Pause und empfiehlt einen Eintrag aus dem Regal, egal wo du bist. Intervall und Auswahlreihenfolge änderst du in den Einstellungen.",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "Ab und zu (standardmäßig alle 30 Minuten oder nach genug Scrollen) bietet dir ein leiser Hinweis etwas an — zuerst das, was du unter „Was du angehen willst“ in den Einstellungen eingetragen hast, und hin und wieder etwas aus deinem Regal.",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "Das Lockern deiner eigenen Grenzen wartet 24 Stunden; das Verschärfen wirkt sofort. Eine wartende Änderung kannst du jederzeit abbrechen.",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Füge diese App zum Startbildschirm hinzu, dann kann der Teilen-Button anderer Apps Links, Text und Dateien direkt hierher schicken.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Wähle einen Grund und ein Zeitlimit. Wenn die Zeit um ist, wird Scrollen wieder ausgeschaltet und die von hier geöffnete App geschlossen.",
     "Waiting room": "Wartezimmer",
@@ -921,6 +997,69 @@ const UI_I18N = {
     "Something to look at": "Etwas zum Ansehen",
     "Received 1 item from another app": "1 Element von einer anderen App empfangen",
     "Received {n} items from another app": "{n} Elemente von einer anderen App empfangen",
+    "Morning": "Morgens",
+    "Afternoon": "Nachmittags",
+    "Evening": "Abends",
+    "Late night": "Spätnachts",
+    "Any time": "Jederzeit",
+    "done {count}x": "{count}× erledigt",
+    "{idle} of your last {total} opens had nothing particular behind them.": "{idle} deiner letzten {total} Starts hatten keinen bestimmten Anlass.",
+    "You finished {count} things these last two weeks.": "In den letzten zwei Wochen hast du {count} Dinge abgeschlossen.",
+    "You opened this without anything particular in mind.": "Du hast das ohne bestimmten Anlass geöffnet.",
+    "Since you last looked": "Seit dem letzten Blick",
+    "Good": "Gut",
+    "What did you come here for?": "Wofür bist du hergekommen?",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "Keine falsche Antwort — es geht nur darum, dass der Anlass deiner ist und nicht der des Handys.",
+    "To look something up": "Um etwas nachzuschlagen",
+    "To get to something I set aside": "Um etwas Aufgehobenes anzugehen",
+    "No particular reason": "Kein bestimmter Anlass",
+    "When you open the app": "Beim Öffnen der App",
+    "Ask what I came here for": "Fragen, wofür ich hergekommen bin",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "Höchstens alle paar Minuten gefragt, nie mitten in einer Aufgabe. Jede Antwort ist ein Tipp. „Kein bestimmter Anlass\" holt etwas hervor, das du tun wolltest.",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "Eine Tageszeit dazuzuschreiben macht sie leichter umsetzbar, und eine Pause in diesem Zeitfenster greift zuerst danach.",
+    "Stop asking what you came for": "Nicht mehr fragen, wofür du kommst",
+    "When": "Wann",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "Du sagtest {promised}. Es wurden {actual} — {over} deiner letzten {total} Male gingen darüber.",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "Bei {over} von deinen letzten {total} Malen bist du über dein eigenes Limit gegangen, im Schnitt um {avg}.",
+    "You came back within your own limit all {total} of the last times you left.": "Du bist bei allen letzten {total} Malen innerhalb deines eigenen Limits zurückgekommen.",
+    "If {trigger}, then {action}": "Wenn {trigger}, dann {action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "Gespeichert. Wird in {wait} wirksam — bis dahin kannst du abbrechen.",
+    "{change} — in {wait}": "{change} — in {wait}",
+    "Cancel this change": "Diese Änderung abbrechen",
+    "Change cancelled": "Änderung abgebrochen",
+    "{text} · done {count}x": "{text} · {count}× erledigt",
+    "Remove this rule": "Diese Regel entfernen",
+    "How about this now?": "Wie wäre es jetzt hiermit?",
+    "Away from the screen": "Weg vom Bildschirm",
+    "Did it": "Gemacht",
+    "There's something you said you wanted to do.": "Da ist etwas, das du tun wolltest.",
+    "Nice.": "Schön.",
+    "finished": "erledigt",
+    "You decided": "Du hattest entschieden",
+    "Turn scroll ON anyway": "Trotzdem Scrollen einschalten",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "Trag in den Einstellungen ein, was du angehen willst — dann wird das statt nur einer Lektüre angeboten.",
+    "What you want to get to": "Was du angehen willst",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "In deinem Regal liegt nur, was du aufgeschoben hast. Trag ein, wofür du die Zeit wirklich nutzen willst — Pausen bieten das zuerst an.",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "Noch nichts hier — Pausen greifen dann auf dein Regal und kleine Anstöße weg vom Bildschirm zurück.",
+    "e.g. Practise guitar for 10 minutes": "z.B. 10 Minuten Gitarre üben",
+    "If this, then that": "Wenn dies, dann das",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "Entscheide jetzt, solange es leicht fällt, was du tust, wenn es das nicht tut. Diese Regeln werden dir vorgehalten, wenn eine App zubleibt.",
+    "No rules yet.": "Noch keine Regeln.",
+    "If… (e.g. it's past 11pm)": "Wenn… (z.B. es ist nach 23 Uhr)",
+    "then… (e.g. I'll read one shelved thing)": "dann… (z.B. lese ich etwas aus dem Regal)",
+    "Cooling-off period": "Abkühlphase",
+    "Make loosening these settings wait 24 hours": "Lockerungen dieser Einstellungen 24 Stunden warten lassen",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "Die Version von dir, die diese Grenzen setzt, und die, die darüber hinaus will, sind nie gleichzeitig im Raum. Verschärfen wirkt weiterhin sofort; nur Lockern wartet, und du kannst es die ganze Zeit abbrechen.",
+    "Waiting to take effect:": "Wartet auf Wirksamkeit:",
+    "Turn forced breaks off": "Erzwungene Pausen ausschalten",
+    "Make breaks less frequent": "Pausen seltener machen",
+    "Raise the scroll count before a break": "Scroll-Anzahl bis zur Pause erhöhen",
+    "Turn the cooling-off period off": "Abkühlphase ausschalten",
+    "Stop requiring scroll ON for those apps": "Für diese Apps kein eingeschaltetes Scrollen mehr verlangen",
+    "Remove apps from the scroll gate": "Apps aus der Scroll-Sperre entfernen",
+    "1 thing waiting on your shelf": "1 Sache wartet in deinem Regal",
+    "{count} things waiting on your shelf": "{count} Sachen warten in deinem Regal",
+    "Added shelf {name}": "Regal {name} hinzugefügt",
     "File": "Datei",
     "Later": "Später",
     "Shelf space": "Regalplatz",
@@ -1326,9 +1465,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "La recherche passe par Bing. Le blocage de publicités empêche seulement d'aller directement vers des domaines connus de pub/pistage — il ne retire pas les pubs d'une page déjà ouverte.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "Le défilement est désactivé par défaut. Activez-le avec un motif, une limite de temps et votre PIN — jusque-là, les applis cochées dans les Réglages ne s'ouvrent pas du tout.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Quand le temps est écoulé, le défilement se désactive et cette appli peut fermer l'appli qu'elle a ouverte. Les deux se règlent dans les Réglages.",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Tout ce que vous envoyez à la salle d'attente y patiente 60 secondes avant que vous puissiez l'ouvrir, le ranger sur l'étagère ou le laisser partir.",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "Tout ce que vous envoyez à la salle d'attente patiente avant que vous puissiez l'ouvrir, le ranger ou le laisser partir : environ une minute trente pour les applis filtrées, environ 25 secondes pour le reste.",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "Si vous ouvrez l'appli après un moment, elle demande une fois pourquoi vous venez. Répondre « aucune raison particulière » vous propose quelque chose que vous vouliez faire.",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "L'étagère garde ce que vous avez conservé. Cherchez-y, marquez les éléments Haute/Moyenne/Basse et touchez Terminé une fois fini avec l'un d'eux — les éléments terminés rejoignent leur propre étagère.",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De temps en temps (30 minutes par défaut, ou après suffisamment de défilement), une pause s'impose et recommande un élément de l'étagère, où que vous soyez. Changez l'intervalle et l'ordre de sélection dans les Réglages.",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "De temps en temps (30 minutes par défaut, ou après suffisamment de défilement), une bannière discrète vous propose quelque chose — d'abord ce que vous avez noté dans « Ce que vous voulez faire » dans les Réglages, et de temps en temps une chose de votre étagère.",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "Assouplir vos propres limites attend 24 heures ; les durcir prend effet immédiatement. Un changement en attente peut être annulé à tout moment.",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Ajoutez cette appli à l'écran d'accueil et le bouton Partager des autres applis pourra envoyer des liens, du texte et des fichiers directement ici.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Choisissez un motif et une limite de temps. À la fin, le défilement se désactive et l'appli ouverte d'ici est fermée.",
     "Waiting room": "Salle d'attente",
@@ -1368,6 +1509,69 @@ const UI_I18N = {
     "Something to look at": "Quelque chose à regarder",
     "Received 1 item from another app": "1 élément reçu d'une autre application",
     "Received {n} items from another app": "{n} éléments reçus d'une autre application",
+    "Morning": "Matin",
+    "Afternoon": "Après-midi",
+    "Evening": "Soir",
+    "Late night": "Tard le soir",
+    "Any time": "N'importe quand",
+    "done {count}x": "fait {count} fois",
+    "{idle} of your last {total} opens had nothing particular behind them.": "{idle} de vos {total} dernières ouvertures n'avaient aucune raison particulière.",
+    "You finished {count} things these last two weeks.": "Vous avez terminé {count} choses ces deux dernières semaines.",
+    "You opened this without anything particular in mind.": "Vous avez ouvert ceci sans rien de particulier en tête.",
+    "Since you last looked": "Depuis la dernière fois",
+    "Good": "Bien",
+    "What did you come here for?": "Vous venez pour quoi ?",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "Pas de mauvaise réponse — c'est juste pour que la raison soit la vôtre et non celle du téléphone.",
+    "To look something up": "Pour chercher quelque chose",
+    "To get to something I set aside": "Pour reprendre ce que j'avais mis de côté",
+    "No particular reason": "Aucune raison particulière",
+    "When you open the app": "À l'ouverture de l'appli",
+    "Ask what I came here for": "Me demander pourquoi je viens",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "Demandé au plus toutes les quelques minutes, jamais en pleine tâche. Chaque réponse tient en un geste. Répondre « aucune raison particulière » fait remonter quelque chose que vous vouliez faire.",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "Préciser un moment de la journée les rend plus faciles à faire, et une pause tombant dans ce créneau les proposera en premier.",
+    "Stop asking what you came for": "Ne plus demander pourquoi vous venez",
+    "When": "Quand",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "Vous aviez dit {promised}. Ce fut {actual} — {over} de vos {total} dernières fois ont dépassé.",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "Vous avez dépassé votre propre limite {over} fois sur les {total} dernières sorties, de {avg} en moyenne.",
+    "You came back within your own limit all {total} of the last times you left.": "Vous êtes revenu dans votre propre limite les {total} dernières fois.",
+    "If {trigger}, then {action}": "Si {trigger}, alors {action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "Enregistré. Effectif dans {wait} — vous pouvez annuler jusque-là.",
+    "{change} — in {wait}": "{change} — dans {wait}",
+    "Cancel this change": "Annuler ce changement",
+    "Change cancelled": "Changement annulé",
+    "{text} · done {count}x": "{text} · fait {count} fois",
+    "Remove this rule": "Supprimer cette règle",
+    "How about this now?": "Et si vous faisiez ça maintenant ?",
+    "Away from the screen": "Loin de l'écran",
+    "Did it": "Fait",
+    "There's something you said you wanted to do.": "Il y a quelque chose que vous vouliez faire.",
+    "Nice.": "Bien.",
+    "finished": "terminés",
+    "You decided": "Vous aviez décidé",
+    "Turn scroll ON anyway": "Activer quand même le défilement",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "Notez dans les Réglages ce que vous voulez faire : ce sera proposé plutôt qu'une simple lecture.",
+    "What you want to get to": "Ce que vous voulez faire",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "Votre étagère ne contient que ce que vous avez remis à plus tard. Notez ce à quoi vous voulez vraiment consacrer du temps : les pauses le proposeront en premier.",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "Rien pour l'instant — les pauses se rabattront sur votre étagère et de petits gestes loin de l'écran.",
+    "e.g. Practise guitar for 10 minutes": "ex. Jouer de la guitare 10 minutes",
+    "If this, then that": "Si ceci, alors cela",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "Décidez maintenant, tant que c'est facile, ce que vous ferez quand ça ne le sera pas. Ces règles vous sont relues quand une appli reste fermée.",
+    "No rules yet.": "Aucune règle pour l'instant.",
+    "If… (e.g. it's past 11pm)": "Si… (ex. il est plus de 23h)",
+    "then… (e.g. I'll read one shelved thing)": "alors… (ex. je lis une chose de l'étagère)",
+    "Cooling-off period": "Délai de réflexion",
+    "Make loosening these settings wait 24 hours": "Faire attendre 24 heures tout assouplissement de ces réglages",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "La personne qui fixe ces limites et celle qui veut les franchir ne sont jamais là en même temps. Durcir prend effet immédiatement ; seul l'assouplissement attend, et vous pouvez l'annuler à tout moment.",
+    "Waiting to take effect:": "En attente d'effet :",
+    "Turn forced breaks off": "Désactiver les pauses imposées",
+    "Make breaks less frequent": "Espacer les pauses",
+    "Raise the scroll count before a break": "Augmenter le nombre de défilements avant une pause",
+    "Turn the cooling-off period off": "Désactiver le délai de réflexion",
+    "Stop requiring scroll ON for those apps": "Ne plus exiger le défilement activé pour ces applis",
+    "Remove apps from the scroll gate": "Retirer des applis du filtre de défilement",
+    "1 thing waiting on your shelf": "1 chose vous attend sur votre étagère",
+    "{count} things waiting on your shelf": "{count} choses vous attendent sur votre étagère",
+    "Added shelf {name}": "Étagère {name} ajoutée",
     "File": "Fichier",
     "Later": "Plus tard",
     "Shelf space": "Place sur l'étagère",
@@ -1773,9 +1977,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "검색은 Bing을 사용합니다. 광고 차단은 알려진 광고·추적 도메인으로 바로 이동하는 것만 막습니다. 이미 열린 페이지의 광고는 제거할 수 없습니다.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "스크롤은 기본적으로 꺼져 있습니다. 이유와 시간제한, PIN으로 켜세요. 그전까지는 설정에서 체크한 앱이 아예 열리지 않습니다.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "시간이 끝나면 스크롤이 다시 꺼지고, 이 앱이 열어 준 앱을 닫을 수도 있습니다. 둘 다 설정에 있습니다.",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "대기실로 보낸 것은 무엇이든 열거나 선반에 두거나 흘려보내기 전까지 여기서 60초 동안 기다립니다.",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "대기실로 보낸 것은 열거나 선반에 두거나 흘려보내기 전에 기다립니다. 관문을 건 앱은 약 1분 30초, 그 외에는 약 25초입니다.",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "한동안 만에 열면 무엇을 하러 왔는지 한 번 묻습니다. '특별한 용건 없음'을 고르면 하고 싶다고 했던 일을 대신 보여 줍니다.",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "선반에는 남겨둔 것들이 있습니다. 검색할 수 있고, 항목에 상/중/하를 매기고, 다 본 항목은 완료를 눌러 표시하세요 — 완료된 항목은 전용 선반으로 옮겨집니다.",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "가끔(기본 30분, 또는 스크롤을 충분히 하면) 어디에 있든 휴식이 끼어들어 선반에서 항목 하나를 추천합니다. 간격과 추천 순서는 설정에서 바꿀 수 있습니다.",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "가끔(기본 30분, 또는 스크롤을 충분히 하면) 조용한 배너가 무언가를 권합니다. 먼저 설정의 '하고 싶은 일'에 적은 것, 이따금 선반의 것입니다.",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "스스로 정한 제한을 느슨하게 하는 변경은 24시간 뒤에 적용되고, 엄격하게 하는 변경은 즉시 적용됩니다. 대기 중에는 언제든 취소할 수 있습니다.",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "이 앱을 홈 화면에 추가하면 다른 앱의 공유 버튼으로 링크, 텍스트, 파일을 바로 여기로 보낼 수 있습니다.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "이유와 시간제한을 고르세요. 시간이 끝나면 스크롤이 다시 꺼지고 여기서 연 앱도 닫힙니다.",
     "Waiting room": "대기실",
@@ -1815,6 +2021,69 @@ const UI_I18N = {
     "Something to look at": "이름 없는 보관물",
     "Received 1 item from another app": "다른 앱에서 항목 1개를 받았습니다",
     "Received {n} items from another app": "다른 앱에서 항목 {n}개를 받았습니다",
+    "Morning": "아침",
+    "Afternoon": "낮",
+    "Evening": "저녁",
+    "Late night": "심야",
+    "Any time": "언제든",
+    "done {count}x": "{count}회",
+    "{idle} of your last {total} opens had nothing particular behind them.": "최근 {total}번의 실행 중 {idle}번은 특별한 용건이 없었습니다.",
+    "You finished {count} things these last two weeks.": "지난 2주 동안 {count}건을 끝냈습니다.",
+    "You opened this without anything particular in mind.": "특별한 용건 없이 열었습니다.",
+    "Since you last looked": "지난번 이후",
+    "Good": "좋아요",
+    "What did you come here for?": "무엇을 하러 오셨나요?",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "정답은 없습니다. 이유가 휴대폰이 아니라 자신에게 있는지 확인할 뿐입니다.",
+    "To look something up": "무언가 찾아보려고",
+    "To get to something I set aside": "미뤄 둔 것을 보려고",
+    "No particular reason": "특별한 용건 없음",
+    "When you open the app": "앱을 열 때",
+    "Ask what I came here for": "무엇을 하러 왔는지 묻기",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "몇 분에 한 번까지만 묻고, 작업 도중에는 묻지 않습니다. 어떤 답도 한 번의 탭입니다. '특별한 용건 없음'을 고르면 하고 싶다고 했던 일을 대신 보여 줍니다.",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "시간대까지 정해 두면 실행하기 쉬워지고, 그 시간에 온 휴식은 그것을 먼저 권합니다.",
+    "Stop asking what you came for": "무엇을 하러 왔는지 묻지 않기",
+    "When": "언제",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "{promised}이라고 했지만 실제로는 {actual}였습니다. 최근 {total}번 중 {over}번이 초과했습니다.",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "최근 {total}번 중 {over}번, 스스로 정한 시간을 넘겼습니다(평균 {avg}).",
+    "You came back within your own limit all {total} of the last times you left.": "최근 {total}번 모두 스스로 정한 시간 안에 돌아왔습니다.",
+    "If {trigger}, then {action}": "{trigger}면, {action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "저장했습니다. {wait} 후에 적용되며, 그전까지 언제든 취소할 수 있습니다.",
+    "{change} — in {wait}": "{change} — {wait} 후",
+    "Cancel this change": "이 변경 취소",
+    "Change cancelled": "변경을 취소했습니다",
+    "{text} · done {count}x": "{text} · {count}회",
+    "Remove this rule": "이 규칙 삭제",
+    "How about this now?": "슬슬 이거 어떠세요?",
+    "Away from the screen": "화면에서 잠시 떨어져",
+    "Did it": "했어요",
+    "There's something you said you wanted to do.": "하고 싶다고 했던 일이 있습니다.",
+    "Nice.": "좋아요.",
+    "finished": "끝낸 것",
+    "You decided": "스스로 정한 것",
+    "Turn scroll ON anyway": "그래도 스크롤 켜기",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "설정에 하고 싶은 일을 적어 두면, 읽을거리 대신 그쪽을 먼저 권합니다.",
+    "What you want to get to": "하고 싶은 일",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "선반에는 미뤄 둔 것만 쌓입니다. 정말 시간을 쓰고 싶은 일을 적어 두면 휴식 때 이쪽을 먼저 권합니다.",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "아직 없습니다. 지금은 선반과 화면에서 떨어지는 작은 제안으로 대신합니다.",
+    "e.g. Practise guitar for 10 minutes": "예: 기타 10분 연습하기",
+    "If this, then that": "이러면, 이렇게 한다",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "여유가 있을 때, 여유가 없을 때 무엇을 할지 미리 정해 둡니다. 앱이 막혔을 때 그대로 다시 보여 줍니다.",
+    "No rules yet.": "아직 규칙이 없습니다.",
+    "If… (e.g. it's past 11pm)": "만약… (예: 밤 11시가 지나면)",
+    "then… (e.g. I'll read one shelved thing)": "그러면… (예: 선반에서 하나 읽는다)",
+    "Cooling-off period": "머리를 식히는 시간",
+    "Make loosening these settings wait 24 hours": "설정을 느슨하게 하는 변경은 24시간 뒤에 반영",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "이 제한을 정하는 나와, 그것을 넘고 싶은 나는 같은 자리에 있지 않습니다. 엄격하게 하는 변경은 지금처럼 즉시 적용되고, 느슨하게 하는 변경만 기다립니다. 그동안 언제든 취소할 수 있습니다.",
+    "Waiting to take effect:": "적용 대기 중:",
+    "Turn forced breaks off": "강제 휴식 끄기",
+    "Make breaks less frequent": "휴식 간격 늘리기",
+    "Raise the scroll count before a break": "휴식까지의 스크롤 횟수 늘리기",
+    "Turn the cooling-off period off": "머리를 식히는 시간 끄기",
+    "Stop requiring scroll ON for those apps": "그 앱들에 스크롤 ON을 요구하지 않기",
+    "Remove apps from the scroll gate": "스크롤 관문에서 앱 제외하기",
+    "1 thing waiting on your shelf": "선반에 1개가 기다리고 있습니다",
+    "{count} things waiting on your shelf": "선반에 {count}개가 기다리고 있습니다",
+    "Added shelf {name}": "선반 {name} 추가됨",
     "File": "파일",
     "Later": "나중에 읽기",
     "Shelf space": "책장 용량",
@@ -2220,9 +2489,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "搜索使用 Bing。广告拦截只阻止直接前往已知的广告/追踪域名，无法移除已打开页面中的广告。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "滚动默认关闭。填写理由、时限并输入 PIN 才能开启；在此之前，你在设置中勾选的应用根本不会打开。",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "时间到后，滚动会重新关闭，本应用还可以把它为你打开的应用关掉。这两项都在设置中。",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "发送到等候室的任何内容都会在这里等待60秒，之后你才能打开它、放到书架上，或放手。",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "发送到等候室的内容都要先等待，之后你才能打开、放到书架上或放手——被你设了门槛的应用约一分半，其他约25秒。",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "隔了一段时间再打开时，会问一次你是来做什么的。选择「没有具体的事」，就会拿出你说过想做的事。",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "书架保存你留下的内容。可以搜索，把条目标记为高/中/低优先级，完成后点\"完成\"——已完成的条目会移到专属书架。",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "隔一段时间（默认30分钟，或滚动次数足够后），无论你在哪个画面，都会有一次休息强制介入，从书架推荐一项。间隔和推荐顺序可在设置中更改。",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "隔一段时间（默认30分钟，或滚动次数足够后），一条安静的横幅会推荐一件事——先是你在设置「你想做的事」里写下的，偶尔才是书架上的东西。",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "放宽自己定下的限制需等待24小时；收紧则立即生效。等待期间随时可以取消。",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "把本应用添加到主屏幕后，其他应用的分享按钮就可以把链接、文字和文件直接发送到这里。",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "选择理由和时限。时间到后，滚动会重新关闭，从这里打开的应用也会被关闭。",
     "Waiting room": "等候室",
@@ -2262,6 +2533,69 @@ const UI_I18N = {
     "Something to look at": "无名寄存物",
     "Received 1 item from another app": "已从其他应用收到1个项目",
     "Received {n} items from another app": "已从其他应用收到{n}个项目",
+    "Morning": "早晨",
+    "Afternoon": "白天",
+    "Evening": "傍晚",
+    "Late night": "深夜",
+    "Any time": "任何时候",
+    "done {count}x": "已做{count}次",
+    "{idle} of your last {total} opens had nothing particular behind them.": "最近{total}次打开中，有{idle}次并没有具体的事。",
+    "You finished {count} things these last two weeks.": "过去两周你完成了{count}项。",
+    "You opened this without anything particular in mind.": "你并没有具体的事就打开了。",
+    "Since you last looked": "自你上次查看以来",
+    "Good": "好",
+    "What did you come here for?": "你是来做什么的？",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "没有标准答案——只是为了让理由属于你，而不是手机。",
+    "To look something up": "来查点东西",
+    "To get to something I set aside": "来看我先前存下的东西",
+    "No particular reason": "没有具体的事",
+    "When you open the app": "打开应用时",
+    "Ask what I came here for": "问我是来做什么的",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "最多每隔几分钟问一次，不会在你做事的中途打断。每个回答都只需一次点击。选择「没有具体的事」时，会拿出你说过想做的事。",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "指定时间段会让它更容易执行，落在那个时段的休息也会优先推荐它。",
+    "Stop asking what you came for": "不再询问你是来做什么的",
+    "When": "何时",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "你说的是{promised}，实际是{actual}——最近{total}次里有{over}次超时。",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "最近{total}次离开中，有{over}次超过了你自己设的时间，平均超出{avg}。",
+    "You came back within your own limit all {total} of the last times you left.": "最近{total}次你都在自己设的时间内回来了。",
+    "If {trigger}, then {action}": "如果{trigger}，就{action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "已记录。将在{wait}后生效，在此之前随时可以取消。",
+    "{change} — in {wait}": "{change} — 还有{wait}",
+    "Cancel this change": "取消此更改",
+    "Change cancelled": "已取消更改",
+    "{text} · done {count}x": "{text} · 已做{count}次",
+    "Remove this rule": "删除此约定",
+    "How about this now?": "要不要现在做这个？",
+    "Away from the screen": "离开屏幕",
+    "Did it": "做了",
+    "There's something you said you wanted to do.": "有一件你说过想做的事。",
+    "Nice.": "很好。",
+    "finished": "已完成",
+    "You decided": "你自己定的",
+    "Turn scroll ON anyway": "仍然开启滚动",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "在设置中写下你想做的事，之后这里会优先推荐那些，而不只是待读的内容。",
+    "What you want to get to": "你想做的事",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "书架里放的只是你推迟去看的东西。写下你真正想花时间做的事，休息时会优先推荐这些。",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "这里还是空的——休息时会改用书架和一些离开屏幕的小提议。",
+    "e.g. Practise guitar for 10 minutes": "例如：练10分钟吉他",
+    "If this, then that": "如果……就……",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "趁现在还轻松，先决定难受的时候要怎么做。当某个应用被拦下时，会把这些念给你听。",
+    "No rules yet.": "还没有约定。",
+    "If… (e.g. it's past 11pm)": "如果……（例如：过了晚上11点）",
+    "then… (e.g. I'll read one shelved thing)": "就……（例如：从书架里读一个）",
+    "Cooling-off period": "冷静期",
+    "Make loosening these settings wait 24 hours": "放宽这些设置需等待24小时",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "定下这些限制的你，和想突破它们的你，从来不会同时在场。收紧仍然立刻生效；只有放宽需要等待，而且期间随时可以取消。",
+    "Waiting to take effect:": "等待生效：",
+    "Turn forced breaks off": "关闭强制休息",
+    "Make breaks less frequent": "拉长休息间隔",
+    "Raise the scroll count before a break": "提高休息前的滚动次数",
+    "Turn the cooling-off period off": "关闭冷静期",
+    "Stop requiring scroll ON for those apps": "不再要求这些应用需开启滚动",
+    "Remove apps from the scroll gate": "从滚动门槛中移除应用",
+    "1 thing waiting on your shelf": "书架上有1项等待处理",
+    "{count} things waiting on your shelf": "书架上有{count}项等待处理",
+    "Added shelf {name}": "已添加书架 {name}",
     "File": "文件",
     "Later": "稍后再读",
     "Shelf space": "书架容量",
@@ -2667,9 +3001,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "La búsqueda usa Bing. El bloqueo de anuncios solo impide ir directamente a dominios conocidos de anuncios o rastreo; no quita anuncios de una página ya abierta.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "El scroll viene desactivado. Actívalo con un motivo, un límite de tiempo y tu PIN; hasta entonces, las apps marcadas en Ajustes no se abren.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Cuando se acaba el tiempo, el scroll se desactiva y esta app puede cerrar la app que te abrió. Ambas cosas están en Ajustes.",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Todo lo que envíes a la sala de espera espera aquí 60 segundos antes de que puedas abrirlo, guardarlo en tu estante o dejarlo ir.",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "Todo lo que envías a la sala de espera aguarda antes de que puedas abrirlo, guardarlo o soltarlo: minuto y medio para las apps que filtraste, unos 25 segundos para lo demás.",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "Si abres la app tras un rato, te pregunta una vez a qué vienes. Responder «sin motivo concreto» te ofrece algo que dijiste que querías hacer.",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "El estante guarda lo que conservaste. Búscalo, marca los elementos como Alta/Media/Baja y toca Hecho cuando termines con uno — los elementos hechos pasan a su propio estante.",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De vez en cuando (30 minutos por defecto, o tras suficiente scroll) aparece una pausa y recomienda un elemento del estante, estés donde estés. Cambia el intervalo y el orden de elección en Ajustes.",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "De vez en cuando (30 minutos por defecto, o tras suficiente scroll) un aviso discreto te ofrece algo: primero lo que anotaste en «Lo que quieres hacer» en Ajustes y, de vez en cuando, algo de tu estante.",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "Aflojar tus propios límites espera 24 horas; endurecerlos se aplica al instante. Un cambio pendiente puede cancelarse mientras espera.",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Añade esta app a tu pantalla de inicio y el botón Compartir de otras apps podrá enviar enlaces, texto y archivos directamente aquí.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Elige un motivo y un límite de tiempo. Al acabarse, el scroll se desactiva y la app abierta desde aquí se cierra.",
     "Waiting room": "Sala de espera",
@@ -2709,6 +3045,69 @@ const UI_I18N = {
     "Something to look at": "Algo que mirar",
     "Received 1 item from another app": "Se recibió 1 elemento de otra aplicación",
     "Received {n} items from another app": "Se recibieron {n} elementos de otra aplicación",
+    "Morning": "Mañana",
+    "Afternoon": "Tarde",
+    "Evening": "Noche",
+    "Late night": "Madrugada",
+    "Any time": "Cualquier momento",
+    "done {count}x": "hecho {count} veces",
+    "{idle} of your last {total} opens had nothing particular behind them.": "{idle} de tus últimas {total} aperturas no tenían nada concreto detrás.",
+    "You finished {count} things these last two weeks.": "Has terminado {count} cosas estas dos últimas semanas.",
+    "You opened this without anything particular in mind.": "Abriste esto sin nada concreto en mente.",
+    "Since you last looked": "Desde la última vez",
+    "Good": "Bien",
+    "What did you come here for?": "¿A qué has venido?",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "No hay respuesta incorrecta: solo es para que el motivo sea tuyo y no del teléfono.",
+    "To look something up": "A buscar algo",
+    "To get to something I set aside": "A por algo que dejé apartado",
+    "No particular reason": "Sin motivo concreto",
+    "When you open the app": "Al abrir la app",
+    "Ask what I came here for": "Preguntarme a qué he venido",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "Se pregunta como mucho cada pocos minutos, nunca a mitad de una tarea. Cada respuesta es un toque. Responder «sin motivo concreto» saca algo que dijiste que querías hacer.",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "Ponerles una franja del día facilita cumplirlas, y una pausa que caiga en ese rato las ofrecerá primero.",
+    "Stop asking what you came for": "Dejar de preguntar a qué vienes",
+    "When": "Cuándo",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "Dijiste {promised}. Fueron {actual}: {over} de tus últimas {total} veces se pasaron.",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "Te pasaste de tu propio límite en {over} de las últimas {total} salidas, por {avg} de media.",
+    "You came back within your own limit all {total} of the last times you left.": "Volviste dentro de tu propio límite las {total} últimas veces.",
+    "If {trigger}, then {action}": "Si {trigger}, entonces {action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "Guardado. Se aplicará en {wait}; puedes cancelarlo hasta entonces.",
+    "{change} — in {wait}": "{change} — en {wait}",
+    "Cancel this change": "Cancelar este cambio",
+    "Change cancelled": "Cambio cancelado",
+    "{text} · done {count}x": "{text} · hecho {count} veces",
+    "Remove this rule": "Eliminar esta regla",
+    "How about this now?": "¿Qué tal esto ahora?",
+    "Away from the screen": "Lejos de la pantalla",
+    "Did it": "Hecho",
+    "There's something you said you wanted to do.": "Hay algo que dijiste que querías hacer.",
+    "Nice.": "Bien.",
+    "finished": "hechas",
+    "You decided": "Tú decidiste",
+    "Turn scroll ON anyway": "Activar el scroll de todos modos",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "Anota en Ajustes lo que quieres hacer y esto te ofrecerá eso en vez de solo algo que leer.",
+    "What you want to get to": "Lo que quieres hacer",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "Tu estante solo guarda lo que dejaste para después. Anota en qué quieres gastar el tiempo de verdad y las pausas te ofrecerán esto primero.",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "Aún no hay nada: las pausas recurrirán a tu estante y a pequeños empujones lejos de la pantalla.",
+    "e.g. Practise guitar for 10 minutes": "p. ej. Practicar guitarra 10 minutos",
+    "If this, then that": "Si esto, entonces aquello",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "Decide ahora, mientras es fácil, qué harás cuando no lo sea. Se te leerán cuando una app quede cerrada.",
+    "No rules yet.": "Aún no hay reglas.",
+    "If… (e.g. it's past 11pm)": "Si… (p. ej. pasan de las 23:00)",
+    "then… (e.g. I'll read one shelved thing)": "entonces… (p. ej. leeré algo de la estantería)",
+    "Cooling-off period": "Periodo de reflexión",
+    "Make loosening these settings wait 24 hours": "Que aflojar estos ajustes espere 24 horas",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "La versión de ti que pone estos límites y la que quiere saltárselos nunca están en la sala a la vez. Endurecer algo sigue aplicándose al instante; solo aflojar espera, y puedes cancelarlo en todo momento.",
+    "Waiting to take effect:": "Pendiente de aplicarse:",
+    "Turn forced breaks off": "Desactivar las pausas forzadas",
+    "Make breaks less frequent": "Espaciar más las pausas",
+    "Raise the scroll count before a break": "Subir el número de scrolls antes de una pausa",
+    "Turn the cooling-off period off": "Desactivar el periodo de reflexión",
+    "Stop requiring scroll ON for those apps": "Dejar de exigir scroll activado para esas apps",
+    "Remove apps from the scroll gate": "Quitar apps del filtro de scroll",
+    "1 thing waiting on your shelf": "1 cosa esperando en tu estante",
+    "{count} things waiting on your shelf": "{count} cosas esperando en tu estante",
+    "Added shelf {name}": "Estante {name} añadido",
     "File": "Archivo",
     "Later": "Más tarde",
     "Shelf space": "Espacio de la estantería",
@@ -3124,9 +3523,11 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "検索にはBingを使っています。広告ブロックは既知の広告・トラッキングドメインへの遷移を止めるだけで、すでに開いているページの中の広告は取り除けません。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "スクロールは既定でOFFです。理由・時間制限・PINでONにするまで、設定でチェックしたアプリはそもそも開きません。",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "時間が切れるとスクロールはOFFに戻り、開いていたアプリも閉じられます。この動きと開き方はどちらも設定にあります。",
-    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "待合室へ送ったものは、開く・本棚へしまう・手放すを決めるまで、ここで60秒待ちます。",
+    "Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.": "待合室へ送ったものは、開く・本棚へしまう・手放すを決める前に待たされます。ゲート対象のアプリは約1分半、それ以外は約25秒です。",
+    "Open the app after a while away and it asks once what you came for. Answering \"no particular reason\" offers you something you said you wanted to do instead.": "しばらくぶりに開くと、何をしに来たかを一度だけ訊きます。「特に用事はない」を選ぶと、やりたいと言っていたことを代わりに差し出します。",
     "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "本棚にはしまったものが並びます。検索でき、優先度（高・中・低）を付けられ、見終わったら「済」を押すと専用の棚に移ります。",
-    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "ときどき（既定30分、またはスクロールが一定数に達すると）どの画面にいても休憩が割り込み、本棚から1つおすすめしてきます。間隔とおすすめの順番は設定で変えられます。",
+    "Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under \"What you want to get to\" in Settings, and now and then something from your shelf.": "ときどき（既定30分、またはスクロールが一定数に達すると）静かなバナーが出て、何かを差し出します。まず設定の「頑張りたいこと」に書いたもの、ときどき本棚のものです。",
+    "Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.": "自分で決めた制限を緩める変更は24時間待ってから効きます。厳しくする変更はその場で効きます。待っている間はいつでも取り消せます。",
     "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "ホーム画面に追加すると、ほかのアプリの共有ボタンからリンク・テキスト・ファイルを直接ここへ送れます。",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "理由と時間制限を選んでください。時間が来るとスクロールはOFFに戻り、ここから開いたアプリも閉じます。",
     "Waiting room": "待合室",
@@ -3166,6 +3567,69 @@ const UI_I18N = {
     "Something to look at": "名もなき預かりもの",
     "Received 1 item from another app": "ほかのアプリから1件届きました",
     "Received {n} items from another app": "ほかのアプリから{n}件届きました",
+    "Morning": "朝",
+    "Afternoon": "昼",
+    "Evening": "夕方〜夜",
+    "Late night": "深夜",
+    "Any time": "いつでも",
+    "done {count}x": "{count}回",
+    "{idle} of your last {total} opens had nothing particular behind them.": "直近{total}回の起動のうち{idle}回は、特に用事がありませんでした。",
+    "You finished {count} things these last two weeks.": "この2週間で{count}件を片付けました。",
+    "You opened this without anything particular in mind.": "特に用事がないまま開きました。",
+    "Since you last looked": "前回見てから",
+    "Good": "よし",
+    "What did you come here for?": "何をしに来ましたか",
+    "No wrong answer — this is just so the reason is yours and not the phone's.": "正解はありません。理由がスマホ側ではなく自分の側にある、という確認だけです。",
+    "To look something up": "調べものをしに",
+    "To get to something I set aside": "預けたものを見に",
+    "No particular reason": "特に用事はない",
+    "When you open the app": "アプリを開いたとき",
+    "Ask what I came here for": "何をしに来たかを訊く",
+    "Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering \"no particular reason\" brings up something you said you wanted to do instead.": "数分に一度までで、作業の途中では訊きません。どの答えも1タップです。「特に用事はない」を選ぶと、やりたいと言っていたことを代わりに差し出します。",
+    "Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.": "時間帯まで決めておくと実行しやすくなり、その時間に来た休憩ではそれを先に差し出します。",
+    "Stop asking what you came for": "何をしに来たかを訊かなくする",
+    "When": "いつ",
+    "You said {promised}. It was {actual} — {over} of your last {total} went over.": "{promised}のつもりが、実際は{actual}でした。直近{total}回のうち{over}回が超過です。",
+    "You went past your own limit on {over} of the last {total} times you left, by {avg} on average.": "直近{total}回の外出のうち{over}回、自分で決めた時間を超えています（平均{avg}）。",
+    "You came back within your own limit all {total} of the last times you left.": "直近{total}回とも、自分で決めた時間の内に戻ってきています。",
+    "If {trigger}, then {action}": "もし{trigger}なら、{action}",
+    "Saved. It takes effect in {wait} — you can cancel until then.": "受け付けました。{wait}後に反映されます。それまではいつでも取り消せます。",
+    "{change} — in {wait}": "{change} — あと{wait}",
+    "Cancel this change": "この変更を取り消す",
+    "Change cancelled": "変更を取り消しました",
+    "{text} · done {count}x": "{text} · {count}回",
+    "Remove this rule": "この決めごとを削除",
+    "How about this now?": "そろそろこれ、やりませんか",
+    "Away from the screen": "画面から離れて",
+    "Did it": "やった",
+    "There's something you said you wanted to do.": "やりたいと言っていたことがあります。",
+    "Nice.": "いいですね。",
+    "finished": "片付いた",
+    "You decided": "自分で決めたこと",
+    "Turn scroll ON anyway": "それでもスクロールをONにする",
+    "Set out what you want to get to, in Settings — then this offers those instead of just something to read.": "頑張りたいことを設定に書いておくと、読みものの代わりにそちらを差し出します。",
+    "What you want to get to": "頑張りたいこと",
+    "Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.": "本棚に貯まるのは「あとで見る」と先送りしたものだけです。本当に時間を使いたいことを書いておくと、休憩ではこちらを先に差し出します。",
+    "Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.": "まだ何もありません。今は本棚と、画面から離れる小さな提案で代用します。",
+    "e.g. Practise guitar for 10 minutes": "例: ギターを10分弾く",
+    "If this, then that": "もし〜なら、〜する",
+    "Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.": "まだ余裕のあるうちに、余裕が無いときどうするかを決めておきます。アプリを止めたときに、そのまま読み返します。",
+    "No rules yet.": "まだ決めごとはありません。",
+    "If… (e.g. it's past 11pm)": "もし…（例: 23時を過ぎたら）",
+    "then… (e.g. I'll read one shelved thing)": "〜する（例: 本棚から1つ読む）",
+    "Cooling-off period": "頭を冷やす時間",
+    "Make loosening these settings wait 24 hours": "設定を緩める変更は24時間待ってから反映する",
+    "The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.": "この制限を決めるときの自分と、破りたくなったときの自分は、同じ場所にいません。厳しくする変更は今までどおりその場で効きます。緩める変更だけが待たされ、その間はいつでも取り消せます。",
+    "Waiting to take effect:": "反映待ち:",
+    "Turn forced breaks off": "強制休憩を切る",
+    "Make breaks less frequent": "休憩の間隔を延ばす",
+    "Raise the scroll count before a break": "休憩までのスクロール回数を増やす",
+    "Turn the cooling-off period off": "頭を冷やす時間を切る",
+    "Stop requiring scroll ON for those apps": "アプリにスクロールONを求めるのをやめる",
+    "Remove apps from the scroll gate": "スクロールONが必要なアプリを減らす",
+    "1 thing waiting on your shelf": "本棚に1件待っています",
+    "{count} things waiting on your shelf": "本棚に{count}件待っています",
+    "Added shelf {name}": "棚「{name}」を追加しました",
     "File": "ファイル",
     "Later": "あとで読む",
     "Shelf space": "棚の容量",
@@ -3546,7 +4010,15 @@ function initAppLock() {
   });
 
   document.getElementById("feedGateToggle").addEventListener("change", (e) => {
-    saveFeedGateEnabled(e.target.checked);
+    const on = e.target.checked;
+    const result = requestSettingChange({
+      key: "feedAppsNeedScrollOn",
+      value: on,
+      label: "Stop requiring scroll ON for those apps",
+      loosening: !on,
+    });
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
   });
 
   document.getElementById("sameWindowToggle").addEventListener("change", (e) => {
@@ -3557,20 +4029,72 @@ function initAppLock() {
     saveCloseOnScrollTimeUpEnabled(e.target.checked);
   });
 
-  // 許可を求める操作は利用者の操作起点でないと弾かれるので、ボタンから呼ぶ。
+  // 休憩をゆるめる方向（切る／間隔を延ばす／回数を増やす・0にする）だけ、
+  // 24時間の頭を冷やす時間を挟む。厳しくする方向はその場で効く。
   document.getElementById("breakEnabledToggle").addEventListener("change", (e) => {
-    saveBreakEnabled(e.target.checked);
-    if (e.target.checked) resetBreakCounters();
+    const on = e.target.checked;
+    const result = requestSettingChange({
+      key: "breakEnabled",
+      value: on,
+      label: "Turn forced breaks off",
+      loosening: !on,
+    });
+    if (result.applied && on) resetBreakCounters();
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
   });
   document.getElementById("breakIntervalInput").addEventListener("change", (e) => {
-    saveBreakIntervalMin(e.target.value);
-    e.target.value = getBreakIntervalMin();
-    resetBreakCounters();
+    const next = Math.max(1, Math.round(Number(e.target.value) || BREAK_DEFAULT_MIN));
+    const result = requestSettingChange({
+      key: "breakIntervalMin",
+      value: next,
+      label: "Make breaks less frequent",
+      loosening: next > getBreakIntervalMin(),
+    });
+    if (result.applied) resetBreakCounters();
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
   });
   document.getElementById("breakScrollInput").addEventListener("change", (e) => {
-    saveBreakScrollCount(e.target.value);
-    e.target.value = getBreakScrollCount();
-    resetBreakCounters();
+    const next = Math.max(0, Math.round(Number(e.target.value) || 0));
+    const current = getBreakScrollCount();
+    // 0 は「回数では割り込まない」なので、常に緩める向き。
+    const loosening = next === 0 ? current !== 0 : current === 0 || next > current;
+    const result = requestSettingChange({
+      key: "breakScrollCount",
+      value: next,
+      label: "Raise the scroll count before a break",
+      loosening,
+    });
+    if (result.applied) resetBreakCounters();
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
+  });
+
+  // 訊かれなくする方向も「緩める」変更として扱う。
+  document.getElementById("intentCheckToggle").addEventListener("change", (e) => {
+    const on = e.target.checked;
+    const result = requestSettingChange({
+      key: "intentCheckEnabled",
+      value: on,
+      label: "Stop asking what you came for",
+      loosening: !on,
+    });
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
+  });
+
+  document.getElementById("coolOffToggle").addEventListener("change", (e) => {
+    const on = e.target.checked;
+    // この仕組み自体を切るのも「緩める」変更。切るには待ってもらう。
+    const result = requestSettingChange({
+      key: "coolOffEnabled",
+      value: on,
+      label: "Turn the cooling-off period off",
+      loosening: !on,
+    });
+    reportSettingChange(result);
+    refreshProtectedSettingInputs();
   });
   document.getElementById("recommendOrderSelect").addEventListener("change", (e) => {
     saveRecommendOrder(e.target.value);
@@ -3583,9 +4107,20 @@ function initAppLock() {
     saveNotifyPrefs({ ...getNotifyPrefs(), [e.target.value]: e.target.checked });
   });
 
+  // 対象から外すのは「緩める」変更。増やすのはその場で効く。
   document.getElementById("scrollGatedAppList").addEventListener("change", (e) => {
     if (e.target.type !== "checkbox") return;
-    saveScrollGatedAppIds(readScrollGatedAppSelection());
+    const next = readScrollGatedAppSelection();
+    const current = getScrollGatedAppIds();
+    const removed = current.some((id) => !next.includes(id));
+    const result = requestSettingChange({
+      key: "scrollGatedApps",
+      value: next,
+      label: "Remove apps from the scroll gate",
+      loosening: removed,
+    });
+    reportSettingChange(result);
+    if (!result.applied) renderScrollGatedAppList();
   });
 
   document.getElementById("installBtn").addEventListener("click", async () => {
@@ -4731,6 +5266,13 @@ function openSettingsModal() {
   document.getElementById("breakScrollInput").value = getBreakScrollCount();
   document.getElementById("recommendOrderSelect").value = getRecommendOrder();
   document.getElementById("closeOnTimeUpToggle").checked = isCloseOnScrollTimeUpEnabled();
+  document.getElementById("coolOffToggle").checked = isCoolOffEnabled();
+  document.getElementById("intentCheckToggle").checked = isIntentCheckEnabled();
+  renderPendingChanges();
+  renderPromiseAccuracy();
+  renderIntentSummary();
+  renderAspirationList();
+  renderIfThenList();
   renderNotificationSection();
   renderScrollGatedAppList();
   renderInstallSection();
@@ -6089,6 +6631,16 @@ function openFeedBlockedModal(target) {
     "Turn scroll ON with a reason and a time limit, and {app} will open.",
     { app: target.name }
   );
+  // 落ち着いていたときに自分で決めた約束を、まさにその場面で読み返す。
+  const rule = nextIfThenRule();
+  const ruleBox = document.getElementById("feedBlockedRule");
+  ruleBox.hidden = !rule;
+  if (rule) {
+    document.getElementById("feedBlockedRuleText").textContent = tf("If {trigger}, then {action}", {
+      trigger: rule.trigger,
+      action: rule.action,
+    });
+  }
   document.getElementById("feedBlockedModal").hidden = false;
 }
 
@@ -6183,14 +6735,78 @@ function goalStreakDays(referenceDate, goalMs) {
 // メモリ上の変数では滞在時間を数え損ねるので、保存領域に置いて再訪時に拾い直す。
 function startAwaySession(appId) {
   if (!appId) return;
-  saveJSON(STORAGE_KEYS.pendingAwaySession, { appId, startedAt: Date.now() });
+  // 出ていく時点で「あと何分」と決めていたかを一緒に控える。戻ってきたときに
+  // 実際の滞在時間と突き合わせるため（宣言と実測の差は、自分では見えにくい）。
+  const scroll = ScrollLock.getState();
+  const promisedMs =
+    scroll.isOn && scroll.expiresAt && scroll.expiresAt > Date.now() ? scroll.expiresAt - Date.now() : null;
+  saveJSON(STORAGE_KEYS.pendingAwaySession, { appId, startedAt: Date.now(), promisedMs });
 }
 
 function endAwaySessionIfAny() {
   const pending = loadJSON(STORAGE_KEYS.pendingAwaySession, null);
   if (!pending || !pending.appId || !pending.startedAt) return;
-  recordAppSession(pending.appId, Date.now() - pending.startedAt);
+  const actualMs = Date.now() - pending.startedAt;
+  recordAppSession(pending.appId, actualMs);
   saveJSON(STORAGE_KEYS.pendingAwaySession, null);
+  if (pending.promisedMs) notePromiseKept(pending.promisedMs, actualMs);
+}
+
+/* --------------------------------------------------------------------------
+   決めた時間と、実際にかかった時間
+   人は自分がどれだけ使ったかを短く見積もる。禁じるのではなく、宣言と実測の
+   差をそのつど一度だけ見せる。数字は既にどちらも持っているので、引き算するだけ。
+   -------------------------------------------------------------------------- */
+const PROMISE_HISTORY_MAX = 20;
+// 数十秒のずれをいちいち咎めても意味がないので、明確に超えたときだけ言う。
+const PROMISE_OVERRUN_GRACE_MS = 60 * 1000;
+
+function getPromiseHistory() {
+  const list = loadJSON(STORAGE_KEYS.promiseHistory, []);
+  return Array.isArray(list) ? list.filter((p) => p && p.promisedMs && p.actualMs) : [];
+}
+
+function notePromiseKept(promisedMs, actualMs) {
+  const list = getPromiseHistory();
+  list.push({ promisedMs, actualMs, at: Date.now() });
+  saveJSON(STORAGE_KEYS.promiseHistory, list.slice(-PROMISE_HISTORY_MAX));
+
+  if (actualMs <= promisedMs + PROMISE_OVERRUN_GRACE_MS) return;
+  const summary = promiseSummary();
+  showToast(
+    tf("You said {promised}. It was {actual} — {over} of your last {total} went over.", {
+      promised: formatDurationLabel(Math.round(promisedMs / 60000)),
+      actual: formatDurationLabel(Math.round(actualMs / 60000)),
+      over: summary.over,
+      total: summary.total,
+    })
+  );
+}
+
+function promiseSummary() {
+  const list = getPromiseHistory();
+  const over = list.filter((p) => p.actualMs > p.promisedMs + PROMISE_OVERRUN_GRACE_MS);
+  const overrunMs = over.reduce((sum, p) => sum + (p.actualMs - p.promisedMs), 0);
+  return {
+    total: list.length,
+    over: over.length,
+    avgOverrunMin: over.length ? Math.round(overrunMs / over.length / 60000) : 0,
+  };
+}
+
+function renderPromiseAccuracy() {
+  const note = document.getElementById("promiseAccuracyNote");
+  if (!note) return;
+  const s = promiseSummary();
+  note.hidden = s.total === 0;
+  if (!s.total) return;
+  note.textContent = s.over
+    ? tf("You went past your own limit on {over} of the last {total} times you left, by {avg} on average.", {
+        over: s.over,
+        total: s.total,
+        avg: formatDurationLabel(Math.max(1, s.avgOverrunMin)),
+      })
+    : tf("You came back within your own limit all {total} of the last times you left.", { total: s.total });
 }
 
 function initAwaySessionTracking() {
@@ -7440,10 +8056,19 @@ function closeInsightsModal() {
 const WR_BRIDGE_KEY = "scroll-bridge-v1"; // 預かりもの・記録
 const WR_SHELF_KEY = "library-data-v2"; // 本棚（壁と本）
 const WR_CHANNEL = "scroll-bridge"; // 他の画面へ知らせる通り道
-const WR_LATER_WALL = "Later"; // 待合室から届いた本を並べる壁
 const WR_TOTAL_GB = 512; // 書庫の広さ
-const WR_WAIT_SEC = 60;
-const WR_DEFAULT_WALLS = ["North Wall", "East Wall", "South Wall", "West Wall"];
+// 待たせる長さは相手によって変える。何にでも一律に60秒かけると、軽い用事まで
+// 面倒になってアプリごと避けられてしまう。重い相手にだけ厚く、それ以外は薄く。
+const WR_WAIT_SEC = 60; // 自分から「ひと息つく」を押したとき
+const WR_WAIT_GATED_SEC = 90; // スクロールONを要求している相手（フィード系）
+const WR_WAIT_LIGHT_SEC = 25; // それ以外
+// 最初は棚ひとつだけ。名前は番号のみ（東西南北のような固定の意味を持たせない）。
+// 棚は増やせるが、既定では減らさない — 増やすたびに次の番号を振るだけでよい。
+const WR_DEFAULT_WALLS = ["1"];
+// 以前の既定名（東西南北・待合室からの自動作成「Later」）を、見つけ次第
+// 番号だけの名前に置き換える。本の所属は配列の並び順(index)で持っているので
+// 名前だけ差し替えれば中身はそのまま保たれる。
+const WR_LEGACY_WALL_NAMES = ["North Wall", "East Wall", "South Wall", "West Wall", "Later"];
 const WR_TYPE_COLOR = { site: "#2f4a6b", video: "#7a2e2a", file: "#3c5a3a", memo: "#a8842c" };
 const WR_TYPE_SIZE = { site: 2, video: 3, file: 2, memo: 1 };
 const WR_VIDEO_HOSTS = ["youtube.com", "youtu.be", "nicovideo.jp", "vimeo.com", "tiktok.com", "twitch.tv", "bilibili.com"];
@@ -7577,6 +8202,27 @@ function wrUsedThickness(books) {
   return books.reduce((sum, b) => sum + (b.size || 0), 0);
 }
 
+// 東西南北・自動作成の「Later」など、以前の既定名が残っていたら番号だけに
+// 差し替える一度きりの移行。本の所属は棚の並び順(index)で持っているので、
+// 名前を変えるだけで中身は保たれる。
+function migrateLegacyWallNames() {
+  const shelf = wrReadShelf();
+  let changed = false;
+  shelf.walls.forEach((w, i) => {
+    if (w && WR_LEGACY_WALL_NAMES.includes(w.name)) {
+      w.name = String(i + 1);
+      changed = true;
+    }
+  });
+  if (changed) wrWriteShelf(shelf);
+}
+
+// 次に棚を増やすときの名前。既にある番号の最大値+1（歯抜けや並び替えがあっても壊れない）。
+function wrNextWallName(walls) {
+  const nums = walls.map((w) => Number(w && w.name)).filter((n) => Number.isFinite(n));
+  return String((nums.length ? Math.max(...nums) : 0) + 1);
+}
+
 /* --------------------------------------------------------------------------
    優先度・済・おすすめの順番
    本には「高/中/低」の優先度と「済(一度見切った)」の印を持たせる。
@@ -7645,14 +8291,11 @@ function wrMoveBook(id, delta, visibleIds) {
   return wrWriteShelf(shelf);
 }
 
-// 預かりものを本にして棚へ。容量が足りなければ断る。
+// 預かりものを本にして棚へ。既定の棚（先頭）にしまう。容量が足りなければ断る。
 function wrAddToShelf(item) {
   const shelf = wrReadShelf();
-  let wall = shelf.walls.findIndex((w) => w && w.name === WR_LATER_WALL);
-  if (wall < 0) {
-    shelf.walls.push({ name: WR_LATER_WALL });
-    wall = shelf.walls.length - 1;
-  }
+  if (!shelf.walls.length) shelf.walls.push({ name: WR_DEFAULT_WALLS[0] });
+  const wall = 0;
 
   const isFile = Boolean(item.fileId && wrHasBox);
   const type = isFile ? FileBox.shelfType(item.mime, item.name) : wrGuessType(item.url);
@@ -7680,8 +8323,9 @@ function wrAddToShelf(item) {
   shelf.books.push(book);
 
   if (!wrWriteShelf(shelf)) return { ok: false, reason: "storage" };
-  wrNotify({ type: "book-added", title: item.title, wall: WR_LATER_WALL });
-  return { ok: true, wall: WR_LATER_WALL };
+  const wallName = shelf.walls[wall].name;
+  wrNotify({ type: "book-added", title: item.title, wall: wallName });
+  return { ok: true, wall: wallName };
 }
 
 /* --------------------------------------------------------------------------
@@ -7693,6 +8337,7 @@ let wrCurrent = null; // いま預かっているもの
 let wrCurrentRec = null; // その中身（ファイルのとき）
 let wrTimer = null;
 let wrLeft = WR_WAIT_SEC;
+let wrWaitTotal = WR_WAIT_SEC; // 今回の待ち時間（相手によって変わる）
 let wrWallIndex = 0;
 let wrSelectedBookId = null;
 
@@ -7703,6 +8348,7 @@ function wrShowPanel(name) {
   document.getElementById("homeTabWait").classList.toggle("is-active", name === "wait");
   document.getElementById("homeTabShelf").classList.toggle("is-active", name === "shelf");
   if (name === "shelf") renderShelfView();
+  if (name === "wait" && wrStep === "home") renderWaitingRoomHome();
 }
 
 function wrShowStep(name) {
@@ -7716,7 +8362,10 @@ function renderWaitingRoomHome() {
   if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
   document.getElementById("wrStreak").textContent = wrBridge.streak.count;
   document.getElementById("wrToday").textContent = wrBridge.today.count;
-  document.getElementById("wrSaved").textContent = wrBridge.savedMinutes;
+  // 「我慢した分」ではなく「片付いた分」を出す。残るのはこちらなので。
+  const finished = wrReadShelf().books.filter((b) => b.done).length;
+  const aspirationDone = getAspirations().reduce((sum, a) => sum + (a.doneCount || 0), 0);
+  document.getElementById("wrFinished").textContent = finished + aspirationDone;
 
   document.getElementById("wrLead").textContent = wrMemoryOnly
     ? t("This device can't keep records (private browsing, perhaps).")
@@ -7749,6 +8398,16 @@ function renderWaitingRoomHome() {
   });
   document.getElementById("wrQueueEmpty").hidden = wrBridge.queue.length > 0;
 
+  renderLookBack();
+
+  const unfinished = wrReadShelf().books.filter((b) => !b.done).length;
+  const summaryBtn = document.getElementById("wrShelfSummaryBtn");
+  summaryBtn.hidden = unfinished === 0;
+  if (unfinished > 0) {
+    summaryBtn.textContent =
+      unfinished === 1 ? t("1 thing waiting on your shelf") : tf("{count} things waiting on your shelf", { count: unfinished });
+  }
+
   document.getElementById("wrFileLabel").hidden = !wrHasBox;
   if (wrHasBox) {
     FileBox.usage().then((u) => {
@@ -7761,10 +8420,18 @@ function renderWaitingRoomHome() {
   }
 }
 
-/* ---- 60秒 ---- */
+/* ---- ひと息の時間 ---- */
+// 相手の重さに応じて待ち時間を決める。フィード系は厚く、普通のページは薄く。
+function wrWaitSecondsFor(item) {
+  if (!item) return WR_WAIT_SEC; // 自分から押した休憩は据え置き
+  if (item.url && isGatedUrl(item.url)) return WR_WAIT_GATED_SEC;
+  return WR_WAIT_LIGHT_SEC;
+}
+
 function wrStartWait(item) {
   wrCurrent = item || null;
   wrCurrentRec = null;
+  wrWaitTotal = wrWaitSecondsFor(item);
   // 「いま見る」を押した瞬間に開けるよう、中身は先に取り出しておく
   if (wrCurrent && wrCurrent.fileId && wrHasBox) {
     FileBox.load(wrCurrent.fileId)
@@ -7773,7 +8440,7 @@ function wrStartWait(item) {
       })
       .catch(() => {});
   }
-  wrLeft = WR_WAIT_SEC;
+  wrLeft = wrWaitTotal;
   document.getElementById("wrCount").textContent = wrLeft;
   document.getElementById("wrCardBody").textContent = t(WR_CARDS[Math.floor(Math.random() * WR_CARDS.length)]);
   document.getElementById("wrSkipBtn").hidden = true;
@@ -7802,9 +8469,10 @@ function wrTick(first) {
   }
   document.getElementById("wrCount").textContent = wrLeft;
   // 吸う4秒・吐く6秒の十秒ひとまわり（輪の動きと合わせている）
-  const phase = (WR_WAIT_SEC - wrLeft) % 10;
+  const phase = (wrWaitTotal - wrLeft) % 10;
   document.getElementById("wrBreathWord").textContent = phase < 4 ? t("Breathe in") : t("Breathe out");
-  if (wrLeft <= WR_WAIT_SEC - 15) document.getElementById("wrSkipBtn").hidden = false;
+  // 「待たずに決める」は、待ち時間の長さに比例して出す（一律15秒だと短い方で早すぎる）
+  if (wrLeft <= wrWaitTotal * 0.6) document.getElementById("wrSkipBtn").hidden = false;
 }
 
 function wrFinishWait(completed) {
@@ -7816,8 +8484,12 @@ function wrFinishWait(completed) {
     wrBridge.stats.paused++;
     const d = wrToday();
     if (wrBridge.streak.lastDate !== d) {
-      const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-      wrBridge.streak.count = wrBridge.streak.lastDate === y ? wrBridge.streak.count + 1 : 1;
+      // 1日空いても途切れさせない。1回崩れただけで全部やめてしまうのを避けるため、
+      // 猶予を1日だけ持たせる（2日以上空いたときは数え直す）。
+      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      const dayBefore = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10);
+      const continued = wrBridge.streak.lastDate === yesterday || wrBridge.streak.lastDate === dayBefore;
+      wrBridge.streak.count = continued ? wrBridge.streak.count + 1 : 1;
       wrBridge.streak.lastDate = d;
     }
     wrSaveBridge();
@@ -8165,11 +8837,24 @@ function wrRemoveSelectedBook() {
 /* ---- 組み立て ---- */
 function initWaitingRoom() {
   wrLoadBridge();
+  migrateLegacyWallNames();
   if (wrHasBox) FileBox.askPersist();
   wrIntakeShared();
 
   document.getElementById("homeTabWait").addEventListener("click", () => wrShowPanel("wait"));
   document.getElementById("homeTabShelf").addEventListener("click", () => wrShowPanel("shelf"));
+
+  document.getElementById("wrShelfSummaryBtn").addEventListener("click", () => wrShowPanel("shelf"));
+
+  document.getElementById("shelfAddWallBtn").addEventListener("click", () => {
+    const shelf = wrReadShelf();
+    const name = wrNextWallName(shelf.walls);
+    shelf.walls.push({ name });
+    wrWriteShelf(shelf);
+    wrWallIndex = shelf.walls.length - 1;
+    renderShelfView();
+    showToast(tf("Added shelf {name}", { name }));
+  });
 
   document.getElementById("wrStartBtn").addEventListener("click", () => wrStartWait(null));
   document.getElementById("wrSkipBtn").addEventListener("click", () => wrFinishWait(false));
@@ -8354,6 +9039,441 @@ function initWaitingRoom() {
 }
 
 /* ==========================================================================
+   頭を冷やす時間（設定を緩めるときだけ待たせる）
+   設定を落ち着いて決めている自分と、いま見たくてたまらない自分は別人で、
+   後者に即座に設定を書き換えられると、この仕組み自体が意味を失う。
+   そこで「厳しくする変更」は即座に、「緩める変更」だけ24時間待たせる。
+   待っている間はいつでも取り消せるので、閉じ込められるわけではない。
+   ========================================================================== */
+const COOL_OFF_MS = 24 * 60 * 60 * 1000;
+
+function isCoolOffEnabled() {
+  return loadJSON(STORAGE_KEYS.coolOffEnabled, true);
+}
+function saveCoolOffEnabled(v) {
+  saveJSON(STORAGE_KEYS.coolOffEnabled, v);
+}
+
+// 保留中の変更を実際に適用する手続き。保留分は再読み込みをまたぐので、
+// 関数そのものではなくこのキーで引ける名前として保存する。
+const PENDING_APPLIERS = {
+  breakEnabled: (v) => saveBreakEnabled(v),
+  breakIntervalMin: (v) => saveBreakIntervalMin(v),
+  breakScrollCount: (v) => saveBreakScrollCount(v),
+  scrollGatedApps: (v) => saveScrollGatedAppIds(v),
+  feedAppsNeedScrollOn: (v) => saveFeedGateEnabled(v),
+  coolOffEnabled: (v) => saveCoolOffEnabled(v),
+  intentCheckEnabled: (v) => saveIntentCheckEnabled(v),
+};
+
+function getPendingChanges() {
+  const list = loadJSON(STORAGE_KEYS.pendingChanges, []);
+  return Array.isArray(list) ? list.filter((p) => p && PENDING_APPLIERS[p.key]) : [];
+}
+function savePendingChanges(list) {
+  saveJSON(STORAGE_KEYS.pendingChanges, list);
+}
+
+// 期限の来た保留分を適用する。init と設定を開いたとき、あとは定期的に呼ぶ。
+function flushPendingChanges() {
+  const now = Date.now();
+  const pending = getPendingChanges();
+  const due = pending.filter((p) => p.effectiveAt <= now);
+  if (!due.length) return false;
+  due.forEach((p) => {
+    try {
+      PENDING_APPLIERS[p.key](p.value);
+    } catch (e) {
+      /* 適用できなくても残りは進める */
+    }
+  });
+  savePendingChanges(pending.filter((p) => p.effectiveAt > now));
+  return true;
+}
+
+// 設定変更の入口。緩める変更だけ保留にし、それ以外はそのまま通す。
+// 同じ項目を続けて変えたときは、最後の指示だけを残す（待ち時間も引き直す）。
+function requestSettingChange({ key, value, label, loosening }) {
+  if (!loosening || !isCoolOffEnabled()) {
+    PENDING_APPLIERS[key](value);
+    savePendingChanges(getPendingChanges().filter((p) => p.key !== key));
+    return { applied: true };
+  }
+  const effectiveAt = Date.now() + COOL_OFF_MS;
+  const list = getPendingChanges().filter((p) => p.key !== key);
+  list.push({ key, value, label, effectiveAt });
+  savePendingChanges(list);
+  return { applied: false, effectiveAt };
+}
+
+function formatCoolOffWait(effectiveAt) {
+  const mins = Math.max(1, Math.round((effectiveAt - Date.now()) / 60000));
+  if (mins < 60) return tf("{minutes} min", { minutes: mins });
+  const hours = Math.floor(mins / 60);
+  const rest = mins % 60;
+  return rest ? tf("{hours}h {minutes}m", { hours, minutes: rest }) : tf("{hours}h", { hours });
+}
+
+// 変更が保留になったことを、その場で伝える。黙って効かないのが一番よくない。
+function reportSettingChange(result) {
+  if (result.applied) return;
+  showToast(tf("Saved. It takes effect in {wait} — you can cancel until then.", { wait: formatCoolOffWait(result.effectiveAt) }));
+  renderPendingChanges();
+}
+
+function renderPendingChanges() {
+  const section = document.getElementById("pendingChangesSection");
+  const list = document.getElementById("pendingChangesList");
+  if (!section || !list) return;
+  flushPendingChanges();
+  const pending = getPendingChanges();
+  section.hidden = pending.length === 0;
+  list.innerHTML = "";
+  pending.forEach((p) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = tf("{change} — in {wait}", { change: t(p.label), wait: formatCoolOffWait(p.effectiveAt) });
+    li.appendChild(span);
+
+    const btn = document.createElement("button");
+    btn.className = "remove-btn";
+    btn.type = "button";
+    btn.textContent = "×";
+    btn.setAttribute("aria-label", t("Cancel this change"));
+    btn.addEventListener("click", () => {
+      savePendingChanges(getPendingChanges().filter((x) => x.key !== p.key));
+      renderPendingChanges();
+      refreshProtectedSettingInputs();
+      showToast(t("Change cancelled"));
+    });
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+// 保留中は「まだ効いていない現在値」を出しておかないと、押した通りに
+// 見えてしまって嘘になる。保存済みの値へ戻す。
+function refreshProtectedSettingInputs() {
+  const enabled = document.getElementById("breakEnabledToggle");
+  const interval = document.getElementById("breakIntervalInput");
+  const scrolls = document.getElementById("breakScrollInput");
+  const gate = document.getElementById("feedGateToggle");
+  const coolOff = document.getElementById("coolOffToggle");
+  const intent = document.getElementById("intentCheckToggle");
+  if (enabled) enabled.checked = isBreakEnabled();
+  if (interval) interval.value = getBreakIntervalMin();
+  if (scrolls) scrolls.value = getBreakScrollCount();
+  if (gate) gate.checked = isFeedGateEnabled();
+  if (coolOff) coolOff.checked = isCoolOffEnabled();
+  if (intent) intent.checked = isIntentCheckEnabled();
+  renderScrollGatedAppList();
+}
+
+/* ==========================================================================
+   頑張りたいこと
+   本棚に貯まるのは「あとで見たかったもの」＝気を散らすものの先送りなので、
+   休憩でそれだけを勧めると、気散じを別の気散じに置き換えるだけになりかねない。
+   そこで、画面から離れて本当にやりたいことを自分で登録できるようにし、
+   休憩ではこちらを優先して差し出す。
+   ========================================================================== */
+// 実行意図は「いつ」まで決めた方が効く。時間帯だけでも決めておけると、
+// その時間に来た休憩でそれを優先して差し出せる。
+const ASPIRATION_BANDS = ["any", "morning", "afternoon", "evening", "night"];
+
+function aspirationBandLabel(band) {
+  if (band === "morning") return t("Morning");
+  if (band === "afternoon") return t("Afternoon");
+  if (band === "evening") return t("Evening");
+  if (band === "night") return t("Late night");
+  return t("Any time");
+}
+
+function currentBand(now = new Date()) {
+  const h = now.getHours();
+  if (h >= 5 && h < 11) return "morning";
+  if (h >= 11 && h < 17) return "afternoon";
+  if (h >= 17 && h < 22) return "evening";
+  return "night";
+}
+
+function getAspirations() {
+  const list = loadJSON(STORAGE_KEYS.aspirations, []);
+  if (!Array.isArray(list)) return [];
+  return list
+    .filter((a) => a && a.text)
+    .map((a) => ({ ...a, when: ASPIRATION_BANDS.includes(a.when) ? a.when : "any" }));
+}
+function saveAspirations(list) {
+  saveJSON(STORAGE_KEYS.aspirations, list);
+}
+
+function addAspiration(text, when) {
+  const list = getAspirations();
+  list.push({
+    id: `asp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    text,
+    when: ASPIRATION_BANDS.includes(when) ? when : "any",
+    doneCount: 0,
+  });
+  saveAspirations(list);
+}
+
+// いまの時間帯に決めてあるものを先に。無ければ時間を問わないもの、
+// それも無ければ全部から選ぶ（時間指定がかえって足枷にならないように）。
+function aspirationsForNow() {
+  const all = getAspirations();
+  if (!all.length) return [];
+  const band = currentBand();
+  const matching = all.filter((a) => a.when === band);
+  if (matching.length) return matching;
+  const anytime = all.filter((a) => a.when === "any");
+  return anytime.length ? anytime : all;
+}
+
+function noteAspirationDone(id) {
+  const list = getAspirations();
+  const hit = list.find((a) => a.id === id);
+  if (!hit) return;
+  hit.doneCount = (hit.doneCount || 0) + 1;
+  hit.lastDoneAt = Date.now();
+  saveAspirations(list);
+}
+
+function renderAspirationList() {
+  const list = document.getElementById("aspirationList");
+  if (!list) return;
+  const items = getAspirations();
+  list.innerHTML = "";
+  items.forEach((a, idx) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    const bits = [a.text];
+    if (a.when !== "any") bits.push(aspirationBandLabel(a.when));
+    if (a.doneCount) bits.push(tf("done {count}x", { count: a.doneCount }));
+    span.textContent = bits.join(" · ");
+    li.appendChild(span);
+
+    const btn = document.createElement("button");
+    btn.className = "remove-btn";
+    btn.type = "button";
+    btn.textContent = "×";
+    btn.setAttribute("aria-label", tf('Remove "{name}"', { name: a.text }));
+    btn.addEventListener("click", () => {
+      const updated = getAspirations();
+      updated.splice(idx, 1);
+      saveAspirations(updated);
+      renderAspirationList();
+    });
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+  document.getElementById("aspirationEmpty").hidden = items.length > 0;
+}
+
+/* ==========================================================================
+   何をしに来たか
+   これまでの仕掛けは、ブロック画面も待合室も休憩も、全部「もう手が動いた後」に
+   効くものだった。けれど行動を決めているのは、その手前の合図（手に取る・
+   ロックを解く・手持ち無沙汰）の方で、そこを過ぎた後の介入はどうしても後追いになる。
+   ここでは、しばらくぶりに開いたときに一度だけ、一問だけ挟む。
+   三択とも1タップで抜けられるので壁ではない。狙いは止めることではなく、
+   「なんとなく開いた」という状態を、本人にもこのアプリにも見えるようにすること。
+   ========================================================================== */
+const INTENT_MIN_GAP_MS = 5 * 60 * 1000; // 開き直すたびに訊かない
+const INTENT_LOG_MAX = 30;
+
+function isIntentCheckEnabled() {
+  return loadJSON(STORAGE_KEYS.intentCheckEnabled, true);
+}
+function saveIntentCheckEnabled(v) {
+  saveJSON(STORAGE_KEYS.intentCheckEnabled, v);
+}
+
+function getIntentLog() {
+  const list = loadJSON(STORAGE_KEYS.intentLog, []);
+  return Array.isArray(list) ? list.filter((e) => e && e.choice) : [];
+}
+
+function noteIntent(choice) {
+  const list = getIntentLog();
+  list.push({ choice, at: Date.now() });
+  saveJSON(STORAGE_KEYS.intentLog, list.slice(-INTENT_LOG_MAX));
+  saveJSON(STORAGE_KEYS.lastIntentCheckAt, Date.now());
+}
+
+function intentSummary() {
+  const list = getIntentLog();
+  const idle = list.filter((e) => e.choice === "idle").length;
+  return { total: list.length, idle };
+}
+
+function renderIntentSummary() {
+  const note = document.getElementById("intentSummaryNote");
+  if (!note) return;
+  const s = intentSummary();
+  note.hidden = s.total === 0;
+  if (!s.total) return;
+  note.textContent = tf("{idle} of your last {total} opens had nothing particular behind them.", {
+    idle: s.idle,
+    total: s.total,
+  });
+}
+
+// 訊いてよい場面かどうか。ロック中・案内中・既に何か出ている時は黙っている。
+function canAskIntent() {
+  if (!isIntentCheckEnabled()) return false;
+  if (!document.getElementById("appLockScreen").hidden) return false;
+  if (!document.getElementById("onboardingScreen").hidden) return false;
+  if (!document.getElementById("intentModal").hidden) return false;
+  if (!document.getElementById("breakModal").hidden) return false;
+  if (wrStep === "wait") return false;
+  return Date.now() - (loadJSON(STORAGE_KEYS.lastIntentCheckAt, 0) || 0) >= INTENT_MIN_GAP_MS;
+}
+
+function maybeAskIntent() {
+  if (!canAskIntent()) return false;
+  document.getElementById("intentModal").hidden = false;
+  return true;
+}
+
+function closeIntentModal(choice) {
+  document.getElementById("intentModal").hidden = true;
+  noteIntent(choice);
+}
+
+function initIntentCheck() {
+  document.getElementById("intentLookUpBtn").addEventListener("click", () => {
+    closeIntentModal("lookup");
+    const input = document.getElementById("searchInput");
+    if (input) input.focus();
+  });
+
+  document.getElementById("intentSetAsideBtn").addEventListener("click", () => {
+    closeIntentModal("setaside");
+    wrShowPanel("wait");
+    wrShowStep("home");
+  });
+
+  // 「なんとなく」だけは、そのまま通さずに一つ差し出す。
+  // 責めるためではなく、代わりの行き先をその場に置くため。
+  document.getElementById("intentIdleBtn").addEventListener("click", () => {
+    closeIntentModal("idle");
+    openBreakModal("idle");
+  });
+
+  // ロックが解けた直後にも訊けるようにする（解除の経路が複数あるので、
+  // それぞれに手を入れず、画面が消えたことを見て判断する）。
+  const lockScreen = document.getElementById("appLockScreen");
+  new MutationObserver(() => {
+    if (lockScreen.hidden) setTimeout(maybeAskIntent, 300);
+  }).observe(lockScreen, { attributes: true, attributeFilter: ["hidden"] });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) setTimeout(maybeAskIntent, 300);
+  });
+
+  setTimeout(maybeAskIntent, 600);
+}
+
+/* ==========================================================================
+   片付いたものを、名前で振り返る
+   数字は積み上がっても像を結ばない。二週間に片付けたものを固有名詞で並べて、
+   週に一度だけ見せる。毎日出すと風景になるので、間隔はわざと空けている。
+   ========================================================================== */
+const LOOKBACK_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
+const LOOKBACK_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
+
+function recentlyFinished() {
+  const since = Date.now() - LOOKBACK_WINDOW_MS;
+  return wrReadShelf()
+    .books.filter((b) => b.done && b.doneAt && b.doneAt >= since)
+    .sort((a, b) => b.doneAt - a.doneAt);
+}
+
+function isLookBackDue() {
+  const last = loadJSON(STORAGE_KEYS.lastLookBackAt, 0) || 0;
+  if (Date.now() - last < LOOKBACK_INTERVAL_MS) return false;
+  return recentlyFinished().length > 0;
+}
+
+function renderLookBack() {
+  const card = document.getElementById("wrLookBack");
+  if (!card) return;
+  const due = isLookBackDue();
+  card.hidden = !due;
+  if (!due) return;
+
+  const items = recentlyFinished();
+  document.getElementById("wrLookBackLead").textContent = tf("You finished {count} things these last two weeks.", {
+    count: items.length,
+  });
+  const list = document.getElementById("wrLookBackList");
+  list.innerHTML = "";
+  items.slice(0, 8).forEach((b) => {
+    const li = document.createElement("li");
+    li.textContent = b.title;
+    list.appendChild(li);
+  });
+}
+
+function dismissLookBack() {
+  saveJSON(STORAGE_KEYS.lastLookBackAt, Date.now());
+  renderLookBack();
+}
+
+/* ==========================================================================
+   「もし〜なら、〜する」（実行意図）
+   理由を書かせるのは、後から自分を正当化する材料にもなりうる。
+   代わりに、落ち着いているうちに条件と行動を先に決めておき、
+   まさにその場面（開こうとして止められた瞬間）にそのまま読み返す。
+   ========================================================================== */
+function getIfThenRules() {
+  const list = loadJSON(STORAGE_KEYS.ifThenRules, []);
+  return Array.isArray(list) ? list.filter((r) => r && r.trigger && r.action) : [];
+}
+function saveIfThenRules(list) {
+  saveJSON(STORAGE_KEYS.ifThenRules, list);
+}
+
+function renderIfThenList() {
+  const list = document.getElementById("ifThenList");
+  if (!list) return;
+  const rules = getIfThenRules();
+  list.innerHTML = "";
+  rules.forEach((r, idx) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = tf("If {trigger}, then {action}", { trigger: r.trigger, action: r.action });
+    li.appendChild(span);
+
+    const btn = document.createElement("button");
+    btn.className = "remove-btn";
+    btn.type = "button";
+    btn.textContent = "×";
+    btn.setAttribute("aria-label", t("Remove this rule"));
+    btn.addEventListener("click", () => {
+      const updated = getIfThenRules();
+      updated.splice(idx, 1);
+      saveIfThenRules(updated);
+      renderIfThenList();
+    });
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+  document.getElementById("ifThenEmpty").hidden = rules.length > 0;
+}
+
+// 止められた画面で1つだけ見せる。順に回して、同じものばかりにしない。
+let ifThenCursor = 0;
+function nextIfThenRule() {
+  const rules = getIfThenRules();
+  if (!rules.length) return null;
+  const rule = rules[ifThenCursor % rules.length];
+  ifThenCursor++;
+  return rule;
+}
+
+/* ==========================================================================
    強制の休憩
    自分から「ひと息つく」を押すのを待たず、一定の時間が経つか一定の回数
    スクロールしたら、どの画面を見ていても本棚に貯めたものの中から一つを
@@ -8394,20 +9514,25 @@ function saveBreakScrollCount(v) {
 function getBreakState() {
   const s = loadJSON(STORAGE_KEYS.breakState, null);
   if (s && typeof s === "object") {
-    return { activeMs: Number(s.activeMs) || 0, scrolls: Number(s.scrolls) || 0 };
+    return {
+      activeMs: Number(s.activeMs) || 0,
+      scrolls: Number(s.scrolls) || 0,
+      pickTurn: Number(s.pickTurn) || 0,
+    };
   }
-  return { activeMs: 0, scrolls: 0 };
+  return { activeMs: 0, scrolls: 0, pickTurn: 0 };
 }
 function saveBreakState(s) {
   saveJSON(STORAGE_KEYS.breakState, s);
 }
+// 数え直しても「次は何を出すか」の順番は持ち越す（毎回同じ提案にしないため）。
 function resetBreakCounters() {
-  saveBreakState({ activeMs: 0, scrolls: 0 });
+  saveBreakState({ activeMs: 0, scrolls: 0, pickTurn: getBreakState().pickTurn });
 }
 
 let breakTicker = null;
 let breakLastTickAt = null;
-let breakPickedBook = null;
+let breakSuggestion = null;
 
 // 画面を見ていない間は数えない。放っておいただけで休憩を勧められても意味がない。
 function breakTick() {
@@ -8440,47 +9565,90 @@ function isAnyBreakBlocker() {
   if (!document.getElementById("breakModal").hidden) return true;
   if (!document.getElementById("appLockScreen").hidden) return true;
   if (!document.getElementById("onboardingScreen").hidden) return true;
+  if (!document.getElementById("intentModal").hidden) return true;
   if (wrStep === "wait") return true;
   return false;
 }
 
-function renderBreakPick() {
+// 何を差し出すかを決める。3回に1回だけ本棚から、残りは画面から離れる側から。
+// 本棚に入っているのは「見たかったのを先送りしたもの」なので、それだけを
+// 勧め続けると、気散じを別の気散じに替えているだけになってしまう。
+function wrPickBreakSuggestion() {
+  const turn = Number(getBreakState().pickTurn) || 0;
+  const aspirations = aspirationsForNow();
   const books = wrRecommendableBooks();
-  breakPickedBook = books.length ? books[0] : null;
+  const wantShelf = turn % 3 === 2;
 
-  document.getElementById("breakPick").hidden = !breakPickedBook;
-  document.getElementById("breakEmptyNote").hidden = Boolean(breakPickedBook);
-  document.getElementById("breakOpenBtn").hidden = !breakPickedBook;
-  document.getElementById("breakDoneBtn").hidden = !breakPickedBook;
+  if (wantShelf && books.length) return { kind: "book", book: books[0] };
+  if (aspirations.length) {
+    const a = aspirations[turn % aspirations.length];
+    return { kind: "aspiration", id: a.id, text: a.text };
+  }
+  // 頑張りたいことが未登録なら、まず本棚、それも無ければ内蔵の小さな行動。
+  if (books.length) return { kind: "book", book: books[0] };
+  return { kind: "card", text: t(WR_CARDS[turn % WR_CARDS.length]) };
+}
 
-  if (!breakPickedBook) return;
-  document.getElementById("breakPickTitle").textContent = breakPickedBook.title;
-  const bits = [wrPriorityLabel(breakPickedBook.priority)];
-  if (breakPickedBook.url) bits.push(breakPickedBook.url);
-  else if (breakPickedBook.fileName) bits.push(breakPickedBook.fileName);
-  document.getElementById("breakPickMeta").textContent = bits.join(" · ");
+function renderBreakPick() {
+  breakSuggestion = wrPickBreakSuggestion();
+  const isBook = breakSuggestion.kind === "book";
+
+  const label = document.getElementById("breakPickLabel");
+  const title = document.getElementById("breakPickTitle");
+  const meta = document.getElementById("breakPickMeta");
+
+  if (isBook) {
+    const book = breakSuggestion.book;
+    label.textContent = t("From your shelf");
+    title.textContent = book.title;
+    const bits = [wrPriorityLabel(book.priority)];
+    if (book.url) bits.push(book.url);
+    else if (book.fileName) bits.push(book.fileName);
+    meta.textContent = bits.join(" · ");
+  } else {
+    label.textContent =
+      breakSuggestion.kind === "aspiration" ? t("How about this now?") : t("Away from the screen");
+    title.textContent = breakSuggestion.text;
+    meta.textContent = "";
+  }
+
+  document.getElementById("breakOpenBtn").hidden = !isBook;
+  document.getElementById("breakDoneBtn").textContent = isBook ? t("Mark done") : t("Did it");
+  // 何も登録が無いときだけ、置き場所があることを伝える
+  document.getElementById("breakEmptyNote").hidden =
+    getAspirations().length > 0 || wrRecommendableBooks().length > 0;
 }
 
 function openBreakModal(reason) {
   const state = getBreakState();
-  document.getElementById("breakReason").textContent =
-    reason === "scroll"
-      ? tf("You've scrolled {count} times since your last break.", { count: state.scrolls })
-      : tf("You've been at this for {minutes} minutes.", { minutes: Math.round(state.activeMs / 60000) });
+  let line;
+  if (reason === "idle") line = t("You opened this without anything particular in mind.");
+  else if (reason === "scroll") line = tf("You've scrolled {count} times since your last break.", { count: state.scrolls });
+  else line = tf("You've been at this for {minutes} minutes.", { minutes: Math.round(state.activeMs / 60000) });
+  document.getElementById("breakReason").textContent = line;
   renderBreakPick();
+  // 次に出すものを変えるため、提案を1つ進めておく。
+  saveBreakState({ ...state, pickTurn: (Number(state.pickTurn) || 0) + 1 });
   document.getElementById("breakModal").hidden = false;
   // 音は出さない。対応端末なら振動だけで気づけるようにする（サイレントアラーム）。
   if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
-  showNotification("scrollAlmostUp", t("Time for a break"), t("Something from your shelf is waiting."));
+  showNotification(
+    "scrollAlmostUp",
+    t("Time for a break"),
+    breakSuggestion && breakSuggestion.kind === "book"
+      ? t("Something from your shelf is waiting.")
+      : t("There's something you said you wanted to do.")
+  );
 }
 
 function closeBreakModal({ snooze } = {}) {
   document.getElementById("breakModal").hidden = true;
-  breakPickedBook = null;
+  breakSuggestion = null;
+  const turn = getBreakState().pickTurn;
   if (snooze) {
     // すぐに出し直さないよう、少しだけ戻して数え直す
     const interval = getBreakIntervalMin() * 60000;
-    saveBreakState({ activeMs: Math.max(0, interval - BREAK_SNOOZE_MIN * 60000), scrolls: 0 });
+    saveBreakState({ activeMs: Math.max(0, interval - BREAK_SNOOZE_MIN * 60000), scrolls: 0, pickTurn: turn });
   } else {
     resetBreakCounters();
   }
@@ -8491,6 +9659,9 @@ function initForcedBreak() {
   breakLastTickAt = Date.now();
   clearInterval(breakTicker);
   breakTicker = setInterval(breakTick, 5000);
+  // 頭を冷やす時間が明けた変更を、開いている間も取りこぼさず反映する。
+  flushPendingChanges();
+  setInterval(flushPendingChanges, 60000);
 
   document.addEventListener("visibilitychange", () => {
     // 戻ってきた瞬間に、離れていた分をまとめて足さない
@@ -8500,9 +9671,10 @@ function initForcedBreak() {
   document.getElementById("breakSnoozeBtn").addEventListener("click", () => closeBreakModal({ snooze: true }));
 
   document.getElementById("breakOpenBtn").addEventListener("click", () => {
-    const book = breakPickedBook;
+    const suggestion = breakSuggestion;
     closeBreakModal();
-    if (!book) return;
+    if (!suggestion || suggestion.kind !== "book") return;
+    const book = suggestion.book;
     if (book.fileId && wrHasBox) {
       FileBox.load(book.fileId)
         .then((rec) => {
@@ -8518,13 +9690,21 @@ function initForcedBreak() {
     if (book.url) openTab(book.url);
   });
 
+  // 本棚のものは「済」に、頑張りたいことは「やった」の記録に。
   document.getElementById("breakDoneBtn").addEventListener("click", () => {
-    const book = breakPickedBook;
-    if (!book) return;
-    wrUpdateBook(book.id, { done: true, doneAt: Date.now() });
-    if (wrPanel === "shelf") renderShelfView();
-    renderBreakPick(); // 次の候補をその場で出す
-    showToast(t("Marked as done"));
+    const suggestion = breakSuggestion;
+    if (!suggestion) return;
+    if (suggestion.kind === "book") {
+      wrUpdateBook(suggestion.book.id, { done: true, doneAt: Date.now() });
+      if (wrPanel === "shelf") renderShelfView();
+      if (wrPanel === "wait" && wrStep === "home") renderWaitingRoomHome();
+      showToast(t("Marked as done"));
+      renderBreakPick(); // 次の候補をその場で出す
+      return;
+    }
+    if (suggestion.kind === "aspiration") noteAspirationDone(suggestion.id);
+    closeBreakModal();
+    showToast(t("Nice."));
   });
 }
 
@@ -8550,6 +9730,7 @@ function init() {
   initInstallPrompt();
   initWaitingRoom();
   initForcedBreak();
+  initIntentCheck();
   initInsightsPanel();
   renderAppInsights();
   renderDock();
@@ -8675,6 +9856,33 @@ function init() {
     saveJSON(STORAGE_KEYS.reasons, reasons);
     input.value = "";
     renderReasonList();
+  });
+
+  document.getElementById("addAspirationBtn").addEventListener("click", () => {
+    const input = document.getElementById("newAspirationInput");
+    const when = document.getElementById("newAspirationWhen");
+    const value = input.value.trim();
+    if (!value) return;
+    addAspiration(value, when.value);
+    input.value = "";
+    when.value = "any";
+    renderAspirationList();
+  });
+
+  document.getElementById("wrLookBackDismissBtn").addEventListener("click", dismissLookBack);
+
+  document.getElementById("addIfThenBtn").addEventListener("click", () => {
+    const triggerInput = document.getElementById("newIfThenTrigger");
+    const actionInput = document.getElementById("newIfThenAction");
+    const trigger = triggerInput.value.trim();
+    const action = actionInput.value.trim();
+    if (!trigger || !action) return;
+    const rules = getIfThenRules();
+    rules.push({ trigger, action });
+    saveIfThenRules(rules);
+    triggerInput.value = "";
+    actionInput.value = "";
+    renderIfThenList();
   });
 
   document.getElementById("addDurationBtn").addEventListener("click", () => {

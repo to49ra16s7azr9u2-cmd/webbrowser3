@@ -207,9 +207,11 @@
           <li>Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
           <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.</li>
           <li>When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.</li>
-          <li>Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.</li>
+          <li>Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.</li>
+          <li>Open the app after a while away and it asks once what you came for. Answering "no particular reason" offers you something you said you wanted to do instead.</li>
           <li>The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.</li>
-          <li>Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.</li>
+          <li>Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under "What you want to get to" in Settings, and now and then something from your shelf.</li>
+          <li>Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.</li>
           <li>Add this app to your home screen and other apps' Share button can send links, text and files straight here.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
@@ -245,22 +247,33 @@
         <!-- ===== waiting room ===== -->
         <div id="wrView" class="home-panel-body">
           <div id="wrHome" class="wr-step">
-            <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
             <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for one minute.</p>
 
-            <div class="wr-record">
-              <div><b id="wrStreak">0</b><span>day streak</span></div>
-              <div><b id="wrToday">0</b><span>pauses today</span></div>
-              <div><b id="wrSaved">0</b><span>minutes held</span></div>
+            <!-- Once a week: what actually got finished, by name -->
+            <div id="wrLookBack" class="wr-lookback" hidden>
+              <span class="wr-lookback-label">Since you last looked</span>
+              <p id="wrLookBackLead" class="wr-lookback-lead"></p>
+              <ul id="wrLookBackList" class="wr-lookback-list"></ul>
+              <button id="wrLookBackDismissBtn" class="btn btn-secondary btn-small" type="button">Good</button>
             </div>
+
+            <div class="wr-section-title">Being held</div>
+            <ul id="wrQueue" class="wr-queue"></ul>
+            <p id="wrQueueEmpty" class="wr-empty">Nothing is being held right now. Anything you decide not to open straight away waits here.</p>
+
+            <button id="wrShelfSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
+
+            <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
 
             <label id="wrFileLabel" class="wr-file-label" for="wrFilePick">Hold a file from this device</label>
             <input id="wrFilePick" type="file" multiple hidden />
             <p id="wrStorageNote" class="wr-note"></p>
 
-            <div class="wr-section-title">Being held</div>
-            <ul id="wrQueue" class="wr-queue"></ul>
-            <p id="wrQueueEmpty" class="wr-empty">Nothing is being held right now. Anything you decide not to open straight away waits here.</p>
+            <div class="wr-record">
+              <div><b id="wrStreak">0</b><span>day streak</span></div>
+              <div><b id="wrToday">0</b><span>pauses today</span></div>
+              <div><b id="wrFinished">0</b><span>finished</span></div>
+            </div>
           </div>
 
           <div id="wrWait" class="wr-step" hidden>
@@ -300,6 +313,7 @@
             <button id="shelfPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous wall"><span aria-hidden="true">&lsaquo;</span></button>
             <select id="shelfWallSelect" class="settings-select i18n-skip" aria-label="Shelf wall"></select>
             <button id="shelfNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next wall"><span aria-hidden="true">&rsaquo;</span></button>
+            <button id="shelfAddWallBtn" class="btn btn-secondary btn-small" type="button" aria-label="Add a shelf">+</button>
           </div>
 
           <ul id="shelfHits" class="shelf-hits" hidden></ul>
@@ -613,6 +627,19 @@
   </div>
 </div>
 
+<!-- Asked once when the app is opened after a gap. Every option is one tap out. -->
+<div id="intentModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="intentTitle">
+    <h2 id="intentTitle">What did you come here for?</h2>
+    <p class="modal-desc">No wrong answer — this is just so the reason is yours and not the phone's.</p>
+    <div class="intent-choices">
+      <button id="intentLookUpBtn" class="btn btn-secondary" type="button">To look something up</button>
+      <button id="intentSetAsideBtn" class="btn btn-secondary" type="button">To get to something I set aside</button>
+      <button id="intentIdleBtn" class="btn btn-secondary" type="button">No particular reason</button>
+    </div>
+  </div>
+</div>
+
 <!-- Forced break: a soundless alarm-style banner offering something from the shelf.
      Doesn't cover the screen or block what you're doing — it just sits on top. -->
 <div id="breakModal" class="break-banner" hidden role="alert" aria-live="assertive" aria-labelledby="breakTitle">
@@ -624,12 +651,12 @@
     <p id="breakReason" class="modal-desc"></p>
 
     <div id="breakPick" class="break-pick">
-      <span class="break-pick-label">From your shelf</span>
+      <span id="breakPickLabel" class="break-pick-label">From your shelf</span>
       <h3 id="breakPickTitle"></h3>
       <div id="breakPickMeta" class="detail-meta"></div>
     </div>
 
-    <p id="breakEmptyNote" class="modal-desc" hidden>There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.</p>
+    <p id="breakEmptyNote" class="modal-desc" hidden>Set out what you want to get to, in Settings — then this offers those instead of just something to read.</p>
 
     <div class="modal-actions">
       <button id="breakSnoozeBtn" class="btn btn-secondary btn-small" type="button">Not now</button>
@@ -645,11 +672,18 @@
     <h2 id="feedBlockedTitle">Scroll is OFF</h2>
     <p id="feedBlockedDesc" class="modal-desc"></p>
     <p class="modal-desc">These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.</p>
+
+    <!-- The promise this person made to themselves, read back at the moment it matters -->
+    <div id="feedBlockedRule" class="blocked-rule" hidden>
+      <span class="blocked-rule-label">You decided</span>
+      <span id="feedBlockedRuleText"></span>
+    </div>
+
     <div class="modal-actions">
       <button id="feedBlockedCancelBtn" class="btn btn-secondary" type="button">Not now</button>
-      <button id="feedBlockedHoldBtn" class="btn btn-secondary" type="button">Hold it for a minute</button>
-      <button id="feedBlockedScrollOnBtn" class="btn btn-primary" type="button">Turn scroll ON</button>
+      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Hold it for a minute</button>
     </div>
+    <button id="feedBlockedScrollOnBtn" class="text-btn blocked-override" type="button">Turn scroll ON anyway</button>
   </div>
 </div>
 
@@ -787,6 +821,7 @@
 
         <h3>App Insights</h3>
         <p class="modal-desc">How often you open each app from the dock, and roughly how long you're away for. Times are estimated from when you leave and come back to this app, not from inside the other app.</p>
+        <p id="promiseAccuracyNote" class="modal-desc" hidden></p>
         <ul id="appInsightsList" class="insights-list"></ul>
         <div class="search-pagination">
           <button id="appInsightsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
@@ -823,6 +858,33 @@
           <span>Check in with me every 10 minutes while I'm browsing a tab</span>
         </label>
 
+        <h3>What you want to get to</h3>
+        <p class="modal-desc">Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.</p>
+        <ul id="aspirationList" class="editable-list"></ul>
+        <p id="aspirationEmpty" class="modal-desc">Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.</p>
+        <div class="add-row add-row-stacked">
+          <input id="newAspirationInput" type="text" placeholder="e.g. Practise guitar for 10 minutes" maxlength="80" />
+          <select id="newAspirationWhen" class="settings-select" aria-label="When">
+            <option value="any">Any time</option>
+            <option value="morning">Morning</option>
+            <option value="afternoon">Afternoon</option>
+            <option value="evening">Evening</option>
+            <option value="night">Late night</option>
+          </select>
+          <button id="addAspirationBtn" class="btn btn-small" type="button">Add</button>
+        </div>
+        <p class="modal-desc">Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.</p>
+
+        <h3>If this, then that</h3>
+        <p class="modal-desc">Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.</p>
+        <ul id="ifThenList" class="editable-list"></ul>
+        <p id="ifThenEmpty" class="modal-desc">No rules yet.</p>
+        <div class="add-row add-row-stacked">
+          <input id="newIfThenTrigger" type="text" placeholder="If… (e.g. it's past 11pm)" maxlength="60" />
+          <input id="newIfThenAction" type="text" placeholder="then… (e.g. I'll read one shelved thing)" maxlength="60" />
+          <button id="addIfThenBtn" class="btn btn-small" type="button">Add</button>
+        </div>
+
         <h3>Forced breaks</h3>
         <label class="checkbox-field">
           <input id="breakEnabledToggle" type="checkbox" />
@@ -846,6 +908,26 @@
             <option value="manual">The order I arranged</option>
           </select>
         </label>
+
+        <h3>When you open the app</h3>
+        <label class="checkbox-field">
+          <input id="intentCheckToggle" type="checkbox" />
+          <span>Ask what I came here for</span>
+        </label>
+        <p class="modal-desc">Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering "no particular reason" brings up something you said you wanted to do instead.</p>
+        <p id="intentSummaryNote" class="modal-desc" hidden></p>
+
+        <h3>Cooling-off period</h3>
+        <label class="checkbox-field">
+          <input id="coolOffToggle" type="checkbox" />
+          <span>Make loosening these settings wait 24 hours</span>
+        </label>
+        <p class="modal-desc">The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.</p>
+
+        <section id="pendingChangesSection" hidden>
+          <p class="modal-desc">Waiting to take effect:</p>
+          <ul id="pendingChangesList" class="editable-list"></ul>
+        </section>
 
         <h3>Notifications</h3>
         <p id="notifyStatusText" class="modal-desc"></p>
