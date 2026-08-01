@@ -41,6 +41,11 @@ const STORAGE_KEYS = {
   browsingCheckinsEnabled: "myhome:browsingCheckinsEnabled",
   feedAppsNeedScrollOn: "myhome:feedAppsNeedScrollOn",
   scrollGatedApps: "myhome:scrollGatedApps",
+  recommendOrder: "myhome:recommendOrder",
+  breakEnabled: "myhome:breakEnabled",
+  breakIntervalMin: "myhome:breakIntervalMin",
+  breakScrollCount: "myhome:breakScrollCount",
+  breakState: "myhome:breakState",
   openAppsInSameWindow: "myhome:openAppsInSameWindow",
   closeOnScrollTimeUp: "myhome:closeOnScrollTimeUp",
   pendingAwaySession: "myhome:pendingAwaySession",
@@ -392,7 +397,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estes apps se recusam a abrir dentro deste app, então rodam no seu navegador normal, onde este app não consegue manter a rolagem travada. Os apps marcados só abrem depois que você ativar a rolagem com um motivo e um limite de tempo. Os apps de feed já vêm marcados — marque outros que consumam o seu tempo.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Ative a rolagem com um motivo e um limite de tempo, e {app} abrirá.",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} abre em uma aba separada do navegador, então você sairá do MyHome Browser e terá que achar o caminho de volta. Instalar este app na sua tela inicial costuma melhorar isso — veja os Ajustes.",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Instalado. Os outros apps ainda abrem fora deste app, mas a maioria dos celulares agora os mostra como uma camada que você pode fechar para voltar direto, em vez de trocar de app. De qualquer forma, suas abas, o dicionário e o estado da rolagem são mantidos.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "Instalado. Os outros apps ainda abrem fora deste app, mas a maioria dos celulares agora os mostra como uma camada que você pode fechar para voltar direto, em vez de trocar de app. De qualquer forma, suas abas, o dicionário e o estado da rolagem são mantidos. O botão Compartilhar de outros apps agora também pode enviar links, textos e arquivos direto para sua Sala de espera.",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app e precisa achar o caminho de volta. Instalá-lo na sua tela inicial costuma fazer com que abram como uma camada que dá para fechar — o comportamento exato é decisão do seu celular, não deste app.",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "No momento os outros apps abrem em uma aba separada do navegador, então você sai deste app. No Safari, toque no botão Compartilhar e escolha “Adicionar à Tela de Início” — isso costuma ajudar, embora o iOS às vezes ainda leve você para o Safari.",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Abra esta página no Chrome ou no Edge e use “Instalar app” (ou “Adicionar à tela inicial”) no menu do navegador. Depois de instalado, os outros apps geralmente abrem como uma camada que você pode fechar para voltar direto, em vez de levar você embora.",
@@ -427,7 +432,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "A busca usa o Bing. O bloqueio de anúncios só impede ir direto a domínios conhecidos de anúncio/rastreamento — não remove anúncios de uma página já aberta.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "A rolagem vem desativada para reduzir distrações. Ative-a com um motivo, um limite de tempo e seu PIN — até lá, os apps marcados nos Ajustes não abrem.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Quando o tempo acaba, a rolagem é desativada e este app pode fechar o app que abriu para você. Isso e o modo de abertura ficam nos Ajustes.",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Tudo que você envia para a Sala de espera fica aqui por 60 segundos antes de você poder abrir, guardar na estante ou deixar ir.",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "A estante guarda o que você mantém. Pesquise nela, marque itens como Alta/Média/Baixa e toque em Concluído quando terminar um — itens concluídos vão para sua própria estante.",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De vez em quando (30 minutos por padrão, ou após rolar o suficiente) uma pausa aparece e recomenda um item da estante, onde quer que você esteja. Mude o intervalo e a ordem de escolha nos Ajustes.",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Adicione este app à tela inicial e o botão Compartilhar de outros apps poderá enviar links, textos e arquivos direto para cá.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Escolha um motivo e um limite de tempo. Quando o tempo acabar, a rolagem será desativada e o app aberto daqui será fechado.",
+    "Waiting room": "Sala de espera",
+    "Shelf": "Estante",
+    "Take a breath": "Respire fundo",
+    "Anything you feel like looking at, this holds for one minute.": "O que você tiver vontade de ver fica guardado aqui por um minuto.",
+    "This device can't keep records (private browsing, perhaps).": "Este aparelho não consegue guardar registros (talvez navegação privada).",
+    "day streak": "dias seguidos",
+    "pauses today": "pausas hoje",
+    "minutes held": "minutos guardados",
+    "Hold a file from this device": "Guardar um arquivo deste aparelho",
+    "Held on this device: {used} of about {quota}": "Guardado neste aparelho: {used} de cerca de {quota}",
+    "Being held": "Em espera",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Nada em espera agora. O que você decidir não abrir na hora espera aqui.",
+    "Breathe in": "Inspire",
+    "Breathe out": "Expire",
+    "Something you could do instead": "Algo que você poderia fazer em vez disso",
+    "Decide without waiting": "Decidir sem esperar",
+    "You waited a minute.": "Você esperou um minuto.",
+    "So — what will it be?": "E então, o que vai ser?",
+    "You can close this screen now.": "Pode fechar esta tela agora.",
+    "Put it on the shelf": "Colocar na estante",
+    "Open it now after all": "Abrir agora, afinal",
+    "Let it go": "Deixar para lá",
+    "Back to the waiting room": "Voltar à sala de espera",
+    "Decide later": "Decidir depois",
+    "Shelved under {wall}": "Guardado em {wall}",
+    "Let go of it": "Deixado para lá",
+    "The shelf is full. Take something off it first.": "A estante está cheia. Tire algo dela primeiro.",
+    "Couldn't put it on the shelf": "Não foi possível guardar na estante",
+    "There's nothing to open": "Não há nada para abrir",
+    "This device is out of room for held files": "Este aparelho não tem mais espaço para arquivos guardados",
+    "Couldn't hold that file": "Não foi possível guardar esse arquivo",
+    "That file is no longer on this device": "Esse arquivo não está mais neste aparelho",
+    "Taken off the shelf": "Retirado da estante",
+    "No address": "(sem endereço)",
+    "Something to look at": "Algo para ver",
+    "Received 1 item from another app": "1 item recebido de outro aplicativo",
+    "Received {n} items from another app": "{n} itens recebidos de outro aplicativo",
+    "File": "Arquivo",
+    "Later": "Depois",
+    "Shelf space": "Espaço da estante",
+    "— empty shelf —": "— prateleira vazia —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "Nada na estante ainda. O que você guardar da sala de espera vem parar aqui.",
+    "Shelf wall": "Parede da estante",
+    "Previous wall": "Parede anterior",
+    "Next wall": "Próxima parede",
+    "Hold it for a minute": "Guardar por um minuto",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "Beba um copo de água, devagar.",
+    "Look at the furthest thing out of the window.": "Olhe para a coisa mais distante pela janela.",
+    "Lift your shoulders, then let them drop. Three times.": "Levante os ombros e deixe-os cair. Três vezes.",
+    "Put three things on your desk back where they belong.": "Coloque três coisas da mesa de volta no lugar.",
+    "Close your eyes and count three sounds you can hear.": "Feche os olhos e conte três sons que ouve.",
+    "Stand up and walk once around the room.": "Levante-se e dê uma volta pelo cômodo.",
+    "Wash your hands. Notice the temperature of the water.": "Lave as mãos. Repare na temperatura da água.",
+    "Straighten your back and look up at the ceiling.": "Endireite as costas e olhe para o teto.",
+    "Open a window or a curtain and let the air change.": "Abra uma janela ou cortina e renove o ar.",
+    "Remember one good thing about today.": "Lembre-se de uma coisa boa de hoje.",
+    "Feel where your feet are touching the floor.": "Sinta onde seus pés tocam o chão.",
+    "Leave one line of a note for tomorrow's you.": "Deixe uma linha de recado para o você de amanhã.",
+    "Look into the distance and let your eyes go soft.": "Olhe para longe e relaxe os olhos.",
+    "Breathe in deeply, breathe out slowly. That's enough.": "Inspire fundo, expire devagar. Já basta.",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "SEGUNDOS",
+    "Close": "Fechar",
+    "Search the shelf…": "Pesquisar na estante…",
+    "Nothing on the shelf matched.": "Nada na estante corresponde.",
+    "Priority": "Prioridade",
+    "High": "Alta",
+    "Low": "Baixa",
+    "Order on this shelf": "Ordem nesta prateleira",
+    "Move earlier": "Mover para cima",
+    "Move later": "Mover para baixo",
+    "Done": "Concluído",
+    "Not done after all": "Marcar como não concluído",
+    "Marked as done": "Marcado como concluído",
+    "Put back as unfinished": "Voltou a ficar pendente",
+    "Done ({count})": "Concluídos ({count})",
+    "Forced breaks": "Pausas forçadas",
+    "Interrupt me and offer something from my shelf": "Interromper e oferecer algo da minha estante",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "Isto não espera você lembrar. Em qualquer tela, ao passar dos limites abaixo, aparece um aviso discreto (uma vibração curta, sem som) oferecendo algo pendente da sua estante — sem bloquear o que você está fazendo.",
+    "Every (minutes)": "A cada (minutos)",
+    "Or after this many scrolls (0 = off)": "Ou após tantas rolagens (0 = desligado)",
+    "What it offers first": "O que oferece primeiro",
+    "Highest priority first": "Maior prioridade primeiro",
+    "The order I arranged": "A ordem que eu organizei",
+    "Time for a break": "Hora de uma pausa",
+    "From your shelf": "Da sua estante",
+    "You've been at this for {minutes} minutes.": "Você está nisso há {minutes} minutos.",
+    "You've scrolled {count} times since your last break.": "Você rolou {count} vezes desde a última pausa.",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Ainda não há nada pendente na estante. Guarde algo e da próxima vez ele será oferecido.",
+    "Mark done": "Marcar concluído",
+    "Open this": "Abrir isto",
+    "Something from your shelf is waiting.": "Algo da sua estante está esperando.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -742,7 +844,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Diese Apps lassen sich nicht in dieser App öffnen und laufen deshalb in deinem normalen Browser, wo diese App die Scrollsperre nicht halten kann. Angehakte Apps öffnen sich erst, wenn du Scrollen mit Grund und Zeitlimit eingeschaltet hast. Feed-Apps sind von Anfang an angehakt — hake alles Weitere an, das deine Zeit frisst.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Schalte Scrollen mit Grund und Zeitlimit ein, dann öffnet sich {app}.",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} öffnet sich in einem separaten Browser-Tab, du verlässt MyHome Browser also und musst den Weg zurück suchen. Diese App auf dem Startbildschirm zu installieren verbessert das meistens — siehe Einstellungen.",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Installiert. Andere Apps öffnen sich weiterhin außerhalb dieser App, aber die meisten Handys zeigen sie jetzt als schließbare Ebene, statt komplett umzuschalten. So oder so bleiben deine Tabs, das Wörterbuch und der Scroll-Status erhalten.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "Installiert. Andere Apps öffnen sich weiterhin außerhalb dieser App, aber die meisten Handys zeigen sie jetzt als schließbare Ebene, statt komplett umzuschalten. So oder so bleiben deine Tabs, das Wörterbuch und der Scroll-Status erhalten. Der Teilen-Button anderer Apps kann jetzt außerdem Links, Text und Dateien direkt in deinen Warteraum schicken.",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also und musst den Weg zurück suchen. Wenn du sie auf dem Startbildschirm installierst, öffnen sie sich meist als schließbare Ebene — was genau passiert, entscheidet dein Handy, nicht diese App.",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Derzeit öffnen sich andere Apps in einem separaten Browser-Tab, du verlässt diese App also. Tippe in Safari auf „Teilen“ und wähle „Zum Home-Bildschirm“ — das hilft meistens, auch wenn iOS dich manchmal trotzdem zu Safari schickt.",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Öffne diese Seite in Chrome oder Edge und wähle im Browsermenü „App installieren“ (oder „Zum Startbildschirm hinzufügen“). Nach der Installation öffnen sich andere Apps meist als Ebene, die du schließen kannst, statt dich wegzuführen.",
@@ -777,7 +879,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "Die Suche läuft über Bing. Werbeblockierung verhindert nur das direkte Ansteuern bekannter Werbe-/Tracking-Domains — sie entfernt keine Werbung aus einer bereits geöffneten Seite.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "Scrollen ist standardmäßig aus. Schalte es mit Grund, Zeitlimit und PIN ein — bis dahin öffnen sich die in den Einstellungen angehakten Apps gar nicht.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Wenn die Zeit um ist, geht Scrollen wieder aus und diese App kann die geöffnete App schließen. Beides steht in den Einstellungen.",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Alles, was du in den Warteraum schickst, wartet hier 60 Sekunden, bevor du es öffnen, ins Regal stellen oder loslassen kannst.",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "Das Regal enthält, was du behalten hast. Durchsuche es, markiere Einträge mit Hoch/Mittel/Niedrig und tippe auf Erledigt, wenn du mit einem fertig bist — erledigte Einträge wandern in ihr eigenes Regal.",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "Von Zeit zu Zeit (standardmäßig alle 30 Minuten oder nach genug Scrollen) unterbricht dich eine Pause und empfiehlt einen Eintrag aus dem Regal, egal wo du bist. Intervall und Auswahlreihenfolge änderst du in den Einstellungen.",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Füge diese App zum Startbildschirm hinzu, dann kann der Teilen-Button anderer Apps Links, Text und Dateien direkt hierher schicken.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Wähle einen Grund und ein Zeitlimit. Wenn die Zeit um ist, wird Scrollen wieder ausgeschaltet und die von hier geöffnete App geschlossen.",
+    "Waiting room": "Wartezimmer",
+    "Shelf": "Regal",
+    "Take a breath": "Kurz durchatmen",
+    "Anything you feel like looking at, this holds for one minute.": "Was du dir ansehen willst, wird hier eine Minute lang aufbewahrt.",
+    "This device can't keep records (private browsing, perhaps).": "Dieses Gerät kann nichts aufzeichnen (vielleicht privates Surfen).",
+    "day streak": "Tage in Folge",
+    "pauses today": "Pausen heute",
+    "minutes held": "Minuten aufbewahrt",
+    "Hold a file from this device": "Eine Datei von hier aufbewahren",
+    "Held on this device: {used} of about {quota}": "Auf diesem Gerät: {used} von etwa {quota}",
+    "Being held": "Aufbewahrt",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Gerade wird nichts aufbewahrt. Was du nicht sofort öffnest, wartet hier.",
+    "Breathe in": "Einatmen",
+    "Breathe out": "Ausatmen",
+    "Something you could do instead": "Etwas, das du stattdessen tun könntest",
+    "Decide without waiting": "Ohne Warten entscheiden",
+    "You waited a minute.": "Du hast eine Minute gewartet.",
+    "So — what will it be?": "Und, was wird es?",
+    "You can close this screen now.": "Du kannst diesen Bildschirm jetzt schließen.",
+    "Put it on the shelf": "Ins Regal stellen",
+    "Open it now after all": "Doch jetzt öffnen",
+    "Let it go": "Sein lassen",
+    "Back to the waiting room": "Zurück ins Wartezimmer",
+    "Decide later": "Später entscheiden",
+    "Shelved under {wall}": "Unter {wall} eingeräumt",
+    "Let go of it": "Sein gelassen",
+    "The shelf is full. Take something off it first.": "Das Regal ist voll. Nimm zuerst etwas heraus.",
+    "Couldn't put it on the shelf": "Konnte es nicht ins Regal stellen",
+    "There's nothing to open": "Es gibt nichts zu öffnen",
+    "This device is out of room for held files": "Auf diesem Gerät ist kein Platz mehr für aufbewahrte Dateien",
+    "Couldn't hold that file": "Konnte diese Datei nicht aufbewahren",
+    "That file is no longer on this device": "Diese Datei ist nicht mehr auf dem Gerät",
+    "Taken off the shelf": "Aus dem Regal genommen",
+    "No address": "(keine Adresse)",
+    "Something to look at": "Etwas zum Ansehen",
+    "Received 1 item from another app": "1 Element von einer anderen App empfangen",
+    "Received {n} items from another app": "{n} Elemente von einer anderen App empfangen",
+    "File": "Datei",
+    "Later": "Später",
+    "Shelf space": "Regalplatz",
+    "— empty shelf —": "— leeres Fach —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "Noch nichts im Regal. Was du aus dem Wartezimmer behältst, landet hier.",
+    "Shelf wall": "Regalwand",
+    "Previous wall": "Vorherige Wand",
+    "Next wall": "Nächste Wand",
+    "Hold it for a minute": "Eine Minute aufbewahren",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "Trink ein Glas Wasser, langsam.",
+    "Look at the furthest thing out of the window.": "Schau aus dem Fenster auf das Entfernteste.",
+    "Lift your shoulders, then let them drop. Three times.": "Zieh die Schultern hoch und lass sie fallen. Dreimal.",
+    "Put three things on your desk back where they belong.": "Räum drei Dinge auf dem Tisch an ihren Platz.",
+    "Close your eyes and count three sounds you can hear.": "Schließ die Augen und zähl drei Geräusche.",
+    "Stand up and walk once around the room.": "Steh auf und geh einmal durchs Zimmer.",
+    "Wash your hands. Notice the temperature of the water.": "Wasch dir die Hände. Spür die Wassertemperatur.",
+    "Straighten your back and look up at the ceiling.": "Mach den Rücken gerade und schau zur Decke.",
+    "Open a window or a curtain and let the air change.": "Öffne ein Fenster oder einen Vorhang, lüfte.",
+    "Remember one good thing about today.": "Erinnere dich an eine gute Sache von heute.",
+    "Feel where your feet are touching the floor.": "Spür, wo deine Füße den Boden berühren.",
+    "Leave one line of a note for tomorrow's you.": "Hinterlass dem Morgen-Ich eine Zeile.",
+    "Look into the distance and let your eyes go soft.": "Schau in die Ferne und lass die Augen weich werden.",
+    "Breathe in deeply, breathe out slowly. That's enough.": "Tief einatmen, langsam ausatmen. Das genügt.",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "SEKUNDEN",
+    "Close": "Schließen",
+    "Search the shelf…": "Im Regal suchen…",
+    "Nothing on the shelf matched.": "Nichts im Regal passt dazu.",
+    "Priority": "Priorität",
+    "High": "Hoch",
+    "Low": "Niedrig",
+    "Order on this shelf": "Reihenfolge in diesem Fach",
+    "Move earlier": "Nach oben",
+    "Move later": "Nach unten",
+    "Done": "Erledigt",
+    "Not done after all": "Doch nicht erledigt",
+    "Marked as done": "Als erledigt markiert",
+    "Put back as unfinished": "Wieder als offen gesetzt",
+    "Done ({count})": "Erledigt ({count})",
+    "Forced breaks": "Erzwungene Pausen",
+    "Interrupt me and offer something from my shelf": "Unterbrich mich und schlag etwas aus meinem Regal vor",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "Das wartet nicht darauf, dass du daran denkst. Egal auf welchem Bildschirm — sobald du die Grenzen unten überschreitest, erscheint ein leiser Hinweis (eine kurze Vibration, kein Ton) mit etwas Offenem aus deinem Regal — ohne zu blockieren, was du gerade tust.",
+    "Every (minutes)": "Alle (Minuten)",
+    "Or after this many scrolls (0 = off)": "Oder nach so vielen Scrolls (0 = aus)",
+    "What it offers first": "Was zuerst vorgeschlagen wird",
+    "Highest priority first": "Höchste Priorität zuerst",
+    "The order I arranged": "Meine eigene Reihenfolge",
+    "Time for a break": "Zeit für eine Pause",
+    "From your shelf": "Aus deinem Regal",
+    "You've been at this for {minutes} minutes.": "Du bist seit {minutes} Minuten dabei.",
+    "You've scrolled {count} times since your last break.": "Du hast seit der letzten Pause {count} Mal gescrollt.",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Im Regal liegt noch nichts Offenes. Leg etwas hinein, dann wird es beim nächsten Mal vorgeschlagen.",
+    "Mark done": "Als erledigt markieren",
+    "Open this": "Das öffnen",
+    "Something from your shelf is waiting.": "Etwas aus deinem Regal wartet.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1092,7 +1291,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Ces applis refusent de s'ouvrir dans cette appli ; elles s'ouvrent donc dans votre navigateur habituel, où cette appli ne peut pas bloquer le défilement. Les applis cochées ne s'ouvrent qu'une fois le défilement activé avec un motif et une limite de temps. Les applis à fil sont cochées au départ — cochez toutes celles qui vous prennent du temps.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activez le défilement avec un motif et une limite de temps, et {app} s'ouvrira.",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} s'ouvre dans un onglet séparé du navigateur, vous quitterez donc MyHome Browser et devrez retrouver votre chemin. Installer cette appli sur votre écran d'accueil améliore généralement cela — voir les Réglages.",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Installé. Les autres applis s'ouvrent toujours en dehors de cette appli, mais la plupart des téléphones les affichent désormais comme une couche que vous pouvez fermer pour revenir directement, au lieu de basculer ailleurs. Dans tous les cas, vos onglets, le dictionnaire et l'état du défilement sont conservés.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "Installé. Les autres applis s'ouvrent toujours en dehors de cette appli, mais la plupart des téléphones les affichent désormais comme une couche que vous pouvez fermer pour revenir directement, au lieu de basculer ailleurs. Dans tous les cas, vos onglets, le dictionnaire et l'état du défilement sont conservés. Le bouton Partager des autres applis peut désormais aussi envoyer des liens, du texte et des fichiers directement dans votre salle d'attente.",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli et devez retrouver votre chemin. L'installer sur votre écran d'accueil les fait généralement s'ouvrir comme une couche que l'on peut fermer — le comportement exact dépend de votre téléphone, pas de cette appli.",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Pour l'instant les autres applis s'ouvrent dans un onglet séparé du navigateur, vous quittez donc cette appli. Dans Safari, touchez le bouton Partager et choisissez « Sur l'écran d'accueil » — cela aide généralement, même si iOS vous bascule parfois quand même vers Safari.",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Ouvrez cette page dans Chrome ou Edge et utilisez « Installer l'application » (ou « Ajouter à l'écran d'accueil ») dans le menu du navigateur. Une fois installée, les autres applis s'ouvrent généralement comme une couche que vous pouvez fermer pour revenir directement, au lieu de vous emmener ailleurs.",
@@ -1127,7 +1326,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "La recherche passe par Bing. Le blocage de publicités empêche seulement d'aller directement vers des domaines connus de pub/pistage — il ne retire pas les pubs d'une page déjà ouverte.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "Le défilement est désactivé par défaut. Activez-le avec un motif, une limite de temps et votre PIN — jusque-là, les applis cochées dans les Réglages ne s'ouvrent pas du tout.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Quand le temps est écoulé, le défilement se désactive et cette appli peut fermer l'appli qu'elle a ouverte. Les deux se règlent dans les Réglages.",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Tout ce que vous envoyez à la salle d'attente y patiente 60 secondes avant que vous puissiez l'ouvrir, le ranger sur l'étagère ou le laisser partir.",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "L'étagère garde ce que vous avez conservé. Cherchez-y, marquez les éléments Haute/Moyenne/Basse et touchez Terminé une fois fini avec l'un d'eux — les éléments terminés rejoignent leur propre étagère.",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De temps en temps (30 minutes par défaut, ou après suffisamment de défilement), une pause s'impose et recommande un élément de l'étagère, où que vous soyez. Changez l'intervalle et l'ordre de sélection dans les Réglages.",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Ajoutez cette appli à l'écran d'accueil et le bouton Partager des autres applis pourra envoyer des liens, du texte et des fichiers directement ici.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Choisissez un motif et une limite de temps. À la fin, le défilement se désactive et l'appli ouverte d'ici est fermée.",
+    "Waiting room": "Salle d'attente",
+    "Shelf": "Étagère",
+    "Take a breath": "Souffler un instant",
+    "Anything you feel like looking at, this holds for one minute.": "Ce que vous avez envie de regarder est gardé ici une minute.",
+    "This device can't keep records (private browsing, perhaps).": "Cet appareil ne peut rien enregistrer (navigation privée, peut-être).",
+    "day streak": "jours d'affilée",
+    "pauses today": "pauses aujourd'hui",
+    "minutes held": "minutes gardées",
+    "Hold a file from this device": "Garder un fichier de cet appareil",
+    "Held on this device: {used} of about {quota}": "Gardé sur cet appareil : {used} sur environ {quota}",
+    "Being held": "En attente",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Rien en attente pour l'instant. Ce que vous n'ouvrez pas tout de suite attend ici.",
+    "Breathe in": "Inspirez",
+    "Breathe out": "Expirez",
+    "Something you could do instead": "Quelque chose à faire à la place",
+    "Decide without waiting": "Décider sans attendre",
+    "You waited a minute.": "Vous avez attendu une minute.",
+    "So — what will it be?": "Alors, on fait quoi ?",
+    "You can close this screen now.": "Vous pouvez fermer cet écran.",
+    "Put it on the shelf": "Ranger sur l'étagère",
+    "Open it now after all": "Finalement, l'ouvrir",
+    "Let it go": "Laisser tomber",
+    "Back to the waiting room": "Retour à la salle d'attente",
+    "Decide later": "Décider plus tard",
+    "Shelved under {wall}": "Rangé dans {wall}",
+    "Let go of it": "Laissé tomber",
+    "The shelf is full. Take something off it first.": "L'étagère est pleine. Retirez-en quelque chose d'abord.",
+    "Couldn't put it on the shelf": "Impossible de le ranger",
+    "There's nothing to open": "Il n'y a rien à ouvrir",
+    "This device is out of room for held files": "Cet appareil n'a plus de place pour les fichiers gardés",
+    "Couldn't hold that file": "Impossible de garder ce fichier",
+    "That file is no longer on this device": "Ce fichier n'est plus sur l'appareil",
+    "Taken off the shelf": "Retiré de l'étagère",
+    "No address": "(pas d'adresse)",
+    "Something to look at": "Quelque chose à regarder",
+    "Received 1 item from another app": "1 élément reçu d'une autre application",
+    "Received {n} items from another app": "{n} éléments reçus d'une autre application",
+    "File": "Fichier",
+    "Later": "Plus tard",
+    "Shelf space": "Place sur l'étagère",
+    "— empty shelf —": "— rayon vide —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "Rien sur l'étagère. Ce que vous gardez depuis la salle d'attente arrive ici.",
+    "Shelf wall": "Pan d'étagère",
+    "Previous wall": "Pan précédent",
+    "Next wall": "Pan suivant",
+    "Hold it for a minute": "Le garder une minute",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "Buvez un verre d'eau, lentement.",
+    "Look at the furthest thing out of the window.": "Regardez la chose la plus lointaine par la fenêtre.",
+    "Lift your shoulders, then let them drop. Three times.": "Montez les épaules, puis laissez-les tomber. Trois fois.",
+    "Put three things on your desk back where they belong.": "Remettez trois objets du bureau à leur place.",
+    "Close your eyes and count three sounds you can hear.": "Fermez les yeux et comptez trois sons.",
+    "Stand up and walk once around the room.": "Levez-vous et faites un tour de la pièce.",
+    "Wash your hands. Notice the temperature of the water.": "Lavez-vous les mains. Sentez la température de l'eau.",
+    "Straighten your back and look up at the ceiling.": "Redressez le dos et regardez le plafond.",
+    "Open a window or a curtain and let the air change.": "Ouvrez une fenêtre ou un rideau, changez l'air.",
+    "Remember one good thing about today.": "Souvenez-vous d'une bonne chose d'aujourd'hui.",
+    "Feel where your feet are touching the floor.": "Sentez vos pieds en contact avec le sol.",
+    "Leave one line of a note for tomorrow's you.": "Laissez une ligne au vous de demain.",
+    "Look into the distance and let your eyes go soft.": "Regardez au loin et relâchez les yeux.",
+    "Breathe in deeply, breathe out slowly. That's enough.": "Inspirez profondément, expirez lentement. Cela suffit.",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "SECONDES",
+    "Close": "Fermer",
+    "Search the shelf…": "Chercher dans l'étagère…",
+    "Nothing on the shelf matched.": "Rien ne correspond dans l'étagère.",
+    "Priority": "Priorité",
+    "High": "Haute",
+    "Low": "Basse",
+    "Order on this shelf": "Ordre sur ce rayon",
+    "Move earlier": "Monter",
+    "Move later": "Descendre",
+    "Done": "Terminé",
+    "Not done after all": "Finalement pas terminé",
+    "Marked as done": "Marqué comme terminé",
+    "Put back as unfinished": "Remis en non terminé",
+    "Done ({count})": "Terminés ({count})",
+    "Forced breaks": "Pauses imposées",
+    "Interrupt me and offer something from my shelf": "M'interrompre et proposer quelque chose de mon étagère",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "Cela n'attend pas que vous y pensiez. Quel que soit l'écran, dès que vous dépassez les limites ci-dessous, une bannière discrète apparaît (une brève vibration, sans son) et propose une chose non terminée de votre étagère — sans bloquer ce que vous faites.",
+    "Every (minutes)": "Toutes les (minutes)",
+    "Or after this many scrolls (0 = off)": "Ou après ce nombre de défilements (0 = désactivé)",
+    "What it offers first": "Ce qui est proposé en premier",
+    "Highest priority first": "Priorité la plus haute d'abord",
+    "The order I arranged": "L'ordre que j'ai choisi",
+    "Time for a break": "C'est l'heure d'une pause",
+    "From your shelf": "De votre étagère",
+    "You've been at this for {minutes} minutes.": "Vous y êtes depuis {minutes} minutes.",
+    "You've scrolled {count} times since your last break.": "Vous avez fait défiler {count} fois depuis la dernière pause.",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Rien de non terminé sur l'étagère. Rangez-y quelque chose et ce sera proposé la prochaine fois.",
+    "Mark done": "Marquer terminé",
+    "Open this": "Ouvrir ceci",
+    "Something from your shelf is waiting.": "Quelque chose de votre étagère attend.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1442,7 +1738,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "이 앱들은 이 앱 안에서 열리지 않아 일반 브라우저에서 실행되며, 그곳에서는 이 앱이 스크롤을 잠글 수 없습니다. 체크한 앱은 이유와 시간제한을 정해 스크롤을 켠 뒤에만 열립니다. 피드 앱은 처음부터 체크되어 있으며, 시간을 많이 쓰는 다른 앱도 체크해 두세요.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "이유와 시간제한을 정해 스크롤을 켜면 {app}이(가) 열립니다.",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app}은(는) 별도의 브라우저 탭에서 열리므로 MyHome Browser를 떠나게 되고 돌아올 길을 찾아야 합니다. 이 앱을 홈 화면에 설치하면 대개 나아집니다 — 설정을 확인하세요.",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "설치되었습니다. 다른 앱은 여전히 이 앱 바깥에서 열리지만, 대부분의 휴대폰에서는 완전히 전환되는 대신 닫으면 바로 돌아올 수 있는 층으로 표시됩니다. 어느 쪽이든 탭과 사전, 스크롤 상태는 그대로 유지됩니다.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "설치되었습니다. 다른 앱은 여전히 이 앱 바깥에서 열리지만, 대부분의 휴대폰에서는 완전히 전환되는 대신 닫으면 바로 돌아올 수 있는 층으로 표시됩니다. 어느 쪽이든 탭과 사전, 스크롤 상태는 그대로 유지됩니다. 이제 다른 앱의 공유 버튼으로 링크, 텍스트, 파일을 대기실로 바로 보낼 수도 있습니다.",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 되고, 돌아올 길을 찾아야 합니다. 홈 화면에 설치하면 대개 닫을 수 있는 층으로 열립니다. 정확한 동작은 이 앱이 아니라 휴대폰이 결정합니다.",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "지금은 다른 앱이 별도의 브라우저 탭에서 열려 이 앱을 떠나게 됩니다. Safari에서 공유 버튼을 누르고 ‘홈 화면에 추가’를 선택하세요. 대개 도움이 되지만, iOS가 여전히 Safari로 전환하는 경우도 있습니다.",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "이 페이지를 Chrome이나 Edge에서 열고 브라우저 메뉴의 ‘앱 설치’(또는 ‘홈 화면에 추가’)를 사용하세요. 설치하면 다른 앱이 대개 닫으면 바로 돌아올 수 있는 층으로 열리며, 아예 떠나게 되지는 않습니다.",
@@ -1477,7 +1773,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "검색은 Bing을 사용합니다. 광고 차단은 알려진 광고·추적 도메인으로 바로 이동하는 것만 막습니다. 이미 열린 페이지의 광고는 제거할 수 없습니다.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "스크롤은 기본적으로 꺼져 있습니다. 이유와 시간제한, PIN으로 켜세요. 그전까지는 설정에서 체크한 앱이 아예 열리지 않습니다.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "시간이 끝나면 스크롤이 다시 꺼지고, 이 앱이 열어 준 앱을 닫을 수도 있습니다. 둘 다 설정에 있습니다.",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "대기실로 보낸 것은 무엇이든 열거나 선반에 두거나 흘려보내기 전까지 여기서 60초 동안 기다립니다.",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "선반에는 남겨둔 것들이 있습니다. 검색할 수 있고, 항목에 상/중/하를 매기고, 다 본 항목은 완료를 눌러 표시하세요 — 완료된 항목은 전용 선반으로 옮겨집니다.",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "가끔(기본 30분, 또는 스크롤을 충분히 하면) 어디에 있든 휴식이 끼어들어 선반에서 항목 하나를 추천합니다. 간격과 추천 순서는 설정에서 바꿀 수 있습니다.",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "이 앱을 홈 화면에 추가하면 다른 앱의 공유 버튼으로 링크, 텍스트, 파일을 바로 여기로 보낼 수 있습니다.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "이유와 시간제한을 고르세요. 시간이 끝나면 스크롤이 다시 꺼지고 여기서 연 앱도 닫힙니다.",
+    "Waiting room": "대기실",
+    "Shelf": "책장",
+    "Take a breath": "한숨 돌리기",
+    "Anything you feel like looking at, this holds for one minute.": "보고 싶어진 것을 여기서 1분만 맡아 둡니다.",
+    "This device can't keep records (private browsing, perhaps).": "이 기기에서는 기록을 저장할 수 없습니다(시크릿 모드일 수 있습니다).",
+    "day streak": "연속 일수",
+    "pauses today": "오늘의 한숨",
+    "minutes held": "누적 분",
+    "Hold a file from this device": "이 기기의 파일 맡기기",
+    "Held on this device: {used} of about {quota}": "이 기기에 보관: {used} / 약 {quota}",
+    "Being held": "맡아 둔 것",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "지금 맡아 둔 것이 없습니다. 바로 열지 않기로 한 것이 여기서 기다립니다.",
+    "Breathe in": "들이쉬기",
+    "Breathe out": "내쉬기",
+    "Something you could do instead": "지금 대신 할 수 있는 일",
+    "Decide without waiting": "기다리지 않고 정하기",
+    "You waited a minute.": "1분을 기다렸습니다.",
+    "So — what will it be?": "어떻게 할까요?",
+    "You can close this screen now.": "이제 화면을 닫아도 괜찮습니다.",
+    "Put it on the shelf": "책장에 넣기",
+    "Open it now after all": "역시 지금 보기",
+    "Let it go": "그냥 버리기",
+    "Back to the waiting room": "대기실로 돌아가기",
+    "Decide later": "나중에 정하기",
+    "Shelved under {wall}": "'{wall}' 칸에 꽂았습니다",
+    "Let go of it": "맡아 둔 것을 버렸습니다",
+    "The shelf is full. Take something off it first.": "책장이 가득 찼습니다. 먼저 무언가를 빼세요.",
+    "Couldn't put it on the shelf": "책장에 넣지 못했습니다",
+    "There's nothing to open": "열 것이 없습니다",
+    "This device is out of room for held files": "이 기기에 둘 수 있는 용량을 넘었습니다",
+    "Couldn't hold that file": "파일을 맡아 두지 못했습니다",
+    "That file is no longer on this device": "그 파일은 이제 기기에 없습니다",
+    "Taken off the shelf": "책장에서 뺐습니다",
+    "No address": "(주소 없음)",
+    "Something to look at": "이름 없는 보관물",
+    "Received 1 item from another app": "다른 앱에서 항목 1개를 받았습니다",
+    "Received {n} items from another app": "다른 앱에서 항목 {n}개를 받았습니다",
+    "File": "파일",
+    "Later": "나중에 읽기",
+    "Shelf space": "책장 용량",
+    "— empty shelf —": "— 빈 칸 —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "아직 책이 없습니다. 대기실에서 넣어 둔 것이 여기 꽂힙니다.",
+    "Shelf wall": "책장 벽",
+    "Previous wall": "이전 벽",
+    "Next wall": "다음 벽",
+    "Hold it for a minute": "1분 맡기기",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "물 한 컵을 천천히 마시기.",
+    "Look at the furthest thing out of the window.": "창밖에서 가장 먼 것을 바라보기.",
+    "Lift your shoulders, then let them drop. Three times.": "어깨를 올렸다가 툭 떨어뜨리기. 세 번.",
+    "Put three things on your desk back where they belong.": "책상 위 물건 세 개를 제자리에 두기.",
+    "Close your eyes and count three sounds you can hear.": "눈을 감고 들리는 소리 세 개 세어 보기.",
+    "Stand up and walk once around the room.": "일어나서 방을 한 바퀴 돌기.",
+    "Wash your hands. Notice the temperature of the water.": "손을 씻기. 물의 온도를 느껴 보기.",
+    "Straighten your back and look up at the ceiling.": "등을 펴고 천장을 올려다보기.",
+    "Open a window or a curtain and let the air change.": "창이나 커튼을 열어 공기를 바꾸기.",
+    "Remember one good thing about today.": "오늘 좋았던 일을 하나 떠올리기.",
+    "Feel where your feet are touching the floor.": "발바닥이 바닥에 닿는 느낌에 집중하기.",
+    "Leave one line of a note for tomorrow's you.": "내일의 나에게 한 줄 메모 남기기.",
+    "Look into the distance and let your eyes go soft.": "먼 곳을 보며 눈의 힘을 빼기.",
+    "Breathe in deeply, breathe out slowly. That's enough.": "깊이 들이쉬고 길게 내쉬기. 그것으로 충분합니다.",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "초",
+    "Close": "닫기",
+    "Search the shelf…": "책장에서 검색…",
+    "Nothing on the shelf matched.": "책장에서 찾지 못했습니다.",
+    "Priority": "우선순위",
+    "High": "높음",
+    "Low": "낮음",
+    "Order on this shelf": "이 칸에서의 순서",
+    "Move earlier": "위로",
+    "Move later": "아래로",
+    "Done": "완료",
+    "Not done after all": "다시 미완료로",
+    "Marked as done": "완료로 표시했습니다",
+    "Put back as unfinished": "미완료로 되돌렸습니다",
+    "Done ({count})": "완료 ({count})",
+    "Forced breaks": "강제 휴식",
+    "Interrupt me and offer something from my shelf": "가로막고 책장에서 하나 권하기",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "기억해 내기를 기다리지 않습니다. 어느 화면에 있든 아래 기준을 넘으면, 조용한 배너가 나타나(짧은 진동, 소리 없음) 책장의 미완료 항목 하나를 보여줍니다 — 하던 일을 막지 않습니다.",
+    "Every (minutes)": "몇 분마다",
+    "Or after this many scrolls (0 = off)": "또는 스크롤 횟수 (0이면 사용 안 함)",
+    "What it offers first": "먼저 권하는 순서",
+    "Highest priority first": "우선순위 높은 순",
+    "The order I arranged": "내가 정한 순서",
+    "Time for a break": "쉬어 갈 시간입니다",
+    "From your shelf": "책장에서",
+    "You've been at this for {minutes} minutes.": "{minutes}분째 계속하고 있습니다.",
+    "You've scrolled {count} times since your last break.": "지난 휴식 이후 {count}번 스크롤했습니다.",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "책장에 아직 미완료가 없습니다. 무언가 넣어 두면 다음에 권해 드립니다.",
+    "Mark done": "완료로 표시",
+    "Open this": "이것 보기",
+    "Something from your shelf is waiting.": "책장에서 기다리는 것이 있습니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -1792,7 +2185,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "这些应用拒绝在本应用内打开，只能在你的常规浏览器中运行，而本应用无法在那里锁定滚动。勾选的应用只有在你填写理由和时限并开启滚动之后才会打开。信息流应用默认已勾选，你也可以勾选其他消耗你时间的应用。",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "填写理由和时限并开启滚动后，{app} 即可打开。",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} 会在单独的浏览器标签页中打开，因此你会离开 MyHome Browser，并且需要自己找回来。把本应用安装到主屏幕通常会改善这一点——请查看设置。",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "已安装。其他应用仍会在本应用之外打开，但大多数手机现在会把它们显示为一层，关闭即可直接返回，而不是把你整个切换走。无论哪种情况，你的标签页、词典和滚动状态都会保留。",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "已安装。其他应用仍会在本应用之外打开，但大多数手机现在会把它们显示为一层，关闭即可直接返回，而不是把你整个切换走。无论哪种情况，你的标签页、词典和滚动状态都会保留。其他应用的分享按钮现在也可以把链接、文字和文件直接发送到你的等候室。",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用并需要自己找回来。安装到主屏幕后，它们通常会以可关闭的一层打开——具体行为由你的手机决定，而非本应用。",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "目前其他应用会在单独的浏览器标签页中打开，因此你会离开本应用。在 Safari 中点按“分享”按钮并选择“添加到主屏幕”，这通常会有帮助，不过 iOS 有时仍会把你切换到 Safari。",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "请在 Chrome 或 Edge 中打开本页面，并从浏览器菜单中选择“安装应用”（或“添加到主屏幕”）。安装后，其他应用通常会以一层的形式打开，关闭即可直接返回，而不会把你带走。",
@@ -1827,7 +2220,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "搜索使用 Bing。广告拦截只阻止直接前往已知的广告/追踪域名，无法移除已打开页面中的广告。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "滚动默认关闭。填写理由、时限并输入 PIN 才能开启；在此之前，你在设置中勾选的应用根本不会打开。",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "时间到后，滚动会重新关闭，本应用还可以把它为你打开的应用关掉。这两项都在设置中。",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "发送到等候室的任何内容都会在这里等待60秒，之后你才能打开它、放到书架上，或放手。",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "书架保存你留下的内容。可以搜索，把条目标记为高/中/低优先级，完成后点\"完成\"——已完成的条目会移到专属书架。",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "隔一段时间（默认30分钟，或滚动次数足够后），无论你在哪个画面，都会有一次休息强制介入，从书架推荐一项。间隔和推荐顺序可在设置中更改。",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "把本应用添加到主屏幕后，其他应用的分享按钮就可以把链接、文字和文件直接发送到这里。",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "选择理由和时限。时间到后，滚动会重新关闭，从这里打开的应用也会被关闭。",
+    "Waiting room": "等候室",
+    "Shelf": "书架",
+    "Take a breath": "喘口气",
+    "Anything you feel like looking at, this holds for one minute.": "想看的东西，先在这里寄存一分钟。",
+    "This device can't keep records (private browsing, perhaps).": "此设备无法保存记录（可能处于无痕模式）。",
+    "day streak": "连续天数",
+    "pauses today": "今天的暂停",
+    "minutes held": "累计分钟",
+    "Hold a file from this device": "寄存本机的文件",
+    "Held on this device: {used} of about {quota}": "本机已用：{used} / 约 {quota}",
+    "Being held": "寄存中",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "目前没有寄存的东西。决定不马上打开的，会在这里等着。",
+    "Breathe in": "吸气",
+    "Breathe out": "呼气",
+    "Something you could do instead": "现在可以做的别的事",
+    "Decide without waiting": "不等了，直接决定",
+    "You waited a minute.": "你等了一分钟。",
+    "So — what will it be?": "那么，怎么办呢？",
+    "You can close this screen now.": "现在可以关掉这个页面了。",
+    "Put it on the shelf": "放到书架上",
+    "Open it now after all": "还是现在就看",
+    "Let it go": "算了，扔掉",
+    "Back to the waiting room": "回到等候室",
+    "Decide later": "稍后再定",
+    "Shelved under {wall}": "已放到「{wall}」",
+    "Let go of it": "已扔掉寄存的东西",
+    "The shelf is full. Take something off it first.": "书架空间不足，请先拿掉一些。",
+    "Couldn't put it on the shelf": "无法放到书架上",
+    "There's nothing to open": "没有可打开的内容",
+    "This device is out of room for held files": "超出本机可存放的容量",
+    "Couldn't hold that file": "无法寄存该文件",
+    "That file is no longer on this device": "该文件已不在本机上",
+    "Taken off the shelf": "已从书架取下",
+    "No address": "（无网址）",
+    "Something to look at": "无名寄存物",
+    "Received 1 item from another app": "已从其他应用收到1个项目",
+    "Received {n} items from another app": "已从其他应用收到{n}个项目",
+    "File": "文件",
+    "Later": "稍后再读",
+    "Shelf space": "书架容量",
+    "— empty shelf —": "— 空层 —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "书架上还没有东西。从等候室保留下来的会放在这里。",
+    "Shelf wall": "书架墙面",
+    "Previous wall": "上一面",
+    "Next wall": "下一面",
+    "Hold it for a minute": "寄存一分钟",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "慢慢喝一杯水。",
+    "Look at the furthest thing out of the window.": "看看窗外最远的东西。",
+    "Lift your shoulders, then let them drop. Three times.": "把肩膀耸起来，再放下。三次。",
+    "Put three things on your desk back where they belong.": "把桌上的三样东西放回原位。",
+    "Close your eyes and count three sounds you can hear.": "闭上眼睛，数出听到的三种声音。",
+    "Stand up and walk once around the room.": "站起来，在房间里走一圈。",
+    "Wash your hands. Notice the temperature of the water.": "洗个手，留意水的温度。",
+    "Straighten your back and look up at the ceiling.": "挺直背，抬头看看天花板。",
+    "Open a window or a curtain and let the air change.": "打开窗或窗帘，换换空气。",
+    "Remember one good thing about today.": "想起今天一件好事。",
+    "Feel where your feet are touching the floor.": "感受脚掌接触地面的感觉。",
+    "Leave one line of a note for tomorrow's you.": "给明天的自己留一行字。",
+    "Look into the distance and let your eyes go soft.": "望向远处，让眼睛放松。",
+    "Breathe in deeply, breathe out slowly. That's enough.": "深深吸气，慢慢呼气。这样就够了。",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "秒",
+    "Close": "关闭",
+    "Search the shelf…": "在书架中搜索…",
+    "Nothing on the shelf matched.": "书架中没有匹配的内容。",
+    "Priority": "优先级",
+    "High": "高",
+    "Low": "低",
+    "Order on this shelf": "在此层的顺序",
+    "Move earlier": "上移",
+    "Move later": "下移",
+    "Done": "已看完",
+    "Not done after all": "改回未看完",
+    "Marked as done": "已标记为看完",
+    "Put back as unfinished": "已改回未看完",
+    "Done ({count})": "已看完（{count}）",
+    "Forced breaks": "强制休息",
+    "Interrupt me and offer something from my shelf": "打断我，并从书架里推荐一个",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "它不会等你想起来。无论你在哪个页面，一旦超过下面的限度，就会出现一条安静的横幅（短促振动，无声音），推荐书架中一个还没看完的东西——不会打断你正在做的事。",
+    "Every (minutes)": "每隔（分钟）",
+    "Or after this many scrolls (0 = off)": "或滚动这么多次后（0 为关闭）",
+    "What it offers first": "优先推荐哪一个",
+    "Highest priority first": "优先级高的优先",
+    "The order I arranged": "我自己排的顺序",
+    "Time for a break": "该休息一下了",
+    "From your shelf": "来自你的书架",
+    "You've been at this for {minutes} minutes.": "你已经连续用了 {minutes} 分钟。",
+    "You've scrolled {count} times since your last break.": "距上次休息你已滚动 {count} 次。",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "书架上还没有未看完的东西。放一些进去，下次就会推荐它。",
+    "Mark done": "标记为看完",
+    "Open this": "打开这个",
+    "Something from your shelf is waiting.": "书架上有东西在等着你。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -2142,7 +2632,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "Estas apps se niegan a abrirse dentro de esta app, así que funcionan en tu navegador normal, donde esta app no puede mantener bloqueado el scroll. Las apps marcadas solo se abren después de que actives el scroll con un motivo y un límite de tiempo. Las apps de feed vienen marcadas de inicio; marca cualquier otra que te coma el tiempo.",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "Activa el scroll con un motivo y un límite de tiempo y {app} se abrirá.",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} se abre en una pestaña aparte del navegador, así que saldrás de MyHome Browser y tendrás que encontrar el camino de vuelta. Instalar esta app en tu pantalla de inicio suele mejorarlo; míralo en Ajustes.",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "Instalado. Las otras apps siguen abriéndose fuera de esta app, pero la mayoría de los móviles ahora las muestran como una capa que puedes cerrar para volver directamente, en lugar de cambiarte de app. En cualquier caso, tus pestañas, el diccionario y el estado del scroll se conservan.",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "Instalado. Las otras apps siguen abriéndose fuera de esta app, pero la mayoría de los móviles ahora las muestran como una capa que puedes cerrar para volver directamente, en lugar de cambiarte de app. En cualquier caso, tus pestañas, el diccionario y el estado del scroll se conservan. El botón Compartir de otras apps ahora también puede enviar enlaces, texto y archivos directamente a tu sala de espera.",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app y tienes que encontrar el camino de vuelta. Instalarla en tu pantalla de inicio suele hacer que se abran como una capa que puedes cerrar; el comportamiento exacto lo decide tu móvil, no esta app.",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "Ahora mismo las otras apps se abren en una pestaña aparte del navegador, así que sales de esta app. En Safari, toca el botón Compartir y elige «Añadir a pantalla de inicio»; suele ayudar, aunque iOS a veces te sigue llevando a Safari.",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "Abre esta página en Chrome o Edge y usa «Instalar aplicación» (o «Añadir a pantalla de inicio») en el menú del navegador. Una vez instalada, las otras apps suelen abrirse como una capa que puedes cerrar para volver directamente, en lugar de llevarte fuera.",
@@ -2177,7 +2667,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "La búsqueda usa Bing. El bloqueo de anuncios solo impide ir directamente a dominios conocidos de anuncios o rastreo; no quita anuncios de una página ya abierta.",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "El scroll viene desactivado. Actívalo con un motivo, un límite de tiempo y tu PIN; hasta entonces, las apps marcadas en Ajustes no se abren.",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "Cuando se acaba el tiempo, el scroll se desactiva y esta app puede cerrar la app que te abrió. Ambas cosas están en Ajustes.",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "Todo lo que envíes a la sala de espera espera aquí 60 segundos antes de que puedas abrirlo, guardarlo en tu estante o dejarlo ir.",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "El estante guarda lo que conservaste. Búscalo, marca los elementos como Alta/Media/Baja y toca Hecho cuando termines con uno — los elementos hechos pasan a su propio estante.",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "De vez en cuando (30 minutos por defecto, o tras suficiente scroll) aparece una pausa y recomienda un elemento del estante, estés donde estés. Cambia el intervalo y el orden de elección en Ajustes.",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "Añade esta app a tu pantalla de inicio y el botón Compartir de otras apps podrá enviar enlaces, texto y archivos directamente aquí.",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "Elige un motivo y un límite de tiempo. Al acabarse, el scroll se desactiva y la app abierta desde aquí se cierra.",
+    "Waiting room": "Sala de espera",
+    "Shelf": "Estantería",
+    "Take a breath": "Toma aire",
+    "Anything you feel like looking at, this holds for one minute.": "Lo que te apetezca mirar se guarda aquí un minuto.",
+    "This device can't keep records (private browsing, perhaps).": "Este dispositivo no puede guardar registros (quizá navegación privada).",
+    "day streak": "días seguidos",
+    "pauses today": "pausas hoy",
+    "minutes held": "minutos guardados",
+    "Hold a file from this device": "Guardar un archivo de este dispositivo",
+    "Held on this device: {used} of about {quota}": "Guardado en este dispositivo: {used} de unos {quota}",
+    "Being held": "En espera",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Ahora mismo no hay nada en espera. Lo que decidas no abrir enseguida espera aquí.",
+    "Breathe in": "Inspira",
+    "Breathe out": "Espira",
+    "Something you could do instead": "Algo que podrías hacer en su lugar",
+    "Decide without waiting": "Decidir sin esperar",
+    "You waited a minute.": "Has esperado un minuto.",
+    "So — what will it be?": "¿Entonces, qué hacemos?",
+    "You can close this screen now.": "Ya puedes cerrar esta pantalla.",
+    "Put it on the shelf": "Ponerlo en la estantería",
+    "Open it now after all": "Abrirlo ahora, después de todo",
+    "Let it go": "Dejarlo pasar",
+    "Back to the waiting room": "Volver a la sala de espera",
+    "Decide later": "Decidir más tarde",
+    "Shelved under {wall}": "Guardado en {wall}",
+    "Let go of it": "Lo has dejado pasar",
+    "The shelf is full. Take something off it first.": "La estantería está llena. Quita algo primero.",
+    "Couldn't put it on the shelf": "No se pudo poner en la estantería",
+    "There's nothing to open": "No hay nada que abrir",
+    "This device is out of room for held files": "Este dispositivo no tiene más espacio para archivos guardados",
+    "Couldn't hold that file": "No se pudo guardar ese archivo",
+    "That file is no longer on this device": "Ese archivo ya no está en el dispositivo",
+    "Taken off the shelf": "Retirado de la estantería",
+    "No address": "(sin dirección)",
+    "Something to look at": "Algo que mirar",
+    "Received 1 item from another app": "Se recibió 1 elemento de otra aplicación",
+    "Received {n} items from another app": "Se recibieron {n} elementos de otra aplicación",
+    "File": "Archivo",
+    "Later": "Más tarde",
+    "Shelf space": "Espacio de la estantería",
+    "— empty shelf —": "— balda vacía —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "Aún no hay nada. Lo que guardes desde la sala de espera acaba aquí.",
+    "Shelf wall": "Pared de la estantería",
+    "Previous wall": "Pared anterior",
+    "Next wall": "Pared siguiente",
+    "Hold it for a minute": "Guardarlo un minuto",
+    "{kind} · {size}": "{kind} · {size}",
+    "Drink a glass of water, slowly.": "Bebe un vaso de agua, despacio.",
+    "Look at the furthest thing out of the window.": "Mira lo más lejano que veas por la ventana.",
+    "Lift your shoulders, then let them drop. Three times.": "Sube los hombros y déjalos caer. Tres veces.",
+    "Put three things on your desk back where they belong.": "Devuelve tres cosas del escritorio a su sitio.",
+    "Close your eyes and count three sounds you can hear.": "Cierra los ojos y cuenta tres sonidos.",
+    "Stand up and walk once around the room.": "Levántate y da una vuelta por la habitación.",
+    "Wash your hands. Notice the temperature of the water.": "Lávate las manos. Nota la temperatura del agua.",
+    "Straighten your back and look up at the ceiling.": "Endereza la espalda y mira al techo.",
+    "Open a window or a curtain and let the air change.": "Abre una ventana o cortina y renueva el aire.",
+    "Remember one good thing about today.": "Recuerda una cosa buena de hoy.",
+    "Feel where your feet are touching the floor.": "Siente dónde tocan tus pies el suelo.",
+    "Leave one line of a note for tomorrow's you.": "Deja una línea de nota para el tú de mañana.",
+    "Look into the distance and let your eyes go soft.": "Mira a lo lejos y afloja la vista.",
+    "Breathe in deeply, breathe out slowly. That's enough.": "Inspira hondo, espira despacio. Con eso basta.",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "SEGUNDOS",
+    "Close": "Cerrar",
+    "Search the shelf…": "Buscar en la estantería…",
+    "Nothing on the shelf matched.": "Nada en la estantería coincide.",
+    "Priority": "Prioridad",
+    "High": "Alta",
+    "Low": "Baja",
+    "Order on this shelf": "Orden en esta balda",
+    "Move earlier": "Subir",
+    "Move later": "Bajar",
+    "Done": "Hecho",
+    "Not done after all": "Marcar como no hecho",
+    "Marked as done": "Marcado como hecho",
+    "Put back as unfinished": "Vuelve a estar pendiente",
+    "Done ({count})": "Hechos ({count})",
+    "Forced breaks": "Pausas forzadas",
+    "Interrupt me and offer something from my shelf": "Interrúmpeme y ofréceme algo de mi estantería",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "Esto no espera a que te acuerdes. Estés en la pantalla que estés, al pasar los límites de abajo aparece un aviso discreto (una vibración breve, sin sonido) que ofrece algo pendiente de tu estantería — sin bloquear lo que estás haciendo.",
+    "Every (minutes)": "Cada (minutos)",
+    "Or after this many scrolls (0 = off)": "O tras este número de scrolls (0 = desactivado)",
+    "What it offers first": "Qué ofrece primero",
+    "Highest priority first": "Primero la prioridad más alta",
+    "The order I arranged": "El orden que yo puse",
+    "Time for a break": "Hora de un descanso",
+    "From your shelf": "De tu estantería",
+    "You've been at this for {minutes} minutes.": "Llevas {minutes} minutos en esto.",
+    "You've scrolled {count} times since your last break.": "Has hecho scroll {count} veces desde el último descanso.",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Todavía no hay nada pendiente en la estantería. Guarda algo y la próxima vez te lo ofrecerá.",
+    "Mark done": "Marcar hecho",
+    "Open this": "Abrir esto",
+    "Something from your shelf is waiting.": "Algo de tu estantería está esperando.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -2502,7 +3089,7 @@ const UI_I18N = {
     "These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.": "これらのアプリはこのアプリの中に表示することを拒否しているため、通常のブラウザで開くことになり、そこではこのアプリはスクロールを止められません。チェックしたアプリは、理由と時間制限を決めてスクロールをONにしたときだけ開けます。フィード系は最初からチェックされています。時間を使ってしまう他のアプリもチェックしておけます。",
     "Turn scroll ON with a reason and a time limit, and {app} will open.": "理由と時間制限を決めてスクロールをONにすると、{app} を開けます。",
     "{app} opens in a separate browser tab, so you'll leave MyHome Browser and have to find your way back. Installing this app to your home screen usually improves that — see Settings.": "{app} はブラウザの別タブで開くため、MyHome Browserから離れ、自分で戻ってくる必要があります。このアプリをホーム画面に追加しておくと、たいていは改善します（設定をご覧ください）。",
-    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.": "インストール済みです。他のアプリは今もこのアプリの外で開きますが、多くの端末では画面ごと切り替わるのではなく、閉じればそのまま戻れる重なり表示になります。どちらの場合でも、タブ・辞書・スクロール状態は保たれます。",
+    "Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.": "インストール済みです。他のアプリは今もこのアプリの外で開きますが、多くの端末では画面ごと切り替わるのではなく、閉じればそのまま戻れる重なり表示になります。どちらの場合でも、タブ・辞書・スクロール状態は保たれます。ほかのアプリの共有ボタンから、リンク・テキスト・ファイルを待合室へ直接送れるようにもなりました。",
     "Right now other apps open in a separate browser tab, so you leave this app and have to find your way back. Installing it to your home screen usually makes them open as a closable layer instead — the exact behaviour is your phone's choice, not this app's.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れ、自分で戻ってくる必要があります。ホーム画面に追加すると、たいていは閉じられる重なり表示で開くようになります。実際の挙動を決めるのはこのアプリではなく端末側です。",
     "Right now other apps open in a separate browser tab, so you leave this app. In Safari, tap the Share button and choose \"Add to Home Screen\" — that usually helps, though iOS sometimes still switches you over to Safari.": "いまは他のアプリがブラウザの別タブで開くため、このアプリから離れてしまいます。Safariの共有ボタンから「ホーム画面に追加」を選んでください。たいていは改善しますが、iOSではSafariへ切り替わってしまう場合もあります。",
     "Open this page in Chrome or Edge and use \"Install app\" (or \"Add to Home Screen\") from the browser menu. Once installed, other apps usually open as a layer you can close to come straight back, instead of taking you away.": "このページをChromeまたはEdgeで開き、ブラウザのメニューから「アプリをインストール」（または「ホーム画面に追加」）を選んでください。追加すると、他のアプリはたいてい、閉じればそのまま戻れる重なり表示で開くようになります。",
@@ -2537,7 +3124,104 @@ const UI_I18N = {
     "Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.": "検索にはBingを使っています。広告ブロックは既知の広告・トラッキングドメインへの遷移を止めるだけで、すでに開いているページの中の広告は取り除けません。",
     "Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.": "スクロールは既定でOFFです。理由・時間制限・PINでONにするまで、設定でチェックしたアプリはそもそも開きません。",
     "When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.": "時間が切れるとスクロールはOFFに戻り、開いていたアプリも閉じられます。この動きと開き方はどちらも設定にあります。",
+    "Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.": "待合室へ送ったものは、開く・本棚へしまう・手放すを決めるまで、ここで60秒待ちます。",
+    "The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.": "本棚にはしまったものが並びます。検索でき、優先度（高・中・低）を付けられ、見終わったら「済」を押すと専用の棚に移ります。",
+    "Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.": "ときどき（既定30分、またはスクロールが一定数に達すると）どの画面にいても休憩が割り込み、本棚から1つおすすめしてきます。間隔とおすすめの順番は設定で変えられます。",
+    "Add this app to your home screen and other apps' Share button can send links, text and files straight here.": "ホーム画面に追加すると、ほかのアプリの共有ボタンからリンク・テキスト・ファイルを直接ここへ送れます。",
     "Choose a reason and a time limit. When time is up, scroll switches back OFF and the app you opened from here is closed.": "理由と時間制限を選んでください。時間が来るとスクロールはOFFに戻り、ここから開いたアプリも閉じます。",
+    "Waiting room": "待合室",
+    "Shelf": "本棚",
+    "Take a breath": "ひと息つく",
+    "Anything you feel like looking at, this holds for one minute.": "見たくなったものは、ここで一分だけ預かります。",
+    "This device can't keep records (private browsing, perhaps).": "この端末では記録を保存できません（履歴を残さない設定かもしれません）。",
+    "day streak": "れんぞく日数",
+    "pauses today": "きょうの一息",
+    "minutes held": "つうさん分",
+    "Hold a file from this device": "手元のファイルを預ける",
+    "Held on this device: {used} of about {quota}": "この端末の書庫: {used} / 約 {quota} まで",
+    "Being held": "預かりもの",
+    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "いまは何も預かっていません。すぐ開かないと決めたものが、ここで待ちます。",
+    "Breathe in": "吸う",
+    "Breathe out": "吐く",
+    "Something you could do instead": "いま、かわりにできること",
+    "Decide without waiting": "待たずに決める",
+    "You waited a minute.": "一分、待てました。",
+    "So — what will it be?": "どうしますか。",
+    "You can close this screen now.": "そのまま画面を閉じて大丈夫です。",
+    "Put it on the shelf": "本棚にしまう",
+    "Open it now after all": "やっぱり、いま見る",
+    "Let it go": "もういい、捨てる",
+    "Back to the waiting room": "入口にもどる",
+    "Decide later": "あとで決める",
+    "Shelved under {wall}": "「{wall}」の棚に並べました",
+    "Let go of it": "預かりものを捨てました",
+    "The shelf is full. Take something off it first.": "書庫の容量が足りません。何か処分しましょう。",
+    "Couldn't put it on the shelf": "本棚へしまえませんでした",
+    "There's nothing to open": "開けるものがありません",
+    "This device is out of room for held files": "この端末に置ける容量を超えました",
+    "Couldn't hold that file": "ファイルを預かれませんでした",
+    "That file is no longer on this device": "そのファイルはもう端末にありません",
+    "Taken off the shelf": "本棚から下ろしました",
+    "No address": "（URLなし）",
+    "Something to look at": "名もなき預かりもの",
+    "Received 1 item from another app": "ほかのアプリから1件届きました",
+    "Received {n} items from another app": "ほかのアプリから{n}件届きました",
+    "File": "ファイル",
+    "Later": "あとで読む",
+    "Shelf space": "棚の容量",
+    "— empty shelf —": "— 空きの棚 —",
+    "Nothing on the shelf yet. Things you keep from the waiting room end up here.": "まだ本がありません。待合室からしまったものが、ここに並びます。",
+    "Shelf wall": "本棚の壁",
+    "Previous wall": "前の壁",
+    "Next wall": "次の壁",
+    "Hold it for a minute": "一分あずける",
+    "{kind} · {size}": "{kind} ・ {size}",
+    "Drink a glass of water, slowly.": "水をコップに一杯、ゆっくり飲む。",
+    "Look at the furthest thing out of the window.": "窓の外の、いちばん遠いものを見る。",
+    "Lift your shoulders, then let them drop. Three times.": "肩をぐっと上げて、すとんと落とす。三回。",
+    "Put three things on your desk back where they belong.": "机の上のものを、三つだけ元の場所へ。",
+    "Close your eyes and count three sounds you can hear.": "目を閉じて、聞こえる音を三つ数える。",
+    "Stand up and walk once around the room.": "立ち上がって、部屋をひとまわり。",
+    "Wash your hands. Notice the temperature of the water.": "手を洗う。水の温度に気づいてみる。",
+    "Straighten your back and look up at the ceiling.": "背筋を伸ばして、天井を見上げる。",
+    "Open a window or a curtain and let the air change.": "窓かカーテンを開けて、空気を入れかえる。",
+    "Remember one good thing about today.": "今日よかったことを、ひとつ思い出す。",
+    "Feel where your feet are touching the floor.": "足の裏が床に触れている感じに集中する。",
+    "Leave one line of a note for tomorrow's you.": "明日の自分に、一行だけメモを残す。",
+    "Look into the distance and let your eyes go soft.": "遠くを見て、目のちからを抜く。",
+    "Breathe in deeply, breathe out slowly. That's enough.": "深く吸って、長く吐く。それだけでいい。",
+    "{used} / {total}": "{used} / {total}",
+    "SECONDS": "秒",
+    "Close": "閉じる",
+    "Search the shelf…": "本棚の中をさがす…",
+    "Nothing on the shelf matched.": "本棚には見つかりませんでした。",
+    "Priority": "優先度",
+    "High": "高",
+    "Low": "低",
+    "Order on this shelf": "この棚での並び順",
+    "Move earlier": "前へ",
+    "Move later": "後ろへ",
+    "Done": "済",
+    "Not done after all": "やっぱり未読にする",
+    "Marked as done": "済にしました",
+    "Put back as unfinished": "未読に戻しました",
+    "Done ({count})": "済（{count}）",
+    "Forced breaks": "強制の休憩",
+    "Interrupt me and offer something from my shelf": "割り込んで、本棚から一つすすめる",
+    "This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.": "思い出すのを待ちません。どの画面にいても、下の目安を超えた時点で、静かなバナーが出て（短い振動のみで音は出ません）本棚の未読を一つ差し出します。今していることを止めることはありません。",
+    "Every (minutes)": "何分ごと",
+    "Or after this many scrolls (0 = off)": "またはスクロール回数（0で無効）",
+    "What it offers first": "すすめる順番",
+    "Highest priority first": "優先度の高い順",
+    "The order I arranged": "自分で並べた順",
+    "Time for a break": "ひと息つきましょう",
+    "From your shelf": "本棚から",
+    "You've been at this for {minutes} minutes.": "{minutes}分ほど続けています。",
+    "You've scrolled {count} times since your last break.": "前の休憩から{count}回スクロールしています。",
+    "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "本棚にまだ未読がありません。何か入れておくと、次はそれを差し出します。",
+    "Mark done": "済にする",
+    "Open this": "これを見る",
+    "Something from your shelf is waiting.": "本棚で待っているものがあります。",
   },
 };
 
@@ -2874,6 +3558,24 @@ function initAppLock() {
   });
 
   // 許可を求める操作は利用者の操作起点でないと弾かれるので、ボタンから呼ぶ。
+  document.getElementById("breakEnabledToggle").addEventListener("change", (e) => {
+    saveBreakEnabled(e.target.checked);
+    if (e.target.checked) resetBreakCounters();
+  });
+  document.getElementById("breakIntervalInput").addEventListener("change", (e) => {
+    saveBreakIntervalMin(e.target.value);
+    e.target.value = getBreakIntervalMin();
+    resetBreakCounters();
+  });
+  document.getElementById("breakScrollInput").addEventListener("change", (e) => {
+    saveBreakScrollCount(e.target.value);
+    e.target.value = getBreakScrollCount();
+    resetBreakCounters();
+  });
+  document.getElementById("recommendOrderSelect").addEventListener("change", (e) => {
+    saveRecommendOrder(e.target.value);
+  });
+
   document.getElementById("notifyEnableBtn").addEventListener("click", requestNotificationPermission);
 
   document.getElementById("notifyPrefList").addEventListener("change", (e) => {
@@ -4024,6 +4726,10 @@ function openSettingsModal() {
   document.getElementById("browsingCheckinToggle").checked = isBrowsingCheckinsEnabled();
   document.getElementById("feedGateToggle").checked = isFeedGateEnabled();
   document.getElementById("sameWindowToggle").checked = isOpenAppsInSameWindow();
+  document.getElementById("breakEnabledToggle").checked = isBreakEnabled();
+  document.getElementById("breakIntervalInput").value = getBreakIntervalMin();
+  document.getElementById("breakScrollInput").value = getBreakScrollCount();
+  document.getElementById("recommendOrderSelect").value = getRecommendOrder();
   document.getElementById("closeOnTimeUpToggle").checked = isCloseOnScrollTimeUpEnabled();
   renderNotificationSection();
   renderScrollGatedAppList();
@@ -4924,6 +5630,7 @@ function initScrollGestureTracking() {
       clearTimeout(scrollGestureIdleTimer);
     } else {
       incrementScrollGestureCount();
+      noteBreakScroll();
       renderAppInsights();
     }
     scrollGestureIdleTimer = setTimeout(() => { scrollGestureIdleTimer = null; }, 400);
@@ -5215,7 +5922,7 @@ function renderInstallSection() {
   if (!status || !btn) return;
 
   if (isStandaloneApp()) {
-    status.textContent = t("Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept.");
+    status.textContent = t("Installed. Other apps still open outside this app, but most phones now show them as a layer you can close to come straight back rather than switching you away. Either way your tabs, dictionary and scroll state are kept. Other apps' Share button can now send links, text and files straight into your Waiting room, too.");
     btn.hidden = true;
     return;
   }
@@ -6723,6 +7430,1105 @@ function closeInsightsModal() {
 }
 
 /* ==========================================================================
+   ひと息の待合室 ＋ 本棚
+   別アプリとして作られていた「待合室」を、このアプリの本文の場所へ合流させたもの。
+   見たくなったものをすぐ開かず、まず60秒だけ預かる。数え終わってから
+   「本棚にしまう / いま見る / 捨てる」を選ぶ。
+   保存先は待合室・蔵書館と同じキーを使う（同じ場所に置いてあれば、そのまま
+   行き来できるように作られていたものなので、その約束をこちらでも守る）。
+   ========================================================================== */
+const WR_BRIDGE_KEY = "scroll-bridge-v1"; // 預かりもの・記録
+const WR_SHELF_KEY = "library-data-v2"; // 本棚（壁と本）
+const WR_CHANNEL = "scroll-bridge"; // 他の画面へ知らせる通り道
+const WR_LATER_WALL = "Later"; // 待合室から届いた本を並べる壁
+const WR_TOTAL_GB = 512; // 書庫の広さ
+const WR_WAIT_SEC = 60;
+const WR_DEFAULT_WALLS = ["North Wall", "East Wall", "South Wall", "West Wall"];
+const WR_TYPE_COLOR = { site: "#2f4a6b", video: "#7a2e2a", file: "#3c5a3a", memo: "#a8842c" };
+const WR_TYPE_SIZE = { site: 2, video: 3, file: 2, memo: 1 };
+const WR_VIDEO_HOSTS = ["youtube.com", "youtu.be", "nicovideo.jp", "vimeo.com", "tiktok.com", "twitch.tv", "bilibili.com"];
+
+// 一分のあいだにできること。訳せるよう原文のまま持ち、出すときに t() を通す。
+const WR_CARDS = [
+  "Drink a glass of water, slowly.",
+  "Look at the furthest thing out of the window.",
+  "Lift your shoulders, then let them drop. Three times.",
+  "Put three things on your desk back where they belong.",
+  "Close your eyes and count three sounds you can hear.",
+  "Stand up and walk once around the room.",
+  "Wash your hands. Notice the temperature of the water.",
+  "Straighten your back and look up at the ceiling.",
+  "Open a window or a curtain and let the air change.",
+  "Remember one good thing about today.",
+  "Feel where your feet are touching the floor.",
+  "Leave one line of a note for tomorrow's you.",
+  "Look into the distance and let your eyes go soft.",
+  "Breathe in deeply, breathe out slowly. That's enough.",
+];
+
+function wrBlankBridge() {
+  return {
+    version: 1,
+    savedMinutes: 0,
+    streak: { count: 0, lastDate: "" },
+    today: { date: "", count: 0 },
+    stats: { paused: 0, stashed: 0, opened: 0, discarded: 0 },
+    queue: [],
+    log: [],
+  };
+}
+
+let wrBridge = wrBlankBridge();
+let wrMemoryOnly = false;
+
+function wrLoadBridge() {
+  try {
+    const raw = localStorage.getItem(WR_BRIDGE_KEY);
+    if (raw) wrBridge = Object.assign(wrBlankBridge(), JSON.parse(raw));
+    if (!Array.isArray(wrBridge.queue)) wrBridge.queue = [];
+    if (!wrBridge.streak) wrBridge.streak = { count: 0, lastDate: "" };
+    if (!wrBridge.today) wrBridge.today = { date: "", count: 0 };
+    if (!wrBridge.stats) wrBridge.stats = { paused: 0, stashed: 0, opened: 0, discarded: 0 };
+    if (!Array.isArray(wrBridge.log)) wrBridge.log = [];
+  } catch (e) {
+    wrMemoryOnly = true;
+  }
+}
+
+function wrSaveBridge() {
+  if (wrMemoryOnly) return;
+  try {
+    localStorage.setItem(WR_BRIDGE_KEY, JSON.stringify(wrBridge));
+    wrNotify({ type: "bridge-updated" });
+  } catch (e) {
+    wrMemoryOnly = true;
+  }
+}
+
+function wrNotify(msg) {
+  try {
+    const ch = new BroadcastChannel(WR_CHANNEL);
+    ch.postMessage(msg);
+    ch.close();
+  } catch (e) {
+    /* 対応していない環境では黙って何もしない */
+  }
+}
+
+function wrToday() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function wrHostOf(url) {
+  return hostnameOf(url).replace(/^www\./, "");
+}
+
+function wrGuessType(url) {
+  if (!url) return "memo";
+  const h = wrHostOf(url).toLowerCase();
+  return WR_VIDEO_HOSTS.some((v) => h === v || h.endsWith("." + v)) ? "video" : "site";
+}
+
+const wrHasBox = typeof window !== "undefined" && !!window.FileBox;
+
+function wrNewId() {
+  return wrHasBox ? FileBox.newId() : `wr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function wrKindOf(item) {
+  if (item.fileId && wrHasBox) return FileBox.shelfType(item.mime, item.name);
+  return wrGuessType(item.url);
+}
+
+function wrDescribe(item) {
+  if (item.fileId && wrHasBox) {
+    return `${FileBox.kindName(item.mime, item.name)} · ${FileBox.humanSize(item.bytes)}`;
+  }
+  return item.url || t("No address");
+}
+
+/* ---- 本棚（待合室と共有する保存先） ---- */
+function wrReadShelf() {
+  let data = null;
+  try {
+    const raw = localStorage.getItem(WR_SHELF_KEY);
+    if (raw) data = JSON.parse(raw);
+  } catch (e) {
+    data = null;
+  }
+  const walls =
+    data && Array.isArray(data.walls) && data.walls.length
+      ? data.walls
+      : WR_DEFAULT_WALLS.map((n) => ({ name: n }));
+  const books = (data && Array.isArray(data.books) ? data.books : []).map(wrNormalizeBook);
+  return { walls, books };
+}
+
+function wrWriteShelf(shelf) {
+  try {
+    localStorage.setItem(WR_SHELF_KEY, JSON.stringify(shelf));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function wrUsedThickness(books) {
+  return books.reduce((sum, b) => sum + (b.size || 0), 0);
+}
+
+/* --------------------------------------------------------------------------
+   優先度・済・おすすめの順番
+   本には「高/中/低」の優先度と「済(一度見切った)」の印を持たせる。
+   済んだものは元の壁から消さず印だけ立て、専用の棚にまとめて見えるようにする
+   （元がどの壁だったかを失わずに、未読とだけ分けたいため）。
+   -------------------------------------------------------------------------- */
+const WR_PRIORITIES = ["high", "mid", "low"];
+const WR_PRIORITY_RANK = { high: 0, mid: 1, low: 2 };
+const WR_DONE_WALL = -1; // 済専用の棚。実在の壁ではなく、印で集めた見え方
+
+function wrNormalizeBook(b) {
+  return {
+    ...b,
+    priority: WR_PRIORITIES.includes(b.priority) ? b.priority : "mid",
+    done: Boolean(b.done),
+  };
+}
+
+function wrPriorityLabel(priority) {
+  if (priority === "high") return t("High");
+  if (priority === "low") return t("Low");
+  return t("Medium");
+}
+
+// おすすめの順番。manual は棚に並んでいる順、priority は高→中→低。
+function getRecommendOrder() {
+  const v = loadJSON(STORAGE_KEYS.recommendOrder, "priority");
+  return v === "manual" ? "manual" : "priority";
+}
+
+function saveRecommendOrder(v) {
+  saveJSON(STORAGE_KEYS.recommendOrder, v === "manual" ? "manual" : "priority");
+}
+
+// まだ済んでいない本を、選ばれた順番で並べて返す。
+function wrRecommendableBooks() {
+  const books = wrReadShelf().books.filter((b) => !b.done);
+  if (getRecommendOrder() === "manual") return books;
+  return [...books].sort((a, b) => {
+    const pa = WR_PRIORITY_RANK[a.priority] ?? 1;
+    const pb = WR_PRIORITY_RANK[b.priority] ?? 1;
+    return pa !== pb ? pa - pb : 0; // 同じ優先度なら棚の並び順のまま
+  });
+}
+
+function wrUpdateBook(id, changes) {
+  const shelf = wrReadShelf();
+  const idx = shelf.books.findIndex((b) => b.id === id);
+  if (idx === -1) return false;
+  shelf.books[idx] = { ...shelf.books[idx], ...changes };
+  return wrWriteShelf(shelf);
+}
+
+// 手で並べ替える。いま見えている並びの隣と入れ替えるので、棚で絞り込んでいても
+// 直感どおりに動く（辞書の並べ替えと同じ考え方）。
+function wrMoveBook(id, delta, visibleIds) {
+  const pos = visibleIds.indexOf(id);
+  if (pos === -1) return false;
+  const neighbour = visibleIds[pos + delta];
+  if (neighbour === undefined) return false;
+  const shelf = wrReadShelf();
+  const a = shelf.books.findIndex((b) => b.id === id);
+  const b = shelf.books.findIndex((x) => x.id === neighbour);
+  if (a === -1 || b === -1) return false;
+  [shelf.books[a], shelf.books[b]] = [shelf.books[b], shelf.books[a]];
+  return wrWriteShelf(shelf);
+}
+
+// 預かりものを本にして棚へ。容量が足りなければ断る。
+function wrAddToShelf(item) {
+  const shelf = wrReadShelf();
+  let wall = shelf.walls.findIndex((w) => w && w.name === WR_LATER_WALL);
+  if (wall < 0) {
+    shelf.walls.push({ name: WR_LATER_WALL });
+    wall = shelf.walls.length - 1;
+  }
+
+  const isFile = Boolean(item.fileId && wrHasBox);
+  const type = isFile ? FileBox.shelfType(item.mime, item.name) : wrGuessType(item.url);
+  const size = isFile ? FileBox.thickness(item.bytes) : WR_TYPE_SIZE[type] || 1;
+  if (wrUsedThickness(shelf.books) + size > WR_TOTAL_GB) return { ok: false, reason: "full" };
+
+  const book = {
+    id: `${Date.now()}${Math.floor(Math.random() * 999)}`,
+    title: item.title,
+    type,
+    url: item.url || "",
+    size,
+    wall,
+    color: WR_TYPE_COLOR[type],
+    deco: "label",
+    priority: "mid",
+    done: false,
+  };
+  if (isFile) {
+    book.fileId = item.fileId;
+    book.fileName = item.name;
+    book.mime = item.mime;
+    book.bytes = item.bytes;
+  }
+  shelf.books.push(book);
+
+  if (!wrWriteShelf(shelf)) return { ok: false, reason: "storage" };
+  wrNotify({ type: "book-added", title: item.title, wall: WR_LATER_WALL });
+  return { ok: true, wall: WR_LATER_WALL };
+}
+
+/* --------------------------------------------------------------------------
+   画面の状態
+   -------------------------------------------------------------------------- */
+let wrPanel = "wait"; // "wait"(待合室) か "shelf"(本棚)
+let wrStep = "home"; // "home" / "wait" / "choose"
+let wrCurrent = null; // いま預かっているもの
+let wrCurrentRec = null; // その中身（ファイルのとき）
+let wrTimer = null;
+let wrLeft = WR_WAIT_SEC;
+let wrWallIndex = 0;
+let wrSelectedBookId = null;
+
+function wrShowPanel(name) {
+  wrPanel = name;
+  document.getElementById("wrView").hidden = name !== "wait";
+  document.getElementById("shelfView").hidden = name !== "shelf";
+  document.getElementById("homeTabWait").classList.toggle("is-active", name === "wait");
+  document.getElementById("homeTabShelf").classList.toggle("is-active", name === "shelf");
+  if (name === "shelf") renderShelfView();
+}
+
+function wrShowStep(name) {
+  wrStep = name;
+  document.getElementById("wrHome").hidden = name !== "home";
+  document.getElementById("wrWait").hidden = name !== "wait";
+  document.getElementById("wrChoose").hidden = name !== "choose";
+}
+
+function renderWaitingRoomHome() {
+  if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
+  document.getElementById("wrStreak").textContent = wrBridge.streak.count;
+  document.getElementById("wrToday").textContent = wrBridge.today.count;
+  document.getElementById("wrSaved").textContent = wrBridge.savedMinutes;
+
+  document.getElementById("wrLead").textContent = wrMemoryOnly
+    ? t("This device can't keep records (private browsing, perhaps).")
+    : t("Anything you feel like looking at, this holds for one minute.");
+
+  const list = document.getElementById("wrQueue");
+  list.innerHTML = "";
+  wrBridge.queue.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = "wr-queue-row";
+    li.style.borderLeftColor = WR_TYPE_COLOR[wrKindOf(item)];
+
+    const text = document.createElement("span");
+    text.className = "wr-queue-text";
+    const title = document.createElement("span");
+    title.className = "wr-queue-title";
+    title.textContent = item.title;
+    const sub = document.createElement("small");
+    sub.textContent = wrDescribe(item);
+    text.append(title, sub);
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "wr-queue-btn";
+    btn.textContent = t("Open");
+    btn.addEventListener("click", () => wrStartWait(item));
+
+    li.append(text, btn);
+    list.appendChild(li);
+  });
+  document.getElementById("wrQueueEmpty").hidden = wrBridge.queue.length > 0;
+
+  document.getElementById("wrFileLabel").hidden = !wrHasBox;
+  if (wrHasBox) {
+    FileBox.usage().then((u) => {
+      if (!u || !u.quota) return;
+      document.getElementById("wrStorageNote").textContent = tf("Held on this device: {used} of about {quota}", {
+        used: FileBox.humanSize(u.usage || 0),
+        quota: FileBox.humanSize(u.quota),
+      });
+    });
+  }
+}
+
+/* ---- 60秒 ---- */
+function wrStartWait(item) {
+  wrCurrent = item || null;
+  wrCurrentRec = null;
+  // 「いま見る」を押した瞬間に開けるよう、中身は先に取り出しておく
+  if (wrCurrent && wrCurrent.fileId && wrHasBox) {
+    FileBox.load(wrCurrent.fileId)
+      .then((r) => {
+        wrCurrentRec = r || null;
+      })
+      .catch(() => {});
+  }
+  wrLeft = WR_WAIT_SEC;
+  document.getElementById("wrCount").textContent = wrLeft;
+  document.getElementById("wrCardBody").textContent = t(WR_CARDS[Math.floor(Math.random() * WR_CARDS.length)]);
+  document.getElementById("wrSkipBtn").hidden = true;
+
+  const keep = document.getElementById("wrKeeping");
+  if (wrCurrent) {
+    keep.hidden = false;
+    document.getElementById("wrKeepTitle").textContent = wrCurrent.title;
+    document.getElementById("wrKeepSub").textContent = wrDescribe(wrCurrent);
+  } else {
+    keep.hidden = true;
+  }
+
+  wrShowPanel("wait");
+  wrShowStep("wait");
+  clearInterval(wrTimer);
+  wrTimer = setInterval(wrTick, 1000);
+  wrTick(true);
+}
+
+function wrTick(first) {
+  if (!first) wrLeft--;
+  if (wrLeft <= 0) {
+    wrFinishWait(true);
+    return;
+  }
+  document.getElementById("wrCount").textContent = wrLeft;
+  // 吸う4秒・吐く6秒の十秒ひとまわり（輪の動きと合わせている）
+  const phase = (WR_WAIT_SEC - wrLeft) % 10;
+  document.getElementById("wrBreathWord").textContent = phase < 4 ? t("Breathe in") : t("Breathe out");
+  if (wrLeft <= WR_WAIT_SEC - 15) document.getElementById("wrSkipBtn").hidden = false;
+}
+
+function wrFinishWait(completed) {
+  clearInterval(wrTimer);
+  if (completed) {
+    if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
+    wrBridge.today.count++;
+    wrBridge.savedMinutes++;
+    wrBridge.stats.paused++;
+    const d = wrToday();
+    if (wrBridge.streak.lastDate !== d) {
+      const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      wrBridge.streak.count = wrBridge.streak.lastDate === y ? wrBridge.streak.count + 1 : 1;
+      wrBridge.streak.lastDate = d;
+    }
+    wrSaveBridge();
+  }
+  wrShowChoose(completed);
+}
+
+function wrShowChoose(completed) {
+  const has = Boolean(wrCurrent);
+  document.getElementById("wrShelfBtn").hidden = !has;
+  document.getElementById("wrOpenBtn").hidden = !has;
+  document.getElementById("wrDropBtn").hidden = !has;
+  document.getElementById("wrBackBtn").textContent = has ? t("Decide later") : t("Back to the waiting room");
+
+  const lead = document.getElementById("wrChooseLead");
+  lead.innerHTML = "";
+  lead.append(completed ? t("You waited a minute.") : t("So — what will it be?"));
+  const sub = document.createElement("small");
+  sub.textContent = has ? wrCurrent.title : t("You can close this screen now.");
+  lead.appendChild(sub);
+
+  wrShowStep("choose");
+}
+
+// 他のアプリの共有ボタンから届いたものを拾い上げる。
+// Service Worker (sw.js の receiveShare) が倉庫の「届いたばかり」置き場に
+// 置いてくれているので、開いたときにそれを吸い出して待合室の列に並べる。
+async function wrIntakeShared() {
+  if (location.search.includes("shared=")) {
+    const params = new URLSearchParams(location.search);
+    params.delete("shared");
+    const rest = params.toString();
+    history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+  }
+  if (!wrHasBox) return;
+
+  let items;
+  try {
+    items = await FileBox.inboxDrain();
+  } catch (e) {
+    return;
+  }
+  if (!items || !items.length) return;
+
+  let last = null;
+  for (const it of items) {
+    const item =
+      it.kind === "file"
+        ? {
+            id: FileBox.newId(),
+            title: FileBox.titleFromName(it.name),
+            url: "",
+            fileId: it.id,
+            name: it.name,
+            mime: it.mime,
+            bytes: it.bytes,
+            addedAt: it.addedAt || new Date().toISOString(),
+          }
+        : {
+            id: wrNewId(),
+            title: it.title || (it.url && wrHostOf(it.url)) || t("Something to look at"),
+            url: it.url || "",
+            addedAt: it.addedAt || new Date().toISOString(),
+          };
+    wrQueueItem(item);
+    last = item;
+  }
+
+  wrLog("queued");
+  wrSaveBridge();
+  renderWaitingRoomHome();
+  showToast(
+    items.length === 1
+      ? t("Received 1 item from another app")
+      : tf("Received {n} items from another app", { n: items.length })
+  );
+  if (last) wrStartWait(last);
+}
+
+function wrDropFromQueue(id) {
+  wrBridge.queue = wrBridge.queue.filter((q) => q.id !== id);
+}
+
+function wrLog(action) {
+  wrBridge.log.unshift({ at: new Date().toISOString(), action });
+  wrBridge.log = wrBridge.log.slice(0, 50);
+}
+
+function wrQueueItem(item) {
+  wrBridge.queue.unshift(item);
+  wrBridge.queue = wrBridge.queue.slice(0, 50);
+}
+
+// 他の場所（門番など）から預ける入口。
+function wrHold({ title, url }) {
+  const item = {
+    id: wrNewId(),
+    title: title || wrHostOf(url) || t("Something to look at"),
+    url: url || "",
+    addedAt: new Date().toISOString(),
+  };
+  wrQueueItem(item);
+  wrLog("queued");
+  wrSaveBridge();
+  renderWaitingRoomHome();
+  wrStartWait(item);
+  return item;
+}
+
+/* ---- 本棚の表示（背表紙を並べる） ---- */
+function wrBookWidthPx(size) {
+  return Math.round(16 + size * 1.6);
+}
+
+function wrBookHeightPx(seed) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  return 74 + (Math.abs(h) % 20);
+}
+
+function wrBuildSpine(book) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "book-spine" + (book.id === wrSelectedBookId ? " hit" : "");
+  btn.style.width = `${wrBookWidthPx(book.size)}px`;
+  btn.style.height = `${wrBookHeightPx(book.title + book.id)}px`;
+  btn.style.background = `linear-gradient(180deg, ${book.color} 0%, rgba(0,0,0,.35) 140%), ${book.color}`;
+  const band = document.createElement("span");
+  band.className = "book-band";
+  btn.appendChild(band);
+  const label = document.createElement("span");
+  label.className = "book-spine-title";
+  label.textContent = book.title;
+  btn.appendChild(label);
+  btn.setAttribute("aria-label", book.title);
+  btn.addEventListener("click", () => wrOpenBookDetail(book.id));
+  return btn;
+}
+
+function wrMeasureShelf(caseEl) {
+  const probe = document.createElement("div");
+  probe.className = "shelf";
+  probe.style.flex = "0 0 auto";
+  caseEl.appendChild(probe);
+  const shelfHeight = probe.getBoundingClientRect().height || 92;
+  const maxWidth = probe.clientWidth || 300;
+  const available = caseEl.clientHeight || shelfHeight * 3;
+  caseEl.innerHTML = "";
+  const shelfCount = Math.max(1, Math.floor((available + 6) / (shelfHeight + 6)));
+  return { maxWidth, shelfCount };
+}
+
+// いま選ばれている棚に並ぶ本。済の棚だけは、元の壁を問わず印で集める。
+function wrBooksOnCurrentWall(shelf) {
+  if (wrWallIndex === WR_DONE_WALL) return shelf.books.filter((b) => b.done);
+  return shelf.books.filter((b) => b.wall === wrWallIndex && !b.done);
+}
+
+function renderShelfView() {
+  const shelf = wrReadShelf();
+  if (wrWallIndex !== WR_DONE_WALL && wrWallIndex >= shelf.walls.length) wrWallIndex = 0;
+
+  const select = document.getElementById("shelfWallSelect");
+  select.innerHTML = "";
+  shelf.walls.forEach((w, i) => {
+    const opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = t(w.name);
+    select.appendChild(opt);
+  });
+  // 済だけを集めた棚。実在の壁ではないので最後に足す。
+  const doneOpt = document.createElement("option");
+  doneOpt.value = String(WR_DONE_WALL);
+  doneOpt.textContent = tf("Done ({count})", { count: shelf.books.filter((b) => b.done).length });
+  select.appendChild(doneOpt);
+  select.value = String(wrWallIndex);
+
+  const used = wrUsedThickness(shelf.books);
+  document.getElementById("shelfGaugeText").textContent = tf("{used} / {total}", { used, total: WR_TOTAL_GB });
+  document.getElementById("shelfGaugeFill").style.width = `${Math.min(100, (used / WR_TOTAL_GB) * 100)}%`;
+
+  renderShelfSearchHits(shelf);
+
+  const caseEl = document.getElementById("shelfCase");
+  caseEl.innerHTML = "";
+  const onWall = wrBooksOnCurrentWall(shelf);
+  const emptyNote = document.getElementById("shelfEmpty");
+  emptyNote.hidden = shelf.books.length > 0;
+  if (shelf.books.length === 0) return;
+
+  const { maxWidth, shelfCount } = wrMeasureShelf(caseEl);
+  const rows = Array.from({ length: shelfCount }, () => ({ w: 0, items: [] }));
+  onWall.forEach((b) => {
+    const w = wrBookWidthPx(b.size);
+    const row = rows.find((r) => r.w + w <= maxWidth);
+    if (row) {
+      row.w += w + 2;
+      row.items.push(b);
+    }
+  });
+
+  rows.forEach((row) => {
+    const shelfEl = document.createElement("div");
+    shelfEl.className = "shelf";
+    if (row.items.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "shelf-empty";
+      empty.textContent = t("— empty shelf —");
+      shelfEl.appendChild(empty);
+    } else {
+      row.items.forEach((b) => shelfEl.appendChild(wrBuildSpine(b)));
+    }
+    caseEl.appendChild(shelfEl);
+  });
+}
+
+// 棚の中の検索。背表紙は縦書きで探しにくいので、当たったものは一覧で出す。
+let wrShelfQuery = "";
+
+function renderShelfSearchHits(shelf) {
+  const list = document.getElementById("shelfHits");
+  const q = wrShelfQuery.trim().toLowerCase();
+  list.innerHTML = "";
+  if (!q) {
+    list.hidden = true;
+    return;
+  }
+  list.hidden = false;
+
+  const hits = shelf.books.filter(
+    (b) =>
+      (b.title || "").toLowerCase().includes(q) ||
+      (b.url || "").toLowerCase().includes(q) ||
+      (b.fileName || "").toLowerCase().includes(q)
+  );
+
+  if (hits.length === 0) {
+    const li = document.createElement("li");
+    li.className = "shelf-hit-empty";
+    li.textContent = t("Nothing on the shelf matched.");
+    list.appendChild(li);
+    return;
+  }
+
+  hits.forEach((b) => {
+    const li = document.createElement("li");
+    li.className = "shelf-hit";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "shelf-hit-main";
+    btn.addEventListener("click", () => {
+      // 見つけた本のある棚へ移ってから開く
+      wrWallIndex = b.done ? WR_DONE_WALL : b.wall;
+      wrOpenBookDetail(b.id);
+    });
+
+    const swatch = document.createElement("span");
+    swatch.className = "shelf-hit-swatch";
+    swatch.style.background = b.color;
+    btn.appendChild(swatch);
+
+    const title = document.createElement("span");
+    title.className = "shelf-hit-title";
+    title.textContent = b.title;
+    btn.appendChild(title);
+
+    const tag = document.createElement("span");
+    tag.className = "shelf-hit-tag";
+    tag.textContent = b.done ? t("Done") : wrPriorityLabel(b.priority);
+    btn.appendChild(tag);
+
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+function wrOpenBookDetail(id) {
+  const shelf = wrReadShelf();
+  const book = shelf.books.find((b) => b.id === id);
+  if (!book) return;
+  wrSelectedBookId = id;
+  document.getElementById("shelfDetailTitle").textContent = book.title;
+  document.getElementById("shelfDetailMeta").textContent = book.fileId
+    ? tf("{kind} · {size}", {
+        kind: wrHasBox ? FileBox.kindName(book.mime, book.fileName) : t("File"),
+        size: wrHasBox ? FileBox.humanSize(book.bytes) : "",
+      })
+    : book.url || t("No address");
+  document.getElementById("shelfPrioritySelect").value = book.priority;
+  document.getElementById("shelfDoneBtn").textContent = book.done ? t("Not done after all") : t("Done");
+
+  // 並べ替えは、いま見えている棚の中でだけ意味を持つ
+  const visible = wrBooksOnCurrentWall(wrReadShelf()).map((b) => b.id);
+  const pos = visible.indexOf(id);
+  document.getElementById("shelfMoveUpBtn").disabled = pos <= 0;
+  document.getElementById("shelfMoveDownBtn").disabled = pos === -1 || pos === visible.length - 1;
+
+  document.getElementById("shelfDetail").hidden = false;
+  renderShelfView();
+}
+
+function wrMoveSelected(delta) {
+  if (!wrSelectedBookId) return;
+  const visible = wrBooksOnCurrentWall(wrReadShelf()).map((b) => b.id);
+  if (wrMoveBook(wrSelectedBookId, delta, visible)) wrOpenBookDetail(wrSelectedBookId);
+}
+
+function wrCloseBookDetail() {
+  wrSelectedBookId = null;
+  document.getElementById("shelfDetail").hidden = true;
+  renderShelfView();
+}
+
+function wrOpenSelectedBook() {
+  const shelf = wrReadShelf();
+  const book = shelf.books.find((b) => b.id === wrSelectedBookId);
+  if (!book) return;
+  if (book.fileId && wrHasBox) {
+    FileBox.load(book.fileId)
+      .then((rec) => {
+        if (!rec) {
+          showToast(t("That file is no longer on this device"));
+          return;
+        }
+        if (!FileBox.openFile(rec)) FileBox.downloadFile(rec);
+      })
+      .catch(() => showToast(t("That file is no longer on this device")));
+    return;
+  }
+  if (book.url) openTab(book.url);
+}
+
+function wrRemoveSelectedBook() {
+  const shelf = wrReadShelf();
+  const book = shelf.books.find((b) => b.id === wrSelectedBookId);
+  if (!book) return;
+  if (book.fileId && wrHasBox) FileBox.remove(book.fileId).catch(() => {});
+  shelf.books = shelf.books.filter((b) => b.id !== wrSelectedBookId);
+  wrWriteShelf(shelf);
+  wrCloseBookDetail();
+  showToast(t("Taken off the shelf"));
+}
+
+/* ---- 組み立て ---- */
+function initWaitingRoom() {
+  wrLoadBridge();
+  if (wrHasBox) FileBox.askPersist();
+  wrIntakeShared();
+
+  document.getElementById("homeTabWait").addEventListener("click", () => wrShowPanel("wait"));
+  document.getElementById("homeTabShelf").addEventListener("click", () => wrShowPanel("shelf"));
+
+  document.getElementById("wrStartBtn").addEventListener("click", () => wrStartWait(null));
+  document.getElementById("wrSkipBtn").addEventListener("click", () => wrFinishWait(false));
+
+  document.getElementById("wrFilePick").addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    e.target.value = "";
+    if (!files.length || !wrHasBox) return;
+    let newest = null;
+    for (const f of files) {
+      const rec = {
+        id: FileBox.newId(),
+        name: f.name,
+        mime: f.type || "application/octet-stream",
+        bytes: f.size,
+        blob: f,
+        addedAt: new Date().toISOString(),
+      };
+      try {
+        await FileBox.save(rec);
+      } catch (err) {
+        showToast(
+          String(err && err.name) === "QuotaExceededError"
+            ? t("This device is out of room for held files")
+            : t("Couldn't hold that file")
+        );
+        break; // 容量が尽きたらそこで止める
+      }
+      const item = {
+        id: FileBox.newId(),
+        title: FileBox.titleFromName(rec.name),
+        url: "",
+        fileId: rec.id,
+        name: rec.name,
+        mime: rec.mime,
+        bytes: rec.bytes,
+        addedAt: rec.addedAt,
+      };
+      wrQueueItem(item);
+      newest = item;
+    }
+    if (!newest) return;
+    wrLog("queued");
+    wrSaveBridge();
+    renderWaitingRoomHome();
+    wrStartWait(newest);
+  });
+
+  document.getElementById("wrShelfBtn").addEventListener("click", () => {
+    if (!wrCurrent) return;
+    const r = wrAddToShelf(wrCurrent);
+    if (!r.ok) {
+      showToast(r.reason === "full" ? t("The shelf is full. Take something off it first.") : t("Couldn't put it on the shelf"));
+      return;
+    }
+    wrBridge.stats.stashed++;
+    wrDropFromQueue(wrCurrent.id);
+    wrLog("stashed");
+    wrSaveBridge();
+    wrCurrent = null;
+    wrCurrentRec = null;
+    renderWaitingRoomHome();
+    wrShowStep("home");
+    showToast(tf("Shelved under {wall}", { wall: t(r.wall) }));
+  });
+
+  document.getElementById("wrOpenBtn").addEventListener("click", () => {
+    if (!wrCurrent) return;
+    const url = wrCurrent.url;
+    const rec = wrCurrentRec;
+    wrBridge.stats.opened++;
+    wrDropFromQueue(wrCurrent.id);
+    wrLog("opened");
+    wrSaveBridge();
+    wrCurrent = null;
+    wrCurrentRec = null;
+    renderWaitingRoomHome();
+    wrShowStep("home");
+    if (rec) {
+      if (!FileBox.openFile(rec)) FileBox.downloadFile(rec);
+    } else if (url) {
+      openTab(url); // 門番や埋め込みの扱いは、このアプリの通常の経路に任せる
+    } else {
+      showToast(t("There's nothing to open"));
+    }
+  });
+
+  document.getElementById("wrDropBtn").addEventListener("click", () => {
+    if (!wrCurrent) return;
+    if (wrCurrent.fileId && wrHasBox) FileBox.remove(wrCurrent.fileId).catch(() => {});
+    wrBridge.stats.discarded++;
+    wrDropFromQueue(wrCurrent.id);
+    wrLog("discarded");
+    wrSaveBridge();
+    wrCurrent = null;
+    wrCurrentRec = null;
+    renderWaitingRoomHome();
+    wrShowStep("home");
+    showToast(t("Let go of it"));
+  });
+
+  document.getElementById("wrBackBtn").addEventListener("click", () => {
+    clearInterval(wrTimer);
+    wrCurrent = null;
+    wrCurrentRec = null;
+    renderWaitingRoomHome();
+    wrShowStep("home");
+  });
+
+  document.getElementById("shelfPrevBtn").addEventListener("click", () => {
+    const { walls } = wrReadShelf();
+    wrWallIndex = (wrWallIndex - 1 + walls.length) % walls.length;
+    renderShelfView();
+  });
+  document.getElementById("shelfNextBtn").addEventListener("click", () => {
+    const { walls } = wrReadShelf();
+    wrWallIndex = (wrWallIndex + 1) % walls.length;
+    renderShelfView();
+  });
+  document.getElementById("shelfWallSelect").addEventListener("change", (e) => {
+    wrWallIndex = Number(e.target.value) || 0;
+    renderShelfView();
+  });
+  document.getElementById("shelfSearchInput").addEventListener("input", (e) => {
+    wrShelfQuery = e.target.value;
+    renderShelfView();
+  });
+
+  document.getElementById("shelfPrioritySelect").addEventListener("change", (e) => {
+    if (!wrSelectedBookId) return;
+    wrUpdateBook(wrSelectedBookId, { priority: e.target.value });
+    renderShelfView();
+    showToast(t("Saved"));
+  });
+
+  // 一度見切ったものと、まだのものを分ける。押しても本は消さない。
+  document.getElementById("shelfDoneBtn").addEventListener("click", () => {
+    if (!wrSelectedBookId) return;
+    const shelf = wrReadShelf();
+    const book = shelf.books.find((b) => b.id === wrSelectedBookId);
+    if (!book) return;
+    const nowDone = !book.done;
+    wrUpdateBook(book.id, { done: nowDone, doneAt: nowDone ? Date.now() : null });
+    if (nowDone) wrWallIndex = WR_DONE_WALL; // 移った先が見えるように棚も切り替える
+    wrOpenBookDetail(book.id);
+    showToast(nowDone ? t("Marked as done") : t("Put back as unfinished"));
+  });
+
+  document.getElementById("shelfMoveUpBtn").addEventListener("click", () => wrMoveSelected(-1));
+  document.getElementById("shelfMoveDownBtn").addEventListener("click", () => wrMoveSelected(1));
+
+  document.getElementById("shelfOpenBtn").addEventListener("click", wrOpenSelectedBook);
+  document.getElementById("shelfRemoveBtn").addEventListener("click", wrRemoveSelectedBook);
+  document.getElementById("shelfCloseDetailBtn").addEventListener("click", wrCloseBookDetail);
+
+  // 数えている途中で画面を離れたら数え直す（こっそり進めない）
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden && wrStep === "wait") {
+      clearInterval(wrTimer);
+      wrLeft = WR_WAIT_SEC;
+      document.getElementById("wrCount").textContent = wrLeft;
+      wrTimer = setInterval(wrTick, 1000);
+    }
+  });
+
+  // 待合室や蔵書館を別の画面で開いている場合の知らせ
+  try {
+    const ch = new BroadcastChannel(WR_CHANNEL);
+    ch.onmessage = (e) => {
+      const d = e.data || {};
+      if (d.type === "queued" || d.type === "bridge-updated") {
+        wrLoadBridge();
+        if (wrStep === "home") renderWaitingRoomHome();
+      }
+      if (d.type === "book-added" && wrPanel === "shelf") renderShelfView();
+    };
+  } catch (e) {}
+
+  renderWaitingRoomHome();
+  wrShowStep("home");
+  wrShowPanel("wait");
+}
+
+/* ==========================================================================
+   強制の休憩
+   自分から「ひと息つく」を押すのを待たず、一定の時間が経つか一定の回数
+   スクロールしたら、どの画面を見ていても本棚に貯めたものの中から一つを
+   差し出す。休憩を「思い出したらするもの」から「向こうから来るもの」へ
+   変えるのが狙い。
+   待合室のような全画面モーダルではなく、音を出さないアラームのように
+   画面の外に押し出さないバナーで知らせる（振動には対応端末で応じる）。
+   操作をブロックしないので、押し付けがましくなく、他の画面の作業はそのまま続けられる。
+   数えているのは実際にこのアプリを見ていた時間だけ（隠れている間は止める）。
+   ========================================================================== */
+const BREAK_DEFAULT_MIN = 30;
+const BREAK_SNOOZE_MIN = 5;
+
+function isBreakEnabled() {
+  return loadJSON(STORAGE_KEYS.breakEnabled, true);
+}
+function saveBreakEnabled(v) {
+  saveJSON(STORAGE_KEYS.breakEnabled, v);
+}
+
+function getBreakIntervalMin() {
+  const v = Number(loadJSON(STORAGE_KEYS.breakIntervalMin, BREAK_DEFAULT_MIN));
+  return Number.isFinite(v) && v > 0 ? v : BREAK_DEFAULT_MIN;
+}
+function saveBreakIntervalMin(v) {
+  saveJSON(STORAGE_KEYS.breakIntervalMin, Math.max(1, Math.round(Number(v) || BREAK_DEFAULT_MIN)));
+}
+
+// 0 なら回数では割り込まない（時間だけで見る）。
+function getBreakScrollCount() {
+  const v = Number(loadJSON(STORAGE_KEYS.breakScrollCount, 0));
+  return Number.isFinite(v) && v >= 0 ? Math.round(v) : 0;
+}
+function saveBreakScrollCount(v) {
+  saveJSON(STORAGE_KEYS.breakScrollCount, Math.max(0, Math.round(Number(v) || 0)));
+}
+
+function getBreakState() {
+  const s = loadJSON(STORAGE_KEYS.breakState, null);
+  if (s && typeof s === "object") {
+    return { activeMs: Number(s.activeMs) || 0, scrolls: Number(s.scrolls) || 0 };
+  }
+  return { activeMs: 0, scrolls: 0 };
+}
+function saveBreakState(s) {
+  saveJSON(STORAGE_KEYS.breakState, s);
+}
+function resetBreakCounters() {
+  saveBreakState({ activeMs: 0, scrolls: 0 });
+}
+
+let breakTicker = null;
+let breakLastTickAt = null;
+let breakPickedBook = null;
+
+// 画面を見ていない間は数えない。放っておいただけで休憩を勧められても意味がない。
+function breakTick() {
+  if (!isBreakEnabled()) return;
+  const now = Date.now();
+  const since = breakLastTickAt ? now - breakLastTickAt : 0;
+  breakLastTickAt = now;
+  if (document.hidden || since <= 0 || since > 60000) return;
+  if (isAnyBreakBlocker()) return;
+
+  const state = getBreakState();
+  state.activeMs += since;
+  saveBreakState(state);
+
+  if (state.activeMs >= getBreakIntervalMin() * 60000) openBreakModal("time");
+}
+
+function noteBreakScroll() {
+  if (!isBreakEnabled()) return;
+  const limit = getBreakScrollCount();
+  if (limit <= 0) return;
+  const state = getBreakState();
+  state.scrolls += 1;
+  saveBreakState(state);
+  if (state.scrolls >= limit) openBreakModal("scroll");
+}
+
+// 割り込んで困る場面では待つ（既に割り込んでいる／ロック中／数えている最中）。
+function isAnyBreakBlocker() {
+  if (!document.getElementById("breakModal").hidden) return true;
+  if (!document.getElementById("appLockScreen").hidden) return true;
+  if (!document.getElementById("onboardingScreen").hidden) return true;
+  if (wrStep === "wait") return true;
+  return false;
+}
+
+function renderBreakPick() {
+  const books = wrRecommendableBooks();
+  breakPickedBook = books.length ? books[0] : null;
+
+  document.getElementById("breakPick").hidden = !breakPickedBook;
+  document.getElementById("breakEmptyNote").hidden = Boolean(breakPickedBook);
+  document.getElementById("breakOpenBtn").hidden = !breakPickedBook;
+  document.getElementById("breakDoneBtn").hidden = !breakPickedBook;
+
+  if (!breakPickedBook) return;
+  document.getElementById("breakPickTitle").textContent = breakPickedBook.title;
+  const bits = [wrPriorityLabel(breakPickedBook.priority)];
+  if (breakPickedBook.url) bits.push(breakPickedBook.url);
+  else if (breakPickedBook.fileName) bits.push(breakPickedBook.fileName);
+  document.getElementById("breakPickMeta").textContent = bits.join(" · ");
+}
+
+function openBreakModal(reason) {
+  const state = getBreakState();
+  document.getElementById("breakReason").textContent =
+    reason === "scroll"
+      ? tf("You've scrolled {count} times since your last break.", { count: state.scrolls })
+      : tf("You've been at this for {minutes} minutes.", { minutes: Math.round(state.activeMs / 60000) });
+  renderBreakPick();
+  document.getElementById("breakModal").hidden = false;
+  // 音は出さない。対応端末なら振動だけで気づけるようにする（サイレントアラーム）。
+  if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+  showNotification("scrollAlmostUp", t("Time for a break"), t("Something from your shelf is waiting."));
+}
+
+function closeBreakModal({ snooze } = {}) {
+  document.getElementById("breakModal").hidden = true;
+  breakPickedBook = null;
+  if (snooze) {
+    // すぐに出し直さないよう、少しだけ戻して数え直す
+    const interval = getBreakIntervalMin() * 60000;
+    saveBreakState({ activeMs: Math.max(0, interval - BREAK_SNOOZE_MIN * 60000), scrolls: 0 });
+  } else {
+    resetBreakCounters();
+  }
+  breakLastTickAt = Date.now();
+}
+
+function initForcedBreak() {
+  breakLastTickAt = Date.now();
+  clearInterval(breakTicker);
+  breakTicker = setInterval(breakTick, 5000);
+
+  document.addEventListener("visibilitychange", () => {
+    // 戻ってきた瞬間に、離れていた分をまとめて足さない
+    breakLastTickAt = Date.now();
+  });
+
+  document.getElementById("breakSnoozeBtn").addEventListener("click", () => closeBreakModal({ snooze: true }));
+
+  document.getElementById("breakOpenBtn").addEventListener("click", () => {
+    const book = breakPickedBook;
+    closeBreakModal();
+    if (!book) return;
+    if (book.fileId && wrHasBox) {
+      FileBox.load(book.fileId)
+        .then((rec) => {
+          if (!rec) {
+            showToast(t("That file is no longer on this device"));
+            return;
+          }
+          if (!FileBox.openFile(rec)) FileBox.downloadFile(rec);
+        })
+        .catch(() => showToast(t("That file is no longer on this device")));
+      return;
+    }
+    if (book.url) openTab(book.url);
+  });
+
+  document.getElementById("breakDoneBtn").addEventListener("click", () => {
+    const book = breakPickedBook;
+    if (!book) return;
+    wrUpdateBook(book.id, { done: true, doneAt: Date.now() });
+    if (wrPanel === "shelf") renderShelfView();
+    renderBreakPick(); // 次の候補をその場で出す
+    showToast(t("Marked as done"));
+  });
+}
+
+/* ==========================================================================
    初期化 / イベント登録
    ========================================================================== */
 
@@ -6742,6 +8548,8 @@ function init() {
   initOverlayBrowsingPause();
   initScrollGestureTracking();
   initInstallPrompt();
+  initWaitingRoom();
+  initForcedBreak();
   initInsightsPanel();
   renderAppInsights();
   renderDock();
@@ -6840,6 +8648,17 @@ function init() {
   });
 
   document.getElementById("feedBlockedCancelBtn").addEventListener("click", closeFeedBlockedModal);
+
+  // 断られた相手を「捨てる」か「今すぐ通す」かの二択にせず、待合室へ預けられるようにする。
+  document.getElementById("feedBlockedHoldBtn").addEventListener("click", () => {
+    const target = pendingBlockedTarget;
+    closeFeedBlockedModal();
+    if (!target) return;
+    wrHold({
+      title: target.app ? target.app.name : target.name,
+      url: target.app ? target.app.web : target.url,
+    });
+  });
   document.getElementById("feedBlockedScrollOnBtn").addEventListener("click", () => {
     hideFeedBlockedModal();
     openScrollOnModal();

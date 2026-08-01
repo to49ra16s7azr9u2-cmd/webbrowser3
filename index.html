@@ -207,6 +207,10 @@
           <li>Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
           <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.</li>
           <li>When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.</li>
+          <li>Anything you send to the Waiting room waits here for 60 seconds before you can open it, put it on your shelf, or let it go.</li>
+          <li>The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.</li>
+          <li>Every so often (30 minutes by default, or after enough scrolling) a break steps in and recommends one shelved item, wherever you are. Change the interval and the pick order in Settings.</li>
+          <li>Add this app to your home screen and other apps' Share button can send links, text and files straight here.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
       </div>
@@ -230,8 +234,110 @@
       </div>
     </div>
 
+    <!-- Home panel: the waiting room, and the shelf things end up on -->
     <div id="browserEmpty" class="browser-empty">
-      <p>Search or enter a website above to start browsing.</p>
+      <div class="home-panel">
+        <div class="home-panel-tabs">
+          <button id="homeTabWait" class="home-panel-tab is-active" type="button">Waiting room</button>
+          <button id="homeTabShelf" class="home-panel-tab" type="button">Shelf</button>
+        </div>
+
+        <!-- ===== waiting room ===== -->
+        <div id="wrView" class="home-panel-body">
+          <div id="wrHome" class="wr-step">
+            <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
+            <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for one minute.</p>
+
+            <div class="wr-record">
+              <div><b id="wrStreak">0</b><span>day streak</span></div>
+              <div><b id="wrToday">0</b><span>pauses today</span></div>
+              <div><b id="wrSaved">0</b><span>minutes held</span></div>
+            </div>
+
+            <label id="wrFileLabel" class="wr-file-label" for="wrFilePick">Hold a file from this device</label>
+            <input id="wrFilePick" type="file" multiple hidden />
+            <p id="wrStorageNote" class="wr-note"></p>
+
+            <div class="wr-section-title">Being held</div>
+            <ul id="wrQueue" class="wr-queue"></ul>
+            <p id="wrQueueEmpty" class="wr-empty">Nothing is being held right now. Anything you decide not to open straight away waits here.</p>
+          </div>
+
+          <div id="wrWait" class="wr-step" hidden>
+            <div class="wr-ring">
+              <div class="wr-ring-fill"></div>
+              <div class="wr-count"><span id="wrCount">60</span><small>SECONDS</small></div>
+            </div>
+            <div id="wrBreathWord" class="wr-breath-word">Breathe in</div>
+
+            <div class="wr-card">
+              <span class="wr-card-label">Something you could do instead</span>
+              <div id="wrCardBody" class="wr-card-body"></div>
+            </div>
+
+            <div id="wrKeeping" class="wr-keeping" hidden>
+              <b id="wrKeepTitle"></b>
+              <span id="wrKeepSub"></span>
+            </div>
+
+            <button id="wrSkipBtn" class="text-btn wr-skip" type="button" hidden>Decide without waiting</button>
+          </div>
+
+          <div id="wrChoose" class="wr-step" hidden>
+            <p id="wrChooseLead" class="wr-choose-lead"></p>
+            <button id="wrShelfBtn" class="btn btn-small wr-choice" type="button">Put it on the shelf</button>
+            <button id="wrOpenBtn" class="btn btn-secondary btn-small wr-choice" type="button">Open it now after all</button>
+            <button id="wrDropBtn" class="btn btn-secondary btn-small wr-choice" type="button">Let it go</button>
+            <button id="wrBackBtn" class="text-btn" type="button">Back to the waiting room</button>
+          </div>
+        </div>
+
+        <!-- ===== shelf ===== -->
+        <div id="shelfView" class="home-panel-body" hidden>
+          <input id="shelfSearchInput" type="search" class="dictionary-search" placeholder="Search the shelf…" autocomplete="off" />
+
+          <div class="shelf-nav">
+            <button id="shelfPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous wall"><span aria-hidden="true">&lsaquo;</span></button>
+            <select id="shelfWallSelect" class="settings-select i18n-skip" aria-label="Shelf wall"></select>
+            <button id="shelfNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next wall"><span aria-hidden="true">&rsaquo;</span></button>
+          </div>
+
+          <ul id="shelfHits" class="shelf-hits" hidden></ul>
+
+          <div class="gauge-label"><span>Shelf space</span><span id="shelfGaugeText"></span></div>
+          <div class="gauge-bar"><div id="shelfGaugeFill" class="gauge-fill"></div></div>
+
+          <div id="shelfCase" class="bookcase"></div>
+          <p id="shelfEmpty" class="wr-empty" hidden>Nothing on the shelf yet. Things you keep from the waiting room end up here.</p>
+
+          <div id="shelfDetail" class="shelf-detail" hidden>
+            <h3 id="shelfDetailTitle"></h3>
+            <div id="shelfDetailMeta" class="detail-meta"></div>
+
+            <label class="field">
+              <span>Priority</span>
+              <select id="shelfPrioritySelect">
+                <option value="high">High</option>
+                <option value="mid">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
+
+            <div class="shelf-order-row">
+              <span class="shelf-order-label">Order on this shelf</span>
+              <button id="shelfMoveUpBtn" class="order-btn" type="button" aria-label="Move earlier">&uarr;</button>
+              <button id="shelfMoveDownBtn" class="order-btn" type="button" aria-label="Move later">&darr;</button>
+            </div>
+
+            <div class="modal-actions">
+              <button id="shelfOpenBtn" class="btn btn-small" type="button">Open</button>
+              <button id="shelfDoneBtn" class="btn btn-secondary btn-small" type="button">Done</button>
+              <button id="shelfRemoveBtn" class="btn btn-secondary btn-small" type="button">Remove</button>
+              <button id="shelfCloseDetailBtn" class="btn btn-secondary btn-small" type="button">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="browserViewport" class="browser-viewport" hidden>
@@ -507,6 +613,32 @@
   </div>
 </div>
 
+<!-- Forced break: a soundless alarm-style banner offering something from the shelf.
+     Doesn't cover the screen or block what you're doing — it just sits on top. -->
+<div id="breakModal" class="break-banner" hidden role="alert" aria-live="assertive" aria-labelledby="breakTitle">
+  <div class="break-banner-card">
+    <div class="break-banner-top">
+      <span class="break-banner-icon" aria-hidden="true">⏰</span>
+      <h2 id="breakTitle">Time for a break</h2>
+    </div>
+    <p id="breakReason" class="modal-desc"></p>
+
+    <div id="breakPick" class="break-pick">
+      <span class="break-pick-label">From your shelf</span>
+      <h3 id="breakPickTitle"></h3>
+      <div id="breakPickMeta" class="detail-meta"></div>
+    </div>
+
+    <p id="breakEmptyNote" class="modal-desc" hidden>There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.</p>
+
+    <div class="modal-actions">
+      <button id="breakSnoozeBtn" class="btn btn-secondary btn-small" type="button">Not now</button>
+      <button id="breakDoneBtn" class="btn btn-secondary btn-small" type="button">Mark done</button>
+      <button id="breakOpenBtn" class="btn btn-primary btn-small" type="button">Open this</button>
+    </div>
+  </div>
+</div>
+
 <!-- Shown when a feed app is tapped while scroll is OFF -->
 <div id="feedBlockedModal" class="modal-overlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="feedBlockedTitle">
@@ -515,6 +647,7 @@
     <p class="modal-desc">These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.</p>
     <div class="modal-actions">
       <button id="feedBlockedCancelBtn" class="btn btn-secondary" type="button">Not now</button>
+      <button id="feedBlockedHoldBtn" class="btn btn-secondary" type="button">Hold it for a minute</button>
       <button id="feedBlockedScrollOnBtn" class="btn btn-primary" type="button">Turn scroll ON</button>
     </div>
   </div>
@@ -690,6 +823,30 @@
           <span>Check in with me every 10 minutes while I'm browsing a tab</span>
         </label>
 
+        <h3>Forced breaks</h3>
+        <label class="checkbox-field">
+          <input id="breakEnabledToggle" type="checkbox" />
+          <span>Interrupt me and offer something from my shelf</span>
+        </label>
+        <p class="modal-desc">This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.</p>
+        <div class="add-row">
+          <label class="field">
+            <span>Every (minutes)</span>
+            <input id="breakIntervalInput" type="number" min="1" max="600" />
+          </label>
+          <label class="field">
+            <span>Or after this many scrolls (0 = off)</span>
+            <input id="breakScrollInput" type="number" min="0" max="100000" />
+          </label>
+        </div>
+        <label class="field">
+          <span>What it offers first</span>
+          <select id="recommendOrderSelect">
+            <option value="priority">Highest priority first</option>
+            <option value="manual">The order I arranged</option>
+          </select>
+        </label>
+
         <h3>Notifications</h3>
         <p id="notifyStatusText" class="modal-desc"></p>
         <button id="notifyEnableBtn" class="btn btn-small" type="button" hidden>Allow notifications</button>
@@ -775,6 +932,7 @@
 
 <div id="toast" class="toast" hidden></div>
 
+<script src="filebox.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
