@@ -1,154 +1,53 @@
-# ネイティブ化 設計メモ（MyHome Browser）
-
-Webページのままでは解決できない「他アプリを開くとこのアプリから離れてしまう」
-「Scroll OFF が向こう側では効かない」を根本から解くための構成案。
-判断材料として、やること・作業量・お願いすること・リスク を先にまとめる。
-
----
-
-## 1. なぜネイティブなら解けるのか
-
-Webページの中に Instagram 等を表示できないのは、相手が
-`X-Frame-Options: DENY / SAMEORIGIN` を返しており、ブラウザがそれを強制するため。
-これは埋め込む側からは絶対に上書きできない（クリックジャッキング防止の仕組み）。
-
-ネイティブアプリでは **iframe を使わない**。自前の WebView に対象サイトを
-**最上位ページとして**読み込むので、そもそも「枠に入れられている」状態にならず、
-この制限が適用されない。
-
-| 積み残していたこと | ネイティブでの扱い |
-|---|---|
-| 他アプリを開くと離れてしまう | 同じアプリ内の WebView を切り替えるだけ。離れない |
-| 例の黄色い枠に表示したい | WebView をその位置に置けば文字どおり実現できる |
-| Scroll OFF が向こうで効かない | ネイティブ側でタッチを飲み込む。サイトの実装に一切依存しない |
-| アプリを閉じると通知が出せない | OS のローカル通知。閉じていても予約発火できる |
-
----
-
-## 2. 構成
-
-**方針: 既存の HTML/CSS/JS はそのまま使う。捨てない。**
-
-現在のアプリ（約 9,000 行、7 言語、テスト済み）はそのままアプリの画面として動く。
-足すのは「サイトを表示する WebView を管理するネイティブ部分」だけ。
-
-```
-┌─────────────────────────────────┐
-│ MainActivity                    │
-│                                 │
-│  ┌───────────────────────────┐  │
-│  │ Capacitor WebView         │  │  ← 今の index.html / app.js / styles.css
-│  │  上部バー・検索・ドック    │  │     そのまま。変更はごく一部
-│  │  辞書・設定・インサイト    │  │
-│  └───────────────────────────┘  │
-│                                 │
-│  ┌───────────────────────────┐  │
-│  │ ScrollGuardLayout         │  │  ← タッチを飲み込む自前のレイアウト
-│  │  ┌─────────────────────┐  │  │
-│  │  │ サイト用 WebView    │  │  │  ← Instagram 等はここに入る
-│  │  │ (タブごとに1つ)     │  │  │     最上位ページなので拒否されない
-│  │  └─────────────────────┘  │  │
-│  └───────────────────────────┘  │
-└─────────────────────────────────┘
-```
-
-### 橋渡し（JS ↔ ネイティブ）
-
-自前プラグイン `TabHost` を1つ作る。JS 側から呼ぶのはこれだけ:
-
-| メソッド | 役割 |
-|---|---|
-| `open(url, tabId)` | 新しい WebView を作ってサイトを読み込む |
-| `show(tabId)` / `hide()` | 表示の切り替え（MyHome の画面へ戻る） |
-| `close(tabId)` | WebView を破棄 |
-| `setScrollLocked(bool)` | スクロール禁止の入切 |
-| `setBounds(x,y,w,h)` | 表示位置（第2段階で使う） |
-
-**差し替えるのは既存コードの2か所だけ。** `openApp()` と `openTab()` に
-開き方が集約済みなので、`window.open` / `location.href` を `TabHost.open` に
-替えるだけで済む。ここは既に整理してあるので楽に入る。
-
-### スクロール禁止の実装
-
-WebView を包む `ScrollGuardLayout`（FrameLayout を継承）で
-`onInterceptTouchEvent` を上書きする。ロック中は、指の縦移動が
-`touchSlop` を超えた時点でそのイベントを飲み込み、WebView へ渡さない。
-
-- タップ・横スワイプ・ピンチは通す（リンクは押せる）
-- **ページ側の JavaScript からは手出しできない**。Web 版のように
-  サイト側の実装に負けることがない
-- 40 行程度
-
----
-
-## 3. 作業の段取りと分量
-
-各段の「日数」は、Android Studio に慣れている人が実際に手を動かす時間の目安。
-慣れていなければ最初の環境構築で 1 日みておくと安全。
-
-| 段 | 内容 | 分量 | 効果 |
-|---|---|---|---|
-| 0 | Capacitor 導入。今の webapp をそのまま載せて起動するところまで | 半日 | 見た目は今と同じ。まだ何も解決しない |
-| 1 | `TabHost` プラグイン。全画面で開き、戻るバーで MyHome へ | 1〜2日 | **離れなくなる。ここが山場** |
-| 2 | `ScrollGuardLayout` でスクロール禁止 | 半日〜1日 | **Scroll OFF が完全に効く** |
-| 3 | `openApp()` / `openTab()` の差し替え | 数時間 | 既存の門番・辞書などがそのまま繋がる |
-| 4 | ローカル通知へ移行 | 半日 | 閉じていても通知が届く |
-| 5 | 生体認証の作り替え（後述） | 1日 | Face ID / 指紋が戻る |
-| 6 | 例の黄色い枠の中に収める（任意） | 1〜2日 | 全画面で足りるなら不要 |
-
-**最短で目的だけ達するなら 0→1→2→3 の 3〜4 日ぶん。**
-4 以降は後から足せる。
-
----
-
-## 4. お願いすること
-
-- **Android Studio**（無料 / Windows・Mac・Linux いずれも可）
-- **Android 実機**（エミュレータでも可だが、スクロールの感触は実機で見たい）
-- 費用は **かからない**。ストアに出さず自分の端末に入れるだけなら無料・期限なし
-
-iPhone 向けにする場合は Mac + Xcode が必須で、無料の証明書では 7 日ごとに
-入れ直しが要る。期限をなくすには Apple Developer Program（年 99 ドル）。
-
-**この環境ではビルドできない**（Android SDK も Xcode も入っていない）。
-コードは書けるが、動作確認は毎回そちらの手元で回していただく形になる。
-そのぶん往復が増えるので、そこは織り込んでおいてほしい。
-
----
-
-## 5. 正直に伝えておく難所
-
-順に、重いものから。
-
-### (a) Google アカウントのログインが WebView では弾かれる
-Google は自前 WebView からのログインを規約で禁じ、実際に
-`disallowed_useragent` で拒否する。**YouTube に Google アカウントで
-ログインするのは、この方式では難しい。**
-未ログインでの閲覧は可能。回避するならその1本だけ OS のブラウザに逃がす。
-
-### (b) サイト側の UA 判定で締め出される可能性
-Instagram 等は User-Agent を見て挙動を変える。通常の Chrome と同じ UA を
-設定して回避するのが定石だが、**確実とは言えない**。相手の都合で将来変わりうる。
-
-### (c) ログイン情報は入れ直しになる
-このアプリの WebView は端末のブラウザとは別の Cookie 置き場を持つ。
-初回は各サイトへログインし直す必要がある。
-
-### (d) 配布はサイドロードのみ
-ストアに出さない限り、自分の端末に入れて使う形になる。
-
-### (e) データの持ち方
-localStorage はそのまま使えるが、アプリを消すと消える。
-**先に辞書の書き出し機能を入れておくことを強く勧める**（別途提案済み、小さい）。
-
----
-
-## 6. 進め方の提案
-
-1. まず **段 0 だけ** やって、今のアプリがネイティブの器で動くことを確認する。
-   ここで躓くなら、それ以上進めても仕方がない。
-2. 動いたら **段 1**。ここで「離れない」が実現できたかを実機で判断する。
-   目的の大半はこの時点で達成される。
-3. 手応えがあれば 2→3 と進める。
-
-段 0 と段 1 で止めても、成果は残る。全部やる前提にしなくてよい。
+{
+  "name": "MyHome Browser",
+  "short_name": "MyHome",
+  "description": "A personal coach that helps you spend your phone time on what you actually chose, not just less of it",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "share_target": {
+    "action": "./share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "video/*", "audio/*", "application/pdf", "text/plain"]
+        }
+      ]
+    }
+  },
+  "icons": [
+    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAFoElEQVR42u3VMQ0AAAgEsVfHin8B+MADK02q4JZL1wDwUCQAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAVAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAMAAAAxABQADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAACQAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMQAUAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAA1ABwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAOBmAaP1WJmycDGbAAAAAElFTkSuQmCC", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAFoElEQVR42u3VMQ0AAAgEsVfHin8B+MADK02q4JZL1wDwUCQAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAVAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAMAAAAxABQADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAACQAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMQAUAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAA1ABwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAOBmAaP1WJmycDGbAAAAAElFTkSuQmCC", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Turn Scroll ON",
+      "short_name": "Scroll ON",
+      "description": "Open MyHome Browser and go straight to turning scroll ON",
+      "url": "./index.html?action=scrollOn",
+      "icons": [
+        { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "Turn Scroll OFF",
+      "short_name": "Scroll OFF",
+      "description": "Open MyHome Browser and turn scroll OFF immediately",
+      "url": "./index.html?action=scrollOff",
+      "icons": [
+        { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png" }
+      ]
+    }
+  ]
+}

@@ -1,53 +1,1120 @@
-{
-  "name": "MyHome Browser",
-  "short_name": "MyHome",
-  "description": "A personal coach that helps you spend your phone time on what you actually chose, not just less of it",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "share_target": {
-    "action": "./share-target",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "files",
-          "accept": ["image/*", "video/*", "audio/*", "application/pdf", "text/plain"]
-        }
-      ]
-    }
-  },
-  "icons": [
-    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAFoElEQVR42u3VMQ0AAAgEsVfHin8B+MADK02q4JZL1wDwUCQAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAVAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAMAAAAxABQADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAACQAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMQAUAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAA1ABwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAOBmAaP1WJmycDGbAAAAAElFTkSuQmCC", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAFoElEQVR42u3VMQ0AAAgEsVfHin8B+MADK02q4JZL1wDwUCQAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAVAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAMAAAAxABQADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADADAACQAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAMQAUAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAAA1ABwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAMAAADAAAAwDAAAAwAAAMAAADAMAAADAAAAwAAAMAwAAAMAAADAAAAwDAAAAwAAAMAAADAOBmAaP1WJmycDGbAAAAAElFTkSuQmCC", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ],
-  "shortcuts": [
-    {
-      "name": "Turn Scroll ON",
-      "short_name": "Scroll ON",
-      "description": "Open MyHome Browser and go straight to turning scroll ON",
-      "url": "./index.html?action=scrollOn",
-      "icons": [
-        { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png" }
-      ]
-    },
-    {
-      "name": "Turn Scroll OFF",
-      "short_name": "Scroll OFF",
-      "description": "Open MyHome Browser and turn scroll OFF immediately",
-      "url": "./index.html?action=scrollOff",
-      "icons": [
-        { "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC", "sizes": "192x192", "type": "image/png" }
-      ]
-    }
-  ]
-}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>MyHome Browser</title>
+<meta name="theme-color" content="#0f172a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC" />
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAABZUlEQVR42u3SMQ0AAAgEsVfHin8B+MACYW5SBZdL18BbJMBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgcBAGAgDYSAMhIHAQBgIA2EgMBAGwkAYCAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkAYCAyEgTAQBgIDYSAMhIHAQBgIA2EgDAQGwkAYCAOBgTAQBsJAYCAMhIEwEBgIA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAYCANhIAyEgcBAGAgDYSAwEAbCQBgIDISBMBAGAgNhIAyEgTAQGAgDYSAMBAbCQBgIA4GBMBAGwkBgIAyEgTAQBlIBA2EgDISBwEAYCANhIDAQBsJAGAgMhIEwEAYCA2EgDISBMBAYCANhIAwEBsJAGAgDgYEwEAbCQGAgDISBMBAGAgNhIAyEgeBqAZ7frG1ZrZnCAAAAAElFTkSuQmCC" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="appLockScreen" class="app-lock-screen" hidden>
+  <div class="app-lock-box">
+    <div id="appLockMain">
+      <p id="appLockTitleText" class="app-lock-title">MyHome Browser is locked</p>
+      <label class="field">
+        <span>4-digit PIN</span>
+        <input id="appLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+      </label>
+      <button id="appLockUnlockBtn" class="btn btn-primary" type="button">Unlock</button>
+      <p id="appLockError" class="app-lock-error" hidden>Incorrect PIN</p>
+      <button id="appLockBiometricBtn" class="btn btn-secondary app-lock-biometric-btn" type="button" hidden>Unlock with Face ID / Fingerprint</button>
+      <video id="appLockCameraPreview" class="camera-preview" autoplay playsinline muted hidden></video>
+      <button id="appLockForgotBtn" class="text-btn app-lock-forgot-btn" type="button">Forgot PIN?</button>
+    </div>
+
+    <div id="appLockRecovery" class="app-lock-recovery" hidden>
+      <div id="appLockRecoveryQuestionStep">
+        <p id="appLockRecoveryQuestionText" class="app-lock-title"></p>
+        <label class="field">
+          <span>Your answer</span>
+          <input id="appLockAnswerInput" type="text" autocomplete="off" />
+        </label>
+        <p id="appLockAnswerError" class="app-lock-error" hidden>That answer doesn't match</p>
+        <div class="modal-actions">
+          <button id="appLockRecoveryCancelBtn" class="btn btn-secondary" type="button">Cancel</button>
+          <button id="appLockRecoveryVerifyBtn" class="btn btn-primary" type="button">Verify</button>
+        </div>
+      </div>
+
+      <div id="appLockRecoveryResetStep" hidden>
+        <p class="app-lock-title">Set a new PIN</p>
+        <label class="field">
+          <span>New 4-digit PIN</span>
+          <input id="appLockNewPinAfterRecovery" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+        </label>
+        <button id="appLockRecoverySaveBtn" class="btn btn-primary" type="button">Save &amp; Unlock</button>
+      </div>
+
+      <div id="appLockRecoveryNoQuestion" hidden>
+        <p class="app-lock-title">No recovery question is set</p>
+        <p class="modal-desc">You didn't set a security question for App Lock, so this PIN can't be recovered from here. To reset it, clear this app's data in your browser/PWA settings — note that this also resets your other MyHome Browser settings.</p>
+        <button id="appLockRecoveryBackBtn" class="btn btn-secondary" type="button">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("myhome:appLockEnabled") === "true") {
+        var el = document.getElementById("appLockScreen");
+        if (el) el.hidden = false;
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<div id="onboardingScreen" class="onboarding-screen" hidden>
+  <div class="onboarding-box">
+    <div id="onboardingStepLanguage" class="onboarding-step">
+      <p class="onboarding-eyebrow">Step 1 of 5</p>
+      <h2 class="onboarding-title">Choose your language</h2>
+      <p class="modal-desc">This sets the language for the rest of the app.</p>
+      <div id="onboardingLanguageList" class="language-list"></div>
+    </div>
+
+    <div id="onboardingStepResearch" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 2 of 5</p>
+      <h2 class="onboarding-title">Why this app exists</h2>
+      <p class="modal-desc">A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.</p>
+      <ul class="research-list">
+        <li><strong>Touching:</strong> a 2016 study by the research firm dscout found the average person touches their phone about 2,617 times a day — the heaviest users, over 5,400 times.</li>
+        <li><strong>Scrolling:</strong> infinite-scroll feeds run on the same unpredictable, variable reward pattern that makes slot machines hard to put down, a design choice researchers and former tech insiders have directly compared to gambling psychology.</li>
+        <li><strong>Checking:</strong> a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.</li>
+        <li><strong>Posture:</strong> tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).</li>
+      </ul>
+      <p class="modal-desc">None of this is about guilt. It's why a time limit and a PIN can do more than willpower alone.</p>
+      <div class="modal-actions">
+        <button id="onboardingResearchNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepGoals" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 3 of 5</p>
+      <h2 class="onboarding-title">What do you want your time back for?</h2>
+      <p class="modal-desc">Not "less phone" — more of something else. Name one or two things you'd rather be spending it on. This app will remind you of them, not just stop you.</p>
+      <ul id="onboardingGoalsList" class="editable-list"></ul>
+      <div class="add-row">
+        <input id="onboardingGoalInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+        <button id="onboardingGoalAddBtn" class="btn btn-small" type="button">Add</button>
+      </div>
+      <div class="modal-actions">
+        <button id="onboardingGoalsSkipBtn" class="btn btn-secondary" type="button">Skip for now</button>
+        <button id="onboardingGoalsNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepPin" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 4 of 5</p>
+      <h2 class="onboarding-title">Set up your PINs (optional)</h2>
+      <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
+      <label class="field">
+        <span>App Lock PIN (opens the app)</span>
+        <input id="onboardingPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Security question</span>
+        <select id="onboardingQuestionInput">
+          <option value="">Select a question (optional)</option>
+          <option value="What was your first pet's name?">What was your first pet's name?</option>
+          <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+          <option value="What was the name of your first school?">What was the name of your first school?</option>
+          <option value="What city were you born in?">What city were you born in?</option>
+          <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+          <option value="What is your favorite food?">What is your favorite food?</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Answer</span>
+        <input id="onboardingAnswerInput" type="text" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Scroll PIN (turns scroll ON)</span>
+        <input id="onboardingScrollPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+      </label>
+      <div class="modal-actions">
+        <button id="onboardingPinSkipBtn" class="btn btn-secondary" type="button">Skip</button>
+        <button id="onboardingPinNextBtn" class="btn btn-primary" type="button">Save &amp; Continue</button>
+      </div>
+    </div>
+
+    <div id="onboardingStepSns" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 5 of 5</p>
+      <h2 class="onboarding-title">Which social media do you use?</h2>
+      <p class="modal-desc">Choose the ones you want quick access to from your dock.</p>
+      <ul id="onboardingSnsList" class="app-candidate-list"></ul>
+      <div class="modal-actions">
+        <button id="onboardingSnsNextBtn" class="btn btn-primary" type="button">Finish setup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("myhome:onboardingComplete") !== "true") {
+        var el = document.getElementById("onboardingScreen");
+        if (el) el.hidden = false;
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<div id="app">
+
+  <header class="topbar">
+    <div class="scroll-control">
+      <button id="scrollToggleBtn" class="scroll-toggle is-off" type="button">
+        <span class="dot"></span>
+        <span id="scrollToggleLabel">Scroll OFF</span>
+      </button>
+      <div id="scrollTimer" class="scroll-timer" hidden></div>
+
+      <div class="focus-timer-wrap">
+        <button id="focusTimerBtn" class="text-btn" type="button" aria-expanded="false" aria-label="Set a timer">Timer</button>
+        <div id="focusTimerPanel" class="tips-panel focus-timer-panel" hidden>
+          <div id="focusTimerSetup">
+            <p class="modal-desc">Use it as a plain timer, or have it lock the app when time's up to limit your phone use.</p>
+            <div class="hms-row">
+              <label class="field hms-field">
+                <span>Hours</span>
+                <input id="focusTimerHours" type="number" min="0" max="23" value="0" inputmode="numeric" />
+              </label>
+              <label class="field hms-field">
+                <span>Minutes</span>
+                <input id="focusTimerMinutes" type="number" min="0" max="59" value="20" inputmode="numeric" />
+              </label>
+              <label class="field hms-field">
+                <span>Seconds</span>
+                <input id="focusTimerSeconds" type="number" min="0" max="59" value="0" inputmode="numeric" />
+              </label>
+            </div>
+            <label class="checkbox-field">
+              <input id="focusTimerLockInput" type="checkbox" />
+              <span>Lock the app when time's up</span>
+            </label>
+            <button id="focusTimerStartBtn" class="btn btn-small" type="button">Start</button>
+          </div>
+          <div id="focusTimerRunning" hidden>
+            <p id="focusTimerRunningText" class="modal-desc"></p>
+            <button id="focusTimerCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel timer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="dictionaryBtn" class="text-btn" type="button" aria-label="Open dictionary">Dictionary</button>
+    <button id="insightsBtn" class="text-btn" type="button" aria-label="Open insights">Insights</button>
+    <button id="settingsBtn" class="text-btn" type="button" aria-label="Open settings">Setting</button>
+    <button id="notifyQuickToggleBtn" class="icon-btn notify-quick-toggle" type="button" aria-label="Notifications">🔔</button>
+
+    <div class="tips-wrap">
+      <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
+      <div id="tipsPanel" class="tips-panel" hidden>
+        <ul class="tips-list">
+          <li>Search or type an address — it opens as a tab here.</li>
+          <li>One video or one post can show inside. A whole feed can't.</li>
+          <li>Tap the star on a tab to keep that word in your dictionary.</li>
+          <li>While scroll is OFF, the apps you ticked in Settings won't open.</li>
+          <li>When time runs out, scroll goes OFF and opened tabs close.</li>
+          <li>Held items wait before they open — longest for gated apps.</li>
+          <li>Breaks offer what you set out to do, your shelf, or a saved word.</li>
+          <li>Loosening a limit waits 24 hours. Tightening is immediate.</li>
+          <li>Add to your home screen to receive from other apps' Share.</li>
+        </ul>
+        <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
+      </div>
+    </div>
+  </header>
+
+  <form id="searchForm" class="search-bar" role="search">
+    <button id="searchSubmitBtn" class="search-submit-btn" type="submit" aria-label="Search or go to address">
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M13.6 12.2h-.7l-.3-.3a5.6 5.6 0 1 0-.6.6l.3.3v.7l4.3 4.3 1.3-1.3-4.3-4.3zm-5.2 0a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8z" fill="currentColor"/></svg>
+    </button>
+    <input id="searchInput" type="search" name="q" placeholder="Basic search" autocomplete="off" />
+  </form>
+  <p class="inline-hint">Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.</p>
+
+  <main class="content" id="browserContent">
+    <div id="tabStrip" class="tab-strip" hidden>
+      <div id="tabStripList" class="tab-strip-list"></div>
+      <div id="tabStripPagination" class="search-pagination" hidden>
+        <button id="tabStripPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="tabStripPageNumbers" class="search-page-numbers"></div>
+        <button id="tabStripNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+      </div>
+    </div>
+
+    <!-- Home panel: the waiting room, and the shelf things end up on -->
+    <div id="browserEmpty" class="browser-empty">
+      <div class="home-panel">
+        <div class="home-panel-tabs">
+          <button id="homeTabWait" class="home-panel-tab is-active" type="button">Waiting room</button>
+          <button id="homeTabGoals" class="home-panel-tab" type="button">Goals</button>
+          <button id="homeTabShelf" class="home-panel-tab" type="button">Shelf</button>
+        </div>
+
+        <!-- ===== waiting room ===== -->
+        <div id="wrView" class="home-panel-body">
+          <div id="wrHome" class="wr-step">
+            <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for a moment first.</p>
+
+            <!-- Once a week: what actually got finished, by name -->
+            <div id="wrLookBack" class="wr-lookback" hidden>
+              <span class="wr-lookback-label">Since you last looked</span>
+              <p id="wrLookBackLead" class="wr-lookback-lead"></p>
+              <p id="wrLookBackBreakdown" class="wr-lookback-breakdown" hidden></p>
+              <div id="wrLookBackTrend" class="lookback-trend" hidden></div>
+              <ul id="wrLookBackList" class="wr-lookback-list"></ul>
+              <button id="wrLookBackDismissBtn" class="btn btn-secondary btn-small" type="button">Good</button>
+            </div>
+
+            <div class="wr-section-title">Being held</div>
+            <ul id="wrQueue" class="wr-queue"></ul>
+            <p id="wrQueueEmpty" class="wr-empty">Nothing is being held right now. Anything you decide not to open straight away waits here.</p>
+
+            <button id="wrShelfSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
+            <button id="wrGoalsSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
+
+            <div id="wrBreakRing" class="break-ring">
+              <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
+            </div>
+            <div id="wrBreakPicker" class="chip-row break-picker" role="group" aria-label="Break length" hidden></div>
+            <button id="wrBreakEndBtn" class="text-btn wr-break-end" type="button" hidden>End the break early</button>
+
+            <label id="wrFileLabel" class="wr-file-label" for="wrFilePick">Hold a file from this device</label>
+            <input id="wrFilePick" type="file" multiple hidden />
+            <p id="wrStorageNote" class="wr-note"></p>
+
+            <div class="wr-record">
+              <div><b id="wrStreak">0</b><span>day streak</span></div>
+              <div><b id="wrToday">0</b><span>pauses today</span></div>
+              <button id="wrFinishedBtn" type="button" class="wr-record-btn"><b id="wrFinished">0</b><span>finished</span></button>
+            </div>
+          </div>
+
+          <div id="wrWait" class="wr-step" hidden>
+            <div class="wr-ring">
+              <div class="wr-ring-fill"></div>
+              <div class="wr-count"><span id="wrCount">60</span><small>SECONDS</small></div>
+            </div>
+            <div id="wrBreathWord" class="wr-breath-word">Breathe in</div>
+
+            <div class="wr-card">
+              <span class="wr-card-label">Something you could do instead</span>
+              <div id="wrCardBody" class="wr-card-body"></div>
+            </div>
+
+            <div id="wrKeeping" class="wr-keeping" hidden>
+              <b id="wrKeepTitle"></b>
+              <span id="wrKeepSub"></span>
+            </div>
+
+            <button id="wrSkipBtn" class="text-btn wr-skip" type="button" hidden>Decide without waiting</button>
+          </div>
+
+          <div id="wrChoose" class="wr-step" hidden>
+            <p id="wrChooseLead" class="wr-choose-lead"></p>
+            <button id="wrShelfBtn" class="btn btn-small wr-choice" type="button">Put it on the shelf</button>
+            <button id="wrOpenBtn" class="btn btn-secondary btn-small wr-choice" type="button">Open it now after all</button>
+            <button id="wrDropBtn" class="btn btn-secondary btn-small wr-choice" type="button">Let it go</button>
+            <button id="wrBackBtn" class="text-btn" type="button">Back to the waiting room</button>
+          </div>
+        </div>
+
+        <!-- ===== goals ===== -->
+        <div id="goalsView" class="home-panel-body" hidden>
+          <p class="wr-note">Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.</p>
+          <ul id="wrAspirationList" class="editable-list wr-aspiration-list"></ul>
+          <p id="wrAspirationEmpty" class="wr-empty">Nothing here yet — add something and breaks will offer it first.</p>
+          <button id="wrAddAspirationToggleBtn" class="add-toggle-btn" type="button" aria-expanded="false">+ Add something</button>
+          <div id="wrAspirationForm" class="add-row add-row-stacked" hidden>
+            <input id="wrNewAspirationInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+            <div class="aspiration-fields">
+              <select id="wrNewAspirationWhen" class="settings-select" aria-label="Time of day">
+                <option value="any">Any time</option>
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+                <option value="night">Late night</option>
+              </select>
+              <input id="wrNewAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+            </div>
+            <div class="field">
+              <span>Days (optional)</span>
+              <div id="wrNewAspirationDayRow" class="day-toggle-row" role="group" aria-label="Days"></div>
+            </div>
+            <label class="field">
+              <span>Keep at it until (optional)</span>
+              <input id="wrNewAspirationUntil" type="date" />
+            </label>
+            <button id="wrAddAspirationBtn" class="btn btn-small" type="button">Add</button>
+          </div>
+        </div>
+
+        <!-- ===== shelf ===== -->
+        <div id="shelfView" class="home-panel-body" hidden>
+          <input id="shelfSearchInput" type="search" class="dictionary-search" placeholder="Search the shelf…" autocomplete="off" />
+          <p class="inline-hint">Priority and Done decide what a break offers you next.</p>
+
+          <div class="shelf-nav">
+            <button id="shelfPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous wall"><span aria-hidden="true">&lsaquo;</span></button>
+            <select id="shelfWallSelect" class="settings-select i18n-skip" aria-label="Shelf wall"></select>
+            <button id="shelfNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next wall"><span aria-hidden="true">&rsaquo;</span></button>
+            <button id="shelfAddWallBtn" class="btn btn-secondary btn-small" type="button" aria-label="Add a shelf">+</button>
+          </div>
+
+          <div class="shelf-actions">
+            <button id="shelfRenameBtn" class="text-btn" type="button">Rename</button>
+            <button id="shelfShareBtn" class="text-btn" type="button">Share this shelf</button>
+          </div>
+
+          <button id="shelfAddToggleBtn" class="add-toggle-btn" type="button" aria-expanded="false">+ Add a book</button>
+
+          <div id="shelfAddForm" class="add-row add-row-stacked" hidden>
+            <input id="newShelfTitle" type="text" placeholder="Title" maxlength="80" />
+            <input id="newShelfUrl" type="text" placeholder="Link (optional)" maxlength="300" />
+            <button id="shelfAddBtn" class="btn btn-small" type="button">Add</button>
+          </div>
+
+          <ul id="shelfHits" class="shelf-hits" hidden></ul>
+
+          <div class="gauge-label"><span>Shelf space</span><span id="shelfGaugeText"></span></div>
+          <div class="gauge-bar"><div id="shelfGaugeFill" class="gauge-fill"></div></div>
+
+          <div id="shelfCase" class="bookcase"></div>
+          <p id="shelfEmpty" class="wr-empty" hidden>Nothing on the shelf yet. Things you keep from the waiting room end up here.</p>
+
+          <div id="shelfDetail" class="shelf-detail" hidden>
+            <h3 id="shelfDetailTitle"></h3>
+            <div id="shelfDetailMeta" class="detail-meta"></div>
+
+            <label class="field">
+              <span>Priority</span>
+              <select id="shelfPrioritySelect">
+                <option value="high">High</option>
+                <option value="mid">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>How long it takes (minutes)</span>
+              <input id="shelfMinutesInput" type="number" min="1" max="600" placeholder="e.g. 12" />
+            </label>
+
+            <div class="shelf-order-row">
+              <span class="shelf-order-label">Order on this shelf</span>
+              <button id="shelfMoveUpBtn" class="order-btn" type="button" aria-label="Move earlier">&uarr;</button>
+              <button id="shelfMoveDownBtn" class="order-btn" type="button" aria-label="Move later">&darr;</button>
+            </div>
+
+            <div class="modal-actions">
+              <button id="shelfOpenBtn" class="btn btn-small" type="button">Open</button>
+              <button id="shelfDoneBtn" class="btn btn-secondary btn-small" type="button">Done</button>
+              <button id="shelfRemoveBtn" class="btn btn-secondary btn-small" type="button">Remove</button>
+              <button id="shelfCloseDetailBtn" class="btn btn-secondary btn-small" type="button">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="browserViewport" class="browser-viewport" hidden>
+      <div class="browser-viewport-toolbar">
+        <button id="saveWordBtn" class="icon-btn" type="button" aria-label="Save to your dictionary">&#9734;</button>
+        <div id="browserViewportUrl" class="browser-viewport-url"></div>
+        <a id="browserOpenExternalBtn" class="icon-btn" href="#" target="_blank" rel="noopener" aria-label="Open in browser">&#10697;</a>
+      </div>
+      <div id="browserFrames" class="browser-frames"></div>
+    </div>
+  </main>
+
+  <!-- Insights modal -->
+  <div id="insightsModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="insightsModalTitle">
+      <div class="settings-modal-header">
+        <button id="closeInsights" class="modal-close-btn" type="button" aria-label="Close insights">&times;</button>
+        <h2 id="insightsModalTitle">Insights</h2>
+      </div>
+      <div id="panel-insights">
+      <div id="insightsGoalCard" class="insights-goal-card" hidden>
+        <div class="insights-goal-header">
+          <span class="insights-goal-title">Today</span>
+          <span id="insightsGoalStreak" class="insights-goal-streak" hidden></span>
+        </div>
+        <div id="insightsGoalBar" class="insights-goal-bar" hidden>
+          <div id="insightsGoalBarFill" class="insights-goal-bar-fill"></div>
+        </div>
+        <div id="insightsGoalText" class="insights-goal-text"></div>
+        <div id="insightsGoalTrend" class="insights-goal-trend" hidden></div>
+        <div id="insightsWeekChart" class="insights-week-chart" hidden>
+          <div class="insights-week-chart-title">Last 7 days</div>
+          <div id="insightsWeekChartCols" class="insights-week-chart-cols"></div>
+        </div>
+        <div id="insightsHourHeatmap" class="insights-hour-heatmap" hidden>
+          <div class="insights-week-chart-title">By hour of day</div>
+          <div id="insightsHourHeatmapCells" class="insights-hour-heatmap-cells"></div>
+          <div class="insights-hour-heatmap-labels">
+            <span id="insightsHourHeatmapLabel0"></span>
+            <span id="insightsHourHeatmapLabel6"></span>
+            <span id="insightsHourHeatmapLabel12"></span>
+            <span id="insightsHourHeatmapLabel18"></span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="insights-period-tabs" role="tablist" aria-label="Choose a time period">
+        <button class="insights-period-tab is-active" data-period="all" type="button">All time</button>
+        <button class="insights-period-tab" data-period="hour" type="button">Hour</button>
+        <button class="insights-period-tab" data-period="day" type="button">Day</button>
+        <button class="insights-period-tab" data-period="month" type="button">Month</button>
+        <button class="insights-period-tab" data-period="year" type="button">Year</button>
+      </nav>
+
+      <div id="insightsPeriodNav" class="insights-period-nav" hidden>
+        <button id="insightsPeriodPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous period">&lsaquo;</button>
+        <div id="insightsPeriodLabel" class="insights-period-label"></div>
+        <button id="insightsPeriodNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next period">&rsaquo;</button>
+        <button id="insightsPeriodTodayBtn" class="text-btn" type="button">Now</button>
+      </div>
+
+      <div id="insightsCalendar" class="insights-calendar" hidden>
+        <div class="insights-calendar-header">
+          <button id="calendarPrevMonthBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous month">&lsaquo;</button>
+          <div id="calendarMonthLabel" class="insights-calendar-month-label"></div>
+          <button id="calendarNextMonthBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next month">&rsaquo;</button>
+        </div>
+        <div id="insightsCalendarWeekdays" class="insights-calendar-weekdays"></div>
+        <div id="insightsCalendarGrid" class="insights-calendar-grid"></div>
+      </div>
+
+      <div id="insightsTimeChart" class="insights-time-chart" hidden>
+        <div class="insights-time-chart-title">Time spent per app</div>
+        <div class="insights-time-chart-body">
+          <div id="insightsTimeChartAxis" class="insights-time-chart-axis"></div>
+          <div id="insightsTimeChartCols" class="insights-time-chart-cols"></div>
+        </div>
+      </div>
+
+      <ul id="mainInsightsList" class="insights-list"></ul>
+      <div class="search-pagination">
+        <button id="mainInsightsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="mainInsightsPageNumbers" class="search-page-numbers"></div>
+        <button id="mainInsightsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dictionary modal: words you looked up, with groups, sorting and free ordering -->
+  <div id="dictionaryModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal dictionary-modal" role="dialog" aria-modal="true" aria-labelledby="dictionaryModalTitle">
+      <div class="settings-modal-header">
+        <button id="closeDictionary" class="modal-close-btn" type="button" aria-label="Close dictionary">&times;</button>
+        <h2 id="dictionaryModalTitle">Your Dictionary</h2>
+      </div>
+
+      <!-- list view -->
+      <div id="dictListView" class="dictionary-view">
+        <input id="dictSearchInput" type="search" class="dictionary-search" placeholder="Search your dictionary…" autocomplete="off" />
+
+        <div class="dictionary-toolbar">
+          <select id="dictGroupFilter" class="settings-select i18n-skip" aria-label="Filter by group"></select>
+          <select id="dictSortSelect" class="settings-select" aria-label="Sort words">
+            <option value="manual">My order</option>
+            <option value="az">A to Z</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+          <button id="dictManageGroupsBtn" class="icon-btn" type="button" aria-label="Manage groups">&#128451;</button>
+        </div>
+
+        <div class="dictionary-add-row">
+          <button id="dictAddWordBtn" class="btn btn-secondary btn-small" type="button">+ Add a word</button>
+          <span id="dictCountNote" class="dictionary-count"></span>
+        </div>
+
+        <div id="dictAddForm" class="dictionary-add-form" hidden>
+          <label class="field">
+            <span>Word</span>
+            <input id="dictAddWordInput" type="text" maxlength="80" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Meaning / note</span>
+            <textarea id="dictAddNoteInput" rows="2" maxlength="500"></textarea>
+          </label>
+          <label class="field">
+            <span>Group</span>
+            <select id="dictAddGroupSelect"></select>
+          </label>
+          <div class="modal-actions">
+            <button id="dictAddCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel</button>
+            <button id="dictAddSaveBtn" class="btn btn-small" type="button">Add</button>
+          </div>
+        </div>
+
+        <ul id="dictList" class="dictionary-list"></ul>
+        <p id="dictEmptyNote" class="modal-desc" hidden></p>
+      </div>
+
+      <!-- detail view -->
+      <div id="dictDetailView" class="dictionary-view" hidden>
+        <button id="dictDetailBackBtn" class="text-btn" type="button">&lsaquo; Back to dictionary</button>
+        <div id="dictDetailCard" class="detail-card"></div>
+        <div class="modal-actions">
+          <button id="dictOpenBtn" class="btn btn-primary btn-small" type="button">Open</button>
+          <button id="dictEditToggleBtn" class="btn btn-secondary btn-small" type="button" aria-expanded="false">Edit</button>
+          <button id="dictDeleteBtn" class="btn btn-secondary btn-small" type="button">Remove</button>
+        </div>
+        <div id="dictEditForm" class="dictionary-edit-form" hidden>
+          <label class="field">
+            <span>Word</span>
+            <input id="dictEditWordInput" type="text" maxlength="80" autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Meaning / note</span>
+            <textarea id="dictEditNoteInput" rows="3" maxlength="500"></textarea>
+          </label>
+          <label class="field">
+            <span>Group</span>
+            <select id="dictEditGroupSelect"></select>
+          </label>
+          <button id="dictEditSaveBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+      </div>
+
+      <!-- groups view -->
+      <div id="dictGroupsView" class="dictionary-view" hidden>
+        <button id="dictGroupsBackBtn" class="text-btn" type="button">&lsaquo; Back to dictionary</button>
+
+        <div class="dictionary-groups-body">
+          <label class="field">
+            <span>Group to edit</span>
+            <select id="dictGroupsSelect" class="i18n-skip"></select>
+          </label>
+          <label class="field">
+            <span>Rename this group</span>
+            <input id="dictGroupRenameInput" type="text" maxlength="20" autocomplete="off" />
+          </label>
+          <div class="modal-actions">
+            <button id="dictGroupRenameBtn" class="btn btn-small" type="button">Save</button>
+            <button id="dictGroupDeleteBtn" class="btn btn-secondary btn-small" type="button">Delete this group</button>
+          </div>
+          <p class="modal-desc">Deleting a group keeps its words — they move to the first group.</p>
+
+          <label class="field">
+            <span>Add a new group</span>
+            <input id="dictAddGroupInput" type="text" maxlength="20" autocomplete="off" placeholder="New group" />
+          </label>
+          <button id="dictAddGroupBtn" class="btn btn-small" type="button">+ Add group</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browsing check-in modal -->
+  <div id="browsingCheckinModal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="browsingCheckinTitle">
+      <h2 id="browsingCheckinTitle">Still browsing</h2>
+      <p id="browsingCheckinText" class="modal-desc"></p>
+      <form id="browsingCheckinSearchForm" class="search-bar">
+        <button id="browsingCheckinSearchSubmitBtn" class="search-submit-btn" type="submit" aria-label="Search or go to address">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M13.6 12.2h-.7l-.3-.3a5.6 5.6 0 1 0-.6.6l.3.3v.7l4.3 4.3 1.3-1.3-4.3-4.3zm-5.2 0a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8z" fill="currentColor"/></svg>
+        </button>
+        <input id="browsingCheckinSearchInput" type="search" placeholder="Search or enter address" autocomplete="off" />
+      </form>
+      <div class="modal-actions">
+        <button id="browsingCheckinDismissBtn" class="btn btn-secondary" type="button">Keep browsing</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-dock">
+    <button id="dockCollapseBtn" class="dock-collapse-btn" type="button" aria-expanded="true">Hide Apps</button>
+    <div id="dockContent">
+      <div id="dockGrid" class="dock-grid"></div>
+      <button id="editDockBtn" class="dock-edit-btn" type="button">Edit Apps</button>
+    </div>
+  </footer>
+</div>
+
+<!-- Turn scroll on confirmation modal -->
+<div id="scrollOnModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scrollOnTitle">
+    <h2 id="scrollOnTitle">Turn scroll ON</h2>
+    <p id="scrollOnDesc" class="modal-desc">Choose a time limit. Scroll will switch back OFF automatically when time is up.</p>
+
+    <!-- 選ぶまでの手数を削るため、プルダウンではなく一発で選べるチップにする。
+         下のselectは既存のロジック(検証・保存)がそのまま使えるよう、値の置き場として残す。 -->
+    <div id="durationChips" class="chip-row" role="group" aria-label="Time limit"></div>
+    <select id="durationSelect" class="i18n-skip" hidden></select>
+
+    <div id="customDurationRow" class="hms-row" hidden>
+      <label class="field hms-field">
+        <span>Hours</span>
+        <input id="customDurationHours" type="number" min="0" max="23" value="0" inputmode="numeric" />
+      </label>
+      <label class="field hms-field">
+        <span>Minutes</span>
+        <input id="customDurationMinutes" type="number" min="0" max="59" value="15" inputmode="numeric" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>4-digit PIN</span>
+      <input id="scrollPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
+    </label>
+
+    <button id="scrollOnBiometricBtn" class="btn btn-secondary app-lock-biometric-btn" type="button" hidden>Unlock with Face ID / Fingerprint</button>
+    <video id="scrollOnCameraPreview" class="camera-preview" autoplay playsinline muted hidden></video>
+
+    <div class="modal-actions">
+      <button id="cancelScrollOn" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="confirmScrollOn" class="btn btn-primary" type="button">Turn ON</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm before opening an app from the dock -->
+<div id="appOpenConfirmModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appOpenConfirmTitle">
+    <h2 id="appOpenConfirmTitle">Open this app?</h2>
+    <p id="appOpenConfirmDesc" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="appOpenCancelBtn" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="appOpenConfirmBtn" class="btn btn-primary" type="button">Open</button>
+    </div>
+  </div>
+</div>
+
+<!-- Someone opened a shelf link you sent them (or vice versa) -->
+<div id="sharedShelfModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sharedShelfTitle">
+    <h2 id="sharedShelfTitle">A shelf from someone</h2>
+    <p id="sharedShelfLead" class="modal-desc"></p>
+    <ul id="sharedShelfList" class="wr-lookback-list"></ul>
+    <p class="modal-desc">Taking it adds a new shelf of your own. Nothing you already have is touched.</p>
+    <div class="modal-actions">
+      <button id="sharedShelfDeclineBtn" class="btn btn-secondary" type="button">No thanks</button>
+      <button id="sharedShelfAcceptBtn" class="btn btn-primary" type="button">Add to my shelves</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shown once, right after setup finishes: notice the friction before exploring anything else -->
+<div id="firstRunModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="firstRunTitle">
+    <h2 id="firstRunTitle">Notice what just happened</h2>
+    <p class="modal-desc">Scroll is OFF right now. Try swiping this page — it won't move. That small inconvenience is the whole point: it buys you a moment to choose, instead of scrolling out of habit.</p>
+    <p id="firstRunGoalLine" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="firstRunGotItBtn" class="btn btn-primary" type="button">Got it — let me try</button>
+    </div>
+  </div>
+</div>
+
+<!-- Forced break: a soundless alarm-style banner offering something from the shelf.
+     Doesn't cover the screen or block what you're doing — it just sits on top. -->
+<div id="breakModal" class="break-banner" hidden role="alert" aria-live="assertive" aria-labelledby="breakTitle">
+  <div class="break-banner-card">
+    <div class="break-banner-top">
+      <span class="break-banner-icon" aria-hidden="true">⏰</span>
+      <h2 id="breakTitle">Time for a break</h2>
+    </div>
+    <p id="breakReason" class="modal-desc"></p>
+
+    <div id="breakPickCard" class="break-pick">
+      <span id="breakPickLabel" class="break-pick-label">From your shelf</span>
+      <h3 id="breakPickTitle"></h3>
+      <div id="breakPickMeta" class="detail-meta"></div>
+    </div>
+
+    <p id="breakEmptyNote" class="modal-desc" hidden>Set out what you want to get to, in Settings — then this offers those instead of just something to read.</p>
+
+    <div class="modal-actions">
+      <button id="breakSnoozeBtn" class="btn btn-secondary btn-small" type="button">Not now</button>
+      <button id="breakDoneBtn" class="btn btn-secondary btn-small" type="button">Mark done</button>
+      <button id="breakOpenBtn" class="btn btn-primary btn-small" type="button">Open this</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shown when a feed app is tapped while scroll is OFF -->
+<div id="feedBlockedModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="feedBlockedTitle">
+    <h2 id="feedBlockedTitle">Scroll is OFF</h2>
+    <p id="feedBlockedDesc" class="modal-desc"></p>
+    <p class="modal-desc">These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.</p>
+
+    <!-- The promise this person made to themselves, read back at the moment it matters -->
+    <div id="feedBlockedRule" class="blocked-rule" hidden>
+      <span class="blocked-rule-label">You decided</span>
+      <span id="feedBlockedRuleText"></span>
+    </div>
+
+    <div class="modal-actions">
+      <button id="feedBlockedCancelBtn" class="btn btn-secondary" type="button">Not now</button>
+      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Put it in the waiting room</button>
+    </div>
+    <button id="feedBlockedScrollOnBtn" class="text-btn blocked-override" type="button">Turn scroll ON anyway</button>
+  </div>
+</div>
+
+<!-- Shown when a dock app is tapped during a self-set break -->
+<div id="breakLockModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="breakLockTitle">
+    <h2 id="breakLockTitle">You're on a break</h2>
+    <p id="breakLockDesc" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="breakLockCloseBtn" class="btn btn-primary" type="button">Back to the break</button>
+    </div>
+    <button id="breakLockEndBtn" class="text-btn blocked-override" type="button">End the break early</button>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div id="settingsModal" class="modal-overlay" hidden>
+  <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-modal-header">
+      <button id="closeSettings" class="modal-close-btn" type="button" aria-label="Close settings">&times;</button>
+      <h2 id="settingsTitle">Settings</h2>
+    </div>
+    <p id="settingsPageIndicator" class="onboarding-eyebrow"></p>
+
+    <div class="settings-pages">
+      <section id="settingsPage-appearance" class="settings-page settings-section">
+        <h3>Appearance</h3>
+        <div id="presetRow" class="preset-row">
+          <button type="button" class="preset-swatch" data-accent="#65a30d" data-bg="#ffffff" style="--swatch-a:#65a30d;--swatch-b:#ffffff;">Green</button>
+          <button type="button" class="preset-swatch" data-accent="#2563eb" data-bg="#eef4ff" style="--swatch-a:#2563eb;--swatch-b:#eef4ff;">Blue</button>
+          <button type="button" class="preset-swatch" data-accent="#7c3aed" data-bg="#f5f3ff" style="--swatch-a:#7c3aed;--swatch-b:#f5f3ff;">Purple</button>
+          <button type="button" class="preset-swatch" data-accent="#ea580c" data-bg="#fff7ed" style="--swatch-a:#ea580c;--swatch-b:#fff7ed;">Orange</button>
+          <button type="button" class="preset-swatch" data-accent="#db2777" data-bg="#fdf2f8" style="--swatch-a:#db2777;--swatch-b:#fdf2f8;">Pink</button>
+          <button type="button" class="preset-swatch" data-accent="#38bdf8" data-bg="#0f172a" style="--swatch-a:#38bdf8;--swatch-b:#0f172a;">Dark</button>
+        </div>
+        <div class="color-row">
+          <label class="color-field">
+            <span>Accent color</span>
+            <input id="accentColorInput" type="color" />
+          </label>
+          <label class="color-field">
+            <span>Background color</span>
+            <input id="bgColorInput" type="color" />
+          </label>
+        </div>
+        <label for="bgImageInput" class="btn btn-small file-label">Choose background image</label>
+        <input id="bgImageInput" type="file" accept="image/*" hidden />
+        <div class="modal-actions">
+          <button id="removeBgImageBtn" class="btn btn-secondary" type="button">Remove image</button>
+          <button id="resetAppearanceBtn" class="btn btn-secondary" type="button">Reset colors</button>
+        </div>
+
+        <h3>Home Screen Icons</h3>
+        <div class="color-row">
+          <label class="color-field">
+            <span>Icon size</span>
+            <select id="iconSizeSelect" class="settings-select">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+          <label class="color-field">
+            <span>Icon shape</span>
+            <select id="iconShapeSelect" class="settings-select">
+              <option value="rounded">Rounded square</option>
+              <option value="circle">Circle</option>
+            </select>
+          </label>
+        </div>
+        <label class="checkbox-field">
+          <input id="showLabelsToggle" type="checkbox" />
+          <span>Show app names under icons</span>
+        </label>
+
+        <h3>Language</h3>
+        <p class="modal-desc">The whole app is shown in this language.</p>
+        <select id="languageSelect" class="settings-select i18n-skip" aria-label="Language"></select>
+
+        <h3>Install to your home screen</h3>
+        <p id="installStatusText" class="modal-desc"></p>
+        <button id="installBtn" class="btn btn-small" type="button" hidden>Install</button>
+      </section>
+
+      <section id="settingsPage-pins" class="settings-page settings-section" hidden>
+        <h3>Scroll PIN</h3>
+        <p class="modal-desc">Required to turn scroll ON. Default is 0000 until you change it.</p>
+        <div class="add-row">
+          <input id="newPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="New 4-digit PIN" autocomplete="off" />
+          <button id="savePinBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+        <label class="checkbox-field" id="biometricScrollRow" hidden>
+          <input id="biometricScrollToggle" type="checkbox" />
+          <span>Use Face ID / Fingerprint to turn scroll ON</span>
+        </label>
+        <p id="biometricScrollUnavailableNote" class="modal-desc">Face ID / Fingerprint isn't available on this device or browser.</p>
+
+        <h3>App Lock</h3>
+        <p class="modal-desc">Required every time the app opens. Default is 0000 until you change it.</p>
+        <label class="checkbox-field">
+          <input id="appLockEnabledInput" type="checkbox" />
+          <span>Require PIN to open the app</span>
+        </label>
+        <div class="add-row">
+          <input id="newAppLockPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="New 4-digit PIN" autocomplete="off" />
+          <button id="saveAppLockPinBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+        <label class="checkbox-field" id="biometricAppLockRow" hidden>
+          <input id="biometricAppLockToggle" type="checkbox" />
+          <span>Use Face ID / Fingerprint to open the app</span>
+        </label>
+        <p id="biometricAppLockUnavailableNote" class="modal-desc">Face ID / Fingerprint isn't available on this device or browser.</p>
+
+        <p class="modal-desc">Recovery question (optional) — the only way to reset a forgotten App Lock PIN.</p>
+        <label class="field">
+          <span>Security question</span>
+          <select id="appLockQuestionInput">
+            <option value="">Select a question (optional)</option>
+            <option value="What was your first pet's name?">What was your first pet's name?</option>
+            <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+            <option value="What was the name of your first school?">What was the name of your first school?</option>
+            <option value="What city were you born in?">What city were you born in?</option>
+            <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+            <option value="What is your favorite food?">What is your favorite food?</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Answer</span>
+          <input id="appLockAnswerSetupInput" type="text" autocomplete="off" />
+        </label>
+        <button id="saveAppLockRecoveryBtn" class="btn btn-small" type="button">Save recovery question</button>
+
+        <label class="checkbox-field" id="biometricCameraRow">
+          <input id="biometricCameraToggle" type="checkbox" />
+          <span>Show front camera while authenticating (visual only, doesn't verify you)</span>
+        </label>
+      </section>
+
+      <section id="settingsPage-insights" class="settings-page settings-section" hidden>
+        <h3>Daily usage goal</h3>
+        <p class="modal-desc">Set your own daily time limit across all apps and scroll time. Insights tracks your progress against your own number, not one this app picked for you.</p>
+        <div class="add-row">
+          <input id="insightsGoalInput" type="number" inputmode="numeric" min="1" max="1440" placeholder="Minutes per day" />
+          <button id="saveInsightsGoalBtn" class="btn btn-small" type="button">Save</button>
+        </div>
+        <button id="clearInsightsGoalBtn" class="text-btn" type="button" hidden>Remove goal</button>
+
+        <h3>App Insights</h3>
+        <p class="modal-desc">How often you open each app from the dock, and roughly how long you're away for. Times are estimated from when you leave and come back to this app, not from inside the other app.</p>
+        <p id="promiseAccuracyNote" class="modal-desc" hidden></p>
+        <ul id="appInsightsList" class="insights-list"></ul>
+        <div class="search-pagination">
+          <button id="appInsightsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+          <div id="appInsightsPageNumbers" class="search-page-numbers"></div>
+          <button id="appInsightsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+        </div>
+
+        <div id="analyticsSection" hidden>
+          <h3>Anonymous usage events</h3>
+          <p class="modal-desc">This app's server is set up, so this device automatically sends named moments only — things like "scroll turned on", "a shelf item was marked done", or "a dock app was opened" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.</p>
+        </div>
+      </section>
+
+      <section id="settingsPage-limits" class="settings-page settings-section" hidden>
+        <h3>Time limits</h3>
+        <ul id="durationList" class="editable-list"></ul>
+        <div class="add-row">
+          <input id="newDurationLabel" type="text" placeholder="Label (e.g. 15 min)" maxlength="20" />
+          <input id="newDurationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+          <button id="addDurationBtn" class="btn btn-small" type="button">Add</button>
+        </div>
+
+        <h3>Posture</h3>
+        <label class="checkbox-field">
+          <input id="postureReminderToggle" type="checkbox" />
+          <span>Remind me to check my posture every 10 minutes while scroll is ON</span>
+        </label>
+
+        <h3>Browsing</h3>
+        <label class="checkbox-field">
+          <input id="browsingCheckinToggle" type="checkbox" />
+          <span>Check in with me every 10 minutes while I'm browsing a tab</span>
+        </label>
+
+        <h3>What you want to get to</h3>
+        <p class="modal-desc">Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.</p>
+        <ul id="aspirationList" class="editable-list"></ul>
+        <p id="aspirationEmpty" class="modal-desc">Nothing here yet — breaks will fall back to your shelf, a saved word, and small away-from-screen nudges.</p>
+        <div class="add-row add-row-stacked">
+          <input id="newAspirationInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+          <div class="aspiration-fields">
+            <select id="newAspirationWhen" class="settings-select" aria-label="Time of day">
+              <option value="any">Any time</option>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+              <option value="night">Late night</option>
+            </select>
+            <input id="newAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+          </div>
+          <div class="field">
+            <span>Days (optional)</span>
+            <div id="newAspirationDayRow" class="day-toggle-row" role="group" aria-label="Days"></div>
+          </div>
+          <label class="field">
+            <span>Keep at it until (optional)</span>
+            <input id="newAspirationUntil" type="date" />
+          </label>
+          <button id="addAspirationBtn" class="btn btn-small" type="button">Add</button>
+        </div>
+        <p class="modal-desc">The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.</p>
+
+        <h3>If this, then that</h3>
+        <p class="modal-desc">Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.</p>
+        <ul id="ifThenList" class="editable-list"></ul>
+        <p id="ifThenEmpty" class="modal-desc">No rules yet.</p>
+        <div class="add-row add-row-stacked">
+          <input id="newIfThenTrigger" type="text" placeholder="If… (e.g. it's past 11pm)" maxlength="60" />
+          <input id="newIfThenAction" type="text" placeholder="then… (e.g. I'll read one shelved thing)" maxlength="60" />
+          <button id="addIfThenBtn" class="btn btn-small" type="button">Add</button>
+        </div>
+
+        <h3>Break reminders</h3>
+        <label class="checkbox-field">
+          <input id="breakEnabledToggle" type="checkbox" />
+          <span>Interrupt me and offer something better to be doing</span>
+        </label>
+        <p class="modal-desc">This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering what you set out to do, something from your shelf, or a saved word — it doesn't block what you're doing.</p>
+        <div class="add-row">
+          <label class="field">
+            <span>Every (minutes)</span>
+            <input id="breakIntervalInput" type="number" min="1" max="600" />
+          </label>
+          <label class="field">
+            <span>Or after this many scrolls (0 = off)</span>
+            <input id="breakScrollInput" type="number" min="0" max="100000" />
+          </label>
+        </div>
+        <label class="field">
+          <span>Order of the shelf items it reaches for</span>
+          <select id="recommendOrderSelect">
+            <option value="priority">Highest priority first</option>
+            <option value="manual">The order I arranged</option>
+          </select>
+        </label>
+
+        <h3>Cooling-off period</h3>
+        <label class="checkbox-field">
+          <input id="coolOffToggle" type="checkbox" />
+          <span>Make loosening these settings wait 24 hours</span>
+        </label>
+        <p class="modal-desc">The version of you that sets these limits and the version that wants past them are not in the room at the same time. Tightening anything still takes effect at once; only loosening waits, and you can cancel it the whole time.</p>
+
+        <section id="pendingChangesSection" hidden>
+          <p class="modal-desc">Waiting to take effect:</p>
+          <ul id="pendingChangesList" class="editable-list"></ul>
+        </section>
+
+        <h3>Notifications</h3>
+        <p id="notifyStatusText" class="modal-desc"></p>
+        <button id="notifyEnableBtn" class="btn btn-small" type="button" hidden>Allow notifications</button>
+        <div id="notifyPrefList" hidden>
+          <label class="checkbox-field">
+            <input type="checkbox" value="scrollAlmostUp" />
+            <span>A minute before scroll time runs out</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="scrollTimeUp" />
+            <span>When scroll switches back OFF</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="focusTimer" />
+            <span>When the timer finishes</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="posture" />
+            <span>Posture reminders</span>
+          </label>
+          <label class="checkbox-field">
+            <input type="checkbox" value="dailyGoal" />
+            <span>When you pass your daily limit</span>
+          </label>
+        </div>
+
+        <div id="pushSection" hidden>
+          <label class="checkbox-field">
+            <input id="pushEnabledToggle" type="checkbox" />
+            <span>Notify me even when this app is fully closed</span>
+          </label>
+          <p class="modal-desc">This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.</p>
+        </div>
+
+        <h3>How other apps open</h3>
+        <label class="checkbox-field">
+          <input id="sameWindowToggle" type="checkbox" />
+          <span>Open other apps in this same window</span>
+        </label>
+        <p class="modal-desc">On means the app loads in this window instead of a new tab, so your phone never switches away from MyHome Browser — press back to return here. Off opens a new tab, which on some phones hands you over to a separate browser. Try both and keep whichever returns more cleanly on your device.</p>
+
+        <label class="checkbox-field">
+          <input id="closeOnTimeUpToggle" type="checkbox" />
+          <span>Close the app I opened when scroll time runs out</span>
+        </label>
+        <p class="modal-desc">This is the only way the time limit reaches inside the other app: this app keeps hold of the tab it opened and shuts it when your time is up. It needs the setting above to be OFF, since there is no separate tab to close otherwise. The cost is that the site you open can see it was opened by this app and could push this page elsewhere — unlikely with the big sites, but not impossible, so turn this off if you would rather not.</p>
+
+        <h3>Apps that need scroll ON</h3>
+        <label class="checkbox-field">
+          <input id="feedGateToggle" type="checkbox" />
+          <span>Don't let the apps below open while scroll is OFF</span>
+        </label>
+        <p class="modal-desc">These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a time limit. Feed apps are ticked to start with — tick any others that eat your time.</p>
+        <ul id="scrollGatedAppList" class="app-candidate-list"></ul>
+
+      </section>
+    </div>
+
+    <div class="settings-pagination">
+      <button id="settingsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+      <div id="settingsPageNumbers" class="search-page-numbers settings-page-numbers"></div>
+      <button id="settingsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- App picker modal -->
+<div id="appPickerModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="appPickerTitle">
+    <h2 id="appPickerTitle">Choose apps (up to 10)</h2>
+    <p class="modal-desc">The list of apps installed on your phone can't be read automatically from a web page, so pick from the candidates below instead.</p>
+    <ul id="appCandidateList" class="app-candidate-list"></ul>
+
+    <h3>Add your own site</h3>
+    <div class="add-row">
+      <input id="customAppNameInput" type="text" placeholder="Name" autocomplete="off" />
+      <input id="customAppUrlInput" type="text" placeholder="Website address" autocomplete="off" />
+      <button id="addCustomAppBtn" class="btn btn-small" type="button">Add</button>
+    </div>
+
+    <h3>Order</h3>
+    <p class="modal-desc">Use the arrows to change the order apps appear in on your home screen.</p>
+    <ul id="appOrderList" class="app-order-list"></ul>
+
+    <div class="modal-actions">
+      <button id="cancelAppPicker" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="saveAppPicker" class="btn btn-primary" type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="filebox.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
