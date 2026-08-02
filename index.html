@@ -72,14 +72,14 @@
 <div id="onboardingScreen" class="onboarding-screen" hidden>
   <div class="onboarding-box">
     <div id="onboardingStepLanguage" class="onboarding-step">
-      <p class="onboarding-eyebrow">Step 1 of 4</p>
+      <p class="onboarding-eyebrow">Step 1 of 5</p>
       <h2 class="onboarding-title">Choose your language</h2>
       <p class="modal-desc">This sets the language for the rest of the app.</p>
       <div id="onboardingLanguageList" class="language-list"></div>
     </div>
 
     <div id="onboardingStepResearch" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 2 of 4</p>
+      <p class="onboarding-eyebrow">Step 2 of 5</p>
       <h2 class="onboarding-title">Why this app exists</h2>
       <p class="modal-desc">A few things research has found about how we touch, scroll, and swipe our phones — not to make you feel bad, just so the friction in this app is based on something real.</p>
       <ul class="research-list">
@@ -88,14 +88,29 @@
         <li><strong>Checking:</strong> a habit-formation study by Oulasvirta and colleagues (2012) found most phone checks last under 30 seconds and are triggered by boredom or habit, not real need — part of why they're hard to even notice.</li>
         <li><strong>Posture:</strong> tilting your head forward to look at a phone can add up to 60 lbs of effective strain on your neck, according to spinal-stress research by Dr. Kenneth Hansraj (2014).</li>
       </ul>
-      <p class="modal-desc">None of this is about guilt. It's why a reason, a time limit, and a PIN can do more than willpower alone.</p>
+      <p class="modal-desc">None of this is about guilt. It's why a time limit and a PIN can do more than willpower alone.</p>
       <div class="modal-actions">
         <button id="onboardingResearchNextBtn" class="btn btn-primary" type="button">Next</button>
       </div>
     </div>
 
+    <div id="onboardingStepGoals" class="onboarding-step" hidden>
+      <p class="onboarding-eyebrow">Step 3 of 5</p>
+      <h2 class="onboarding-title">What do you want your time back for?</h2>
+      <p class="modal-desc">Not "less phone" — more of something else. Name one or two things you'd rather be spending it on. This app will remind you of them, not just stop you.</p>
+      <ul id="onboardingGoalsList" class="editable-list"></ul>
+      <div class="add-row">
+        <input id="onboardingGoalInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+        <button id="onboardingGoalAddBtn" class="btn btn-small" type="button">Add</button>
+      </div>
+      <div class="modal-actions">
+        <button id="onboardingGoalsSkipBtn" class="btn btn-secondary" type="button">Skip for now</button>
+        <button id="onboardingGoalsNextBtn" class="btn btn-primary" type="button">Next</button>
+      </div>
+    </div>
+
     <div id="onboardingStepPin" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 3 of 4</p>
+      <p class="onboarding-eyebrow">Step 4 of 5</p>
       <h2 class="onboarding-title">Set up your PINs (optional)</h2>
       <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
       <label class="field">
@@ -129,7 +144,7 @@
     </div>
 
     <div id="onboardingStepSns" class="onboarding-step" hidden>
-      <p class="onboarding-eyebrow">Step 4 of 4</p>
+      <p class="onboarding-eyebrow">Step 5 of 5</p>
       <h2 class="onboarding-title">Which social media do you use?</h2>
       <p class="modal-desc">Choose the ones you want quick access to from your dock.</p>
       <ul id="onboardingSnsList" class="app-candidate-list"></ul>
@@ -201,18 +216,16 @@
       <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
       <div id="tipsPanel" class="tips-panel" hidden>
         <ul class="tips-list">
-          <li>Type a search or a website above — it opens as a tab you can read right here.</li>
-          <li>A link to one video or one post opens here too. A whole feed can't be shown inside this app, so those still open outside — that's the site's own rule, not something this app can change.</li>
-          <li>Switch tabs with the pills above the page. Tap the star to save the word you looked up into your dictionary; Dictionary and Insights up top stay empty until you tap them.</li>
-          <li>Search runs on Bing. Ad blocking only stops navigating straight to known ad/tracking domains — it can't remove ads from a page you're already on.</li>
-          <li>Scroll is OFF by default to limit distraction. Turn it ON with a reason, a time limit and your PIN — until you do, the apps you ticked in Settings won't open at all.</li>
-          <li>When your time runs out, scroll goes back OFF and this app can close the app it opened for you. Both that and how apps open are under Settings.</li>
-          <li>Anything you send to the Waiting room waits before you can open it, put it on your shelf, or let it go — about a minute and a half for the apps you gated, around 25 seconds for anything else.</li>
-          <li>Open the app after a while away and it asks once what you came for. Answering "no particular reason" offers you something you said you wanted to do instead.</li>
-          <li>The shelf holds what you kept. Search it, mark items High/Medium/Low, and tap Done when you're finished with one — done items move to their own shelf.</li>
-          <li>Every so often (30 minutes by default, or after enough scrolling) a quiet banner offers you something — first whatever you listed under "What you want to get to" in Settings, and now and then something from your shelf.</li>
-          <li>Loosening your own limits waits 24 hours; tightening them takes effect at once. A pending change can be cancelled the whole time it's waiting.</li>
-          <li>Add this app to your home screen and other apps' Share button can send links, text and files straight here.</li>
+          <li>Search or type an address — it opens as a tab here.</li>
+          <li>One video or one post can show inside. A whole feed can't.</li>
+          <li>Tap the star on a tab to keep that word in your dictionary.</li>
+          <li>While scroll is OFF, the apps you ticked in Settings won't open.</li>
+          <li>When time runs out, scroll goes OFF and opened tabs close.</li>
+          <li>Held items wait before they open — longest for gated apps.</li>
+          <li>Open it after a while away and it asks what you came for.</li>
+          <li>Breaks offer what you set out to do, your shelf, or a saved word.</li>
+          <li>Loosening a limit waits 24 hours. Tightening is immediate.</li>
+          <li>Add to your home screen to receive from other apps' Share.</li>
         </ul>
         <button id="tipsCloseBtn" class="btn btn-small" type="button">Got it</button>
       </div>
@@ -225,6 +238,7 @@
     </button>
     <input id="searchInput" type="search" name="q" placeholder="Basic search" autocomplete="off" />
   </form>
+  <p class="inline-hint">Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.</p>
 
   <main class="content" id="browserContent">
     <div id="tabStrip" class="tab-strip" hidden>
@@ -247,12 +261,14 @@
         <!-- ===== waiting room ===== -->
         <div id="wrView" class="home-panel-body">
           <div id="wrHome" class="wr-step">
-            <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for one minute.</p>
+            <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for a moment first.</p>
 
             <!-- Once a week: what actually got finished, by name -->
             <div id="wrLookBack" class="wr-lookback" hidden>
               <span class="wr-lookback-label">Since you last looked</span>
               <p id="wrLookBackLead" class="wr-lookback-lead"></p>
+              <p id="wrLookBackBreakdown" class="wr-lookback-breakdown" hidden></p>
+              <div id="wrLookBackTrend" class="lookback-trend" hidden></div>
               <ul id="wrLookBackList" class="wr-lookback-list"></ul>
               <button id="wrLookBackDismissBtn" class="btn btn-secondary btn-small" type="button">Good</button>
             </div>
@@ -272,7 +288,7 @@
             <div class="wr-record">
               <div><b id="wrStreak">0</b><span>day streak</span></div>
               <div><b id="wrToday">0</b><span>pauses today</span></div>
-              <div><b id="wrFinished">0</b><span>finished</span></div>
+              <button id="wrFinishedBtn" type="button" class="wr-record-btn"><b id="wrFinished">0</b><span>finished</span></button>
             </div>
           </div>
 
@@ -308,12 +324,18 @@
         <!-- ===== shelf ===== -->
         <div id="shelfView" class="home-panel-body" hidden>
           <input id="shelfSearchInput" type="search" class="dictionary-search" placeholder="Search the shelf…" autocomplete="off" />
+          <p class="inline-hint">Priority and Done decide what a break offers you next.</p>
 
           <div class="shelf-nav">
             <button id="shelfPrevBtn" class="btn btn-secondary btn-small" type="button" aria-label="Previous wall"><span aria-hidden="true">&lsaquo;</span></button>
             <select id="shelfWallSelect" class="settings-select i18n-skip" aria-label="Shelf wall"></select>
             <button id="shelfNextBtn" class="btn btn-secondary btn-small" type="button" aria-label="Next wall"><span aria-hidden="true">&rsaquo;</span></button>
             <button id="shelfAddWallBtn" class="btn btn-secondary btn-small" type="button" aria-label="Add a shelf">+</button>
+          </div>
+
+          <div class="shelf-actions">
+            <button id="shelfRenameBtn" class="text-btn" type="button">Rename</button>
+            <button id="shelfShareBtn" class="text-btn" type="button">Share this shelf</button>
           </div>
 
           <ul id="shelfHits" class="shelf-hits" hidden></ul>
@@ -335,6 +357,11 @@
                 <option value="mid">Medium</option>
                 <option value="low">Low</option>
               </select>
+            </label>
+
+            <label class="field">
+              <span>How long it takes (minutes)</span>
+              <input id="shelfMinutesInput" type="number" min="1" max="600" placeholder="e.g. 12" />
             </label>
 
             <div class="shelf-order-row">
@@ -577,17 +604,12 @@
 <div id="scrollOnModal" class="modal-overlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scrollOnTitle">
     <h2 id="scrollOnTitle">Turn scroll ON</h2>
-    <p id="scrollOnDesc" class="modal-desc">Choose a reason and a time limit. Scroll will switch back OFF automatically when time is up.</p>
+    <p id="scrollOnDesc" class="modal-desc">Choose a time limit. Scroll will switch back OFF automatically when time is up.</p>
 
-    <label class="field">
-      <span>Reason</span>
-      <select id="reasonSelect"></select>
-    </label>
-
-    <label class="field">
-      <span>Time limit</span>
-      <select id="durationSelect"></select>
-    </label>
+    <!-- 選ぶまでの手数を削るため、プルダウンではなく一発で選べるチップにする。
+         下のselectは既存のロジック(検証・保存)がそのまま使えるよう、値の置き場として残す。 -->
+    <div id="durationChips" class="chip-row" role="group" aria-label="Time limit"></div>
+    <select id="durationSelect" class="i18n-skip" hidden></select>
 
     <div id="customDurationRow" class="hms-row" hidden>
       <label class="field hms-field">
@@ -627,6 +649,32 @@
   </div>
 </div>
 
+<!-- Someone opened a shelf link you sent them (or vice versa) -->
+<div id="sharedShelfModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sharedShelfTitle">
+    <h2 id="sharedShelfTitle">A shelf from someone</h2>
+    <p id="sharedShelfLead" class="modal-desc"></p>
+    <ul id="sharedShelfList" class="wr-lookback-list"></ul>
+    <p class="modal-desc">Taking it adds a new shelf of your own. Nothing you already have is touched.</p>
+    <div class="modal-actions">
+      <button id="sharedShelfDeclineBtn" class="btn btn-secondary" type="button">No thanks</button>
+      <button id="sharedShelfAcceptBtn" class="btn btn-primary" type="button">Add to my shelves</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shown once, right after setup finishes: notice the friction before exploring anything else -->
+<div id="firstRunModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="firstRunTitle">
+    <h2 id="firstRunTitle">Notice what just happened</h2>
+    <p class="modal-desc">Scroll is OFF right now. Try swiping this page — it won't move. That small inconvenience is the whole point: it buys you a moment to choose, instead of scrolling out of habit.</p>
+    <p id="firstRunGoalLine" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="firstRunGotItBtn" class="btn btn-primary" type="button">Got it — let me try</button>
+    </div>
+  </div>
+</div>
+
 <!-- Asked once when the app is opened after a gap. Every option is one tap out. -->
 <div id="intentModal" class="modal-overlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="intentTitle">
@@ -650,7 +698,7 @@
     </div>
     <p id="breakReason" class="modal-desc"></p>
 
-    <div id="breakPick" class="break-pick">
+    <div id="breakPickCard" class="break-pick">
       <span id="breakPickLabel" class="break-pick-label">From your shelf</span>
       <h3 id="breakPickTitle"></h3>
       <div id="breakPickMeta" class="detail-meta"></div>
@@ -681,7 +729,7 @@
 
     <div class="modal-actions">
       <button id="feedBlockedCancelBtn" class="btn btn-secondary" type="button">Not now</button>
-      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Hold it for a minute</button>
+      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Put it in the waiting room</button>
     </div>
     <button id="feedBlockedScrollOnBtn" class="text-btn blocked-override" type="button">Turn scroll ON anyway</button>
   </div>
@@ -831,13 +879,6 @@
       </section>
 
       <section id="settingsPage-limits" class="settings-page settings-section" hidden>
-        <h3>Reasons</h3>
-        <ul id="reasonList" class="editable-list"></ul>
-        <div class="add-row">
-          <input id="newReasonInput" type="text" placeholder="Add a new reason" maxlength="40" />
-          <button id="addReasonBtn" class="btn btn-small" type="button">Add</button>
-        </div>
-
         <h3>Time limits</h3>
         <ul id="durationList" class="editable-list"></ul>
         <div class="add-row">
@@ -861,19 +902,30 @@
         <h3>What you want to get to</h3>
         <p class="modal-desc">Your shelf only holds things you put off looking at. List what you actually want to spend the time on, and breaks will offer these first.</p>
         <ul id="aspirationList" class="editable-list"></ul>
-        <p id="aspirationEmpty" class="modal-desc">Nothing here yet — breaks will fall back to your shelf and small away-from-screen nudges.</p>
+        <p id="aspirationEmpty" class="modal-desc">Nothing here yet — breaks will fall back to your shelf, a saved word, and small away-from-screen nudges.</p>
         <div class="add-row add-row-stacked">
-          <input id="newAspirationInput" type="text" placeholder="e.g. Practise guitar for 10 minutes" maxlength="80" />
-          <select id="newAspirationWhen" class="settings-select" aria-label="When">
-            <option value="any">Any time</option>
-            <option value="morning">Morning</option>
-            <option value="afternoon">Afternoon</option>
-            <option value="evening">Evening</option>
-            <option value="night">Late night</option>
-          </select>
+          <input id="newAspirationInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+          <div class="aspiration-fields">
+            <select id="newAspirationWhen" class="settings-select" aria-label="Time of day">
+              <option value="any">Any time</option>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+              <option value="night">Late night</option>
+            </select>
+            <select id="newAspirationDays" class="settings-select" aria-label="Days">
+              <option value="any">Any day</option>
+              <option value="weekday">Weekdays</option>
+              <option value="weekend">Weekends</option>
+            </select>
+          </div>
+          <div class="aspiration-fields">
+            <input id="newAspirationPlace" type="text" placeholder="Where (optional)" maxlength="40" />
+            <input id="newAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+          </div>
           <button id="addAspirationBtn" class="btn btn-small" type="button">Add</button>
         </div>
-        <p class="modal-desc">Naming a time of day makes these easier to act on, and a break landing in that window will reach for them first.</p>
+        <p class="modal-desc">The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.</p>
 
         <h3>If this, then that</h3>
         <p class="modal-desc">Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.</p>
@@ -885,12 +937,12 @@
           <button id="addIfThenBtn" class="btn btn-small" type="button">Add</button>
         </div>
 
-        <h3>Forced breaks</h3>
+        <h3>Break reminders</h3>
         <label class="checkbox-field">
           <input id="breakEnabledToggle" type="checkbox" />
-          <span>Interrupt me and offer something from my shelf</span>
+          <span>Interrupt me and offer something better to be doing</span>
         </label>
-        <p class="modal-desc">This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering one unfinished thing from your shelf — it doesn't block what you're doing.</p>
+        <p class="modal-desc">This doesn't wait for you to remember. Whatever screen you're on, once you pass the limits below, a quiet banner appears (a short vibration, no sound) offering what you set out to do, something from your shelf, or a saved word — it doesn't block what you're doing.</p>
         <div class="add-row">
           <label class="field">
             <span>Every (minutes)</span>
@@ -902,7 +954,7 @@
           </label>
         </div>
         <label class="field">
-          <span>What it offers first</span>
+          <span>Order of the shelf items it reaches for</span>
           <select id="recommendOrderSelect">
             <option value="priority">Highest priority first</option>
             <option value="manual">The order I arranged</option>
@@ -973,7 +1025,7 @@
           <input id="feedGateToggle" type="checkbox" />
           <span>Don't let the apps below open while scroll is OFF</span>
         </label>
-        <p class="modal-desc">These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a reason and a time limit. Feed apps are ticked to start with — tick any others that eat your time.</p>
+        <p class="modal-desc">These apps refuse to open inside this app, so they run in your normal browser where this app can't hold the scroll lock. Ticked apps only open once you've turned scroll ON with a time limit. Feed apps are ticked to start with — tick any others that eat your time.</p>
         <ul id="scrollGatedAppList" class="app-candidate-list"></ul>
 
       </section>

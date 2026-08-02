@@ -1,23 +1,31 @@
+/* 既定は黒に近い地と、彩度を落とした緑ひとつ。階層は明度差で押し出さず、
+   余白・細い境界線・文字の太さで作る。ここの値は applyAppearance() が
+   利用者の設定から導き直すので、JSが走る前の一瞬の見た目を合わせてある。 */
 :root {
-  --bg: #f1f3f4;
-  --bg-elevated: #ffffff;
-  --bg-card: #ffffff;
-  --bg-subtle: #eef1f2;
-  --border: #e6eaeb;
-  --text: #202b13;
-  --text-dim: #7b8794;
-  --accent: #65a30d;
-  --accent-strong: #4d7c0f;
-  --accent-bright: #84cc16;
-  --danger: #dc2626;
-  --success: #4d7c0f;
-  --radius: 4px;
-  --radius-card: 14px;
+  --bg: #0a0f0a;
+  --bg-elevated: #161b16;
+  --bg-card: #1c211c;
+  --bg-subtle: #262b26;
+  --border: #303430;
+  --text: #f0f1f0;
+  --text-dim: #939593;
+  --accent: #9ed17a;
+  --accent-strong: #779d5c;
+  --accent-bright: #add88e;
+  --danger: #e8756b;
+  --success: #9ed17a;
+  --radius: 8px;
+  --radius-card: 18px;
   --radius-pill: 999px;
   --dock-icon-size: 38px;
-  --dock-icon-radius: 12px;
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05), 0 4px 12px rgba(16, 24, 40, 0.06);
-  --shadow-raised: 0 2px 6px rgba(16, 24, 40, 0.08), 0 10px 24px rgba(16, 24, 40, 0.10);
+  --dock-icon-radius: 13px;
+  /* 暗い面では影がほとんど見えないので、浮きは最小限にして境界線に任せる */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-raised: 0 8px 28px rgba(0, 0, 0, 0.55);
+  /* 見出しの詰め。大きい字ほど詰めるほうが締まって見える */
+  --tracking-display: -0.03em;
+  --tracking-title: -0.02em;
+  --tracking-eyebrow: 0.14em;
 }
 
 * { box-sizing: border-box; }
@@ -275,7 +283,8 @@ body.scroll-locked {
   margin: 10px 0 6px;
   border-radius: 50%;
   border: 1px solid var(--accent);
-  background: radial-gradient(circle at 50% 38%, rgba(101,163,13,.12), rgba(101,163,13,.02));
+  background: rgba(158, 209, 122, 0.09); /* color-mix 未対応時の下敷き */
+  background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 72%);
   color: var(--text);
   font-size: 13px;
   font-weight: 700;
@@ -300,10 +309,18 @@ body.scroll-locked {
   border-bottom: 1px solid var(--border);
   margin-bottom: 10px;
 }
-.wr-record div { flex: 1 1 0; text-align: center; padding: 8px 4px; }
+.wr-record div { flex: 1 1 0; text-align: center; padding: 14px 4px; }
 .wr-record div + div { border-left: 1px solid var(--border); }
-.wr-record b { display: block; font-size: 18px; font-weight: 700; color: var(--accent-strong); }
-.wr-record span { font-size: 9.5px; letter-spacing: .06em; color: var(--text-dim); }
+/* 数字は思い切って大きく太く。ここが「積み上がっている」実感の置き場所 */
+.wr-record b {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-title);
+  color: var(--accent);
+}
+.wr-record span { font-size: 9px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-dim); }
 
 .wr-file-label {
   flex: 0 0 auto;
@@ -413,7 +430,8 @@ body.scroll-locked {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(101,163,13,.16), rgba(101,163,13,.02) 70%);
+  background: rgba(158, 209, 122, 0.12);
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
   animation: wr-breathe 10s ease-in-out infinite;
 }
 @keyframes wr-breathe {
@@ -421,9 +439,9 @@ body.scroll-locked {
   40%  { transform: scale(1); }
   100% { transform: scale(.55); }
 }
-.wr-count { position: relative; text-align: center; font-size: 30px; font-weight: 700; }
-.wr-count small { display: block; font-size: 9px; letter-spacing: .18em; color: var(--text-dim); font-weight: 400; }
-.wr-breath-word { font-size: 12px; letter-spacing: .2em; color: var(--text-dim); height: 1.4em; flex: 0 0 auto; }
+.wr-count { position: relative; text-align: center; font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: var(--tracking-display); }
+.wr-count small { display: block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); color: var(--text-dim); }
+.wr-breath-word { font-size: 11px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-dim); height: 1.4em; flex: 0 0 auto; }
 
 .wr-card {
   flex: 0 0 auto;
@@ -473,12 +491,14 @@ body.scroll-locked {
   height: 8px;
   border-radius: 5px;
   background: var(--bg-subtle);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45);
   overflow: hidden;
   margin-bottom: 8px;
 }
 .gauge-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8a6d1f, #c9a227, #e8c95a);
+  background: linear-gradient(90deg, var(--accent-strong), var(--accent));
+  box-shadow: 0 0 8px rgba(158, 209, 122, 0.4);
 }
 
 .shelf-nav {
@@ -489,6 +509,17 @@ body.scroll-locked {
   margin-bottom: 8px;
 }
 .shelf-nav select { flex: 1 1 auto; min-width: 0; padding: 8px; font-size: 12px; }
+/* 棚送りと追加は移動手段であって主役ではないので、緑では塗らない */
+.shelf-nav .btn-small { background: var(--bg-subtle); color: var(--text); border: 1px solid var(--border); }
+
+/* 棚の名前を変える／人に渡す。常時出しておくが、控えめに */
+.shelf-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.shelf-actions .text-btn { font-size: 11px; font-weight: 700; color: var(--accent); }
 
 .bookcase {
   flex: 1 1 auto;
@@ -497,11 +528,19 @@ body.scroll-locked {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  background: linear-gradient(#5b3c20, #4a311a);
-  border: 5px solid #5b3c20;
-  border-radius: 8px;
-  box-shadow: inset 0 0 20px rgba(0,0,0,.5);
-  padding: 6px 6px 0;
+  /* 木目調はやめたが、平らな箱にもしない。上から光が落ちる奥行きのある
+     壁龕（アルコーブ）のように、微妙な明暗と縁取りだけで立体感を作る。
+     主役はあくまで背表紙（＝中身）なので、ここは静かに凝る程度に留める。 */
+  background:
+    radial-gradient(130% 55% at 50% -12%, rgba(158, 209, 122, 0.1), transparent 62%),
+    linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 60%);
+  border: 1px solid var(--border);
+  border-radius: 24px 24px var(--radius-card) var(--radius-card);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 34px 44px -34px rgba(0, 0, 0, 0.65),
+    var(--shadow-card);
+  padding: 14px 10px 0;
 }
 
 .shelf {
@@ -510,10 +549,12 @@ body.scroll-locked {
   min-height: 60px;
   display: flex;
   align-items: flex-end;
-  gap: 2px;
+  gap: 3px;
   padding: 4px 5px 0;
-  background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.15));
-  border-bottom: 8px solid #7a5230;
+  /* 棚板そのものに厚み: 上端はうっすら光を受け、板の下には本の落とす影が溜まる */
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05), 0 5px 9px -4px rgba(0, 0, 0, 0.6);
   overflow: hidden;
 }
 
@@ -532,7 +573,7 @@ body.scroll-locked {
   position: relative;
   flex-shrink: 0;
   border: none;
-  border-radius: 2px 2px 0 0;
+  border-radius: 3px 3px 1px 1px;
   display: inline-flex;
   align-items: flex-start;
   justify-content: center;
@@ -543,14 +584,39 @@ body.scroll-locked {
   padding-top: 10px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: inset -3px 0 5px rgba(0,0,0,.45), inset 2px 0 3px rgba(255,255,255,.12);
-  text-shadow: 0 0 2px rgba(0,0,0,.6);
+  /* 円柱状の背表紙らしい厚み: 左側にわずかな当たり光、右側に濃い陰、
+     足元には棚へ落ちる影。革装丁の背表紙が並ぶ様子に近づける */
+  box-shadow:
+    inset 3px 0 5px rgba(255, 255, 255, 0.16),
+    inset -4px 0 8px rgba(0, 0, 0, 0.5),
+    2px 5px 7px rgba(0, 0, 0, 0.45);
+  /* 触った手応え。棚から少しだけ抜き出す */
+  transition: transform 0.16s cubic-bezier(.2,.8,.3,1), filter 0.16s ease, box-shadow 0.16s ease;
 }
-.book-spine.hit { outline: 2px solid #ffe9a0; outline-offset: 1px; }
+.book-spine:active {
+  transform: translateY(-6px);
+  filter: brightness(1.15);
+  box-shadow:
+    inset 3px 0 5px rgba(255, 255, 255, 0.2),
+    inset -4px 0 8px rgba(0, 0, 0, 0.5),
+    3px 10px 12px rgba(0, 0, 0, 0.5);
+}
+.book-spine.hit { outline: 2px solid var(--accent); outline-offset: 1px; }
 .book-spine-title { max-height: 100%; overflow: hidden; }
+/* 装丁の金の箔押し帯。上下二本、彩度を抑えた暗緑基調の中でここだけ暖色を挿す */
 .book-band {
-  position: absolute; top: 0; left: 0; right: 0; height: 9px;
-  background: rgba(243,233,210,.85);
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(180deg, rgba(226, 199, 130, 0.95), rgba(178, 138, 62, 0.85));
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.book-spine::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 7px;
+  height: 3px;
+  background: linear-gradient(180deg, rgba(226, 199, 130, 0.85), rgba(178, 138, 62, 0.7));
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  pointer-events: none;
 }
 
 .shelf-detail {
@@ -562,6 +628,15 @@ body.scroll-locked {
   border-radius: 10px;
 }
 .shelf-detail h3 { margin: 0 0 4px; font-size: 14px; }
+/* 本を開いた瞬間に少しだけ弾ませる。情報ではなく喜びのための演出なので、
+   動きに敏感な設定では出さない（他の演出と同じ方針） */
+@media (prefers-reduced-motion: no-preference) {
+  .shelf-detail:not([hidden]) { animation: shelf-detail-in 0.22s cubic-bezier(.2, .8, .3, 1); }
+}
+@keyframes shelf-detail-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
 
 
 /* 背表紙は縦書きで探しにくいので、検索で当たったものは横並びの一覧で出す */
@@ -620,6 +695,16 @@ body.scroll-locked {
 
 .shelf-detail .field { margin: 6px 0; }
 
+/* その場に置く短い説明。まとめて読ませるのではなく、使う場所の隣に一行だけ */
+.inline-hint {
+  flex: 0 0 auto;
+  margin: 0 0 8px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.search-bar + .inline-hint { margin: -2px 12px 6px; }
+
 /* 開いた理由を訊く三択。どれも同じ重さで並べる（誘導しないため） */
 .intent-choices {
   display: flex;
@@ -646,7 +731,34 @@ body.scroll-locked {
   color: var(--text-dim);
   margin-bottom: 4px;
 }
-.wr-lookback-lead { margin: 0 0 8px; font-size: 12.5px; font-weight: 700; }
+.wr-lookback-lead { margin: 0 0 3px; font-size: 12.5px; font-weight: 700; }
+.wr-lookback-breakdown { margin: 0 0 8px; font-size: 10.5px; color: var(--text-dim); }
+.wr-lookback-breakdown[hidden] { display: none; }
+
+/* 週ごとの棒。合計だけでは伸びも落ちも見えないので、6週ぶんだけ添える */
+.lookback-trend {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 34px;
+  margin-bottom: 10px;
+}
+.lookback-trend[hidden] { display: none; }
+.lookback-bar {
+  flex: 1 1 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(148, 163, 184, .14);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.lookback-bar-fill {
+  width: 100%;
+  min-height: 2px;
+  background: var(--accent);
+  border-radius: 3px;
+}
 .wr-lookback-list {
   list-style: none;
   margin: 0 0 10px;
@@ -670,6 +782,26 @@ body.scroll-locked {
   left: 0;
   color: var(--accent);
 }
+/* 自分で決めてやったことは、読み終えたものと区別できるようにしておく */
+.wr-lookback-list li.is-aspiration { color: var(--text); }
+.wr-lookback-list li.is-aspiration::before { content: "\2605"; }
+
+/* 記録のうち「片付いた」だけは押せる（振り返りをその場で開ける） */
+.wr-record-btn {
+  flex: 1 1 0;
+  text-align: center;
+  padding: 8px 4px;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* 頑張りたいことの追加欄。1行に詰め込まず2つずつ並べる */
+.aspiration-fields { display: flex; gap: 6px; }
+.aspiration-fields > * { flex: 1 1 0; min-width: 0; }
 
 /* 止められた画面で読み返す、自分で決めた約束 */
 .blocked-rule {
@@ -715,6 +847,20 @@ body.scroll-locked {
 .break-pick[hidden] { display: none; }
 .break-pick-label { display: block; font-size: 9.5px; letter-spacing: .14em; color: var(--text-dim); margin-bottom: 4px; }
 .break-pick h3 { margin: 0 0 4px; font-size: 15px; }
+
+/* 辞書のうんちくは、本棚の背表紙と同じ金の箔押しを借りて「ちょっとした宝物」感を出す */
+.break-pick.is-dict {
+  border-left-color: #d8b463;
+  background: linear-gradient(135deg, rgba(216, 180, 99, 0.14), var(--bg-subtle) 60%);
+}
+.break-pick.is-dict .break-pick-label::before { content: "✦ "; }
+@media (prefers-reduced-motion: no-preference) {
+  .break-pick.is-dict { animation: dict-glow 2.4s ease-in-out infinite; }
+}
+@keyframes dict-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(216, 180, 99, 0); }
+  50% { box-shadow: 0 0 14px rgba(216, 180, 99, 0.35); }
+}
 
 /* 割り込みの休憩：音の出ないアラームのように、画面を覆わず上に乗るだけのバナー。
    下の画面はそのまま操作できる（クリックを奪わない）。 */
@@ -1222,11 +1368,16 @@ body.scroll-locked {
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  /* faviconを取れなかったとき(オフライン等)は頭文字に落ちるので、
+     その一文字が暗い地の上で読める色と太さを持たせておく。 */
+  font-weight: 800;
+  color: var(--text);
   background: var(--bg-card);
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: width 0.15s, height 0.15s, border-radius 0.15s;
+  transition: width 0.15s, height 0.15s, border-radius 0.15s, transform 0.15s;
 }
+.dock-app:active .dock-icon { transform: scale(0.92); }
 
 .dock-icon img {
   width: 100%;
@@ -1667,17 +1818,22 @@ body.scroll-locked {
 .onboarding-step[hidden] { display: none; }
 
 .onboarding-eyebrow {
-  margin: 0 0 4px;
+  margin: 0 0 14px;
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--accent-strong);
+  font-weight: 800;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--accent);
   text-transform: uppercase;
 }
 
+/* 見出しはここが一番大きく、太く、詰まっている。画面の中で目が最初に留まる場所を
+   はっきり一つに決めるため、本文との差を大きく開けている。 */
 .onboarding-title {
-  margin: 0 0 4px;
-  font-size: 16px;
+  margin: 0 0 12px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: var(--tracking-display);
 }
 
 .research-list {
@@ -1732,22 +1888,25 @@ body.scroll-locked {
   max-height: 85dvh;
   overflow-y: auto;
   background: var(--bg-elevated);
-  border-radius: 20px 20px 0 0;
-  padding: 18px 16px calc(env(safe-area-inset-bottom, 0px) + 16px);
-  border-top: none;
+  border-radius: 28px 28px 0 0;
+  padding: 26px 22px calc(env(safe-area-inset-bottom, 0px) + 22px);
+  border-top: 1px solid var(--border);
   box-shadow: var(--shadow-raised);
 }
 
 .modal h2 {
-  margin: 0 0 4px;
-  font-size: 16px;
+  margin: 0 0 8px;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: var(--tracking-title);
 }
 
 .modal-desc {
-  margin: 0 0 10px;
-  font-size: 11px;
+  margin: 0 0 14px;
+  font-size: 12px;
   color: var(--text-dim);
-  line-height: 1.5;
+  line-height: 1.65;
 }
 
 .field {
@@ -1776,33 +1935,73 @@ body.scroll-locked {
   width: 100%;
 }
 
+/* 時間の選択肢をプルダウンではなくタップ一発のチップで出す（スクロールON時）。
+   選ぶ・確定するを一手にまとめて、面倒を理由に裏道へ逃げさせないため。 */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.chip {
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.chip:active { transform: scale(0.95); }
+.chip.is-selected {
+  background: var(--accent);
+  color: #0a0f0a;
+  border-color: var(--accent);
+}
+
 .modal-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .btn {
   flex: 1 1 0;
   border: none;
   border-radius: var(--radius-pill);
-  padding: 11px;
-  font-size: 13px;
-  font-weight: 700;
+  padding: 14px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   cursor: pointer;
+  /* 押した手応え。速く、小さく。派手に跳ねると安っぽくなる */
+  transition: transform 0.12s ease, filter 0.12s ease;
 }
+.btn:active { transform: scale(0.97); filter: brightness(1.08); }
 
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-secondary { background: var(--bg-card); color: var(--text-dim); border: 1px solid var(--border); }
-.btn-small { flex: 0 0 auto; background: var(--accent); color: #fff; padding: 8px 10px; }
+/* 緑の上は黒文字。暗い地に明るい緑なので、白より黒のほうがはっきり読める */
+.btn-primary { background: var(--accent); color: #0a0f0a; }
+.btn-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+.btn-small { flex: 0 0 auto; background: var(--accent); color: #0a0f0a; padding: 10px 14px; font-size: 12.5px; }
 
 .btn:disabled {
   opacity: 0.4;
   cursor: default;
 }
+.btn:disabled:active { transform: none; filter: none; }
 
-.settings-section { margin-bottom: 14px; }
-.settings-section h3 { font-size: 12px; color: var(--text-dim); margin: 8px 0 3px; }
+.settings-section { margin-bottom: 26px; }
+/* 設定の見出しは小さく・極太・字間を開けた「ラベル」に。大見出しと競わせない */
+.settings-section h3 {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 26px 0 8px;
+}
 .settings-section h3:first-child { margin-top: 0; }
 
 /* 1ページに複数セクションを詰め込むため、Settings内では文字・余白をやや詰める */
@@ -2311,4 +2510,26 @@ body.scroll-locked {
   font-size: 12px;
   z-index: 100;
   box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+/* 済にする・辞書に足す・頑張りたいことをやった、その直後だけの小さな祝福 */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti-piece {
+  position: absolute;
+  top: -12px;
+  width: 7px;
+  height: 11px;
+  border-radius: 1px;
+  opacity: 0.95;
+  animation: confetti-fall 1.1s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(65vh) translateX(var(--drift)) rotate(calc(var(--spin) * 300deg)); opacity: 0; }
 }

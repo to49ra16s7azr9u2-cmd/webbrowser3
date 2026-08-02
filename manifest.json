@@ -1,7 +1,7 @@
 {
   "name": "MyHome Browser",
   "short_name": "MyHome",
-  "description": "A personal home screen browser with a scroll-lock feature",
+  "description": "A personal coach that helps you spend your phone time on what you actually chose, not just less of it",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
