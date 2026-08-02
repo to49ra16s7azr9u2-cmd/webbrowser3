@@ -293,15 +293,11 @@
                   <option value="evening">Evening</option>
                   <option value="night">Late night</option>
                 </select>
-                <select id="wrNewAspirationDays" class="settings-select" aria-label="Days">
-                  <option value="any">Any day</option>
-                  <option value="weekday">Weekdays</option>
-                  <option value="weekend">Weekends</option>
-                </select>
-              </div>
-              <div class="aspiration-fields">
-                <input id="wrNewAspirationPlace" type="text" placeholder="Where (optional)" maxlength="40" />
                 <input id="wrNewAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+              </div>
+              <div class="field">
+                <span>Days (optional)</span>
+                <div id="wrNewAspirationDayRow" class="day-toggle-row" role="group" aria-label="Days"></div>
               </div>
               <label class="field">
                 <span>Keep at it until (optional)</span>
@@ -919,12 +915,8 @@
         </div>
 
         <div id="analyticsSection" hidden>
-          <h3>Share anonymous usage events</h3>
-          <label class="checkbox-field">
-            <input id="analyticsEnabledToggle" type="checkbox" />
-            <span>Send anonymous usage events to this app's operator</span>
-          </label>
-          <p class="modal-desc">Separate from notifications, and off by default. When on, this device sends named moments only — things like "scroll turned on", "a shelf item was marked done", or "a dock app was opened" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.</p>
+          <h3>Anonymous usage events</h3>
+          <p class="modal-desc">This app's server is set up, so this device automatically sends named moments only — things like "scroll turned on", "a shelf item was marked done", or "a dock app was opened" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.</p>
         </div>
       </section>
 
@@ -963,15 +955,11 @@
               <option value="evening">Evening</option>
               <option value="night">Late night</option>
             </select>
-            <select id="newAspirationDays" class="settings-select" aria-label="Days">
-              <option value="any">Any day</option>
-              <option value="weekday">Weekdays</option>
-              <option value="weekend">Weekends</option>
-            </select>
-          </div>
-          <div class="aspiration-fields">
-            <input id="newAspirationPlace" type="text" placeholder="Where (optional)" maxlength="40" />
             <input id="newAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+          </div>
+          <div class="field">
+            <span>Days (optional)</span>
+            <div id="newAspirationDayRow" class="day-toggle-row" role="group" aria-label="Days"></div>
           </div>
           <label class="field">
             <span>Keep at it until (optional)</span>
@@ -979,7 +967,7 @@
           </label>
           <button id="addAspirationBtn" class="btn btn-small" type="button">Add</button>
         </div>
-        <p class="modal-desc">The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.</p>
+        <p class="modal-desc">The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.</p>
 
         <h3>If this, then that</h3>
         <p class="modal-desc">Decide now, while it's easy, what you'll do in the moment it isn't. These are read back to you when an app is held closed.</p>

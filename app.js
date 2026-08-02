@@ -63,7 +63,6 @@ const STORAGE_KEYS = {
   selfBreakState: "myhome:selfBreakState",
   pushEnabled: "myhome:pushEnabled",
   pushSubscriptionId: "myhome:pushSubscriptionId",
-  analyticsEnabled: "myhome:analyticsEnabled",
   analyticsDeviceId: "myhome:analyticsDeviceId",
 };
 
@@ -681,6 +680,10 @@ const UI_I18N = {
     "Last day": "Último dia",
     "Past your date": "Passou da data",
     "Added to shelf {wall}": "Adicionado à estante {wall}",
+    "Anonymous usage events": "Eventos de uso anônimos",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "O servidor deste app está configurado, então este dispositivo envia automaticamente apenas momentos nomeados — como \"rolagem ativada\", \"um item da estante foi marcado como concluído\" ou \"um app do dock foi aberto\" — marcados com um id de dispositivo aleatório, nunca seu nome ou conta. Nunca inclui o que você pesquisou, palavras do dicionário, títulos da estante ou URLs. Não há um interruptor separado para isso: enquanto o servidor estiver configurado, será enviado. A lista completa do que é enviado está em push-server/README.md.",
+    "Days (optional)": "Dias (opcional)",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Quanto mais você preencher sobre quando, em quais dias e por quanto tempo, mais fácil é realmente começar — e uma pausa que caia nessa janela recorre a isso primeiro.",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -1257,6 +1260,10 @@ const UI_I18N = {
     "Last day": "Letzter Tag",
     "Past your date": "Datum überschritten",
     "Added to shelf {wall}": "Zu Regal {wall} hinzugefügt",
+    "Anonymous usage events": "Anonyme Nutzungsereignisse",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "Der Server dieser App ist eingerichtet, daher sendet dieses Gerät automatisch nur benannte Momente — wie „Scrollen aktiviert“, „ein Regalelement als erledigt markiert“ oder „eine Dock-App geöffnet“ — versehen mit einer zufälligen Geräte-ID, nie deinem Namen oder Konto. Es enthält nie, wonach du gesucht hast, Wörterbucheinträge, Regaltitel oder URLs. Dafür gibt es keinen separaten Schalter: Solange der Server konfiguriert ist, wird gesendet. Die vollständige Liste dessen, was gesendet wird, steht in push-server/README.md.",
+    "Days (optional)": "Tage (optional)",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Je mehr du zu wann, an welchen Tagen und wie lange ausfüllst, desto leichter fällt der tatsächliche Einstieg — und eine Pause in diesem Zeitfenster greift zuerst darauf zurück.",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1833,6 +1840,10 @@ const UI_I18N = {
     "Last day": "Dernier jour",
     "Past your date": "Date dépassée",
     "Added to shelf {wall}": "Ajouté à l'étagère {wall}",
+    "Anonymous usage events": "Événements d'usage anonymes",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "Le serveur de cette appli est configuré, donc cet appareil envoie automatiquement uniquement des moments nommés — comme « défilement activé », « un élément de l'étagère marqué comme terminé » ou « une appli du dock a été ouverte » — associés à un identifiant d'appareil aléatoire, jamais votre nom ou votre compte. Cela n'inclut jamais ce que vous avez recherché, les mots du dictionnaire, les titres de l'étagère ou les URL. Il n'y a pas d'interrupteur séparé pour cela : tant que le serveur est configuré, c'est envoyé. La liste complète de ce qui est envoyé se trouve dans push-server/README.md.",
+    "Days (optional)": "Jours (facultatif)",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Plus vous précisez quand, quels jours et combien de temps, plus il est facile de vraiment commencer — et une pause qui tombe dans ce créneau s'y réfère en premier.",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -2409,6 +2420,10 @@ const UI_I18N = {
     "Last day": "마지막 날",
     "Past your date": "설정한 날짜가 지났습니다",
     "Added to shelf {wall}": "선반 {wall}에 추가됨",
+    "Anonymous usage events": "익명 사용 이벤트",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "이 앱의 서버가 설정되어 있어, 이 기기는 \"스크롤 켜짐\", \"선반 항목을 완료로 표시함\", \"독 앱을 열었음\" 같은 정해진 이름의 순간만 무작위 기기 ID와 함께 자동으로 보냅니다. 이름이나 계정은 절대 포함되지 않습니다. 검색어, 사전 단어, 선반 제목, URL은 절대 포함하지 않습니다. 별도의 켜고 끄는 스위치는 없습니다: 서버가 설정되어 있는 한 전송됩니다. 전송되는 항목의 전체 목록은 push-server/README.md에 있습니다.",
+    "Days (optional)": "요일 (선택 사항)",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "언제, 어떤 요일에, 얼마나 오래 할지를 더 많이 채울수록 실제로 시작하기 쉬워지고, 그 시간대에 맞는 휴식이 가장 먼저 이것을 제안합니다.",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -2985,6 +3000,10 @@ const UI_I18N = {
     "Last day": "最后一天",
     "Past your date": "已过设定日期",
     "Added to shelf {wall}": "已添加到书架 {wall}",
+    "Anonymous usage events": "匿名使用事件",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "此应用的服务器已设置好，因此这台设备会自动发送指定的事件名称——例如\"滚动已开启\"\"书架项目标记为完成\"或\"打开了程序坞中的应用\"——并附带一个随机设备ID，绝不包含你的姓名或账号。绝不包含你搜索过的内容、词典中的单词、书架标题或网址。这项功能没有单独的开关：只要服务器已配置，就会发送。发送内容的完整列表见 push-server/README.md。",
+    "Days (optional)": "星期（可选）",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "关于何时、哪几天、需要多久，填写得越具体，就越容易真正开始行动——落在那个时间段的休息也会优先推荐它。",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -3561,6 +3580,10 @@ const UI_I18N = {
     "Last day": "Último día",
     "Past your date": "Fecha ya pasada",
     "Added to shelf {wall}": "Añadido a la estantería {wall}",
+    "Anonymous usage events": "Eventos de uso anónimos",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "El servidor de esta app está configurado, así que este dispositivo envía automáticamente solo momentos con nombre —como \"scroll activado\", \"un elemento de la estantería marcado como hecho\" o \"se abrió una app del dock\"— etiquetados con un id de dispositivo aleatorio, nunca tu nombre o cuenta. Nunca incluye lo que buscaste, palabras del diccionario, títulos de la estantería ni URLs. No hay un interruptor separado para esto: mientras el servidor esté configurado, se envía. La lista completa de lo que se envía está en push-server/README.md.",
+    "Days (optional)": "Días (opcional)",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Cuanto más completes sobre cuándo, qué días y cuánto dura, más fácil será empezar de verdad, y una pausa que caiga en esa franja lo ofrecerá primero.",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -4147,6 +4170,10 @@ const UI_I18N = {
     "Last day": "今日が最終日",
     "Past your date": "期限を過ぎました",
     "Added to shelf {wall}": "棚{wall}に追加しました",
+    "Anonymous usage events": "匿名の利用ログ",
+    "This app's server is set up, so this device automatically sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. There's no separate switch for this: as long as the server is configured, it's sent. The full list of what's sent lives in push-server/README.md.": "このアプリのサーバーが設定されているため、この端末は決まった名前の出来事だけを自動的に送ります（例:「スクロールをONにした」「本棚の項目を済にした」「ドックのアプリを開いた」）。ランダムな端末IDだけを添え、名前やアカウントは一切含みません。検索語・辞書の言葉・本棚のタイトル・URLは一切含みません。オン/オフの切り替えは別にありません。サーバーが設定されていれば送られます。送られる内容の全リストはpush-server/README.mdにあります。",
+    "Days (optional)": "曜日（任意）",
+    "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "いつ・何曜日・どれくらいの時間かを埋めるほど、実際に始めやすくなります。その条件に合う休憩が来たときに真っ先に差し出されます。",
   },
 };
 
@@ -4577,11 +4604,6 @@ function initAppLock() {
 
   document.getElementById("notifyQuickToggleBtn").addEventListener("click", toggleAllNotifications);
   renderNotifyQuickToggle();
-
-  document.getElementById("analyticsEnabledToggle").addEventListener("change", (e) => {
-    saveAnalyticsEnabled(e.target.checked);
-    if (e.target.checked) logEvent("analytics_enabled");
-  });
 
   // 対象から外すのは「緩める」変更。増やすのはその場で効く。
   document.getElementById("scrollGatedAppList").addEventListener("change", (e) => {
@@ -6531,6 +6553,7 @@ function refreshTranslatedViews() {
   renderWaitingRoomHome();
   renderShelfView();
   renderAspirationList();
+  renderDayToggleRows();
   renderIfThenList();
   renderPendingChanges();
   renderPromiseAccuracy();
@@ -7383,9 +7406,10 @@ function renderNotifyQuickToggle() {
 }
 
 /* --------------------------------------------------------------------------
-   匿名の利用ログ（push-server/ 、通知とは別枠の任意・オプトイン、既定OFF）
-   同意した端末だけが、意味のある操作の名前（例:「スクロールをONにした」）を
-   送る。生のタップ座標・スクロール量・辞書や本棚の中身は対象にしない。
+   匿名の利用ログ（push-server/ 、通知とは別枠）
+   PUSH_SERVER_URLを設定した時点で、意味のある操作の名前（例:「スクロールをONにした」）
+   を自動的に送る。オン/オフの切り替えは無く、サーバーを立てれば確実に送られる。
+   生のタップ座標・スクロール量・辞書や本棚の中身は対象にしない。
    送信先はpush-serverと同じWorkerの別エンドポイントで、そこから
    Google Sheetsへまとめて転記される（push-server/README.md参照）。
    -------------------------------------------------------------------------- */
@@ -7393,10 +7417,7 @@ function isAnalyticsConfigured() {
   return Boolean(PUSH_SERVER_URL);
 }
 function isAnalyticsEnabled() {
-  return isAnalyticsConfigured() && loadJSON(STORAGE_KEYS.analyticsEnabled, false);
-}
-function saveAnalyticsEnabled(value) {
-  saveJSON(STORAGE_KEYS.analyticsEnabled, value);
+  return isAnalyticsConfigured();
 }
 function getAnalyticsDeviceId() {
   let id = loadJSON(STORAGE_KEYS.analyticsDeviceId, null);
@@ -7420,10 +7441,8 @@ function logEvent(name, props) {
 
 function renderAnalyticsSection() {
   const section = document.getElementById("analyticsSection");
-  const toggle = document.getElementById("analyticsEnabledToggle");
-  if (!section || !toggle) return;
+  if (!section) return;
   section.hidden = !isAnalyticsConfigured();
-  toggle.checked = isAnalyticsEnabled();
 }
 
 // 1日の目標を超えた瞬間に一度だけ知らせる（同じ日に何度も鳴らさない）。
@@ -10418,18 +10437,32 @@ function currentBand(now = new Date()) {
   return "night";
 }
 
-// 曜日の区分。7つ並べても選ぶのが面倒になるだけなので、平日と休日だけにする。
-const ASPIRATION_DAYS = ["any", "weekday", "weekend"];
-
-function aspirationDaysLabel(days) {
-  if (days === "weekday") return t("Weekdays");
-  if (days === "weekend") return t("Weekends");
-  return t("Any day");
+// 曜日はどの組み合わせでも選べるようにする（例: 水曜だけ、月〜金だけ、土日だけ）。
+// JSのDate#getDay()に揃えて 0=日, 1=月, ... 6=土 の配列で持つ。空配列は「毎日」の意味。
+function normalizeAspirationDays(days) {
+  if (days === "weekday") return [1, 2, 3, 4, 5]; // 旧データ（平日/休日の3択時代）からの移行
+  if (days === "weekend") return [0, 6];
+  if (!Array.isArray(days)) return [];
+  const set = new Set();
+  days.forEach((d) => {
+    const n = Number(d);
+    if (Number.isInteger(n) && n >= 0 && n <= 6) set.add(n);
+  });
+  return Array.from(set).sort((a, b) => a - b);
 }
 
-function isWeekend(now = new Date()) {
-  const d = now.getDay();
-  return d === 0 || d === 6;
+// 曜日名はロケールごとに長さも表記も違うので、Intlに任せて取り違えを防ぐ。
+function weekdayShortLabel(dayIndex) {
+  const ref = new Date(2023, 0, 1 + dayIndex); // 2023-01-01は日曜日
+  return new Intl.DateTimeFormat(currentLanguage, { weekday: "short" }).format(ref);
+}
+
+function aspirationDaysLabel(days) {
+  if (!days || !days.length || days.length === 7) return "";
+  const key = days.join(",");
+  if (key === "1,2,3,4,5") return t("Weekdays");
+  if (key === "0,6") return t("Weekends");
+  return days.map(weekdayShortLabel).join(", ");
 }
 
 function getAspirations() {
@@ -10440,7 +10473,7 @@ function getAspirations() {
     .map((a) => ({
       ...a,
       when: ASPIRATION_BANDS.includes(a.when) ? a.when : "any",
-      days: ASPIRATION_DAYS.includes(a.days) ? a.days : "any",
+      days: normalizeAspirationDays(a.days),
       place: typeof a.place === "string" ? a.place : "",
       minutes: Number.isFinite(Number(a.minutes)) && Number(a.minutes) > 0 ? Number(a.minutes) : null,
       until: /^\d{4}-\d{2}-\d{2}$/.test(a.until) ? a.until : null,
@@ -10457,7 +10490,7 @@ function addAspiration(text, { when, days, place, minutes, until } = {}) {
     id: `asp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     text,
     when: ASPIRATION_BANDS.includes(when) ? when : "any",
-    days: ASPIRATION_DAYS.includes(days) ? days : "any",
+    days: normalizeAspirationDays(days),
     place: (place || "").trim(),
     minutes: Number.isFinite(mins) && mins > 0 ? Math.round(mins) : null,
     until: /^\d{4}-\d{2}-\d{2}$/.test(until) ? until : null,
@@ -10466,19 +10499,19 @@ function addAspiration(text, { when, days, place, minutes, until } = {}) {
   saveAspirations(list);
 }
 
-// 「いつ・どこで」まで決まっているものほど実行しやすいので、いまに合うものを先に出す。
+// 「いつ・どの曜日」まで決まっているものほど実行しやすいので、いまに合うものを先に出す。
 // ただし条件を付けたせいで候補が消えては本末転倒なので、段階的に緩めて必ず何か返す。
-function aspirationDayMatches(a, weekend) {
-  return a.days === "any" || (weekend ? a.days === "weekend" : a.days === "weekday");
+function aspirationDayMatches(a, dayIndex) {
+  return !a.days || a.days.length === 0 || a.days.includes(dayIndex);
 }
 
 function aspirationsForNow() {
   const all = getAspirations();
   if (!all.length) return [];
   const band = currentBand();
-  const weekend = isWeekend();
+  const today = new Date().getDay();
 
-  const onDay = all.filter((a) => aspirationDayMatches(a, weekend));
+  const onDay = all.filter((a) => aspirationDayMatches(a, today));
   const pool = onDay.length ? onDay : all;
 
   const exact = pool.filter((a) => a.when === band);
@@ -10506,7 +10539,8 @@ function aspirationMeta(a) {
   if (a.place) bits.push(a.place);
   if (a.minutes) bits.push(tf("{minutes} min", { minutes: a.minutes }));
   if (a.when !== "any") bits.push(aspirationBandLabel(a.when));
-  if (a.days !== "any") bits.push(aspirationDaysLabel(a.days));
+  const daysLabel = aspirationDaysLabel(a.days);
+  if (daysLabel) bits.push(daysLabel);
   const until = aspirationUntilLabel(a);
   if (until) bits.push(until);
   return bits.join(" · ");
@@ -10571,23 +10605,69 @@ function renderAspirationList() {
 }
 
 // 設定画面・待合室、どちらの追加フォームも同じ形なので配線を共通化する。
+// 曜日ボタンの並び順。月始まりの方が「今週これから」を思い浮かべやすい。
+const DAY_TOGGLE_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
+function buildDayToggleRow(containerId) {
+  const row = document.getElementById(containerId);
+  if (!row) return;
+  const prevSelected = new Set(
+    Array.from(row.querySelectorAll(".day-toggle.is-selected")).map((b) => Number(b.dataset.day))
+  );
+  row.innerHTML = "";
+  DAY_TOGGLE_ORDER.forEach((day) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "day-toggle";
+    btn.dataset.day = String(day);
+    btn.textContent = weekdayShortLabel(day);
+    const selected = prevSelected.has(day);
+    btn.classList.toggle("is-selected", selected);
+    btn.setAttribute("aria-pressed", String(selected));
+    btn.addEventListener("click", () => {
+      const nowSelected = !btn.classList.contains("is-selected");
+      btn.classList.toggle("is-selected", nowSelected);
+      btn.setAttribute("aria-pressed", String(nowSelected));
+    });
+    row.appendChild(btn);
+  });
+}
+
+function renderDayToggleRows() {
+  buildDayToggleRow("newAspirationDayRow");
+  buildDayToggleRow("wrNewAspirationDayRow");
+}
+
+function getSelectedDays(containerId) {
+  const row = document.getElementById(containerId);
+  if (!row) return [];
+  return Array.from(row.querySelectorAll(".day-toggle.is-selected")).map((b) => Number(b.dataset.day));
+}
+
+function clearDaySelection(containerId) {
+  const row = document.getElementById(containerId);
+  if (!row) return;
+  row.querySelectorAll(".day-toggle.is-selected").forEach((b) => {
+    b.classList.remove("is-selected");
+    b.setAttribute("aria-pressed", "false");
+  });
+}
+
 function wireAspirationAddForm(ids) {
   const btn = document.getElementById(ids.btn);
   if (!btn) return;
   btn.addEventListener("click", () => {
     const input = document.getElementById(ids.input);
     const when = document.getElementById(ids.when);
-    const days = document.getElementById(ids.days);
-    const place = document.getElementById(ids.place);
     const minutes = document.getElementById(ids.minutes);
     const until = document.getElementById(ids.until);
     const value = input.value.trim();
     if (!value) return;
-    addAspiration(value, { when: when.value, days: days.value, place: place.value, minutes: minutes.value, until: until.value });
+    const days = getSelectedDays(ids.dayRow);
+    addAspiration(value, { when: when.value, days, minutes: minutes.value, until: until.value });
     input.value = "";
     when.value = "any";
-    days.value = "any";
-    place.value = "";
+    clearDaySelection(ids.dayRow);
     minutes.value = "";
     until.value = "";
     renderAspirationList();
@@ -11206,8 +11286,7 @@ function init() {
     btn: "addAspirationBtn",
     input: "newAspirationInput",
     when: "newAspirationWhen",
-    days: "newAspirationDays",
-    place: "newAspirationPlace",
+    dayRow: "newAspirationDayRow",
     minutes: "newAspirationMinutes",
     until: "newAspirationUntil",
   });
@@ -11215,12 +11294,12 @@ function init() {
     btn: "wrAddAspirationBtn",
     input: "wrNewAspirationInput",
     when: "wrNewAspirationWhen",
-    days: "wrNewAspirationDays",
-    place: "wrNewAspirationPlace",
+    dayRow: "wrNewAspirationDayRow",
     minutes: "wrNewAspirationMinutes",
     until: "wrNewAspirationUntil",
     collapse: { toggleBtn: "wrAddAspirationToggleBtn", form: "wrAspirationForm" },
   });
+  renderDayToggleRows();
 
   document.getElementById("wrLookBackDismissBtn").addEventListener("click", dismissLookBack);
   document.getElementById("wrFinishedBtn").addEventListener("click", openLookBackOnDemand);

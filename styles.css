@@ -850,6 +850,28 @@ body.scroll-locked {
 .aspiration-fields { display: flex; gap: 6px; }
 .aspiration-fields > * { flex: 1 1 0; min-width: 0; }
 
+.day-toggle-row { display: flex; gap: 4px; }
+.day-toggle {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--bg-subtle);
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  padding: 8px 2px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.day-toggle:active { transform: scale(0.92); }
+.day-toggle.is-selected {
+  background: var(--accent);
+  color: #0a0f0a;
+  border-color: var(--accent);
+}
+
 /* 止められた画面で読み返す、自分で決めた約束 */
 .blocked-rule {
   background: var(--bg-subtle);
@@ -2421,6 +2443,9 @@ input[type="radio"] {
   display: flex;
   gap: 6px;
 }
+/* display:flexがUA既定の[hidden]を上書きしてしまうため、明示的に閉じる必要がある
+   （休憩の提案フォーム・本を追加フォームなど、開閉するadd-rowで発覚） */
+.add-row[hidden] { display: none; }
 
 .add-row input { flex: 1 1 0; min-width: 0; }
 
