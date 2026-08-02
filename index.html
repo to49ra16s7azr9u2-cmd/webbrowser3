@@ -211,6 +211,7 @@
     <button id="dictionaryBtn" class="text-btn" type="button" aria-label="Open dictionary">Dictionary</button>
     <button id="insightsBtn" class="text-btn" type="button" aria-label="Open insights">Insights</button>
     <button id="settingsBtn" class="text-btn" type="button" aria-label="Open settings">Setting</button>
+    <button id="notifyQuickToggleBtn" class="icon-btn notify-quick-toggle" type="button" aria-label="Notifications">🔔</button>
 
     <div class="tips-wrap">
       <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
@@ -222,7 +223,6 @@
           <li>While scroll is OFF, the apps you ticked in Settings won't open.</li>
           <li>When time runs out, scroll goes OFF and opened tabs close.</li>
           <li>Held items wait before they open — longest for gated apps.</li>
-          <li>Open it after a while away and it asks what you came for.</li>
           <li>Breaks offer what you set out to do, your shelf, or a saved word.</li>
           <li>Loosening a limit waits 24 hours. Tightening is immediate.</li>
           <li>Add to your home screen to receive from other apps' Share.</li>
@@ -279,7 +279,42 @@
 
             <button id="wrShelfSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
 
-            <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
+            <div class="wr-section-title">Things you want to get to</div>
+            <ul id="wrAspirationList" class="editable-list wr-aspiration-list"></ul>
+            <p id="wrAspirationEmpty" class="wr-empty">Nothing here yet — add something and breaks will offer it first.</p>
+            <button id="wrAddAspirationToggleBtn" class="text-btn" type="button" aria-expanded="false">+ Add something</button>
+            <div id="wrAspirationForm" class="add-row add-row-stacked" hidden>
+              <input id="wrNewAspirationInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+              <div class="aspiration-fields">
+                <select id="wrNewAspirationWhen" class="settings-select" aria-label="Time of day">
+                  <option value="any">Any time</option>
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                  <option value="evening">Evening</option>
+                  <option value="night">Late night</option>
+                </select>
+                <select id="wrNewAspirationDays" class="settings-select" aria-label="Days">
+                  <option value="any">Any day</option>
+                  <option value="weekday">Weekdays</option>
+                  <option value="weekend">Weekends</option>
+                </select>
+              </div>
+              <div class="aspiration-fields">
+                <input id="wrNewAspirationPlace" type="text" placeholder="Where (optional)" maxlength="40" />
+                <input id="wrNewAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+              </div>
+              <label class="field">
+                <span>Keep at it until (optional)</span>
+                <input id="wrNewAspirationUntil" type="date" />
+              </label>
+              <button id="wrAddAspirationBtn" class="btn btn-small" type="button">Add</button>
+            </div>
+
+            <div id="wrBreakRing" class="break-ring">
+              <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
+            </div>
+            <div id="wrBreakPicker" class="chip-row break-picker" role="group" aria-label="Break length" hidden></div>
+            <button id="wrBreakEndBtn" class="text-btn wr-break-end" type="button" hidden>End the break early</button>
 
             <label id="wrFileLabel" class="wr-file-label" for="wrFilePick">Hold a file from this device</label>
             <input id="wrFilePick" type="file" multiple hidden />
@@ -336,6 +371,13 @@
           <div class="shelf-actions">
             <button id="shelfRenameBtn" class="text-btn" type="button">Rename</button>
             <button id="shelfShareBtn" class="text-btn" type="button">Share this shelf</button>
+            <button id="shelfAddToggleBtn" class="text-btn" type="button" aria-expanded="false">+ Add a book</button>
+          </div>
+
+          <div id="shelfAddForm" class="add-row add-row-stacked" hidden>
+            <input id="newShelfTitle" type="text" placeholder="Title" maxlength="80" />
+            <input id="newShelfUrl" type="text" placeholder="Link (optional)" maxlength="300" />
+            <button id="shelfAddBtn" class="btn btn-small" type="button">Add</button>
           </div>
 
           <ul id="shelfHits" class="shelf-hits" hidden></ul>
@@ -675,19 +717,6 @@
   </div>
 </div>
 
-<!-- Asked once when the app is opened after a gap. Every option is one tap out. -->
-<div id="intentModal" class="modal-overlay" hidden>
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="intentTitle">
-    <h2 id="intentTitle">What did you come here for?</h2>
-    <p class="modal-desc">No wrong answer — this is just so the reason is yours and not the phone's.</p>
-    <div class="intent-choices">
-      <button id="intentLookUpBtn" class="btn btn-secondary" type="button">To look something up</button>
-      <button id="intentSetAsideBtn" class="btn btn-secondary" type="button">To get to something I set aside</button>
-      <button id="intentIdleBtn" class="btn btn-secondary" type="button">No particular reason</button>
-    </div>
-  </div>
-</div>
-
 <!-- Forced break: a soundless alarm-style banner offering something from the shelf.
      Doesn't cover the screen or block what you're doing — it just sits on top. -->
 <div id="breakModal" class="break-banner" hidden role="alert" aria-live="assertive" aria-labelledby="breakTitle">
@@ -732,6 +761,18 @@
       <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Put it in the waiting room</button>
     </div>
     <button id="feedBlockedScrollOnBtn" class="text-btn blocked-override" type="button">Turn scroll ON anyway</button>
+  </div>
+</div>
+
+<!-- Shown when a dock app is tapped during a self-set break -->
+<div id="breakLockModal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="breakLockTitle">
+    <h2 id="breakLockTitle">You're on a break</h2>
+    <p id="breakLockDesc" class="modal-desc"></p>
+    <div class="modal-actions">
+      <button id="breakLockCloseBtn" class="btn btn-primary" type="button">Back to the break</button>
+    </div>
+    <button id="breakLockEndBtn" class="text-btn blocked-override" type="button">End the break early</button>
   </div>
 </div>
 
@@ -876,6 +917,15 @@
           <div id="appInsightsPageNumbers" class="search-page-numbers"></div>
           <button id="appInsightsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
         </div>
+
+        <div id="analyticsSection" hidden>
+          <h3>Share anonymous usage events</h3>
+          <label class="checkbox-field">
+            <input id="analyticsEnabledToggle" type="checkbox" />
+            <span>Send anonymous usage events to this app's operator</span>
+          </label>
+          <p class="modal-desc">Separate from notifications, and off by default. When on, this device sends named moments only — things like "scroll turned on", "a shelf item was marked done", or "a dock app was opened" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.</p>
+        </div>
       </section>
 
       <section id="settingsPage-limits" class="settings-page settings-section" hidden>
@@ -923,6 +973,10 @@
             <input id="newAspirationPlace" type="text" placeholder="Where (optional)" maxlength="40" />
             <input id="newAspirationMinutes" type="number" min="1" max="600" placeholder="Minutes" />
           </div>
+          <label class="field">
+            <span>Keep at it until (optional)</span>
+            <input id="newAspirationUntil" type="date" />
+          </label>
           <button id="addAspirationBtn" class="btn btn-small" type="button">Add</button>
         </div>
         <p class="modal-desc">The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.</p>
@@ -961,14 +1015,6 @@
           </select>
         </label>
 
-        <h3>When you open the app</h3>
-        <label class="checkbox-field">
-          <input id="intentCheckToggle" type="checkbox" />
-          <span>Ask what I came here for</span>
-        </label>
-        <p class="modal-desc">Asked at most once every few minutes, never mid-task. Every answer is one tap. Answering "no particular reason" brings up something you said you wanted to do instead.</p>
-        <p id="intentSummaryNote" class="modal-desc" hidden></p>
-
         <h3>Cooling-off period</h3>
         <label class="checkbox-field">
           <input id="coolOffToggle" type="checkbox" />
@@ -1005,6 +1051,14 @@
             <input type="checkbox" value="dailyGoal" />
             <span>When you pass your daily limit</span>
           </label>
+        </div>
+
+        <div id="pushSection" hidden>
+          <label class="checkbox-field">
+            <input id="pushEnabledToggle" type="checkbox" />
+            <span>Notify me even when this app is fully closed</span>
+          </label>
+          <p class="modal-desc">This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.</p>
         </div>
 
         <h3>How other apps open</h3>

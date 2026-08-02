@@ -113,6 +113,23 @@ async function receiveShare(request) {
   }
 }
 
+// アプリを閉じていても、通知サーバー（push-server/、任意設定）からの予約が
+// 届いた瞬間だけここが起きる。中身は文言だけで、利用状況などは含まない。
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (e) {
+    /* 空のpushや壊れたpayloadは無視する */
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title || "MyHome Browser", {
+      body: data.body || "",
+      tag: data.tag || undefined,
+    })
+  );
+});
+
 // 通知をタップしたら、開いたままのMyHome Browserへ戻す（無ければ開き直す）。
 // 他のアプリを見ている最中に「時間切れ」を受け取った時、そのまま帰ってこられる。
 self.addEventListener("notificationclick", (event) => {

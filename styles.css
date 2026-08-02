@@ -59,8 +59,9 @@ body.scroll-locked {
   position: relative;
   flex: 0 0 auto;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 8px 10px;
   padding: calc(env(safe-area-inset-top, 0px) + 8px) 10px 8px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
@@ -71,7 +72,10 @@ body.scroll-locked {
   align-items: center;
   gap: 6px;
   flex: 1 1 auto;
-  min-width: 0;
+  /* Scroll ON/OFFはこのアプリで一番大事な操作なので、他の項目がはみ出す
+     余地があっても、これだけは絶対に縮めたり隠したりしない
+     （幅が足りない時はtopbar側がflex-wrapで折り返す）。 */
+  min-width: max-content;
 }
 
 /* 既定(OFF)は隣のTimer/辞書などと同じ地味なピル。目立たせるのはONのときだけで
@@ -122,6 +126,9 @@ body.scroll-locked {
   line-height: 1;
   color: var(--text);
 }
+/* 通知の一発切り替え。個別の設定はSettingsに残したまま、これだけは
+   ホーム画面のどこからでも1タップで届く場所に置く。 */
+.notify-quick-toggle.is-off { opacity: .4; }
 
 .text-btn {
   flex: 0 0 auto;
@@ -189,6 +196,7 @@ body.scroll-locked {
   display: flex;
   gap: 6px;
 }
+.hms-row[hidden] { display: none; }
 
 .hms-field { flex: 1 1 0; min-width: 0; }
 .hms-field input { width: 100%; text-align: center; }
@@ -275,12 +283,30 @@ body.scroll-locked {
 .wr-step { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 .wr-step[hidden] { display: none; }
 
-.wr-breathe {
+/* 休憩中でないときは、リングの入れ物ごとボタンの見た目に何も足さない
+   （子のサイズをそのまま包むだけ）。休憩が始まったらここに残り時間の
+   円グラフを乗せる。 */
+.break-ring {
   flex: 0 0 auto;
   align-self: center;
+  margin: 10px 0 6px;
+  border-radius: 50%;
+}
+.break-ring.is-active {
   width: 150px;
   height: 150px;
   margin: 10px 0 6px;
+  padding: 5px;
+  box-sizing: border-box;
+  /* --pct（0〜100）を毎秒JSから更新して、円グラフとして塗り進める */
+  background: conic-gradient(var(--accent) calc(var(--pct, 0) * 1%), var(--bg-subtle) 0);
+  transition: background 1s linear;
+}
+
+.wr-breathe {
+  width: 150px;
+  height: 150px;
+  margin: 0;
   border-radius: 50%;
   border: 1px solid var(--accent);
   background: rgba(158, 209, 122, 0.09); /* color-mix 未対応時の下敷き */
@@ -292,6 +318,27 @@ body.scroll-locked {
   cursor: pointer;
 }
 .wr-breathe:active { transform: scale(.98); }
+.break-ring.is-active .wr-breathe {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: var(--bg-card);
+  font-size: 30px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-title);
+  cursor: default;
+}
+.break-ring.is-active .wr-breathe:active { transform: none; }
+
+.break-picker[hidden] { display: none; }
+.wr-break-end {
+  align-self: center;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.wr-break-end[hidden] { display: none; }
 
 .wr-note {
   flex: 0 0 auto;
@@ -578,8 +625,6 @@ body.scroll-locked {
   align-items: flex-start;
   justify-content: center;
   writing-mode: vertical-rl;
-  font-size: .62rem;
-  letter-spacing: .06em;
   color: rgba(255,250,235,.92);
   padding-top: 10px;
   overflow: hidden;
@@ -602,7 +647,18 @@ body.scroll-locked {
     3px 10px 12px rgba(0, 0, 0, 0.5);
 }
 .book-spine.hit { outline: 2px solid var(--accent); outline-offset: 1px; }
-.book-spine-title { max-height: 100%; overflow: hidden; }
+/* 背表紙のタイトルだけは、本全体の太いサンセリフから離れて古典的な装丁の
+   セリフ体にする。箔押しで刻んだような立体感を、影の二重掛けで補う */
+.book-spine-title {
+  max-height: 100%;
+  overflow: hidden;
+  font-family: Georgia, "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .5), 0 -1px 0 rgba(255, 255, 255, .12);
+}
 /* 装丁の金の箔押し帯。上下二本、彩度を抑えた暗緑基調の中でここだけ暖色を挿す */
 .book-band {
   position: absolute; top: 0; left: 0; right: 0; height: 6px;
@@ -704,15 +760,6 @@ body.scroll-locked {
   color: var(--text-dim);
 }
 .search-bar + .inline-hint { margin: -2px 12px 6px; }
-
-/* 開いた理由を訊く三択。どれも同じ重さで並べる（誘導しないため） */
-.intent-choices {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
-}
-.intent-choices .btn { width: 100%; text-align: center; }
 
 /* 週に一度の振り返り。数字ではなく名前を並べる */
 .wr-lookback {
@@ -1489,6 +1536,11 @@ body.scroll-locked {
   color: var(--text-dim);
   margin-bottom: 10px;
   cursor: pointer;
+}
+/* ブラウザ既定の青いチェックボックスのままだと、この配色から浮いてしまう */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent);
 }
 
 .insights-list {

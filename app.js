@@ -52,9 +52,6 @@ const STORAGE_KEYS = {
   notifyGoalDay: "myhome:notifyGoalDay",
   customApps: "myhome:customApps",
   promiseHistory: "myhome:promiseHistory",
-  intentCheckEnabled: "myhome:intentCheckEnabled",
-  intentLog: "myhome:intentLog",
-  lastIntentCheckAt: "myhome:lastIntentCheckAt",
   lastLookBackAt: "myhome:lastLookBackAt",
   aspirations: "myhome:aspirations",
   aspirationLog: "myhome:aspirationLog",
@@ -63,7 +60,21 @@ const STORAGE_KEYS = {
   pendingChanges: "myhome:pendingChanges",
   firstRunMomentSeen: "myhome:firstRunMomentSeen",
   lastScrollDurationMinutes: "myhome:lastScrollDurationMinutes",
+  selfBreakState: "myhome:selfBreakState",
+  pushEnabled: "myhome:pushEnabled",
+  pushSubscriptionId: "myhome:pushSubscriptionId",
+  analyticsEnabled: "myhome:analyticsEnabled",
+  analyticsDeviceId: "myhome:analyticsDeviceId",
 };
+
+/* --------------------------------------------------------------------------
+   閉じていても届く通知（任意・オプトイン）
+   push-server/README.md の手順でCloudflare Workers + D1をデプロイした後、
+   ここの2つを埋めると設定に「アプリを閉じていても通知する」が現れる。
+   空のままなら何も変わらない（これまで通りローカルの通知だけが動く）。
+   -------------------------------------------------------------------------- */
+const PUSH_SERVER_URL = "";
+const PUSH_VAPID_PUBLIC_KEY = "";
 
 const DEFAULT_APPEARANCE = {
   accent: "#9ed17a",
@@ -643,6 +654,33 @@ const UI_I18N = {
     "No thanks": "Não, obrigado",
     "Add to my shelves": "Adicionar às minhas estantes",
     "e.g. 12": "ex.: 12",
+    "Break's over. Nice.": "Pausa terminada. Bom trabalho.",
+    "{app} stays closed until your break ends.": "{app} fica fechado até sua pausa terminar.",
+    "You're on a break": "Você está em pausa",
+    "Back to the break": "Voltar à pausa",
+    "End the break early": "Terminar a pausa antes",
+    "Break length": "Duração da pausa",
+    "Notify me even when this app is fully closed": "Me avise mesmo com o app totalmente fechado",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "Isto usa um pequeno servidor externo (que você não administra) que guarda apenas os horários e o texto dos avisos acima — nada sobre o que você vê, seu dicionário ou sua estante. Não é possível agendar assim o aviso de limite diário, pois ele depende de observar o uso de hoje em tempo real; esse continua funcionando só com o app aberto.",
+    "Couldn't turn this on right now": "Não foi possível ativar isto agora",
+    "Notifications on — tap to turn off": "Notificações ativadas — toque para desativar",
+    "Notifications off — tap to turn on": "Notificações desativadas — toque para ativar",
+    "Share anonymous usage events": "Compartilhar eventos de uso anônimos",
+    "Send anonymous usage events to this app's operator": "Enviar eventos de uso anônimos ao operador deste app",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "Separado das notificações, e desativado por padrão. Quando ativado, este aparelho envia apenas momentos nomeados — como \"rolagem ativada\", \"um item da estante foi marcado como concluído\" ou \"um app do dock foi aberto\" — marcados com um id de aparelho aleatório, nunca seu nome ou conta. Nunca inclui o que você pesquisou, palavras do dicionário, títulos da estante ou URLs. A lista completa do que é enviado está em push-server/README.md. Desativar isto interrompe o envio imediatamente.",
+    "Time's up — scroll switched back OFF. You kept your word.": "Tempo esgotado — a rolagem foi desativada. Você cumpriu sua palavra.",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "Tempo esgotado — a rolagem foi desativada e o app que você abriu foi fechado. Você cumpriu sua palavra.",
+    "Things you want to get to": "O que você quer chegar a fazer",
+    "Nothing here yet — add something and breaks will offer it first.": "Nada aqui ainda — adicione algo e as pausas oferecerão isso primeiro.",
+    "+ Add something": "+ Adicionar algo",
+    "Keep at it until (optional)": "Continuar até (opcional)",
+    "+ Add a book": "+ Adicionar um livro",
+    "Link (optional)": "Link (opcional)",
+    "{days} days left": "Faltam {days} dias",
+    "1 day left": "Falta 1 dia",
+    "Last day": "Último dia",
+    "Past your date": "Passou da data",
+    "Added to shelf {wall}": "Adicionado à estante {wall}",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -1192,6 +1230,33 @@ const UI_I18N = {
     "No thanks": "Nein danke",
     "Add to my shelves": "Zu meinen Regalen hinzufügen",
     "e.g. 12": "z. B. 12",
+    "Break's over. Nice.": "Pause vorbei. Gut gemacht.",
+    "{app} stays closed until your break ends.": "{app} bleibt geschlossen, bis deine Pause endet.",
+    "You're on a break": "Du machst gerade Pause",
+    "Back to the break": "Zurück zur Pause",
+    "End the break early": "Pause vorzeitig beenden",
+    "Break length": "Pausendauer",
+    "Notify me even when this app is fully closed": "Benachrichtige mich, auch wenn die App vollständig geschlossen ist",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "Dafür wird ein kleiner externer Server verwendet (den nicht du betreibst), der nur die Uhrzeiten und Texte der obigen Hinweise speichert — nichts darüber, was du dir ansiehst, dein Wörterbuch oder dein Regal. Den Hinweis zum Tageslimit kann er so nicht planen, da er davon abhängt, die heutige Nutzung laufend zu beobachten; der funktioniert weiterhin nur, während die App offen ist.",
+    "Couldn't turn this on right now": "Konnte das gerade nicht aktivieren",
+    "Notifications on — tap to turn off": "Benachrichtigungen an — tippen zum Ausschalten",
+    "Notifications off — tap to turn on": "Benachrichtigungen aus — tippen zum Einschalten",
+    "Share anonymous usage events": "Anonyme Nutzungsereignisse teilen",
+    "Send anonymous usage events to this app's operator": "Anonyme Nutzungsereignisse an den Betreiber dieser App senden",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "Getrennt von Benachrichtigungen und standardmäßig aus. Wenn aktiviert, sendet dieses Gerät nur benannte Momente — etwa „Scrollen eingeschaltet“, „ein Regal-Eintrag wurde als erledigt markiert“ oder „eine Dock-App wurde geöffnet“ — versehen mit einer zufälligen Geräte-ID, nie deinem Namen oder Konto. Es enthält nie, wonach du gesucht hast, Wörterbucheinträge, Regaltitel oder URLs. Die vollständige Liste dessen, was gesendet wird, steht in push-server/README.md. Das Ausschalten stoppt es sofort.",
+    "Time's up — scroll switched back OFF. You kept your word.": "Zeit um – Scrollen wurde wieder ausgeschaltet. Du hast dein Wort gehalten.",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "Zeit ist um — Scrollen ist wieder aus und die geöffnete App wurde geschlossen. Du hast dein Wort gehalten.",
+    "Things you want to get to": "Was du dir vorgenommen hast",
+    "Nothing here yet — add something and breaks will offer it first.": "Noch nichts hier — füge etwas hinzu, und Pausen bieten es zuerst an.",
+    "+ Add something": "+ Etwas hinzufügen",
+    "Keep at it until (optional)": "Dranbleiben bis (optional)",
+    "+ Add a book": "+ Ein Buch hinzufügen",
+    "Link (optional)": "Link (optional)",
+    "{days} days left": "Noch {days} Tage",
+    "1 day left": "Noch 1 Tag",
+    "Last day": "Letzter Tag",
+    "Past your date": "Datum überschritten",
+    "Added to shelf {wall}": "Zu Regal {wall} hinzugefügt",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1741,6 +1806,33 @@ const UI_I18N = {
     "No thanks": "Non merci",
     "Add to my shelves": "Ajouter à mes étagères",
     "e.g. 12": "ex. 12",
+    "Break's over. Nice.": "Pause terminée. Bien joué.",
+    "{app} stays closed until your break ends.": "{app} reste fermé jusqu'à la fin de votre pause.",
+    "You're on a break": "Vous êtes en pause",
+    "Back to the break": "Retour à la pause",
+    "End the break early": "Terminer la pause plus tôt",
+    "Break length": "Durée de la pause",
+    "Notify me even when this app is fully closed": "Me prévenir même quand l'appli est complètement fermée",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "Cela utilise un petit serveur externe (que vous ne gérez pas) qui ne conserve que les horaires et le texte des alertes ci-dessus — rien sur ce que vous regardez, votre dictionnaire ou votre étagère. Il ne peut pas programmer ainsi l'alerte de limite quotidienne, car elle dépend de l'observation de l'usage du jour en temps réel ; celle-ci ne fonctionne donc encore que quand l'appli est ouverte.",
+    "Couldn't turn this on right now": "Impossible d'activer ceci pour le moment",
+    "Notifications on — tap to turn off": "Notifications activées — touchez pour désactiver",
+    "Notifications off — tap to turn on": "Notifications désactivées — touchez pour activer",
+    "Share anonymous usage events": "Partager des événements d'utilisation anonymes",
+    "Send anonymous usage events to this app's operator": "Envoyer des événements d'utilisation anonymes à l'opérateur de cette appli",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "Séparé des notifications, et désactivé par défaut. Une fois activé, cet appareil envoie uniquement des moments nommés — comme « défilement activé », « un élément de l'étagère a été marqué comme terminé » ou « une appli du dock a été ouverte » — associés à un identifiant d'appareil aléatoire, jamais votre nom ou compte. Cela n'inclut jamais ce que vous avez recherché, les mots du dictionnaire, les titres de l'étagère ou les URL. La liste complète de ce qui est envoyé se trouve dans push-server/README.md. Désactiver ceci l'arrête immédiatement.",
+    "Time's up — scroll switched back OFF. You kept your word.": "Temps écoulé — le défilement a été désactivé. Vous avez tenu parole.",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "Temps écoulé — le défilement est désactivé et l'appli ouverte a été fermée. Vous avez tenu parole.",
+    "Things you want to get to": "Ce que vous voulez faire",
+    "Nothing here yet — add something and breaks will offer it first.": "Rien ici pour l'instant — ajoutez quelque chose et les pauses le proposeront en premier.",
+    "+ Add something": "+ Ajouter quelque chose",
+    "Keep at it until (optional)": "Continuer jusqu'au (facultatif)",
+    "+ Add a book": "+ Ajouter un livre",
+    "Link (optional)": "Lien (facultatif)",
+    "{days} days left": "Encore {days} jours",
+    "1 day left": "Encore 1 jour",
+    "Last day": "Dernier jour",
+    "Past your date": "Date dépassée",
+    "Added to shelf {wall}": "Ajouté à l'étagère {wall}",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -2290,6 +2382,33 @@ const UI_I18N = {
     "No thanks": "괜찮아요",
     "Add to my shelves": "내 선반에 추가",
     "e.g. 12": "예: 12",
+    "Break's over. Nice.": "휴식 끝. 잘했어요.",
+    "{app} stays closed until your break ends.": "휴식이 끝날 때까지 {app}은(는) 열리지 않습니다.",
+    "You're on a break": "지금은 휴식 중입니다",
+    "Back to the break": "휴식으로 돌아가기",
+    "End the break early": "휴식 미리 끝내기",
+    "Break length": "휴식 길이",
+    "Notify me even when this app is fully closed": "앱을 완전히 닫아도 알려주기",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "이 기능은 (당신이 운영하지 않는) 작은 외부 서버를 사용하며, 위 알림의 시간과 문구만 저장합니다 — 무엇을 보는지, 사전, 선반의 내용은 전혀 저장하지 않습니다. 일일 한도 알림은 이 방식으로 예약할 수 없습니다. 오늘 사용량을 실시간으로 지켜봐야 하기 때문이며, 이 알림은 여전히 앱이 열려 있을 때만 울립니다.",
+    "Couldn't turn this on right now": "지금은 켤 수 없습니다",
+    "Notifications on — tap to turn off": "알림 켜짐 — 탭하면 끕니다",
+    "Notifications off — tap to turn on": "알림 꺼짐 — 탭하면 켭니다",
+    "Share anonymous usage events": "익명 사용 이벤트 공유",
+    "Send anonymous usage events to this app's operator": "이 앱 운영자에게 익명 사용 이벤트 보내기",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "알림과는 별개이며 기본적으로 꺼져 있습니다. 켜면 이 기기는 \"스크롤 켜짐\", \"선반 항목을 완료로 표시함\", \"독 앱을 열었음\"과 같은 정해진 순간의 이름만 보내며, 무작위 기기 id로 표시될 뿐 이름이나 계정은 절대 포함되지 않습니다. 검색한 내용, 사전 단어, 선반 제목, URL은 절대 포함하지 않습니다. 전송되는 전체 목록은 push-server/README.md에 있습니다. 끄면 즉시 중단됩니다.",
+    "Time's up — scroll switched back OFF. You kept your word.": "시간이 다 되어 스크롤을 다시 껐습니다. 약속을 지켰습니다.",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "시간이 끝났습니다 — 스크롤이 꺼지고 열었던 앱도 닫았습니다. 약속을 지켰습니다.",
+    "Things you want to get to": "하고 싶은 일",
+    "Nothing here yet — add something and breaks will offer it first.": "아직 아무것도 없습니다 — 무언가를 추가하면 휴식 때 가장 먼저 제안됩니다.",
+    "+ Add something": "+ 추가하기",
+    "Keep at it until (optional)": "이 날짜까지 계속하기 (선택 사항)",
+    "+ Add a book": "+ 책 추가",
+    "Link (optional)": "링크 (선택 사항)",
+    "{days} days left": "{days}일 남음",
+    "1 day left": "1일 남음",
+    "Last day": "마지막 날",
+    "Past your date": "설정한 날짜가 지났습니다",
+    "Added to shelf {wall}": "선반 {wall}에 추가됨",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -2839,6 +2958,33 @@ const UI_I18N = {
     "No thanks": "不用了",
     "Add to my shelves": "添加到我的书架",
     "e.g. 12": "例如 12",
+    "Break's over. Nice.": "休息结束，做得好。",
+    "{app} stays closed until your break ends.": "在休息结束之前，{app}保持关闭。",
+    "You're on a break": "你正在休息",
+    "Back to the break": "回到休息",
+    "End the break early": "提前结束休息",
+    "Break length": "休息时长",
+    "Notify me even when this app is fully closed": "即使完全关闭应用也通知我",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "这会用到一个（不是你运营的）小型外部服务器，只保存上面提醒的时间和文字——不涉及你在看什么、你的词典或书架内容。每日限额提醒无法这样预约，因为它依赖实时观察今天的使用情况；这一项仍然只在应用打开时才会触发。",
+    "Couldn't turn this on right now": "现在无法开启此功能",
+    "Notifications on — tap to turn off": "通知已开启——点按可关闭",
+    "Notifications off — tap to turn on": "通知已关闭——点按可开启",
+    "Share anonymous usage events": "分享匿名使用事件",
+    "Send anonymous usage events to this app's operator": "向本应用的运营者发送匿名使用事件",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "与通知功能相互独立，默认关闭。开启后，此设备只会发送预先命名的时刻——例如“滚动已开启”“书架项目已标记完成”或“打开了程序坞中的应用”——并标注一个随机设备ID，绝不包含你的姓名或账户。绝不包含你搜索过的内容、词典中的词、书架标题或网址。发送内容的完整列表见push-server/README.md。关闭此项会立即停止发送。",
+    "Time's up — scroll switched back OFF. You kept your word.": "时间到，滚动已关闭。你说到做到了。",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "时间到——滚动已关闭，你打开的应用也已关闭。你说到做到了。",
+    "Things you want to get to": "你想做的事",
+    "Nothing here yet — add something and breaks will offer it first.": "这里还什么都没有——添加一项后，休息时会优先推荐它。",
+    "+ Add something": "+ 添加",
+    "Keep at it until (optional)": "坚持到（可选）",
+    "+ Add a book": "+ 添加一本书",
+    "Link (optional)": "链接（可选）",
+    "{days} days left": "还剩 {days} 天",
+    "1 day left": "还剩1天",
+    "Last day": "最后一天",
+    "Past your date": "已过设定日期",
+    "Added to shelf {wall}": "已添加到书架 {wall}",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -3388,6 +3534,33 @@ const UI_I18N = {
     "No thanks": "No, gracias",
     "Add to my shelves": "Añadir a mis estantes",
     "e.g. 12": "ej.: 12",
+    "Break's over. Nice.": "Pausa terminada. Bien hecho.",
+    "{app} stays closed until your break ends.": "{app} permanece cerrado hasta que termine tu pausa.",
+    "You're on a break": "Estás en pausa",
+    "Back to the break": "Volver a la pausa",
+    "End the break early": "Terminar la pausa antes",
+    "Break length": "Duración de la pausa",
+    "Notify me even when this app is fully closed": "Avísame incluso con la app totalmente cerrada",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "Esto usa un pequeño servidor externo (que tú no administras) que solo guarda los horarios y el texto de los avisos de arriba — nada sobre lo que miras, tu diccionario o tu estante. El aviso de límite diario no se puede programar así, porque depende de observar el uso de hoy en tiempo real; ese sigue funcionando solo con la app abierta.",
+    "Couldn't turn this on right now": "No se pudo activar esto ahora",
+    "Notifications on — tap to turn off": "Notificaciones activadas — toca para desactivar",
+    "Notifications off — tap to turn on": "Notificaciones desactivadas — toca para activar",
+    "Share anonymous usage events": "Compartir eventos de uso anónimos",
+    "Send anonymous usage events to this app's operator": "Enviar eventos de uso anónimos al operador de esta app",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "Separado de las notificaciones, y desactivado por defecto. Cuando está activo, este dispositivo envía solo momentos con nombre —como \"scroll activado\", \"un elemento del estante se marcó como hecho\" o \"se abrió una app del dock\"— etiquetados con un id de dispositivo aleatorio, nunca tu nombre o cuenta. Nunca incluye lo que buscaste, palabras del diccionario, títulos del estante ni URLs. La lista completa de lo que se envía está en push-server/README.md. Desactivarlo lo detiene de inmediato.",
+    "Time's up — scroll switched back OFF. You kept your word.": "Se acabó el tiempo: el scroll se ha desactivado. Cumpliste tu palabra.",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "Se acabó el tiempo: el scroll se desactivó y la app que abriste se cerró. Cumpliste tu palabra.",
+    "Things you want to get to": "Lo que quieres hacer",
+    "Nothing here yet — add something and breaks will offer it first.": "Nada aquí todavía: añade algo y las pausas lo ofrecerán primero.",
+    "+ Add something": "+ Añadir algo",
+    "Keep at it until (optional)": "Seguir hasta (opcional)",
+    "+ Add a book": "+ Añadir un libro",
+    "Link (optional)": "Enlace (opcional)",
+    "{days} days left": "Quedan {days} días",
+    "1 day left": "Queda 1 día",
+    "Last day": "Último día",
+    "Past your date": "Fecha ya pasada",
+    "Added to shelf {wall}": "Añadido a la estantería {wall}",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -3947,6 +4120,33 @@ const UI_I18N = {
     "No thanks": "いいえ、結構です",
     "Add to my shelves": "自分の本棚に追加",
     "e.g. 12": "例：12",
+    "Break's over. Nice.": "休憩終わり。よくやった。",
+    "{app} stays closed until your break ends.": "休憩が終わるまで{app}は開けません。",
+    "You're on a break": "いま休憩中です",
+    "Back to the break": "休憩に戻る",
+    "End the break early": "休憩を早めに終える",
+    "Break length": "休憩の長さ",
+    "Notify me even when this app is fully closed": "アプリを完全に閉じていても通知する",
+    "This uses a small external server (not run by you) that holds only the alert times and text above — nothing about what you look at, your dictionary, or your shelf. It can't schedule a daily-limit alert this way, since that depends on watching today's usage as it happens; that one still only fires while this app is open.": "これは（自分で運営していない）小さな外部サーバーを使い、上の通知の時刻と文言だけを預けます。何を見ているか・辞書・本棚の中身は一切含みません。1日の上限超過の通知だけはこの方式で予約できません。今日どれだけ使ったかをその都度観測する必要があるためで、これだけはこれまで通りアプリを開いている間だけ届きます。",
+    "Couldn't turn this on right now": "いまはオンにできませんでした",
+    "Notifications on — tap to turn off": "通知オン — タップでオフにする",
+    "Notifications off — tap to turn on": "通知オフ — タップでオンにする",
+    "Share anonymous usage events": "匿名の利用イベントを共有する",
+    "Send anonymous usage events to this app's operator": "このアプリの運営者に匿名の利用イベントを送る",
+    "Separate from notifications, and off by default. When on, this device sends named moments only — things like \"scroll turned on\", \"a shelf item was marked done\", or \"a dock app was opened\" — tagged with a random device id, never your name or account. It never includes what you searched, dictionary words, shelf titles, or URLs. The full list of what's sent lives in push-server/README.md. Turning this off stops it immediately.": "通知とは別枠で、既定はオフです。オンにすると、この端末は「スクロールをONにした」「本棚の項目を済にした」「ドックのアプリを開いた」といった、決まった名前の出来事だけを、ランダムな端末IDを添えて送ります。名前やアカウントは含みません。検索した内容・辞書の言葉・本棚のタイトル・URLは一切含みません。送られる内容の全リストはpush-server/README.mdにあります。オフにすればすぐに止まります。",
+    "Time's up — scroll switched back OFF. You kept your word.": "時間になったのでスクロールをOFFに戻しました。よく守れました。",
+    "Time's up — scroll is back OFF and the app you opened was closed. You kept your word.": "時間切れ — スクロールをOFFに戻し、開いていたアプリも閉じました。よく守れました。",
+    "Things you want to get to": "頑張りたいこと",
+    "Nothing here yet — add something and breaks will offer it first.": "まだ何もありません。追加すると、休憩のときに真っ先に提案します。",
+    "+ Add something": "+ 追加する",
+    "Keep at it until (optional)": "いつまで頑張るか（任意）",
+    "+ Add a book": "+ 本を追加",
+    "Link (optional)": "リンク（任意）",
+    "{days} days left": "残り{days}日",
+    "1 day left": "残り1日",
+    "Last day": "今日が最終日",
+    "Past your date": "期限を過ぎました",
+    "Added to shelf {wall}": "棚{wall}に追加しました",
   },
 };
 
@@ -4332,19 +4532,6 @@ function initAppLock() {
     refreshProtectedSettingInputs();
   });
 
-  // 訊かれなくする方向も「緩める」変更として扱う。
-  document.getElementById("intentCheckToggle").addEventListener("change", (e) => {
-    const on = e.target.checked;
-    const result = requestSettingChange({
-      key: "intentCheckEnabled",
-      value: on,
-      label: "Stop asking what you came for",
-      loosening: !on,
-    });
-    reportSettingChange(result);
-    refreshProtectedSettingInputs();
-  });
-
   document.getElementById("coolOffToggle").addEventListener("change", (e) => {
     const on = e.target.checked;
     // この仕組み自体を切るのも「緩める」変更。切るには待ってもらう。
@@ -4366,6 +4553,34 @@ function initAppLock() {
   document.getElementById("notifyPrefList").addEventListener("change", (e) => {
     if (e.target.type !== "checkbox") return;
     saveNotifyPrefs({ ...getNotifyPrefs(), [e.target.value]: e.target.checked });
+    renderNotifyQuickToggle();
+  });
+
+  document.getElementById("pushEnabledToggle").addEventListener("change", async (e) => {
+    const wantOn = e.target.checked;
+    if (!wantOn) {
+      disablePushNotifications();
+      renderNotifyQuickToggle();
+      return;
+    }
+    const result = await enablePushNotifications();
+    if (!result.ok) {
+      e.target.checked = false;
+      showToast(
+        result.reason === "denied"
+          ? t("Notifications are blocked. Allow them for this app in your browser or phone settings, then come back.")
+          : t("Couldn't turn this on right now")
+      );
+    }
+    renderNotifyQuickToggle();
+  });
+
+  document.getElementById("notifyQuickToggleBtn").addEventListener("click", toggleAllNotifications);
+  renderNotifyQuickToggle();
+
+  document.getElementById("analyticsEnabledToggle").addEventListener("change", (e) => {
+    saveAnalyticsEnabled(e.target.checked);
+    if (e.target.checked) logEvent("analytics_enabled");
   });
 
   // 対象から外すのは「緩める」変更。増やすのはその場で効く。
@@ -5223,6 +5438,8 @@ const ScrollLock = (() => {
     countdownTimer = setInterval(tick, 1000);
     incrementScrollOnCount();
     renderAppInsights();
+    scheduleScrollPushes(expiresAt);
+    logEvent("scroll_on", { minutes });
   }
 
   function turnOff(opts = {}) {
@@ -5235,15 +5452,17 @@ const ScrollLock = (() => {
     updateToggleUI(false);
     document.getElementById("scrollTimer").hidden = true;
     stopCountdown();
+    cancelScrollPushes();
+    logEvent("scroll_off", { expired: Boolean(opts.expired) });
     if (opts.expired) {
       // 約束した時間が来たので、こちらから開いたタブも一緒に畳む。
       const closed = isCloseOnScrollTimeUpEnabled() ? closeOpenedAppWindows() : 0;
-      alertUser(
-        "scrollTimeUp",
-        closed > 0
-          ? t("Time's up — scroll is back OFF and the app you opened was closed")
-          : t("Time's up — scroll switched back OFF")
-      );
+      const message = closed > 0
+        ? t("Time's up — scroll is back OFF and the app you opened was closed. You kept your word.")
+        : t("Time's up — scroll switched back OFF. You kept your word.");
+      // 早めに切ったのではなく、決めた時間を最後まで守れた瞬間だけ祝う。
+      showNotification("scrollTimeUp", "MyHome Browser", message);
+      celebrate(message);
     }
     renderAppInsights();
   }
@@ -5332,6 +5551,7 @@ const FocusTimer = (() => {
     setState({ expiresAt: null, lockOnExpire: false });
     stopCountdown();
     updateUI({ expiresAt: null });
+    logEvent("focus_timer_finished");
     if (state.lockOnExpire) {
       showAppLockScreen(t("Time's up! MyHome Browser is locked until you unlock it."));
     } else {
@@ -5359,6 +5579,8 @@ const FocusTimer = (() => {
     updateUI(state);
     stopCountdown();
     countdownTimer = setInterval(tick, 1000);
+    if (getNotifyPrefs().focusTimer) schedulePush("focusTimer", expiresAt, "MyHome Browser", t("Timer's up"));
+    logEvent("focus_timer_started", { seconds: totalSeconds, lockOnExpire: Boolean(lockOnExpire) });
   }
 
   function cancel() {
@@ -5366,6 +5588,8 @@ const FocusTimer = (() => {
     stopCountdown();
     updateUI({ expiresAt: null });
     showToast(t("Timer canceled"));
+    cancelPush("focusTimer");
+    logEvent("focus_timer_canceled");
   }
 
   function init() {
@@ -5651,10 +5875,9 @@ function openSettingsModal() {
   document.getElementById("recommendOrderSelect").value = getRecommendOrder();
   document.getElementById("closeOnTimeUpToggle").checked = isCloseOnScrollTimeUpEnabled();
   document.getElementById("coolOffToggle").checked = isCoolOffEnabled();
-  document.getElementById("intentCheckToggle").checked = isIntentCheckEnabled();
+  renderAnalyticsSection();
   renderPendingChanges();
   renderPromiseAccuracy();
-  renderIntentSummary();
   renderAspirationList();
   renderIfThenList();
   renderNotificationSection();
@@ -6311,7 +6534,6 @@ function refreshTranslatedViews() {
   renderIfThenList();
   renderPendingChanges();
   renderPromiseAccuracy();
-  renderIntentSummary();
   if (!document.getElementById("scrollOnModal").hidden) populateScrollOnModal();
   if (!document.getElementById("firstRunModal").hidden) renderFirstRunMoment();
 }
@@ -6599,6 +6821,7 @@ function recordAppOpenDecision(appId, confirmed) {
     const e = ensureInsightsEntry(bucket.apps, appId);
     if (confirmed) e.opens += 1; else e.canceled += 1;
   });
+  if (confirmed) logEvent("dock_app_opened", { appId });
 }
 
 // Oulasvirta他(2012)の知見（確認の多くは30秒未満で、実際の必要からではなく
@@ -6946,9 +7169,11 @@ async function showNotification(kind, title, body, options = {}) {
     if (navigator.serviceWorker && navigator.serviceWorker.ready) {
       const reg = await navigator.serviceWorker.ready;
       await reg.showNotification(title, payload);
+      logEvent("notification_sent", { kind });
       return true;
     }
     new Notification(title, payload);
+    logEvent("notification_sent", { kind });
     return true;
   } catch (e) {
     return false;
@@ -6960,6 +7185,245 @@ async function showNotification(kind, title, body, options = {}) {
 function alertUser(kind, message, title) {
   showNotification(kind, title || "MyHome Browser", message);
   showToast(message);
+}
+
+/* --------------------------------------------------------------------------
+   閉じていても届く通知（push-server/ 、任意・オプトイン、既定OFF）
+   ここより上のローカル通知は「このページのJSが動いている間だけ」しか
+   出せない。閉じている間にも届かせたい人だけ、外部の小さなサーバーに
+   「いつ・何を送るか」だけを預ける。利用状況そのものは一切渡さない。
+   -------------------------------------------------------------------------- */
+function isPushConfigured() {
+  return Boolean(PUSH_SERVER_URL && PUSH_VAPID_PUBLIC_KEY);
+}
+function isPushEnabled() {
+  return isPushConfigured() && loadJSON(STORAGE_KEYS.pushEnabled, false);
+}
+function savePushEnabled(value) {
+  saveJSON(STORAGE_KEYS.pushEnabled, value);
+}
+function getPushSubscriptionId() {
+  return loadJSON(STORAGE_KEYS.pushSubscriptionId, null);
+}
+function savePushSubscriptionId(id) {
+  saveJSON(STORAGE_KEYS.pushSubscriptionId, id);
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(base64);
+  return Uint8Array.from(Array.from(raw).map((c) => c.charCodeAt(0)));
+}
+
+async function enablePushNotifications() {
+  if (!isPushConfigured()) return { ok: false, reason: "unconfigured" };
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return { ok: false, reason: "unsupported" };
+  const permission = await requestNotificationPermission();
+  if (permission !== "granted") return { ok: false, reason: "denied" };
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(PUSH_VAPID_PUBLIC_KEY),
+      });
+    }
+    const res = await fetch(`${PUSH_SERVER_URL}/subscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscription: sub.toJSON() }),
+    });
+    if (!res.ok) throw new Error("subscribe failed");
+    const data = await res.json();
+    savePushSubscriptionId(data.id);
+    savePushEnabled(true);
+    // 有効化した瞬間にすでに動いている予定（スクロールON中など）があれば、
+    // 追いつけるものだけ今すぐ登録し直す。
+    resyncPushSchedules();
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, reason: "network" };
+  }
+}
+
+function disablePushNotifications() {
+  savePushEnabled(false);
+  const id = getPushSubscriptionId();
+  if (id && isPushConfigured()) {
+    fetch(`${PUSH_SERVER_URL}/unsubscribe`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
+  }
+  savePushSubscriptionId(null);
+}
+
+// slotは同じ枠を上書きする論理名（scrollAlmostUp/scrollTimeUp/focusTimer/posture）。
+// 同じslotで呼び直すと、サーバー側の予定はそのまま置き換わる。
+function schedulePush(slot, sendAt, title, body, opts = {}) {
+  if (!isPushEnabled()) return;
+  const id = getPushSubscriptionId();
+  if (!id) return;
+  fetch(`${PUSH_SERVER_URL}/schedule`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      id,
+      slot,
+      sendAt,
+      title,
+      body,
+      tag: `myhome-${slot}`,
+      recurringIntervalMin: opts.recurringIntervalMin,
+      recurringUntil: opts.recurringUntil,
+    }),
+  }).catch(() => {});
+}
+
+function cancelPush(slot) {
+  if (!isPushConfigured()) return;
+  const id = getPushSubscriptionId();
+  if (!id) return;
+  fetch(`${PUSH_SERVER_URL}/cancel`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, slot }),
+  }).catch(() => {});
+}
+
+// スクロールONの間に届き得る3種類（残り1分・時間切れ・姿勢）をまとめて予約する。
+function scheduleScrollPushes(expiresAt) {
+  if (!isPushEnabled()) return;
+  const prefs = getNotifyPrefs();
+  if (prefs.scrollAlmostUp) {
+    schedulePush("scrollAlmostUp", expiresAt - SCROLL_ALMOST_UP_MS, "MyHome Browser", t("About a minute left before scroll switches back OFF."));
+  }
+  if (prefs.scrollTimeUp) {
+    schedulePush("scrollTimeUp", expiresAt, "MyHome Browser", t("Time's up — scroll switched back OFF"));
+  }
+  if (prefs.posture && isPostureRemindersEnabled()) {
+    schedulePush(
+      "posture",
+      Date.now() + POSTURE_REMINDER_INTERVAL_MIN * 60000,
+      "MyHome Browser",
+      t("Posture check: try sitting up and holding the phone at eye level for a moment."),
+      { recurringIntervalMin: POSTURE_REMINDER_INTERVAL_MIN, recurringUntil: expiresAt }
+    );
+  }
+}
+function cancelScrollPushes() {
+  cancelPush("scrollAlmostUp");
+  cancelPush("scrollTimeUp");
+  cancelPush("posture");
+}
+
+// 通知をオンにした瞬間、すでにスクロールONやフォーカスタイマーが動いていれば
+// 予約し直す（オンにする前は購読先が無く送りようが無かったため）。
+function resyncPushSchedules() {
+  if (!isPushEnabled()) return;
+  const scrollState = ScrollLock.getState();
+  if (scrollState.isOn && scrollState.expiresAt) scheduleScrollPushes(scrollState.expiresAt);
+  const timerState = loadJSON(STORAGE_KEYS.focusTimer, { expiresAt: null });
+  if (timerState.expiresAt && timerState.expiresAt > Date.now() && getNotifyPrefs().focusTimer) {
+    schedulePush("focusTimer", timerState.expiresAt, "MyHome Browser", t("Timer's up"));
+  }
+}
+
+function renderPushSection() {
+  const section = document.getElementById("pushSection");
+  const toggle = document.getElementById("pushEnabledToggle");
+  if (!section || !toggle) return;
+  section.hidden = !isPushConfigured();
+  toggle.checked = isPushEnabled();
+}
+
+/* --------------------------------------------------------------------------
+   通知ON/OFFの一発切り替え（ホーム画面の常設ボタン）
+   細かい種類ごとの設定はSettingsに残したまま、ここでは「全部つける／
+   全部消す」だけをまとめて行う。設定を開かなくても1タップで届く場所に置く。
+   -------------------------------------------------------------------------- */
+function areAllNotificationsOn() {
+  if (notificationPermission() !== "granted") return false;
+  const prefs = getNotifyPrefs();
+  const localOn = Object.values(prefs).every(Boolean);
+  return isPushConfigured() ? localOn && isPushEnabled() : localOn;
+}
+
+async function toggleAllNotifications() {
+  if (areAllNotificationsOn()) {
+    saveNotifyPrefs({ scrollAlmostUp: false, scrollTimeUp: false, focusTimer: false, posture: false, dailyGoal: false });
+    if (isPushEnabled()) disablePushNotifications();
+    renderNotifyQuickToggle();
+    renderNotificationSection();
+    return;
+  }
+  if (notificationPermission() !== "granted") {
+    const result = await requestNotificationPermission();
+    if (result !== "granted") {
+      renderNotifyQuickToggle();
+      return;
+    }
+  }
+  saveNotifyPrefs({ scrollAlmostUp: true, scrollTimeUp: true, focusTimer: true, posture: true, dailyGoal: true });
+  if (isPushConfigured() && !isPushEnabled()) await enablePushNotifications();
+  renderNotifyQuickToggle();
+  renderNotificationSection();
+}
+
+function renderNotifyQuickToggle() {
+  const btn = document.getElementById("notifyQuickToggleBtn");
+  if (!btn) return;
+  const on = areAllNotificationsOn();
+  btn.classList.toggle("is-off", !on);
+  btn.textContent = on ? "🔔" : "🔕";
+  btn.setAttribute("aria-label", on ? t("Notifications on — tap to turn off") : t("Notifications off — tap to turn on"));
+}
+
+/* --------------------------------------------------------------------------
+   匿名の利用ログ（push-server/ 、通知とは別枠の任意・オプトイン、既定OFF）
+   同意した端末だけが、意味のある操作の名前（例:「スクロールをONにした」）を
+   送る。生のタップ座標・スクロール量・辞書や本棚の中身は対象にしない。
+   送信先はpush-serverと同じWorkerの別エンドポイントで、そこから
+   Google Sheetsへまとめて転記される（push-server/README.md参照）。
+   -------------------------------------------------------------------------- */
+function isAnalyticsConfigured() {
+  return Boolean(PUSH_SERVER_URL);
+}
+function isAnalyticsEnabled() {
+  return isAnalyticsConfigured() && loadJSON(STORAGE_KEYS.analyticsEnabled, false);
+}
+function saveAnalyticsEnabled(value) {
+  saveJSON(STORAGE_KEYS.analyticsEnabled, value);
+}
+function getAnalyticsDeviceId() {
+  let id = loadJSON(STORAGE_KEYS.analyticsDeviceId, null);
+  if (!id) {
+    id = crypto.randomUUID();
+    saveJSON(STORAGE_KEYS.analyticsDeviceId, id);
+  }
+  return id;
+}
+
+// name は下のANALYTICS_EVENTSに載っている決まった名前だけを使う（README参照）。
+// propsは小さな数値・短い文字列程度に留め、自由記述のテキストは入れない。
+function logEvent(name, props) {
+  if (!isAnalyticsEnabled()) return;
+  fetch(`${PUSH_SERVER_URL}/event`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: getAnalyticsDeviceId(), name, props: props || {}, ts: Date.now() }),
+  }).catch(() => {});
+}
+
+function renderAnalyticsSection() {
+  const section = document.getElementById("analyticsSection");
+  const toggle = document.getElementById("analyticsEnabledToggle");
+  if (!section || !toggle) return;
+  section.hidden = !isAnalyticsConfigured();
+  toggle.checked = isAnalyticsEnabled();
 }
 
 // 1日の目標を超えた瞬間に一度だけ知らせる（同じ日に何度も鳴らさない）。
@@ -7001,6 +7465,8 @@ function renderNotificationSection() {
   list.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
     cb.checked = Boolean(prefs[cb.value]);
   });
+  renderPushSection();
+  renderNotifyQuickToggle();
 }
 
 function initInstallPrompt() {
@@ -7038,6 +7504,7 @@ function openFeedBlockedModal(target) {
     });
   }
   document.getElementById("feedBlockedModal").hidden = false;
+  logEvent("feed_blocked", { appId: target.app ? target.app.id : hostnameOf(target.url) });
 }
 
 function hideFeedBlockedModal() {
@@ -7047,6 +7514,15 @@ function hideFeedBlockedModal() {
 function closeFeedBlockedModal() {
   hideFeedBlockedModal();
   pendingBlockedTarget = null;
+}
+
+// 自分で決めた休憩の最中に、ドックの他アプリを開こうとしたときの門前払い。
+function openBreakLockModal(app) {
+  document.getElementById("breakLockDesc").textContent = tf("{app} stays closed until your break ends.", { app: app.name });
+  document.getElementById("breakLockModal").hidden = false;
+}
+function closeBreakLockModal() {
+  document.getElementById("breakLockModal").hidden = true;
 }
 
 // スクロールONに成功した直後に呼ぶ。覚えていた相手をそのまま開く。
@@ -7313,6 +7789,12 @@ function openApp(app) {
 let pendingConfirmApp = null;
 
 function openAppOpenConfirm(app) {
+  // 自分で決めた休憩中は、このアプリ経由で他アプリを開く経路をすべて塞ぐ。
+  // OS側のアプリ切り替え自体は止められないので、あくまで「このアプリからは」の話。
+  if (isSelfBreakActive()) {
+    openBreakLockModal(app);
+    return;
+  }
   // スクロールOFF中のフィード系は、確認モーダルではなく門前払いにする。
   if (isFeedBlocked(app.web)) {
     openFeedBlockedModal({ name: app.name, app });
@@ -8022,6 +8504,7 @@ function addDictEntry({ word, note, url, group }) {
     savedAt: Date.now(),
   });
   saveDictEntries(entries);
+  logEvent("dictionary_word_added");
   return { ok: true };
 }
 
@@ -8769,6 +9252,8 @@ function renderWaitingRoomHome() {
     ? t("This device can't keep records (private browsing, perhaps).")
     : t("Anything you feel like looking at, this holds for a moment first.");
 
+  renderAspirationList();
+
   const list = document.getElementById("wrQueue");
   list.innerHTML = "";
   wrBridge.queue.forEach((item) => {
@@ -8873,25 +9358,29 @@ function wrTick(first) {
   if (wrLeft <= wrWaitTotal * 0.6) document.getElementById("wrSkipBtn").hidden = false;
 }
 
+// 「一息ついた」を1件記録する。held-itemを待った時と、下の自分開始の休憩を
+// やり切った時の両方から呼ぶ共通の集計処理。
+function wrRecordPauseCompleted() {
+  if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
+  wrBridge.today.count++;
+  wrBridge.savedMinutes++;
+  wrBridge.stats.paused++;
+  const d = wrToday();
+  if (wrBridge.streak.lastDate !== d) {
+    // 1日空いても途切れさせない。1回崩れただけで全部やめてしまうのを避けるため、
+    // 猶予を1日だけ持たせる（2日以上空いたときは数え直す）。
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const dayBefore = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10);
+    const continued = wrBridge.streak.lastDate === yesterday || wrBridge.streak.lastDate === dayBefore;
+    wrBridge.streak.count = continued ? wrBridge.streak.count + 1 : 1;
+    wrBridge.streak.lastDate = d;
+  }
+  wrSaveBridge();
+}
+
 function wrFinishWait(completed) {
   clearInterval(wrTimer);
-  if (completed) {
-    if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
-    wrBridge.today.count++;
-    wrBridge.savedMinutes++;
-    wrBridge.stats.paused++;
-    const d = wrToday();
-    if (wrBridge.streak.lastDate !== d) {
-      // 1日空いても途切れさせない。1回崩れただけで全部やめてしまうのを避けるため、
-      // 猶予を1日だけ持たせる（2日以上空いたときは数え直す）。
-      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-      const dayBefore = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10);
-      const continued = wrBridge.streak.lastDate === yesterday || wrBridge.streak.lastDate === dayBefore;
-      wrBridge.streak.count = continued ? wrBridge.streak.count + 1 : 1;
-      wrBridge.streak.lastDate = d;
-    }
-    wrSaveBridge();
-  }
+  if (completed) wrRecordPauseCompleted();
   wrShowChoose(completed);
 }
 
@@ -8910,6 +9399,111 @@ function wrShowChoose(completed) {
   lead.appendChild(sub);
 
   wrShowStep("choose");
+}
+
+/* ==========================================================================
+   自分から始める休憩（Take a breath ボタン）
+   時間を決めてボタンを押すと、その残り時間をボタン自身にリングと数字で表示し、
+   その間はドックの他アプリを開けなくする。ただしOS側のアプリ切り替え自体は
+   Webアプリの権限では止められないので、塞げるのは「このアプリから」他アプリを
+   開く経路だけ（README記載の技術的な制約と同じ前提）。
+   ========================================================================== */
+function getSelfBreakState() {
+  return loadJSON(STORAGE_KEYS.selfBreakState, null);
+}
+function saveSelfBreakState(state) {
+  saveJSON(STORAGE_KEYS.selfBreakState, state);
+}
+function isSelfBreakActive() {
+  const s = getSelfBreakState();
+  return Boolean(s && s.endAt && s.totalMs && s.endAt > Date.now());
+}
+
+let selfBreakTicker = null;
+
+function wrToggleBreakPicker(show) {
+  const picker = document.getElementById("wrBreakPicker");
+  if (!picker) return;
+  picker.hidden = !show;
+  if (!show) return;
+  picker.innerHTML = "";
+  getDurations().forEach((d) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.textContent = t(d.label);
+    chip.addEventListener("click", () => wrStartSelfBreak(d.minutes));
+    picker.appendChild(chip);
+  });
+}
+
+function wrStartSelfBreak(minutes) {
+  if (!minutes || minutes <= 0) return;
+  saveSelfBreakState({ endAt: Date.now() + minutes * 60000, totalMs: minutes * 60000 });
+  wrToggleBreakPicker(false);
+  wrRenderSelfBreak();
+  logEvent("self_break_started", { minutes });
+}
+
+// 途中でやめる抜け道は残すが、押しやすい場所には置かない
+// （ブロック画面の「それでもONにする」と同じ考え方）。
+function wrEndSelfBreakEarly() {
+  saveSelfBreakState(null);
+  wrRenderSelfBreak();
+  logEvent("self_break_ended_early");
+}
+
+function wrCompleteSelfBreak() {
+  saveSelfBreakState(null);
+  wrRecordPauseCompleted();
+  if (wrPanel === "wait" && wrStep === "home") renderWaitingRoomHome();
+  wrRenderSelfBreak();
+  celebrate(t("Break's over. Nice."));
+  logEvent("self_break_completed");
+}
+
+// リングの塗り具合と、ボタン中央の残り時間表示を、いまの状態に合わせて描き直す。
+function wrRenderSelfBreak() {
+  clearInterval(selfBreakTicker);
+  const ring = document.getElementById("wrBreakRing");
+  const btn = document.getElementById("wrStartBtn");
+  const endBtn = document.getElementById("wrBreakEndBtn");
+  if (!ring || !btn) return;
+
+  const state = getSelfBreakState();
+  // 見ていない間（閉じていた・タブが凍結されていた等）に終わっていた場合も、
+  // ここで初めて気づいて記録と祝福をきちんと行う。黙って idle に戻さない。
+  if (state && state.endAt && state.endAt <= Date.now()) {
+    wrCompleteSelfBreak();
+    return;
+  }
+
+  if (!state) {
+    ring.classList.remove("is-active");
+    ring.style.removeProperty("--pct");
+    btn.textContent = t("Take a breath");
+    if (endBtn) endBtn.hidden = true;
+    return;
+  }
+
+  ring.classList.add("is-active");
+  if (endBtn) endBtn.hidden = false;
+
+  const tick = () => {
+    const remainingMs = Math.max(0, state.endAt - Date.now());
+    if (remainingMs <= 0) {
+      wrCompleteSelfBreak();
+      return;
+    }
+    const pct = Math.min(100, Math.max(0, 100 - Math.round((remainingMs / state.totalMs) * 100)));
+    ring.style.setProperty("--pct", String(pct));
+    const totalSec = Math.ceil(remainingMs / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    btn.textContent = m > 0 ? `${m}:${String(s).padStart(2, "0")}` : String(s);
+  };
+  tick();
+  selfBreakTicker = setInterval(tick, 1000);
 }
 
 // 他のアプリの共有ボタンから届いたものを拾い上げる。
@@ -9434,7 +10028,46 @@ function initWaitingRoom() {
     showToast(tf("Added shelf {name}", { name }));
   });
 
-  document.getElementById("wrStartBtn").addEventListener("click", () => wrStartWait(null));
+  document.getElementById("shelfAddToggleBtn").addEventListener("click", (e) => {
+    const form = document.getElementById("shelfAddForm");
+    form.hidden = !form.hidden;
+    e.currentTarget.setAttribute("aria-expanded", String(!form.hidden));
+    if (!form.hidden) document.getElementById("newShelfTitle").focus();
+  });
+
+  document.getElementById("shelfAddBtn").addEventListener("click", () => {
+    const titleInput = document.getElementById("newShelfTitle");
+    const urlInput = document.getElementById("newShelfUrl");
+    const title = titleInput.value.trim();
+    if (!title) return;
+    const url = urlInput.value.trim();
+    const result = wrAddToShelf({ title, url });
+    if (!result.ok) {
+      showToast(t("The shelf is full. Take something off it first."));
+      return;
+    }
+    titleInput.value = "";
+    urlInput.value = "";
+    document.getElementById("shelfAddForm").hidden = true;
+    document.getElementById("shelfAddToggleBtn").setAttribute("aria-expanded", "false");
+    renderShelfView();
+    showToast(tf("Added to shelf {wall}", { wall: result.wall }));
+  });
+
+  document.getElementById("wrAddAspirationToggleBtn").addEventListener("click", (e) => {
+    const form = document.getElementById("wrAspirationForm");
+    form.hidden = !form.hidden;
+    e.currentTarget.setAttribute("aria-expanded", String(!form.hidden));
+    if (!form.hidden) document.getElementById("wrNewAspirationInput").focus();
+  });
+
+  document.getElementById("wrStartBtn").addEventListener("click", () => {
+    if (isSelfBreakActive()) return; // 動いている間はボタン自体では終わらせない（抜け道は別に用意する）
+    const picker = document.getElementById("wrBreakPicker");
+    wrToggleBreakPicker(picker.hidden);
+  });
+  document.getElementById("wrBreakEndBtn").addEventListener("click", wrEndSelfBreakEarly);
+  wrRenderSelfBreak(); // リロードをまたいで休憩中だった場合に復元する
   document.getElementById("wrSkipBtn").addEventListener("click", () => wrFinishWait(false));
 
   document.getElementById("wrFilePick").addEventListener("change", async (e) => {
@@ -9579,8 +10212,12 @@ function initWaitingRoom() {
     if (nowDone) wrWallIndex = WR_DONE_WALL; // 移った先が見えるように棚も切り替える
     wrOpenBookDetail(book.id);
     // 済にした瞬間だけ小さく祝う。戻すのは取り消しなので祝わない。
-    if (nowDone) celebrate(t("Marked as done"));
-    else showToast(t("Put back as unfinished"));
+    if (nowDone) {
+      celebrate(t("Marked as done"));
+      logEvent("shelf_item_done");
+    } else {
+      showToast(t("Put back as unfinished"));
+    }
   });
 
   // 「何分で終わるか」が分かると、いま始められるかどうかを判断できる。
@@ -9651,7 +10288,6 @@ const PENDING_APPLIERS = {
   scrollGatedApps: (v) => saveScrollGatedAppIds(v),
   feedAppsNeedScrollOn: (v) => saveFeedGateEnabled(v),
   coolOffEnabled: (v) => saveCoolOffEnabled(v),
-  intentCheckEnabled: (v) => saveIntentCheckEnabled(v),
 };
 
 function getPendingChanges() {
@@ -9747,13 +10383,11 @@ function refreshProtectedSettingInputs() {
   const scrolls = document.getElementById("breakScrollInput");
   const gate = document.getElementById("feedGateToggle");
   const coolOff = document.getElementById("coolOffToggle");
-  const intent = document.getElementById("intentCheckToggle");
   if (enabled) enabled.checked = isBreakEnabled();
   if (interval) interval.value = getBreakIntervalMin();
   if (scrolls) scrolls.value = getBreakScrollCount();
   if (gate) gate.checked = isFeedGateEnabled();
   if (coolOff) coolOff.checked = isCoolOffEnabled();
-  if (intent) intent.checked = isIntentCheckEnabled();
   renderScrollGatedAppList();
 }
 
@@ -9809,13 +10443,14 @@ function getAspirations() {
       days: ASPIRATION_DAYS.includes(a.days) ? a.days : "any",
       place: typeof a.place === "string" ? a.place : "",
       minutes: Number.isFinite(Number(a.minutes)) && Number(a.minutes) > 0 ? Number(a.minutes) : null,
+      until: /^\d{4}-\d{2}-\d{2}$/.test(a.until) ? a.until : null,
     }));
 }
 function saveAspirations(list) {
   saveJSON(STORAGE_KEYS.aspirations, list);
 }
 
-function addAspiration(text, { when, days, place, minutes } = {}) {
+function addAspiration(text, { when, days, place, minutes, until } = {}) {
   const list = getAspirations();
   const mins = Number(minutes);
   list.push({
@@ -9825,6 +10460,7 @@ function addAspiration(text, { when, days, place, minutes } = {}) {
     days: ASPIRATION_DAYS.includes(days) ? days : "any",
     place: (place || "").trim(),
     minutes: Number.isFinite(mins) && mins > 0 ? Math.round(mins) : null,
+    until: /^\d{4}-\d{2}-\d{2}$/.test(until) ? until : null,
     doneCount: 0,
   });
   saveAspirations(list);
@@ -9851,6 +10487,19 @@ function aspirationsForNow() {
   return anytime.length ? anytime : pool;
 }
 
+// 「いつまで」を残り日数で示す。数字だけの締め切りより、あと何日かの方が今日動くかの判断に近い。
+function aspirationUntilLabel(a) {
+  if (!a.until) return "";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(`${a.until}T00:00:00`);
+  const days = Math.round((target - today) / 86400000);
+  if (days > 1) return tf("{days} days left", { days });
+  if (days === 1) return t("1 day left");
+  if (days === 0) return t("Last day");
+  return t("Past your date");
+}
+
 // 提案に添える一行。場所と所要時間があるほど「いま始められるか」を判断しやすい。
 function aspirationMeta(a) {
   const bits = [];
@@ -9858,6 +10507,8 @@ function aspirationMeta(a) {
   if (a.minutes) bits.push(tf("{minutes} min", { minutes: a.minutes }));
   if (a.when !== "any") bits.push(aspirationBandLabel(a.when));
   if (a.days !== "any") bits.push(aspirationDaysLabel(a.days));
+  const until = aspirationUntilLabel(a);
+  if (until) bits.push(until);
   return bits.join(" · ");
 }
 
@@ -9872,6 +10523,7 @@ function noteAspirationDone(id) {
   const log = getAspirationLog();
   log.push({ text: hit.text, at: Date.now() });
   saveJSON(STORAGE_KEYS.aspirationLog, log.slice(-200));
+  logEvent("aspiration_done");
 }
 
 function getAspirationLog() {
@@ -9879,8 +10531,10 @@ function getAspirationLog() {
   return Array.isArray(list) ? list.filter((e) => e && e.text && e.at) : [];
 }
 
-function renderAspirationList() {
-  const list = document.getElementById("aspirationList");
+// 設定画面と待合室、どちらにも同じ一覧を出す。片方で足しても消しても、
+// もう片方が古いまま残らないよう、変更のたびに両方を描き直す。
+function renderAspirationListInto(listId, emptyId) {
+  const list = document.getElementById(listId);
   if (!list) return;
   const items = getAspirations();
   list.innerHTML = "";
@@ -9908,113 +10562,42 @@ function renderAspirationList() {
     li.appendChild(btn);
     list.appendChild(li);
   });
-  document.getElementById("aspirationEmpty").hidden = items.length > 0;
+  const empty = document.getElementById(emptyId);
+  if (empty) empty.hidden = items.length > 0;
+}
+function renderAspirationList() {
+  renderAspirationListInto("aspirationList", "aspirationEmpty");
+  renderAspirationListInto("wrAspirationList", "wrAspirationEmpty");
 }
 
-/* ==========================================================================
-   何をしに来たか
-   これまでの仕掛けは、ブロック画面も待合室も休憩も、全部「もう手が動いた後」に
-   効くものだった。けれど行動を決めているのは、その手前の合図（手に取る・
-   ロックを解く・手持ち無沙汰）の方で、そこを過ぎた後の介入はどうしても後追いになる。
-   ここでは、しばらくぶりに開いたときに一度だけ、一問だけ挟む。
-   三択とも1タップで抜けられるので壁ではない。狙いは止めることではなく、
-   「なんとなく開いた」という状態を、本人にもこのアプリにも見えるようにすること。
-   ========================================================================== */
-const INTENT_MIN_GAP_MS = 5 * 60 * 1000; // 開き直すたびに訊かない
-const INTENT_LOG_MAX = 30;
-
-function isIntentCheckEnabled() {
-  return loadJSON(STORAGE_KEYS.intentCheckEnabled, true);
-}
-function saveIntentCheckEnabled(v) {
-  saveJSON(STORAGE_KEYS.intentCheckEnabled, v);
-}
-
-function getIntentLog() {
-  const list = loadJSON(STORAGE_KEYS.intentLog, []);
-  return Array.isArray(list) ? list.filter((e) => e && e.choice) : [];
-}
-
-function noteIntent(choice) {
-  const list = getIntentLog();
-  list.push({ choice, at: Date.now() });
-  saveJSON(STORAGE_KEYS.intentLog, list.slice(-INTENT_LOG_MAX));
-  saveJSON(STORAGE_KEYS.lastIntentCheckAt, Date.now());
-}
-
-function intentSummary() {
-  const list = getIntentLog();
-  const idle = list.filter((e) => e.choice === "idle").length;
-  return { total: list.length, idle };
-}
-
-function renderIntentSummary() {
-  const note = document.getElementById("intentSummaryNote");
-  if (!note) return;
-  const s = intentSummary();
-  note.hidden = s.total === 0;
-  if (!s.total) return;
-  note.textContent = tf("{idle} of your last {total} opens had nothing particular behind them.", {
-    idle: s.idle,
-    total: s.total,
+// 設定画面・待合室、どちらの追加フォームも同じ形なので配線を共通化する。
+function wireAspirationAddForm(ids) {
+  const btn = document.getElementById(ids.btn);
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const input = document.getElementById(ids.input);
+    const when = document.getElementById(ids.when);
+    const days = document.getElementById(ids.days);
+    const place = document.getElementById(ids.place);
+    const minutes = document.getElementById(ids.minutes);
+    const until = document.getElementById(ids.until);
+    const value = input.value.trim();
+    if (!value) return;
+    addAspiration(value, { when: when.value, days: days.value, place: place.value, minutes: minutes.value, until: until.value });
+    input.value = "";
+    when.value = "any";
+    days.value = "any";
+    place.value = "";
+    minutes.value = "";
+    until.value = "";
+    renderAspirationList();
+    if (ids.collapse) {
+      const toggle = document.getElementById(ids.collapse.toggleBtn);
+      const form = document.getElementById(ids.collapse.form);
+      if (form) form.hidden = true;
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    }
   });
-}
-
-// 訊いてよい場面かどうか。ロック中・案内中・既に何か出ている時は黙っている。
-function canAskIntent() {
-  if (!isIntentCheckEnabled()) return false;
-  if (!document.getElementById("appLockScreen").hidden) return false;
-  if (!document.getElementById("onboardingScreen").hidden) return false;
-  if (!document.getElementById("firstRunModal").hidden) return false;
-  if (!document.getElementById("intentModal").hidden) return false;
-  if (!document.getElementById("breakModal").hidden) return false;
-  if (wrStep === "wait") return false;
-  return Date.now() - (loadJSON(STORAGE_KEYS.lastIntentCheckAt, 0) || 0) >= INTENT_MIN_GAP_MS;
-}
-
-function maybeAskIntent() {
-  if (!canAskIntent()) return false;
-  document.getElementById("intentModal").hidden = false;
-  return true;
-}
-
-function closeIntentModal(choice) {
-  document.getElementById("intentModal").hidden = true;
-  noteIntent(choice);
-}
-
-function initIntentCheck() {
-  document.getElementById("intentLookUpBtn").addEventListener("click", () => {
-    closeIntentModal("lookup");
-    const input = document.getElementById("searchInput");
-    if (input) input.focus();
-  });
-
-  document.getElementById("intentSetAsideBtn").addEventListener("click", () => {
-    closeIntentModal("setaside");
-    wrShowPanel("wait");
-    wrShowStep("home");
-  });
-
-  // 「なんとなく」だけは、そのまま通さずに一つ差し出す。
-  // 責めるためではなく、代わりの行き先をその場に置くため。
-  document.getElementById("intentIdleBtn").addEventListener("click", () => {
-    closeIntentModal("idle");
-    openBreakModal("idle");
-  });
-
-  // ロックが解けた直後にも訊けるようにする（解除の経路が複数あるので、
-  // それぞれに手を入れず、画面が消えたことを見て判断する）。
-  const lockScreen = document.getElementById("appLockScreen");
-  new MutationObserver(() => {
-    if (lockScreen.hidden) setTimeout(maybeAskIntent, 300);
-  }).observe(lockScreen, { attributes: true, attributeFilter: ["hidden"] });
-
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) setTimeout(maybeAskIntent, 300);
-  });
-
-  setTimeout(maybeAskIntent, 600);
 }
 
 /* ==========================================================================
@@ -10284,7 +10867,6 @@ function isAnyBreakBlocker() {
   if (!document.getElementById("appLockScreen").hidden) return true;
   if (!document.getElementById("onboardingScreen").hidden) return true;
   if (!document.getElementById("firstRunModal").hidden) return true;
-  if (!document.getElementById("intentModal").hidden) return true;
   if (wrStep === "wait") return true;
   return false;
 }
@@ -10304,7 +10886,8 @@ function wrPickBreakSuggestion() {
   if (slot === 3 && dictEntries.length) return wrPickDictTrivia(dictEntries, turn);
   if (slot === 2 && books.length) return { kind: "book", book: books[0] };
   if (aspirations.length) {
-    const a = aspirations[turn % aspirations.length];
+    // 同じ候補が続くと「もう手を付けた気」になってしまうので、順番ではなくくじ引きにする。
+    const a = aspirations[Math.floor(Math.random() * aspirations.length)];
     return { kind: "aspiration", id: a.id, text: a.text, meta: aspirationMeta(a) };
   }
   // 頑張りたいことが未登録なら、本棚、それも無ければ辞書、最後に内蔵の小さな行動。
@@ -10467,6 +11050,7 @@ function initForcedBreak() {
 function init() {
   // 画面を組み立てる前に言語を確定させ、以降 t() が正しい訳を返せるようにする。
   applyLanguage(getLanguage());
+  logEvent("app_opened");
   migrateBookshelfToDictionary();
   initAppLock();
   initOnboarding();
@@ -10484,7 +11068,6 @@ function init() {
   initWaitingRoom();
   initSharedShelves();
   initForcedBreak();
-  initIntentCheck();
   initInsightsPanel();
   renderAppInsights();
   renderDock();
@@ -10611,23 +11194,32 @@ function init() {
     openScrollOnModal();
   });
 
+  document.getElementById("breakLockCloseBtn").addEventListener("click", closeBreakLockModal);
+  document.getElementById("breakLockEndBtn").addEventListener("click", () => {
+    closeBreakLockModal();
+    wrEndSelfBreakEarly();
+  });
+
   initTipsPanel();
 
-  document.getElementById("addAspirationBtn").addEventListener("click", () => {
-    const input = document.getElementById("newAspirationInput");
-    const when = document.getElementById("newAspirationWhen");
-    const days = document.getElementById("newAspirationDays");
-    const place = document.getElementById("newAspirationPlace");
-    const minutes = document.getElementById("newAspirationMinutes");
-    const value = input.value.trim();
-    if (!value) return;
-    addAspiration(value, { when: when.value, days: days.value, place: place.value, minutes: minutes.value });
-    input.value = "";
-    when.value = "any";
-    days.value = "any";
-    place.value = "";
-    minutes.value = "";
-    renderAspirationList();
+  wireAspirationAddForm({
+    btn: "addAspirationBtn",
+    input: "newAspirationInput",
+    when: "newAspirationWhen",
+    days: "newAspirationDays",
+    place: "newAspirationPlace",
+    minutes: "newAspirationMinutes",
+    until: "newAspirationUntil",
+  });
+  wireAspirationAddForm({
+    btn: "wrAddAspirationBtn",
+    input: "wrNewAspirationInput",
+    when: "wrNewAspirationWhen",
+    days: "wrNewAspirationDays",
+    place: "wrNewAspirationPlace",
+    minutes: "wrNewAspirationMinutes",
+    until: "wrNewAspirationUntil",
+    collapse: { toggleBtn: "wrAddAspirationToggleBtn", form: "wrAspirationForm" },
   });
 
   document.getElementById("wrLookBackDismissBtn").addEventListener("click", dismissLookBack);
