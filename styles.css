@@ -322,9 +322,6 @@ body.scroll-locked {
 }
 .home-panel-body[hidden] { display: none; }
 
-.wr-step { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
-.wr-step[hidden] { display: none; }
-
 /* 休憩中でないときは、リングの入れ物ごとボタンの見た目に何も足さない
    （子のサイズをそのまま包むだけ）。休憩が始まったらここに残り時間の
    円グラフを乗せる。 */
@@ -445,53 +442,6 @@ body.scroll-locked {
 .wr-shelf-summary::after { content: " \2192"; color: var(--text-dim); }
 .wr-shelf-summary[hidden] { display: none; }
 
-.wr-section-title {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  letter-spacing: .12em;
-  color: var(--text-dim);
-  margin: 18px 0 10px;
-}
-.wr-section-title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-
-.wr-queue {
-  flex: 0 1 auto;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.wr-queue-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-left: 5px solid var(--accent);
-  border-radius: 5px;
-  padding: 8px 10px;
-}
-.wr-queue-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.wr-queue-title { font-size: 12.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wr-queue-text small { font-size: 10.5px; color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wr-queue-btn {
-  flex: 0 0 auto;
-  background: var(--bg-subtle);
-  border: none;
-  border-radius: var(--radius-pill);
-  color: var(--text);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 7px 12px;
-  cursor: pointer;
-}
-
 .wr-empty {
   flex: 0 0 auto;
   margin: 4px 0;
@@ -500,69 +450,6 @@ body.scroll-locked {
   color: var(--text-dim);
   text-align: center;
 }
-
-/* ---- 数えているあいだ ---- */
-#wrWait { align-items: center; justify-content: center; gap: 6px; }
-
-.wr-ring {
-  position: relative;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  border: 1px solid var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-}
-.wr-ring-fill {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: rgba(158, 209, 122, 0.12);
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%);
-  animation: wr-breathe 10s ease-in-out infinite;
-}
-@keyframes wr-breathe {
-  0%   { transform: scale(.55); }
-  40%  { transform: scale(1); }
-  100% { transform: scale(.55); }
-}
-.wr-count { position: relative; text-align: center; font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: var(--tracking-display); }
-.wr-count small { display: block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); color: var(--text-dim); }
-.wr-breath-word { font-size: 11px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-dim); height: 1.4em; flex: 0 0 auto; }
-
-.wr-card {
-  flex: 0 0 auto;
-  width: 100%;
-  margin-top: 10px;
-  background: var(--bg-subtle);
-  border-radius: 10px;
-  border-top: 3px solid var(--accent);
-  padding: 14px 16px;
-  text-align: center;
-}
-.wr-card-label { display: block; font-size: 9.5px; letter-spacing: .16em; color: var(--text-dim); margin-bottom: 6px; }
-.wr-card-body { font-size: 13px; line-height: 1.7; }
-
-.wr-keeping {
-  flex: 0 0 auto;
-  width: 100%;
-  margin-top: 10px;
-  padding: 9px 11px;
-  border-radius: 5px;
-  border: 1px dashed var(--border);
-  background: var(--bg-subtle);
-}
-.wr-keeping b { display: block; font-size: 12px; }
-.wr-keeping span { display: block; font-size: 10px; color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wr-skip { margin-top: 12px; align-self: center; }
-
-/* ---- 選ぶ ---- */
-#wrChoose { justify-content: center; gap: 8px; }
-.wr-choose-lead { text-align: center; font-size: 14px; line-height: 1.9; margin: 0 0 8px; }
-.wr-choose-lead small { display: block; font-size: 11px; color: var(--text-dim); margin-top: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.wr-choice { width: 100%; }
 
 /* ---- 本棚 ---- */
 .gauge-label {
@@ -2147,6 +2034,7 @@ input[type="radio"] {
 
 .modal-close-btn {
   flex: 0 0 auto;
+  margin-left: auto;
   width: 30px;
   height: 30px;
   display: flex;
@@ -2244,6 +2132,30 @@ input[type="radio"] {
 }
 .dictionary-add-form .field { margin-bottom: 6px; }
 .dictionary-add-form .modal-actions { margin-top: 6px; }
+
+.dictionary-import-sheet-row { display: flex; gap: 6px; }
+.dictionary-import-sheet-row input { flex: 1 1 auto; min-width: 0; }
+#dictImportStatus.is-error { color: var(--danger, #d17a7a); }
+.dictionary-import-preview {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0;
+  max-height: 140px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.dictionary-import-preview li {
+  font-size: 11.5px;
+  padding: 5px 8px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dictionary-import-preview .dictionary-import-more { color: var(--text-dim); background: none; padding: 3px 8px; }
 
 .dictionary-list {
   flex: 1 1 auto;

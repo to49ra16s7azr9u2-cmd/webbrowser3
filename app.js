@@ -383,6 +383,25 @@ const UI_I18N = {
     "All groups": "Todos os grupos",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "Nenhuma palavra salva ainda. Pesquise algo e toque na estrela para salvar aqui.",
+    "Import…": "Importar…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "Cada linha vira uma palavra: a primeira coluna é a palavra, a segunda o significado, a terceira um link opcional. Uma linha de cabeçalho é detectada e ignorada automaticamente.",
+    "Excel (.xlsx) or CSV file": "Arquivo Excel (.xlsx) ou CSV",
+    "…or a Google Sheets share link": "…ou um link compartilhado do Google Sheets",
+    "Fetch": "Buscar",
+    "Add into group": "Adicionar ao grupo",
+    "Add these words": "Adicionar essas palavras",
+    "Reading…": "Lendo…",
+    "Fetching…": "Buscando…",
+    "Couldn't find any words in that file.": "Não encontramos nenhuma palavra nesse arquivo.",
+    "Found {count} words in {source}.": "Encontramos {count} palavras em {source}.",
+    "the sheet": "a planilha",
+    "Couldn't read that file.": "Não foi possível ler esse arquivo.",
+    "That doesn't look like a Google Sheets link.": "Isso não parece um link do Google Sheets.",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "Não foi possível buscar essa planilha. Verifique se ela está compartilhada como \"Qualquer pessoa com o link pode ver\".",
+    "…and {count} more": "…e mais {count}",
+    "Nothing new to add.": "Nada de novo para adicionar.",
+    "Added {count} words to your dictionary": "{count} palavras adicionadas ao seu dicionário",
+    "Add these {count} words": "Adicionar essas {count} palavras",
     "No words matched.": "Nenhuma palavra encontrada.",
     "Move {word} up": "Mover {word} para cima",
     "Move {word} down": "Mover {word} para baixo",
@@ -443,25 +462,10 @@ const UI_I18N = {
     "minutes held": "minutos guardados",
     "Hold a file from this device": "Guardar um arquivo deste aparelho",
     "Held on this device: {used} of about {quota}": "Guardado neste aparelho: {used} de cerca de {quota}",
-    "Being held": "Em espera",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Nada em espera agora. O que você decidir não abrir na hora espera aqui.",
-    "Breathe in": "Inspire",
-    "Breathe out": "Expire",
-    "Something you could do instead": "Algo que você poderia fazer em vez disso",
-    "Decide without waiting": "Decidir sem esperar",
-    "You waited a minute.": "Você esperou um minuto.",
-    "So — what will it be?": "E então, o que vai ser?",
-    "You can close this screen now.": "Pode fechar esta tela agora.",
     "Put it on the shelf": "Colocar na estante",
-    "Open it now after all": "Abrir agora, afinal",
-    "Let it go": "Deixar para lá",
-    "Back to the waiting room": "Voltar à sala de espera",
-    "Decide later": "Decidir depois",
     "Shelved under {wall}": "Guardado em {wall}",
-    "Let go of it": "Deixado para lá",
     "The shelf is full. Take something off it first.": "A estante está cheia. Tire algo dela primeiro.",
     "Couldn't put it on the shelf": "Não foi possível guardar na estante",
-    "There's nothing to open": "Não há nada para abrir",
     "This device is out of room for held files": "Este aparelho não tem mais espaço para arquivos guardados",
     "Couldn't hold that file": "Não foi possível guardar esse arquivo",
     "That file is no longer on this device": "Esse arquivo não está mais neste aparelho",
@@ -506,7 +510,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "O que você quiser ver fica retido aqui um momento primeiro.",
     "Interrupt me and offer something better to be doing": "Me interromper e oferecer algo melhor para fazer",
     "Order of the shelf items it reaches for": "Ordem dos itens da estante",
-    "Put it in the waiting room": "Colocar na sala de espera",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Quanto mais você preencher quando, onde e por quanto tempo, mais fácil é começar — e uma pausa nessa janela as oferece primeiro.",
     "e.g. Practise guitar": "ex.: Praticar violão",
     "Time of day": "Período do dia",
@@ -604,7 +607,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "Olhe para longe e relaxe os olhos.",
     "Breathe in deeply, breathe out slowly. That's enough.": "Inspire fundo, expire devagar. Já basta.",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "SEGUNDOS",
     "Close": "Fechar",
     "Search the shelf…": "Pesquisar na estante…",
     "Nothing on the shelf matched.": "Nada na estante corresponde.",
@@ -632,7 +634,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Ainda não há nada pendente na estante. Guarde algo e da próxima vez ele será oferecido.",
     "Mark done": "Marcar concluído",
     "Open this": "Abrir isto",
-    "Something from your shelf is waiting.": "Algo da sua estante está esperando.",
     "Pick one of your own shelves to share.": "Escolha uma das suas próprias estantes para compartilhar.",
     "This shelf has nothing with a link on it yet.": "Esta estante ainda não tem nada com um link.",
     "My shelf: {name}": "Minha estante: {name}",
@@ -644,7 +645,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "Você concluiu {count} coisas nestas últimas duas semanas — cerca de {minutes} escolhidos por você.",
     "A word from your dictionary": "Uma palavra do seu dicionário",
     "Nice to know": "Bom saber",
-    "A word you saved is waiting.": "Uma palavra que você salvou está esperando.",
     "Rename": "Renomear",
     "Share this shelf": "Compartilhar esta estante",
     "How long it takes (minutes)": "Quanto tempo leva (minutos)",
@@ -966,6 +966,25 @@ const UI_I18N = {
     "All groups": "Alle Gruppen",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "Noch keine Wörter gespeichert. Schlag etwas nach und tippe auf den Stern, um es hier zu speichern.",
+    "Import…": "Importieren…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "Jede Zeile wird zu einem Wort: erste Spalte das Wort, zweite die Bedeutung, dritte optional ein Link. Eine Kopfzeile wird automatisch erkannt und übersprungen.",
+    "Excel (.xlsx) or CSV file": "Excel- (.xlsx) oder CSV-Datei",
+    "…or a Google Sheets share link": "…oder ein Google-Sheets-Freigabelink",
+    "Fetch": "Abrufen",
+    "Add into group": "In Gruppe einfügen",
+    "Add these words": "Diese Wörter hinzufügen",
+    "Reading…": "Wird gelesen…",
+    "Fetching…": "Wird abgerufen…",
+    "Couldn't find any words in that file.": "In dieser Datei wurden keine Wörter gefunden.",
+    "Found {count} words in {source}.": "{count} Wörter in {source} gefunden.",
+    "the sheet": "dem Sheet",
+    "Couldn't read that file.": "Diese Datei konnte nicht gelesen werden.",
+    "That doesn't look like a Google Sheets link.": "Das sieht nicht nach einem Google-Sheets-Link aus.",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "Dieses Sheet konnte nicht abgerufen werden. Stelle sicher, dass es als „Jeder mit dem Link kann es aufrufen“ freigegeben ist.",
+    "…and {count} more": "…und {count} weitere",
+    "Nothing new to add.": "Nichts Neues zum Hinzufügen.",
+    "Added {count} words to your dictionary": "{count} Wörter zu deinem Wörterbuch hinzugefügt",
+    "Add these {count} words": "Diese {count} Wörter hinzufügen",
     "No words matched.": "Keine Treffer.",
     "Move {word} up": "{word} nach oben",
     "Move {word} down": "{word} nach unten",
@@ -1026,25 +1045,10 @@ const UI_I18N = {
     "minutes held": "Minuten aufbewahrt",
     "Hold a file from this device": "Eine Datei von hier aufbewahren",
     "Held on this device: {used} of about {quota}": "Auf diesem Gerät: {used} von etwa {quota}",
-    "Being held": "Aufbewahrt",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Gerade wird nichts aufbewahrt. Was du nicht sofort öffnest, wartet hier.",
-    "Breathe in": "Einatmen",
-    "Breathe out": "Ausatmen",
-    "Something you could do instead": "Etwas, das du stattdessen tun könntest",
-    "Decide without waiting": "Ohne Warten entscheiden",
-    "You waited a minute.": "Du hast eine Minute gewartet.",
-    "So — what will it be?": "Und, was wird es?",
-    "You can close this screen now.": "Du kannst diesen Bildschirm jetzt schließen.",
     "Put it on the shelf": "Ins Regal stellen",
-    "Open it now after all": "Doch jetzt öffnen",
-    "Let it go": "Sein lassen",
-    "Back to the waiting room": "Zurück ins Wartezimmer",
-    "Decide later": "Später entscheiden",
     "Shelved under {wall}": "Unter {wall} eingeräumt",
-    "Let go of it": "Sein gelassen",
     "The shelf is full. Take something off it first.": "Das Regal ist voll. Nimm zuerst etwas heraus.",
     "Couldn't put it on the shelf": "Konnte es nicht ins Regal stellen",
-    "There's nothing to open": "Es gibt nichts zu öffnen",
     "This device is out of room for held files": "Auf diesem Gerät ist kein Platz mehr für aufbewahrte Dateien",
     "Couldn't hold that file": "Konnte diese Datei nicht aufbewahren",
     "That file is no longer on this device": "Diese Datei ist nicht mehr auf dem Gerät",
@@ -1089,7 +1093,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "Was du ansehen willst, wartet hier erst einen Moment.",
     "Interrupt me and offer something better to be doing": "Mich unterbrechen und etwas Besseres vorschlagen",
     "Order of the shelf items it reaches for": "Reihenfolge der Regalstücke",
-    "Put it in the waiting room": "In den Warteraum legen",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Je mehr du zu Wann, Wo und Wie lange einträgst, desto leichter fängst du an — und eine Pause in dem Zeitfenster greift zuerst danach.",
     "e.g. Practise guitar": "z.B. Gitarre üben",
     "Time of day": "Tageszeit",
@@ -1187,7 +1190,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "Schau in die Ferne und lass die Augen weich werden.",
     "Breathe in deeply, breathe out slowly. That's enough.": "Tief einatmen, langsam ausatmen. Das genügt.",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "SEKUNDEN",
     "Close": "Schließen",
     "Search the shelf…": "Im Regal suchen…",
     "Nothing on the shelf matched.": "Nichts im Regal passt dazu.",
@@ -1215,7 +1217,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Im Regal liegt noch nichts Offenes. Leg etwas hinein, dann wird es beim nächsten Mal vorgeschlagen.",
     "Mark done": "Als erledigt markieren",
     "Open this": "Das öffnen",
-    "Something from your shelf is waiting.": "Etwas aus deinem Regal wartet.",
     "Pick one of your own shelves to share.": "Wähle eines deiner eigenen Regale zum Teilen aus.",
     "This shelf has nothing with a link on it yet.": "Dieses Regal enthält noch nichts mit einem Link.",
     "My shelf: {name}": "Mein Regal: {name}",
@@ -1227,7 +1228,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "In den letzten zwei Wochen hast du {count} Dinge abgeschlossen — etwa {minutes} deiner eigenen Wahl.",
     "A word from your dictionary": "Ein Wort aus deinem Wörterbuch",
     "Nice to know": "Gut zu wissen",
-    "A word you saved is waiting.": "Ein gespeichertes Wort wartet auf dich.",
     "Rename": "Umbenennen",
     "Share this shelf": "Dieses Regal teilen",
     "How long it takes (minutes)": "Wie lange es dauert (Minuten)",
@@ -1549,6 +1549,25 @@ const UI_I18N = {
     "All groups": "Tous les groupes",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "Aucun mot enregistré. Cherchez quelque chose, puis touchez l'étoile pour l'enregistrer ici.",
+    "Import…": "Importer…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "Chaque ligne devient un mot : la première colonne est le mot, la deuxième le sens, la troisième un lien facultatif. Une ligne d'en-tête est détectée et ignorée automatiquement.",
+    "Excel (.xlsx) or CSV file": "Fichier Excel (.xlsx) ou CSV",
+    "…or a Google Sheets share link": "…ou un lien de partage Google Sheets",
+    "Fetch": "Récupérer",
+    "Add into group": "Ajouter au groupe",
+    "Add these words": "Ajouter ces mots",
+    "Reading…": "Lecture…",
+    "Fetching…": "Récupération…",
+    "Couldn't find any words in that file.": "Aucun mot trouvé dans ce fichier.",
+    "Found {count} words in {source}.": "{count} mots trouvés dans {source}.",
+    "the sheet": "la feuille",
+    "Couldn't read that file.": "Impossible de lire ce fichier.",
+    "That doesn't look like a Google Sheets link.": "Cela ne ressemble pas à un lien Google Sheets.",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "Impossible de récupérer cette feuille. Vérifiez qu'elle est partagée avec « Tous les utilisateurs disposant du lien ».",
+    "…and {count} more": "…et {count} de plus",
+    "Nothing new to add.": "Rien de nouveau à ajouter.",
+    "Added {count} words to your dictionary": "{count} mots ajoutés à votre dictionnaire",
+    "Add these {count} words": "Ajouter ces {count} mots",
     "No words matched.": "Aucun résultat.",
     "Move {word} up": "Déplacer {word} vers le haut",
     "Move {word} down": "Déplacer {word} vers le bas",
@@ -1609,25 +1628,10 @@ const UI_I18N = {
     "minutes held": "minutes gardées",
     "Hold a file from this device": "Garder un fichier de cet appareil",
     "Held on this device: {used} of about {quota}": "Gardé sur cet appareil : {used} sur environ {quota}",
-    "Being held": "En attente",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Rien en attente pour l'instant. Ce que vous n'ouvrez pas tout de suite attend ici.",
-    "Breathe in": "Inspirez",
-    "Breathe out": "Expirez",
-    "Something you could do instead": "Quelque chose à faire à la place",
-    "Decide without waiting": "Décider sans attendre",
-    "You waited a minute.": "Vous avez attendu une minute.",
-    "So — what will it be?": "Alors, on fait quoi ?",
-    "You can close this screen now.": "Vous pouvez fermer cet écran.",
     "Put it on the shelf": "Ranger sur l'étagère",
-    "Open it now after all": "Finalement, l'ouvrir",
-    "Let it go": "Laisser tomber",
-    "Back to the waiting room": "Retour à la salle d'attente",
-    "Decide later": "Décider plus tard",
     "Shelved under {wall}": "Rangé dans {wall}",
-    "Let go of it": "Laissé tomber",
     "The shelf is full. Take something off it first.": "L'étagère est pleine. Retirez-en quelque chose d'abord.",
     "Couldn't put it on the shelf": "Impossible de le ranger",
-    "There's nothing to open": "Il n'y a rien à ouvrir",
     "This device is out of room for held files": "Cet appareil n'a plus de place pour les fichiers gardés",
     "Couldn't hold that file": "Impossible de garder ce fichier",
     "That file is no longer on this device": "Ce fichier n'est plus sur l'appareil",
@@ -1672,7 +1676,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "Ce que vous avez envie de regarder patiente ici un instant.",
     "Interrupt me and offer something better to be doing": "M'interrompre et proposer mieux à faire",
     "Order of the shelf items it reaches for": "Ordre des éléments de l'étagère",
-    "Put it in the waiting room": "Le mettre en salle d'attente",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Plus vous précisez quand, où et combien de temps, plus il est facile de s'y mettre — et une pause dans ce créneau les proposera en premier.",
     "e.g. Practise guitar": "ex. Jouer de la guitare",
     "Time of day": "Moment de la journée",
@@ -1770,7 +1773,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "Regardez au loin et relâchez les yeux.",
     "Breathe in deeply, breathe out slowly. That's enough.": "Inspirez profondément, expirez lentement. Cela suffit.",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "SECONDES",
     "Close": "Fermer",
     "Search the shelf…": "Chercher dans l'étagère…",
     "Nothing on the shelf matched.": "Rien ne correspond dans l'étagère.",
@@ -1798,7 +1800,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Rien de non terminé sur l'étagère. Rangez-y quelque chose et ce sera proposé la prochaine fois.",
     "Mark done": "Marquer terminé",
     "Open this": "Ouvrir ceci",
-    "Something from your shelf is waiting.": "Quelque chose de votre étagère attend.",
     "Pick one of your own shelves to share.": "Choisissez l'une de vos propres étagères à partager.",
     "This shelf has nothing with a link on it yet.": "Cette étagère ne contient encore rien avec un lien.",
     "My shelf: {name}": "Mon étagère : {name}",
@@ -1810,7 +1811,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "Vous avez terminé {count} choses ces deux dernières semaines — environ {minutes} de votre choix.",
     "A word from your dictionary": "Un mot de votre dictionnaire",
     "Nice to know": "Bon à savoir",
-    "A word you saved is waiting.": "Un mot que vous avez enregistré vous attend.",
     "Rename": "Renommer",
     "Share this shelf": "Partager cette étagère",
     "How long it takes (minutes)": "Combien de temps ça prend (minutes)",
@@ -2132,6 +2132,25 @@ const UI_I18N = {
     "All groups": "모든 그룹",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "저장된 단어가 없습니다. 무언가를 검색한 뒤 별표를 누르면 여기에 저장됩니다.",
+    "Import…": "가져오기…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "각 행이 하나의 단어가 됩니다: 첫 번째 열은 단어, 두 번째는 뜻, 세 번째는 선택적인 링크입니다. 머리글 행은 자동으로 감지되어 건너뜁니다.",
+    "Excel (.xlsx) or CSV file": "Excel(.xlsx) 또는 CSV 파일",
+    "…or a Google Sheets share link": "…또는 Google 스프레드시트 공유 링크",
+    "Fetch": "불러오기",
+    "Add into group": "그룹에 추가",
+    "Add these words": "이 단어들 추가",
+    "Reading…": "읽는 중…",
+    "Fetching…": "불러오는 중…",
+    "Couldn't find any words in that file.": "이 파일에서 단어를 찾지 못했습니다.",
+    "Found {count} words in {source}.": "{source}에서 단어 {count}개를 찾았습니다.",
+    "the sheet": "시트",
+    "Couldn't read that file.": "이 파일을 읽을 수 없습니다.",
+    "That doesn't look like a Google Sheets link.": "Google 스프레드시트 링크가 아닌 것 같습니다.",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "이 시트를 가져올 수 없습니다. \"링크가 있는 모든 사용자\"로 공유되어 있는지 확인해 주세요.",
+    "…and {count} more": "…외 {count}개 더",
+    "Nothing new to add.": "새로 추가할 것이 없습니다.",
+    "Added {count} words to your dictionary": "사전에 단어 {count}개를 추가했습니다",
+    "Add these {count} words": "이 단어 {count}개 추가",
     "No words matched.": "결과가 없습니다.",
     "Move {word} up": "{word} 위로",
     "Move {word} down": "{word} 아래로",
@@ -2192,25 +2211,10 @@ const UI_I18N = {
     "minutes held": "누적 분",
     "Hold a file from this device": "이 기기의 파일 맡기기",
     "Held on this device: {used} of about {quota}": "이 기기에 보관: {used} / 약 {quota}",
-    "Being held": "맡아 둔 것",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "지금 맡아 둔 것이 없습니다. 바로 열지 않기로 한 것이 여기서 기다립니다.",
-    "Breathe in": "들이쉬기",
-    "Breathe out": "내쉬기",
-    "Something you could do instead": "지금 대신 할 수 있는 일",
-    "Decide without waiting": "기다리지 않고 정하기",
-    "You waited a minute.": "1분을 기다렸습니다.",
-    "So — what will it be?": "어떻게 할까요?",
-    "You can close this screen now.": "이제 화면을 닫아도 괜찮습니다.",
     "Put it on the shelf": "책장에 넣기",
-    "Open it now after all": "역시 지금 보기",
-    "Let it go": "그냥 버리기",
-    "Back to the waiting room": "대기실로 돌아가기",
-    "Decide later": "나중에 정하기",
     "Shelved under {wall}": "'{wall}' 칸에 꽂았습니다",
-    "Let go of it": "맡아 둔 것을 버렸습니다",
     "The shelf is full. Take something off it first.": "책장이 가득 찼습니다. 먼저 무언가를 빼세요.",
     "Couldn't put it on the shelf": "책장에 넣지 못했습니다",
-    "There's nothing to open": "열 것이 없습니다",
     "This device is out of room for held files": "이 기기에 둘 수 있는 용량을 넘었습니다",
     "Couldn't hold that file": "파일을 맡아 두지 못했습니다",
     "That file is no longer on this device": "그 파일은 이제 기기에 없습니다",
@@ -2255,7 +2259,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "보고 싶어진 것은 먼저 여기서 잠시 두고 결정합니다.",
     "Interrupt me and offer something better to be doing": "끼어들어 더 나은 할 일을 권하기",
     "Order of the shelf items it reaches for": "선반에서 고를 때의 순서",
-    "Put it in the waiting room": "대기실에 맡기기",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "언제·어디서·몇 분인지 채울수록 실제로 시작하기 쉬워지고, 그 시간에 온 휴식은 그것을 먼저 권합니다.",
     "e.g. Practise guitar": "예: 기타 연습하기",
     "Time of day": "시간대",
@@ -2353,7 +2356,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "먼 곳을 보며 눈의 힘을 빼기.",
     "Breathe in deeply, breathe out slowly. That's enough.": "깊이 들이쉬고 길게 내쉬기. 그것으로 충분합니다.",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "초",
     "Close": "닫기",
     "Search the shelf…": "책장에서 검색…",
     "Nothing on the shelf matched.": "책장에서 찾지 못했습니다.",
@@ -2381,7 +2383,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "책장에 아직 미완료가 없습니다. 무언가 넣어 두면 다음에 권해 드립니다.",
     "Mark done": "완료로 표시",
     "Open this": "이것 보기",
-    "Something from your shelf is waiting.": "책장에서 기다리는 것이 있습니다.",
     "Pick one of your own shelves to share.": "공유할 자신의 선반을 하나 고르세요.",
     "This shelf has nothing with a link on it yet.": "이 선반에는 아직 링크가 있는 항목이 없습니다.",
     "My shelf: {name}": "내 선반: {name}",
@@ -2393,7 +2394,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "지난 2주 동안 {count}건을 끝냈습니다 — 직접 고른 시간 약 {minutes}.",
     "A word from your dictionary": "사전에서 고른 단어",
     "Nice to know": "알아두면 좋아요",
-    "A word you saved is waiting.": "저장해 둔 단어가 기다리고 있어요.",
     "Rename": "이름 바꾸기",
     "Share this shelf": "이 선반 공유하기",
     "How long it takes (minutes)": "걸리는 시간 (분)",
@@ -2715,6 +2715,25 @@ const UI_I18N = {
     "All groups": "全部分组",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "还没有保存的词条。查询后点击星标即可保存到这里。",
+    "Import…": "导入…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "每一行会变成一个单词：第一列是单词，第二列是释义，第三列是可选的链接。系统会自动识别并跳过表头行。",
+    "Excel (.xlsx) or CSV file": "Excel（.xlsx）或 CSV 文件",
+    "…or a Google Sheets share link": "…或粘贴 Google 表格的共享链接",
+    "Fetch": "获取",
+    "Add into group": "添加到分组",
+    "Add these words": "添加这些单词",
+    "Reading…": "读取中…",
+    "Fetching…": "获取中…",
+    "Couldn't find any words in that file.": "在该文件中没有找到任何单词。",
+    "Found {count} words in {source}.": "在{source}中找到了 {count} 个单词。",
+    "the sheet": "该表格",
+    "Couldn't read that file.": "无法读取该文件。",
+    "That doesn't look like a Google Sheets link.": "这看起来不像 Google 表格链接。",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "无法获取该表格。请确认已将其共享为「知道链接的任何人都可以查看」。",
+    "…and {count} more": "…还有 {count} 个",
+    "Nothing new to add.": "没有可添加的新内容。",
+    "Added {count} words to your dictionary": "已向你的词典添加 {count} 个单词",
+    "Add these {count} words": "添加这 {count} 个单词",
     "No words matched.": "没有匹配的词条。",
     "Move {word} up": "将 {word} 上移",
     "Move {word} down": "将 {word} 下移",
@@ -2775,25 +2794,10 @@ const UI_I18N = {
     "minutes held": "累计分钟",
     "Hold a file from this device": "寄存本机的文件",
     "Held on this device: {used} of about {quota}": "本机已用：{used} / 约 {quota}",
-    "Being held": "寄存中",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "目前没有寄存的东西。决定不马上打开的，会在这里等着。",
-    "Breathe in": "吸气",
-    "Breathe out": "呼气",
-    "Something you could do instead": "现在可以做的别的事",
-    "Decide without waiting": "不等了，直接决定",
-    "You waited a minute.": "你等了一分钟。",
-    "So — what will it be?": "那么，怎么办呢？",
-    "You can close this screen now.": "现在可以关掉这个页面了。",
     "Put it on the shelf": "放到书架上",
-    "Open it now after all": "还是现在就看",
-    "Let it go": "算了，扔掉",
-    "Back to the waiting room": "回到等候室",
-    "Decide later": "稍后再定",
     "Shelved under {wall}": "已放到「{wall}」",
-    "Let go of it": "已扔掉寄存的东西",
     "The shelf is full. Take something off it first.": "书架空间不足，请先拿掉一些。",
     "Couldn't put it on the shelf": "无法放到书架上",
-    "There's nothing to open": "没有可打开的内容",
     "This device is out of room for held files": "超出本机可存放的容量",
     "Couldn't hold that file": "无法寄存该文件",
     "That file is no longer on this device": "该文件已不在本机上",
@@ -2838,7 +2842,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "想看的东西，会先在这里停一会儿再决定。",
     "Interrupt me and offer something better to be doing": "打断我，并推荐更值得做的事",
     "Order of the shelf items it reaches for": "从书架中选取的顺序",
-    "Put it in the waiting room": "放进等候室",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "把时间、地点、时长填得越具体，就越容易真的开始；落在那个时段的休息也会优先推荐它。",
     "e.g. Practise guitar": "例如：练吉他",
     "Time of day": "时间段",
@@ -2936,7 +2939,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "望向远处，让眼睛放松。",
     "Breathe in deeply, breathe out slowly. That's enough.": "深深吸气，慢慢呼气。这样就够了。",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "秒",
     "Close": "关闭",
     "Search the shelf…": "在书架中搜索…",
     "Nothing on the shelf matched.": "书架中没有匹配的内容。",
@@ -2964,7 +2966,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "书架上还没有未看完的东西。放一些进去，下次就会推荐它。",
     "Mark done": "标记为看完",
     "Open this": "打开这个",
-    "Something from your shelf is waiting.": "书架上有东西在等着你。",
     "Pick one of your own shelves to share.": "选择你自己的一个书架来分享。",
     "This shelf has nothing with a link on it yet.": "这个书架上还没有带链接的内容。",
     "My shelf: {name}": "我的书架：{name}",
@@ -2976,7 +2977,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "过去两周你完成了{count}项——大约是你自己选择的{minutes}。",
     "A word from your dictionary": "来自你词典的一个词",
     "Nice to know": "了解一下",
-    "A word you saved is waiting.": "你收藏的一个词在等着你。",
     "Rename": "重命名",
     "Share this shelf": "分享这个书架",
     "How long it takes (minutes)": "需要多长时间（分钟）",
@@ -3298,6 +3298,25 @@ const UI_I18N = {
     "All groups": "Todos los grupos",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "Aún no hay palabras guardadas. Busca algo y toca la estrella para guardarlo aquí.",
+    "Import…": "Importar…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "Cada fila se convierte en una palabra: la primera columna es la palabra, la segunda el significado, la tercera un enlace opcional. Se detecta y omite automáticamente una fila de encabezado.",
+    "Excel (.xlsx) or CSV file": "Archivo de Excel (.xlsx) o CSV",
+    "…or a Google Sheets share link": "…o un enlace para compartir de Google Sheets",
+    "Fetch": "Obtener",
+    "Add into group": "Añadir al grupo",
+    "Add these words": "Añadir estas palabras",
+    "Reading…": "Leyendo…",
+    "Fetching…": "Obteniendo…",
+    "Couldn't find any words in that file.": "No se encontraron palabras en ese archivo.",
+    "Found {count} words in {source}.": "Se encontraron {count} palabras en {source}.",
+    "the sheet": "la hoja",
+    "Couldn't read that file.": "No se pudo leer ese archivo.",
+    "That doesn't look like a Google Sheets link.": "Eso no parece un enlace de Google Sheets.",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "No se pudo obtener esa hoja. Verifica que esté compartida como \"Cualquier persona con el enlace puede verla\".",
+    "…and {count} more": "…y {count} más",
+    "Nothing new to add.": "No hay nada nuevo que añadir.",
+    "Added {count} words to your dictionary": "Se añadieron {count} palabras a tu diccionario",
+    "Add these {count} words": "Añadir estas {count} palabras",
     "No words matched.": "Sin resultados.",
     "Move {word} up": "Mover {word} hacia arriba",
     "Move {word} down": "Mover {word} hacia abajo",
@@ -3358,25 +3377,10 @@ const UI_I18N = {
     "minutes held": "minutos guardados",
     "Hold a file from this device": "Guardar un archivo de este dispositivo",
     "Held on this device: {used} of about {quota}": "Guardado en este dispositivo: {used} de unos {quota}",
-    "Being held": "En espera",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "Ahora mismo no hay nada en espera. Lo que decidas no abrir enseguida espera aquí.",
-    "Breathe in": "Inspira",
-    "Breathe out": "Espira",
-    "Something you could do instead": "Algo que podrías hacer en su lugar",
-    "Decide without waiting": "Decidir sin esperar",
-    "You waited a minute.": "Has esperado un minuto.",
-    "So — what will it be?": "¿Entonces, qué hacemos?",
-    "You can close this screen now.": "Ya puedes cerrar esta pantalla.",
     "Put it on the shelf": "Ponerlo en la estantería",
-    "Open it now after all": "Abrirlo ahora, después de todo",
-    "Let it go": "Dejarlo pasar",
-    "Back to the waiting room": "Volver a la sala de espera",
-    "Decide later": "Decidir más tarde",
     "Shelved under {wall}": "Guardado en {wall}",
-    "Let go of it": "Lo has dejado pasar",
     "The shelf is full. Take something off it first.": "La estantería está llena. Quita algo primero.",
     "Couldn't put it on the shelf": "No se pudo poner en la estantería",
-    "There's nothing to open": "No hay nada que abrir",
     "This device is out of room for held files": "Este dispositivo no tiene más espacio para archivos guardados",
     "Couldn't hold that file": "No se pudo guardar ese archivo",
     "That file is no longer on this device": "Ese archivo ya no está en el dispositivo",
@@ -3421,7 +3425,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "Lo que te apetezca mirar, esto lo retiene un momento primero.",
     "Interrupt me and offer something better to be doing": "Interrumpirme y ofrecerme algo mejor que hacer",
     "Order of the shelf items it reaches for": "Orden de los elementos del estante",
-    "Put it in the waiting room": "Ponerlo en la sala de espera",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Cuanto más rellenes cuándo, dónde y cuánto, más fácil es empezarlas; y una pausa en esa franja las ofrecerá primero.",
     "e.g. Practise guitar": "p. ej. Practicar guitarra",
     "Time of day": "Franja del día",
@@ -3519,7 +3522,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "Mira a lo lejos y afloja la vista.",
     "Breathe in deeply, breathe out slowly. That's enough.": "Inspira hondo, espira despacio. Con eso basta.",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "SEGUNDOS",
     "Close": "Cerrar",
     "Search the shelf…": "Buscar en la estantería…",
     "Nothing on the shelf matched.": "Nada en la estantería coincide.",
@@ -3547,7 +3549,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "Todavía no hay nada pendiente en la estantería. Guarda algo y la próxima vez te lo ofrecerá.",
     "Mark done": "Marcar hecho",
     "Open this": "Abrir esto",
-    "Something from your shelf is waiting.": "Algo de tu estantería está esperando.",
     "Pick one of your own shelves to share.": "Elige uno de tus propios estantes para compartir.",
     "This shelf has nothing with a link on it yet.": "Este estante todavía no tiene nada con un enlace.",
     "My shelf: {name}": "Mi estante: {name}",
@@ -3559,7 +3560,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "Has terminado {count} cosas estas dos últimas semanas — unos {minutes} elegidos por ti.",
     "A word from your dictionary": "Una palabra de tu diccionario",
     "Nice to know": "Bueno saberlo",
-    "A word you saved is waiting.": "Una palabra que guardaste te está esperando.",
     "Rename": "Renombrar",
     "Share this shelf": "Compartir este estante",
     "How long it takes (minutes)": "Cuánto tiempo lleva (minutos)",
@@ -3891,6 +3891,25 @@ const UI_I18N = {
     "All groups": "すべてのグループ",
     "{shown} / {total}": "{shown} / {total}",
     "No words saved yet. Look a word up, then tap the star to save it here.": "まだ言葉がありません。何かを調べて星マークをタップすると、ここに保存できます。",
+    "Import…": "読み込む…",
+    "Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.": "1行が1つの言葉になります。1列目が単語、2列目が意味、3列目は任意のリンクです。見出し行は自動で見つけて読み飛ばします。",
+    "Excel (.xlsx) or CSV file": "Excel（.xlsx）またはCSVファイル",
+    "…or a Google Sheets share link": "…またはGoogleスプレッドシートの共有リンク",
+    "Fetch": "取得",
+    "Add into group": "追加先のグループ",
+    "Add these words": "これらの言葉を追加",
+    "Reading…": "読み込み中…",
+    "Fetching…": "取得中…",
+    "Couldn't find any words in that file.": "そのファイルからは言葉が見つかりませんでした。",
+    "Found {count} words in {source}.": "{source}で{count}件の言葉が見つかりました。",
+    "the sheet": "シート",
+    "Couldn't read that file.": "そのファイルを読み込めませんでした。",
+    "That doesn't look like a Google Sheets link.": "Googleスプレッドシートのリンクではないようです。",
+    "Couldn't fetch that sheet. Make sure it's shared as \"Anyone with the link can view\".": "そのシートを取得できませんでした。「リンクを知っている全員が閲覧可」で共有されているか確認してください。",
+    "…and {count} more": "…ほか{count}件",
+    "Nothing new to add.": "追加できる新しい言葉はありませんでした。",
+    "Added {count} words to your dictionary": "辞書に{count}件の言葉を追加しました",
+    "Add these {count} words": "この{count}件の言葉を追加",
     "No words matched.": "見つかりませんでした。",
     "Move {word} up": "{word} を上へ",
     "Move {word} down": "{word} を下へ",
@@ -3951,25 +3970,10 @@ const UI_I18N = {
     "minutes held": "つうさん分",
     "Hold a file from this device": "手元のファイルを預ける",
     "Held on this device: {used} of about {quota}": "この端末の書庫: {used} / 約 {quota} まで",
-    "Being held": "預かりもの",
-    "Nothing is being held right now. Anything you decide not to open straight away waits here.": "いまは何も預かっていません。すぐ開かないと決めたものが、ここで待ちます。",
-    "Breathe in": "吸う",
-    "Breathe out": "吐く",
-    "Something you could do instead": "いま、かわりにできること",
-    "Decide without waiting": "待たずに決める",
-    "You waited a minute.": "一分、待てました。",
-    "So — what will it be?": "どうしますか。",
-    "You can close this screen now.": "そのまま画面を閉じて大丈夫です。",
     "Put it on the shelf": "本棚にしまう",
-    "Open it now after all": "やっぱり、いま見る",
-    "Let it go": "もういい、捨てる",
-    "Back to the waiting room": "入口にもどる",
-    "Decide later": "あとで決める",
     "Shelved under {wall}": "「{wall}」の棚に並べました",
-    "Let go of it": "預かりものを捨てました",
     "The shelf is full. Take something off it first.": "書庫の容量が足りません。何か処分しましょう。",
     "Couldn't put it on the shelf": "本棚へしまえませんでした",
-    "There's nothing to open": "開けるものがありません",
     "This device is out of room for held files": "この端末に置ける容量を超えました",
     "Couldn't hold that file": "ファイルを預かれませんでした",
     "That file is no longer on this device": "そのファイルはもう端末にありません",
@@ -4014,7 +4018,6 @@ const UI_I18N = {
     "Anything you feel like looking at, this holds for a moment first.": "見たくなったものは、まずここでひと呼吸おいてから決めます。",
     "Interrupt me and offer something better to be doing": "割り込んで、やった方がいいことを差し出す",
     "Order of the shelf items it reaches for": "本棚から選ぶときの順番",
-    "Put it in the waiting room": "待合室へ預ける",
     "The more of when, where and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "いつ・どこで・何分かを埋めるほど実際に始めやすくなり、その時間に来た休憩ではそれを先に差し出します。",
     "e.g. Practise guitar": "例: ギターを弾く",
     "Time of day": "時間帯",
@@ -4112,7 +4115,6 @@ const UI_I18N = {
     "Look into the distance and let your eyes go soft.": "遠くを見て、目のちからを抜く。",
     "Breathe in deeply, breathe out slowly. That's enough.": "深く吸って、長く吐く。それだけでいい。",
     "{used} / {total}": "{used} / {total}",
-    "SECONDS": "秒",
     "Close": "閉じる",
     "Search the shelf…": "本棚の中をさがす…",
     "Nothing on the shelf matched.": "本棚には見つかりませんでした。",
@@ -4140,7 +4142,6 @@ const UI_I18N = {
     "There's nothing unfinished on your shelf yet. Put something there and this will offer it next time.": "本棚にまだ未読がありません。何か入れておくと、次はそれを差し出します。",
     "Mark done": "済にする",
     "Open this": "これを見る",
-    "Something from your shelf is waiting.": "本棚で待っているものがあります。",
     "Pick one of your own shelves to share.": "共有する自分の本棚を選んでください。",
     "This shelf has nothing with a link on it yet.": "この棚にはまだリンク付きのものがありません。",
     "My shelf: {name}": "わたしの本棚：{name}",
@@ -4152,7 +4153,6 @@ const UI_I18N = {
     "You finished {count} things these last two weeks — about {minutes} of your own choosing.": "この2週間で{count}件を片付けました — 自分で選んだ時間にしておよそ{minutes}。",
     "A word from your dictionary": "辞書からの言葉",
     "Nice to know": "知れてよかった",
-    "A word you saved is waiting.": "保存した言葉が待っています。",
     "Rename": "名前を変える",
     "Share this shelf": "この棚を共有する",
     "How long it takes (minutes)": "かかる時間（分）",
@@ -8749,6 +8749,7 @@ function renderDictListView() {
 
 /* ---- 言葉を手で足すフォーム ---- */
 function openDictAddForm() {
+  closeDictImportForm();
   document.getElementById("dictAddWordInput").value = "";
   document.getElementById("dictAddNoteInput").value = "";
   fillGroupSelect(document.getElementById("dictAddGroupSelect"), {
@@ -8774,6 +8775,208 @@ function submitDictAddForm() {
   closeDictAddForm();
   renderDictListView();
   celebrate(t("Added to your dictionary"));
+}
+
+/* ---- Excel・CSV・Googleスプレッドシートからの一括読み込み ---- */
+let dictImportRows = []; // 確認待ちの {word, note, url}
+
+// SheetJS本体は大きいので、実際にExcelファイルを読む時だけ取りに行く。
+let xlsxLibPromise = null;
+function loadXlsxLib() {
+  if (window.XLSX) return Promise.resolve();
+  if (xlsxLibPromise) return xlsxLibPromise;
+  xlsxLibPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "lib/xlsx.full.min.js";
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("xlsx load failed"));
+    document.head.appendChild(script);
+  });
+  return xlsxLibPromise;
+}
+
+// 先頭行が見出し（word/単語 など）らしければ、データではなくヘッダーとして飛ばす。
+const DICT_IMPORT_HEADER_WORDS = ["word", "term", "words", "単語", "語", "语", "단어"];
+function looksLikeDictImportHeaderRow(row) {
+  const first = String(row[0] || "").trim().toLowerCase();
+  return DICT_IMPORT_HEADER_WORDS.includes(first);
+}
+
+// [[word, note, url], ...] の生の行から、空行とヘッダー行を除いた候補を作る。
+function rowsToDictCandidates(rows) {
+  return rows
+    .filter((row, i) => !(i === 0 && looksLikeDictImportHeaderRow(row)))
+    .map((row) => ({
+      word: String((row && row[0]) ?? "").trim(),
+      note: String((row && row[1]) ?? "").trim(),
+      url: String((row && row[2]) ?? "").trim(),
+    }))
+    .filter((r) => r.word);
+}
+
+// 簡易CSVパーサ。ダブルクォートで囲まれたフィールド内のカンマ・改行・""を扱う。
+function parseCsvText(text) {
+  const rows = [];
+  let row = [];
+  let field = "";
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else inQuotes = false;
+      } else field += c;
+      continue;
+    }
+    if (c === '"') {
+      inQuotes = true;
+      continue;
+    }
+    if (c === ",") {
+      row.push(field);
+      field = "";
+      continue;
+    }
+    if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(field);
+      field = "";
+      if (row.some((f) => f !== "")) rows.push(row);
+      row = [];
+      continue;
+    }
+    field += c;
+  }
+  if (field !== "" || row.length) {
+    row.push(field);
+    rows.push(row);
+  }
+  return rows;
+}
+
+function showDictImportStatus(message, isError) {
+  const el = document.getElementById("dictImportStatus");
+  el.hidden = !message;
+  el.textContent = message || "";
+  el.classList.toggle("is-error", Boolean(isError));
+}
+
+function renderDictImportPreview() {
+  const list = document.getElementById("dictImportPreviewList");
+  const confirmBtn = document.getElementById("dictImportConfirmBtn");
+  list.innerHTML = "";
+  if (!dictImportRows.length) {
+    list.hidden = true;
+    confirmBtn.hidden = true;
+    return;
+  }
+  list.hidden = false;
+  confirmBtn.hidden = false;
+  confirmBtn.textContent = tf("Add these {count} words", { count: dictImportRows.length });
+  dictImportRows.slice(0, 6).forEach((r) => {
+    const li = document.createElement("li");
+    li.textContent = r.note ? `${r.word} — ${r.note}` : r.word;
+    list.appendChild(li);
+  });
+  if (dictImportRows.length > 6) {
+    const li = document.createElement("li");
+    li.className = "dictionary-import-more";
+    li.textContent = tf("…and {count} more", { count: dictImportRows.length - 6 });
+    list.appendChild(li);
+  }
+}
+
+function setDictImportRows(rows, sourceLabel) {
+  dictImportRows = rowsToDictCandidates(rows);
+  if (!dictImportRows.length) showDictImportStatus(t("Couldn't find any words in that file."), true);
+  else showDictImportStatus(tf("Found {count} words in {source}.", { count: dictImportRows.length, source: sourceLabel }));
+  renderDictImportPreview();
+}
+
+async function handleDictImportFile(file) {
+  if (!file) return;
+  showDictImportStatus(t("Reading…"));
+  dictImportRows = [];
+  renderDictImportPreview();
+  try {
+    const isCsv = /\.csv$/i.test(file.name) || file.type === "text/csv";
+    if (isCsv) {
+      setDictImportRows(parseCsvText(await file.text()), file.name);
+      return;
+    }
+    await loadXlsxLib();
+    const buf = await file.arrayBuffer();
+    const wb = window.XLSX.read(buf, { type: "array" });
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+    setDictImportRows(rows, file.name);
+  } catch (e) {
+    showDictImportStatus(t("Couldn't read that file."), true);
+  }
+}
+
+// 共有リンクのURLから、CSVとして書き出せるエクスポート用URLを組み立てる。
+function googleSheetsCsvUrl(shareUrl) {
+  const idMatch = shareUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!idMatch) return null;
+  const gidMatch = shareUrl.match(/[?#&]gid=(\d+)/);
+  const gid = gidMatch ? gidMatch[1] : "0";
+  return `https://docs.google.com/spreadsheets/d/${idMatch[1]}/export?format=csv&gid=${gid}`;
+}
+
+async function handleDictImportSheetUrl(rawUrl) {
+  const url = (rawUrl || "").trim();
+  if (!url) return;
+  const csvUrl = googleSheetsCsvUrl(url);
+  if (!csvUrl) {
+    showDictImportStatus(t("That doesn't look like a Google Sheets link."), true);
+    return;
+  }
+  showDictImportStatus(t("Fetching…"));
+  dictImportRows = [];
+  renderDictImportPreview();
+  try {
+    const res = await fetch(csvUrl);
+    if (!res.ok) throw new Error("fetch failed");
+    setDictImportRows(parseCsvText(await res.text()), t("the sheet"));
+  } catch (e) {
+    showDictImportStatus(t('Couldn\'t fetch that sheet. Make sure it\'s shared as "Anyone with the link can view".'), true);
+  }
+}
+
+function openDictImportForm() {
+  closeDictAddForm();
+  document.getElementById("dictImportFilePick").value = "";
+  document.getElementById("dictImportSheetUrl").value = "";
+  dictImportRows = [];
+  showDictImportStatus("");
+  renderDictImportPreview();
+  fillGroupSelect(document.getElementById("dictImportGroupSelect"), {
+    selected: dictGroupFilter === "all" ? 0 : Number(dictGroupFilter),
+  });
+  document.getElementById("dictImportForm").hidden = false;
+}
+function closeDictImportForm() {
+  document.getElementById("dictImportForm").hidden = true;
+  dictImportRows = [];
+}
+function submitDictImportForm() {
+  const group = Number(document.getElementById("dictImportGroupSelect").value) || 0;
+  let added = 0;
+  dictImportRows.forEach((r) => {
+    if (addDictEntry({ word: r.word, note: r.note, url: r.url, group }).ok) added++;
+  });
+  closeDictImportForm();
+  renderDictListView();
+  if (added) {
+    logEvent("dictionary_import", { count: added });
+    celebrate(tf("Added {count} words to your dictionary", { count: added }));
+  } else {
+    showToast(t("Nothing new to add."));
+  }
 }
 
 /* ---- 見出し語の詳細 ---- */
@@ -8976,11 +9179,6 @@ const WR_BRIDGE_KEY = "scroll-bridge-v1"; // 預かりもの・記録
 const WR_SHELF_KEY = "library-data-v2"; // 本棚（壁と本）
 const WR_CHANNEL = "scroll-bridge"; // 他の画面へ知らせる通り道
 const WR_TOTAL_GB = 512; // 書庫の広さ
-// 待たせる長さは相手によって変える。何にでも一律に60秒かけると、軽い用事まで
-// 面倒になってアプリごと避けられてしまう。重い相手にだけ厚く、それ以外は薄く。
-const WR_WAIT_SEC = 60; // 自分から「ひと息つく」を押したとき
-const WR_WAIT_GATED_SEC = 90; // スクロールONを要求している相手（フィード系）
-const WR_WAIT_LIGHT_SEC = 25; // それ以外
 // 最初は棚ひとつだけ。名前は番号のみ（東西南北のような固定の意味を持たせない）。
 // 棚は増やせるが、既定では減らさない — 増やすたびに次の番号を振るだけでよい。
 const WR_DEFAULT_WALLS = ["1"];
@@ -9019,7 +9217,6 @@ function wrBlankBridge() {
     streak: { count: 0, lastDate: "" },
     today: { date: "", count: 0 },
     stats: { paused: 0, stashed: 0, opened: 0, discarded: 0 },
-    queue: [],
     log: [],
   };
 }
@@ -9031,7 +9228,6 @@ function wrLoadBridge() {
   try {
     const raw = localStorage.getItem(WR_BRIDGE_KEY);
     if (raw) wrBridge = Object.assign(wrBlankBridge(), JSON.parse(raw));
-    if (!Array.isArray(wrBridge.queue)) wrBridge.queue = [];
     if (!wrBridge.streak) wrBridge.streak = { count: 0, lastDate: "" };
     if (!wrBridge.today) wrBridge.today = { date: "", count: 0 };
     if (!wrBridge.stats) wrBridge.stats = { paused: 0, stashed: 0, opened: 0, discarded: 0 };
@@ -9076,22 +9272,6 @@ function wrGuessType(url) {
 }
 
 const wrHasBox = typeof window !== "undefined" && !!window.FileBox;
-
-function wrNewId() {
-  return wrHasBox ? FileBox.newId() : `wr-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
-function wrKindOf(item) {
-  if (item.fileId && wrHasBox) return FileBox.shelfType(item.mime, item.name);
-  return wrGuessType(item.url);
-}
-
-function wrDescribe(item) {
-  if (item.fileId && wrHasBox) {
-    return `${FileBox.kindName(item.mime, item.name)} · ${FileBox.humanSize(item.bytes)}`;
-  }
-  return item.url || t("No address");
-}
 
 /* ---- 本棚（待合室と共有する保存先） ---- */
 function wrReadShelf() {
@@ -9252,13 +9432,7 @@ function wrAddToShelf(item) {
 /* --------------------------------------------------------------------------
    画面の状態
    -------------------------------------------------------------------------- */
-let wrPanel = "wait"; // "wait"(待合室) か "shelf"(本棚)
-let wrStep = "home"; // "home" / "wait" / "choose"
-let wrCurrent = null; // いま預かっているもの
-let wrCurrentRec = null; // その中身（ファイルのとき）
-let wrTimer = null;
-let wrLeft = WR_WAIT_SEC;
-let wrWaitTotal = WR_WAIT_SEC; // 今回の待ち時間（相手によって変わる）
+let wrPanel = "wait"; // "wait"(待合室) か "goals" か "shelf"(本棚)
 let wrWallIndex = 0;
 let wrSelectedBookId = null;
 
@@ -9272,14 +9446,7 @@ function wrShowPanel(name) {
   document.getElementById("homeTabShelf").classList.toggle("is-active", name === "shelf");
   if (name === "shelf") renderShelfView();
   if (name === "goals") renderAspirationList();
-  if (name === "wait" && wrStep === "home") renderWaitingRoomHome();
-}
-
-function wrShowStep(name) {
-  wrStep = name;
-  document.getElementById("wrHome").hidden = name !== "home";
-  document.getElementById("wrWait").hidden = name !== "wait";
-  document.getElementById("wrChoose").hidden = name !== "choose";
+  if (name === "wait") renderWaitingRoomHome();
 }
 
 function renderWaitingRoomHome() {
@@ -9294,33 +9461,6 @@ function renderWaitingRoomHome() {
   document.getElementById("wrLead").textContent = wrMemoryOnly
     ? t("This device can't keep records (private browsing, perhaps).")
     : t("Anything you feel like looking at, this holds for a moment first.");
-
-  const list = document.getElementById("wrQueue");
-  list.innerHTML = "";
-  wrBridge.queue.forEach((item) => {
-    const li = document.createElement("li");
-    li.className = "wr-queue-row";
-    li.style.borderLeftColor = WR_TYPE_COLOR[wrKindOf(item)];
-
-    const text = document.createElement("span");
-    text.className = "wr-queue-text";
-    const title = document.createElement("span");
-    title.className = "wr-queue-title";
-    title.textContent = item.title;
-    const sub = document.createElement("small");
-    sub.textContent = wrDescribe(item);
-    text.append(title, sub);
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "wr-queue-btn";
-    btn.textContent = t("Open");
-    btn.addEventListener("click", () => wrStartWait(item));
-
-    li.append(text, btn);
-    list.appendChild(li);
-  });
-  document.getElementById("wrQueueEmpty").hidden = wrBridge.queue.length > 0;
 
   renderLookBack();
 
@@ -9353,60 +9493,6 @@ function renderWaitingRoomHome() {
 }
 
 /* ---- ひと息の時間 ---- */
-// 相手の重さに応じて待ち時間を決める。フィード系は厚く、普通のページは薄く。
-function wrWaitSecondsFor(item) {
-  if (!item) return WR_WAIT_SEC; // 自分から押した休憩は据え置き
-  if (item.url && isGatedUrl(item.url)) return WR_WAIT_GATED_SEC;
-  return WR_WAIT_LIGHT_SEC;
-}
-
-function wrStartWait(item) {
-  wrCurrent = item || null;
-  wrCurrentRec = null;
-  wrWaitTotal = wrWaitSecondsFor(item);
-  // 「いま見る」を押した瞬間に開けるよう、中身は先に取り出しておく
-  if (wrCurrent && wrCurrent.fileId && wrHasBox) {
-    FileBox.load(wrCurrent.fileId)
-      .then((r) => {
-        wrCurrentRec = r || null;
-      })
-      .catch(() => {});
-  }
-  wrLeft = wrWaitTotal;
-  document.getElementById("wrCount").textContent = wrLeft;
-  document.getElementById("wrCardBody").textContent = t(WR_CARDS[Math.floor(Math.random() * WR_CARDS.length)]);
-  document.getElementById("wrSkipBtn").hidden = true;
-
-  const keep = document.getElementById("wrKeeping");
-  if (wrCurrent) {
-    keep.hidden = false;
-    document.getElementById("wrKeepTitle").textContent = wrCurrent.title;
-    document.getElementById("wrKeepSub").textContent = wrDescribe(wrCurrent);
-  } else {
-    keep.hidden = true;
-  }
-
-  wrShowPanel("wait");
-  wrShowStep("wait");
-  clearInterval(wrTimer);
-  wrTimer = setInterval(wrTick, 1000);
-  wrTick(true);
-}
-
-function wrTick(first) {
-  if (!first) wrLeft--;
-  if (wrLeft <= 0) {
-    wrFinishWait(true);
-    return;
-  }
-  document.getElementById("wrCount").textContent = wrLeft;
-  // 吸う4秒・吐く6秒の十秒ひとまわり（輪の動きと合わせている）
-  const phase = (wrWaitTotal - wrLeft) % 10;
-  document.getElementById("wrBreathWord").textContent = phase < 4 ? t("Breathe in") : t("Breathe out");
-  // 「待たずに決める」は、待ち時間の長さに比例して出す（一律15秒だと短い方で早すぎる）
-  if (wrLeft <= wrWaitTotal * 0.6) document.getElementById("wrSkipBtn").hidden = false;
-}
-
 // 「一息ついた」を1件記録する。held-itemを待った時と、下の自分開始の休憩を
 // やり切った時の両方から呼ぶ共通の集計処理。
 function wrRecordPauseCompleted() {
@@ -9425,29 +9511,6 @@ function wrRecordPauseCompleted() {
     wrBridge.streak.lastDate = d;
   }
   wrSaveBridge();
-}
-
-function wrFinishWait(completed) {
-  clearInterval(wrTimer);
-  if (completed) wrRecordPauseCompleted();
-  wrShowChoose(completed);
-}
-
-function wrShowChoose(completed) {
-  const has = Boolean(wrCurrent);
-  document.getElementById("wrShelfBtn").hidden = !has;
-  document.getElementById("wrOpenBtn").hidden = !has;
-  document.getElementById("wrDropBtn").hidden = !has;
-  document.getElementById("wrBackBtn").textContent = has ? t("Decide later") : t("Back to the waiting room");
-
-  const lead = document.getElementById("wrChooseLead");
-  lead.innerHTML = "";
-  lead.append(completed ? t("You waited a minute.") : t("So — what will it be?"));
-  const sub = document.createElement("small");
-  sub.textContent = has ? wrCurrent.title : t("You can close this screen now.");
-  lead.appendChild(sub);
-
-  wrShowStep("choose");
 }
 
 /* ==========================================================================
@@ -9505,7 +9568,7 @@ function wrEndSelfBreakEarly() {
 function wrCompleteSelfBreak() {
   saveSelfBreakState(null);
   wrRecordPauseCompleted();
-  if (wrPanel === "wait" && wrStep === "home") renderWaitingRoomHome();
+  if (wrPanel === "wait") renderWaitingRoomHome();
   wrRenderSelfBreak();
   celebrate(t("Break's over. Nice."));
   logEvent("self_break_completed");
@@ -9557,7 +9620,7 @@ function wrRenderSelfBreak() {
 
 // 他のアプリの共有ボタンから届いたものを拾い上げる。
 // Service Worker (sw.js の receiveShare) が倉庫の「届いたばかり」置き場に
-// 置いてくれているので、開いたときにそれを吸い出して待合室の列に並べる。
+// 置いてくれているので、開いたときにそれを吸い出してそのまま本棚へしまう。
 async function wrIntakeShared() {
   if (location.search.includes("shared=")) {
     const params = new URLSearchParams(location.search);
@@ -9575,43 +9638,39 @@ async function wrIntakeShared() {
   }
   if (!items || !items.length) return;
 
-  let last = null;
+  let added = 0;
+  let full = false;
   for (const it of items) {
     const item =
       it.kind === "file"
         ? {
-            id: FileBox.newId(),
             title: FileBox.titleFromName(it.name),
             url: "",
             fileId: it.id,
             name: it.name,
             mime: it.mime,
             bytes: it.bytes,
-            addedAt: it.addedAt || new Date().toISOString(),
           }
         : {
-            id: wrNewId(),
             title: it.title || (it.url && wrHostOf(it.url)) || t("Something to look at"),
             url: it.url || "",
-            addedAt: it.addedAt || new Date().toISOString(),
           };
-    wrQueueItem(item);
-    last = item;
+    const r = wrAddToShelf(item);
+    if (r.ok) added++;
+    else full = r.reason === "full";
   }
 
-  wrLog("queued");
-  wrSaveBridge();
-  renderWaitingRoomHome();
-  showToast(
-    items.length === 1
-      ? t("Received 1 item from another app")
-      : tf("Received {n} items from another app", { n: items.length })
-  );
-  if (last) wrStartWait(last);
-}
-
-function wrDropFromQueue(id) {
-  wrBridge.queue = wrBridge.queue.filter((q) => q.id !== id);
+  if (added) {
+    wrBridge.stats.stashed += added;
+    wrLog("stashed");
+    wrSaveBridge();
+    renderWaitingRoomHome();
+    showToast(
+      added === 1 ? t("Received 1 item from another app") : tf("Received {n} items from another app", { n: added })
+    );
+  } else if (full) {
+    showToast(t("The shelf is full. Take something off it first."));
+  }
 }
 
 function wrLog(action) {
@@ -9619,25 +9678,23 @@ function wrLog(action) {
   wrBridge.log = wrBridge.log.slice(0, 50);
 }
 
-function wrQueueItem(item) {
-  wrBridge.queue.unshift(item);
-  wrBridge.queue = wrBridge.queue.slice(0, 50);
-}
-
-// 他の場所（門番など）から預ける入口。
+// 他の場所（門番など）から、直接本棚へしまう入口。
 function wrHold({ title, url }) {
   const item = {
-    id: wrNewId(),
     title: title || wrHostOf(url) || t("Something to look at"),
     url: url || "",
-    addedAt: new Date().toISOString(),
   };
-  wrQueueItem(item);
-  wrLog("queued");
-  wrSaveBridge();
-  renderWaitingRoomHome();
-  wrStartWait(item);
-  return item;
+  const r = wrAddToShelf(item);
+  if (r.ok) {
+    wrBridge.stats.stashed++;
+    wrLog("stashed");
+    wrSaveBridge();
+    renderWaitingRoomHome();
+    showToast(tf("Shelved under {wall}", { wall: t(r.wall) }));
+  } else {
+    showToast(r.reason === "full" ? t("The shelf is full. Take something off it first.") : t("Couldn't put it on the shelf"));
+  }
+  return r;
 }
 
 /* ==========================================================================
@@ -10119,13 +10176,13 @@ function initWaitingRoom() {
   });
   document.getElementById("wrBreakEndBtn").addEventListener("click", wrEndSelfBreakEarly);
   wrRenderSelfBreak(); // リロードをまたいで休憩中だった場合に復元する
-  document.getElementById("wrSkipBtn").addEventListener("click", () => wrFinishWait(false));
 
   document.getElementById("wrFilePick").addEventListener("change", async (e) => {
     const files = Array.from(e.target.files || []);
     e.target.value = "";
     if (!files.length || !wrHasBox) return;
-    let newest = null;
+    let added = 0;
+    let full = false;
     for (const f of files) {
       const rec = {
         id: FileBox.newId(),
@@ -10146,84 +10203,29 @@ function initWaitingRoom() {
         break; // 容量が尽きたらそこで止める
       }
       const item = {
-        id: FileBox.newId(),
         title: FileBox.titleFromName(rec.name),
         url: "",
         fileId: rec.id,
         name: rec.name,
         mime: rec.mime,
         bytes: rec.bytes,
-        addedAt: rec.addedAt,
       };
-      wrQueueItem(item);
-      newest = item;
+      const r = wrAddToShelf(item);
+      if (r.ok) {
+        added++;
+      } else {
+        full = r.reason === "full";
+        FileBox.remove(rec.id).catch(() => {});
+        break; // 棚が尽きたらそこで止める
+      }
     }
-    if (!newest) return;
-    wrLog("queued");
-    wrSaveBridge();
-    renderWaitingRoomHome();
-    wrStartWait(newest);
-  });
-
-  document.getElementById("wrShelfBtn").addEventListener("click", () => {
-    if (!wrCurrent) return;
-    const r = wrAddToShelf(wrCurrent);
-    if (!r.ok) {
-      showToast(r.reason === "full" ? t("The shelf is full. Take something off it first.") : t("Couldn't put it on the shelf"));
-      return;
+    if (added) {
+      wrBridge.stats.stashed += added;
+      wrLog("stashed");
+      wrSaveBridge();
+      renderWaitingRoomHome();
     }
-    wrBridge.stats.stashed++;
-    wrDropFromQueue(wrCurrent.id);
-    wrLog("stashed");
-    wrSaveBridge();
-    wrCurrent = null;
-    wrCurrentRec = null;
-    renderWaitingRoomHome();
-    wrShowStep("home");
-    showToast(tf("Shelved under {wall}", { wall: t(r.wall) }));
-  });
-
-  document.getElementById("wrOpenBtn").addEventListener("click", () => {
-    if (!wrCurrent) return;
-    const url = wrCurrent.url;
-    const rec = wrCurrentRec;
-    wrBridge.stats.opened++;
-    wrDropFromQueue(wrCurrent.id);
-    wrLog("opened");
-    wrSaveBridge();
-    wrCurrent = null;
-    wrCurrentRec = null;
-    renderWaitingRoomHome();
-    wrShowStep("home");
-    if (rec) {
-      if (!FileBox.openFile(rec)) FileBox.downloadFile(rec);
-    } else if (url) {
-      openTab(url); // 門番や埋め込みの扱いは、このアプリの通常の経路に任せる
-    } else {
-      showToast(t("There's nothing to open"));
-    }
-  });
-
-  document.getElementById("wrDropBtn").addEventListener("click", () => {
-    if (!wrCurrent) return;
-    if (wrCurrent.fileId && wrHasBox) FileBox.remove(wrCurrent.fileId).catch(() => {});
-    wrBridge.stats.discarded++;
-    wrDropFromQueue(wrCurrent.id);
-    wrLog("discarded");
-    wrSaveBridge();
-    wrCurrent = null;
-    wrCurrentRec = null;
-    renderWaitingRoomHome();
-    wrShowStep("home");
-    showToast(t("Let go of it"));
-  });
-
-  document.getElementById("wrBackBtn").addEventListener("click", () => {
-    clearInterval(wrTimer);
-    wrCurrent = null;
-    wrCurrentRec = null;
-    renderWaitingRoomHome();
-    wrShowStep("home");
+    if (full) showToast(t("The shelf is full. Take something off it first."));
   });
 
   document.getElementById("shelfPrevBtn").addEventListener("click", () => {
@@ -10286,31 +10288,20 @@ function initWaitingRoom() {
   document.getElementById("shelfRemoveBtn").addEventListener("click", wrRemoveSelectedBook);
   document.getElementById("shelfCloseDetailBtn").addEventListener("click", wrCloseBookDetail);
 
-  // 数えている途中で画面を離れたら数え直す（こっそり進めない）
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden && wrStep === "wait") {
-      clearInterval(wrTimer);
-      wrLeft = WR_WAIT_SEC;
-      document.getElementById("wrCount").textContent = wrLeft;
-      wrTimer = setInterval(wrTick, 1000);
-    }
-  });
-
   // 待合室や蔵書館を別の画面で開いている場合の知らせ
   try {
     const ch = new BroadcastChannel(WR_CHANNEL);
     ch.onmessage = (e) => {
       const d = e.data || {};
-      if (d.type === "queued" || d.type === "bridge-updated") {
+      if (d.type === "bridge-updated") {
         wrLoadBridge();
-        if (wrStep === "home") renderWaitingRoomHome();
+        if (wrPanel === "wait") renderWaitingRoomHome();
       }
       if (d.type === "book-added" && wrPanel === "shelf") renderShelfView();
     };
   } catch (e) {}
 
   renderWaitingRoomHome();
-  wrShowStep("home");
   wrShowPanel("wait");
 }
 
@@ -10973,13 +10964,12 @@ function noteBreakScroll() {
   if (state.scrolls >= limit) openBreakModal("scroll");
 }
 
-// 割り込んで困る場面では待つ（既に割り込んでいる／ロック中／数えている最中）。
+// 割り込んで困る場面では待つ（既に割り込んでいる／ロック中）。
 function isAnyBreakBlocker() {
   if (!document.getElementById("breakModal").hidden) return true;
   if (!document.getElementById("appLockScreen").hidden) return true;
   if (!document.getElementById("onboardingScreen").hidden) return true;
   if (!document.getElementById("firstRunModal").hidden) return true;
-  if (wrStep === "wait") return true;
   return false;
 }
 
@@ -11059,6 +11049,24 @@ function renderBreakPick() {
     getAspirations().length > 0 || wrRecommendableBooks().length > 0 || getDictEntries().length > 0;
 }
 
+// 「そっと一つ提案」の見出しだけでなく、中身そのものを通知本文に乗せる。
+// 無限スクロールの新規性報酬に対抗するには、開かないと分からない状態より、
+// 通知を見ただけで一つ頭に入る状態の方が強い。
+function wrNotificationBodyFor(suggestion) {
+  if (!suggestion) return t("There's something you said you wanted to do.");
+  if (suggestion.kind === "book") {
+    const book = suggestion.book;
+    const bits = [book.title];
+    if (book.minutes) bits.push(tf("{minutes} min", { minutes: book.minutes }));
+    return bits.join(" · ");
+  }
+  if (suggestion.kind === "dict") {
+    return suggestion.note ? `${suggestion.word} — ${suggestion.note}` : suggestion.word;
+  }
+  if (suggestion.kind === "aspiration") return suggestion.text;
+  return suggestion.text; // 内蔵の小さな行動カード
+}
+
 function openBreakModal(reason) {
   const state = getBreakState();
   let line;
@@ -11072,15 +11080,7 @@ function openBreakModal(reason) {
   document.getElementById("breakModal").hidden = false;
   // 音は出さない。対応端末なら振動だけで気づけるようにする（サイレントアラーム）。
   if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
-  showNotification(
-    "scrollAlmostUp",
-    t("Time for a break"),
-    breakSuggestion && breakSuggestion.kind === "book"
-      ? t("Something from your shelf is waiting.")
-      : breakSuggestion && breakSuggestion.kind === "dict"
-      ? t("A word you saved is waiting.")
-      : t("There's something you said you wanted to do.")
-  );
+  showNotification("scrollAlmostUp", t("Time for a break"), wrNotificationBodyFor(breakSuggestion));
 }
 
 function closeBreakModal({ snooze } = {}) {
@@ -11144,7 +11144,7 @@ function initForcedBreak() {
     if (suggestion.kind === "book") {
       wrUpdateBook(suggestion.book.id, { done: true, doneAt: Date.now() });
       if (wrPanel === "shelf") renderShelfView();
-      if (wrPanel === "wait" && wrStep === "home") renderWaitingRoomHome();
+      if (wrPanel === "wait") renderWaitingRoomHome();
       showToast(t("Marked as done"));
       renderBreakPick(); // 次の候補をその場で出す
       return;
@@ -11291,7 +11291,7 @@ function init() {
 
   document.getElementById("feedBlockedCancelBtn").addEventListener("click", closeFeedBlockedModal);
 
-  // 断られた相手を「捨てる」か「今すぐ通す」かの二択にせず、待合室へ預けられるようにする。
+  // 断られた相手を「捨てる」か「今すぐ通す」かの二択にせず、本棚へしまえるようにする。
   document.getElementById("feedBlockedHoldBtn").addEventListener("click", () => {
     const target = pendingBlockedTarget;
     closeFeedBlockedModal();
@@ -11560,6 +11560,16 @@ function init() {
   document.getElementById("dictAddWordBtn").addEventListener("click", openDictAddForm);
   document.getElementById("dictAddCancelBtn").addEventListener("click", closeDictAddForm);
   document.getElementById("dictAddSaveBtn").addEventListener("click", submitDictAddForm);
+
+  document.getElementById("dictImportToggleBtn").addEventListener("click", openDictImportForm);
+  document.getElementById("dictImportCancelBtn").addEventListener("click", closeDictImportForm);
+  document.getElementById("dictImportConfirmBtn").addEventListener("click", submitDictImportForm);
+  document.getElementById("dictImportFilePick").addEventListener("change", (e) => {
+    handleDictImportFile(e.target.files && e.target.files[0]);
+  });
+  document.getElementById("dictImportSheetFetchBtn").addEventListener("click", () => {
+    handleDictImportSheetUrl(document.getElementById("dictImportSheetUrl").value);
+  });
 
   document.getElementById("dictDetailBackBtn").addEventListener("click", closeDictDetail);
   document.getElementById("dictOpenBtn").addEventListener("click", openDictSelected);

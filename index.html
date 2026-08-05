@@ -261,7 +261,7 @@
 
         <!-- ===== waiting room ===== -->
         <div id="wrView" class="home-panel-body">
-          <div id="wrHome" class="wr-step">
+          <div id="wrHome">
             <p id="wrLead" class="wr-note">Anything you feel like looking at, this holds for a moment first.</p>
 
             <!-- Once a week: what actually got finished, by name -->
@@ -273,10 +273,6 @@
               <ul id="wrLookBackList" class="wr-lookback-list"></ul>
               <button id="wrLookBackDismissBtn" class="btn btn-secondary btn-small" type="button">Good</button>
             </div>
-
-            <div class="wr-section-title">Being held</div>
-            <ul id="wrQueue" class="wr-queue"></ul>
-            <p id="wrQueueEmpty" class="wr-empty">Nothing is being held right now. Anything you decide not to open straight away waits here.</p>
 
             <button id="wrShelfSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
             <button id="wrGoalsSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
@@ -296,34 +292,6 @@
               <div><b id="wrToday">0</b><span>pauses today</span></div>
               <button id="wrFinishedBtn" type="button" class="wr-record-btn"><b id="wrFinished">0</b><span>finished</span></button>
             </div>
-          </div>
-
-          <div id="wrWait" class="wr-step" hidden>
-            <div class="wr-ring">
-              <div class="wr-ring-fill"></div>
-              <div class="wr-count"><span id="wrCount">60</span><small>SECONDS</small></div>
-            </div>
-            <div id="wrBreathWord" class="wr-breath-word">Breathe in</div>
-
-            <div class="wr-card">
-              <span class="wr-card-label">Something you could do instead</span>
-              <div id="wrCardBody" class="wr-card-body"></div>
-            </div>
-
-            <div id="wrKeeping" class="wr-keeping" hidden>
-              <b id="wrKeepTitle"></b>
-              <span id="wrKeepSub"></span>
-            </div>
-
-            <button id="wrSkipBtn" class="text-btn wr-skip" type="button" hidden>Decide without waiting</button>
-          </div>
-
-          <div id="wrChoose" class="wr-step" hidden>
-            <p id="wrChooseLead" class="wr-choose-lead"></p>
-            <button id="wrShelfBtn" class="btn btn-small wr-choice" type="button">Put it on the shelf</button>
-            <button id="wrOpenBtn" class="btn btn-secondary btn-small wr-choice" type="button">Open it now after all</button>
-            <button id="wrDropBtn" class="btn btn-secondary btn-small wr-choice" type="button">Let it go</button>
-            <button id="wrBackBtn" class="text-btn" type="button">Back to the waiting room</button>
           </div>
         </div>
 
@@ -439,8 +407,8 @@
   <div id="insightsModal" class="modal-overlay" hidden>
     <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="insightsModalTitle">
       <div class="settings-modal-header">
-        <button id="closeInsights" class="modal-close-btn" type="button" aria-label="Close insights">&times;</button>
         <h2 id="insightsModalTitle">Insights</h2>
+        <button id="closeInsights" class="modal-close-btn" type="button" aria-label="Close insights">&times;</button>
       </div>
       <div id="panel-insights">
       <div id="insightsGoalCard" class="insights-goal-card" hidden>
@@ -516,8 +484,8 @@
   <div id="dictionaryModal" class="modal-overlay" hidden>
     <div class="modal settings-modal dictionary-modal" role="dialog" aria-modal="true" aria-labelledby="dictionaryModalTitle">
       <div class="settings-modal-header">
-        <button id="closeDictionary" class="modal-close-btn" type="button" aria-label="Close dictionary">&times;</button>
         <h2 id="dictionaryModalTitle">Your Dictionary</h2>
+        <button id="closeDictionary" class="modal-close-btn" type="button" aria-label="Close dictionary">&times;</button>
       </div>
 
       <!-- list view -->
@@ -537,6 +505,7 @@
 
         <div class="dictionary-add-row">
           <button id="dictAddWordBtn" class="btn btn-secondary btn-small" type="button">+ Add a word</button>
+          <button id="dictImportToggleBtn" class="btn btn-secondary btn-small" type="button">Import…</button>
           <span id="dictCountNote" class="dictionary-count"></span>
         </div>
 
@@ -556,6 +525,31 @@
           <div class="modal-actions">
             <button id="dictAddCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel</button>
             <button id="dictAddSaveBtn" class="btn btn-small" type="button">Add</button>
+          </div>
+        </div>
+
+        <div id="dictImportForm" class="dictionary-add-form" hidden>
+          <p class="modal-desc">Each row becomes one word: first column the word, second the meaning, third an optional link. A header row is detected and skipped automatically.</p>
+          <label class="field">
+            <span>Excel (.xlsx) or CSV file</span>
+            <input id="dictImportFilePick" type="file" accept=".xlsx,.xls,.csv" />
+          </label>
+          <label class="field">
+            <span>…or a Google Sheets share link</span>
+            <div class="dictionary-import-sheet-row">
+              <input id="dictImportSheetUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/…" autocomplete="off" />
+              <button id="dictImportSheetFetchBtn" class="btn btn-secondary btn-small" type="button">Fetch</button>
+            </div>
+          </label>
+          <label class="field">
+            <span>Add into group</span>
+            <select id="dictImportGroupSelect"></select>
+          </label>
+          <p id="dictImportStatus" class="modal-desc" hidden></p>
+          <ul id="dictImportPreviewList" class="dictionary-import-preview" hidden></ul>
+          <div class="modal-actions">
+            <button id="dictImportCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel</button>
+            <button id="dictImportConfirmBtn" class="btn btn-small" type="button" hidden>Add these words</button>
           </div>
         </div>
 
@@ -760,7 +754,7 @@
 
     <div class="modal-actions">
       <button id="feedBlockedCancelBtn" class="btn btn-secondary" type="button">Not now</button>
-      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Put it in the waiting room</button>
+      <button id="feedBlockedHoldBtn" class="btn btn-primary" type="button">Put it on the shelf</button>
     </div>
     <button id="feedBlockedScrollOnBtn" class="text-btn blocked-override" type="button">Turn scroll ON anyway</button>
   </div>
@@ -782,8 +776,8 @@
 <div id="settingsModal" class="modal-overlay" hidden>
   <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
     <div class="settings-modal-header">
-      <button id="closeSettings" class="modal-close-btn" type="button" aria-label="Close settings">&times;</button>
       <h2 id="settingsTitle">Settings</h2>
+      <button id="closeSettings" class="modal-close-btn" type="button" aria-label="Close settings">&times;</button>
     </div>
     <p id="settingsPageIndicator" class="onboarding-eyebrow"></p>
 
