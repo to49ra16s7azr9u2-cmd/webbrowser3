@@ -244,6 +244,11 @@ body.scroll-locked {
 .hms-field input { width: 100%; text-align: center; }
 
 /* ---------- Search bar ---------- */
+.search-bar-wrap {
+  flex: 0 0 auto;
+  position: relative;
+}
+
 .search-bar {
   flex: 0 0 auto;
   display: flex;
@@ -255,6 +260,31 @@ body.scroll-locked {
   border: none;
   border-radius: var(--radius-pill);
 }
+
+/* 検索バーの右下隅に少しだけ覗く小さな案内バッジ */
+.search-tip-btn {
+  position: absolute;
+  right: 20px;
+  bottom: -8px;
+  z-index: 2;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text-dim);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 3px 9px;
+  cursor: pointer;
+}
+
+.search-tip-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 12px;
+  width: min(280px, calc(100vw - 40px));
+}
+.search-tip-panel .tips-list { margin-bottom: 10px; }
 
 .search-submit-btn {
   flex: 0 0 auto;
@@ -536,11 +566,11 @@ body.scroll-locked {
   background: var(--bg-subtle);
 }
 .routine-history-block:active { transform: scale(0.92); }
-.routine-lvl-1 { background: #1e1e1e; }
-.routine-lvl-2 { background: #f1f5f9; border: 1.5px solid var(--border); }
-.routine-lvl-3 { background: #facc15; }
-.routine-lvl-4 { background: #f97316; }
-.routine-lvl-5 { background: #ef4444; }
+.routine-lvl-1 { background: #ffffff; border: 1.5px solid var(--border); }
+.routine-lvl-2 { background: #e7f4de; }
+.routine-lvl-3 { background: #cfe8bd; }
+.routine-lvl-4 { background: #b6dd9b; }
+.routine-lvl-5 { background: #9ed17a; }
 .routine-history-memo { position: absolute; bottom: 0; right: 2px; font-size: 8px; line-height: 1; }
 .routine-history-empty { padding: 20px; text-align: center; color: var(--text-dim); font-size: 12px; }
 

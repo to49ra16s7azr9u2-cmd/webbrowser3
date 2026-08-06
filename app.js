@@ -422,8 +422,6 @@ const UI_I18N = {
     "Search failed: {message}": "Falha na pesquisa: {message}",
     "No results found.": "Nenhum resultado encontrado.",
     "Search results for \"{query}\"": "Resultados da pesquisa por \"{query}\"",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Os termos de pesquisa digitados mostram resultados da Wikipédia como uma lista dentro do app — não é preciso nenhuma configuração, mas só pesquisa artigos da Wikipédia, não a web em geral. Digitar o endereço de um site grande que se recusa a ser exibido dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) o abre no seu navegador normal — essa é a política do próprio site, não algo que este app possa mudar.",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "O bloqueio de anúncios só impede domínios de anúncio conhecidos, não anúncios em uma página que você já abriu.",
     "Save with your own note": "Salvar com sua própria nota",
     "Your own note": "Sua própria nota",
     "Search shows Wikipedia results here. An address opens as a tab.": "A busca mostra resultados da Wikipédia aqui. Um endereço abre como aba.",
@@ -734,6 +732,12 @@ const UI_I18N = {
     "Close note": "Fechar nota",
     "What happened today? Thoughts, feelings, reflections…": "O que aconteceu hoje? Pensamentos, sentimentos, reflexões…",
     "Add a note for this day…": "Adicione uma nota para este dia…",
+    "Tip": "Dica",
+    "About search": "Sobre a busca",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "A busca aqui mostra resultados da Wikipédia, direto no app — sem precisar configurar nada.",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "Digite um endereço completo e ele abre como uma aba. Sites grandes como Google, Instagram, Facebook, X, TikTok, YouTube e DuckDuckGo sempre te mandam para o seu navegador normal, porque eles não deixam outros apps os exibirem.",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "O bloqueio de anúncios aqui pega domínios de anúncio conhecidos, não anúncios que já carregaram numa página que você abriu.",
+    "{text}: nailed it!": "{text}: mandou bem!",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -1050,8 +1054,6 @@ const UI_I18N = {
     "Search failed: {message}": "Suche fehlgeschlagen: {message}",
     "No results found.": "Keine Ergebnisse gefunden.",
     "Search results for \"{query}\"": "Suchergebnisse für „{query}“",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Eingegebene Suchbegriffe zeigen Wikipedia-Ergebnisse als Liste innerhalb der App — keine Einrichtung nötig, durchsucht wird aber nur Wikipedia, nicht das gesamte Web. Die Eingabe der Adresse einer großen Website, die sich weigert, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), öffnet diese stattdessen in deinem normalen Browser — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "Die Werbeblockierung stoppt nur bekannte Werbedomains, nicht Werbung auf einer bereits geöffneten Seite.",
     "Save with your own note": "Mit eigener Notiz speichern",
     "Your own note": "Deine eigene Notiz",
     "Search shows Wikipedia results here. An address opens as a tab.": "Die Suche zeigt hier Wikipedia-Ergebnisse. Eine Adresse öffnet als Tab.",
@@ -1362,6 +1364,12 @@ const UI_I18N = {
     "Close note": "Notiz schließen",
     "What happened today? Thoughts, feelings, reflections…": "Was ist heute passiert? Gedanken, Gefühle, Reflexionen…",
     "Add a note for this day…": "Notiz für diesen Tag hinzufügen…",
+    "Tip": "Tipp",
+    "About search": "Über die Suche",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "Die Suche hier zeigt Wikipedia-Ergebnisse direkt in der App — ganz ohne Einrichtung.",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "Gib stattdessen eine vollständige Adresse ein, dann öffnet sie sich als Tab. Große Seiten wie Google, Instagram, Facebook, X, TikTok, YouTube und DuckDuckGo schicken dich immer in deinen normalen Browser, weil sie sich von anderen Apps nicht anzeigen lassen.",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "Die Werbeblockierung hier erkennt bekannte Werbedomains, nicht Werbung, die auf einer bereits geöffneten Seite schon geladen ist.",
+    "{text}: nailed it!": "{text}: perfekt gemacht!",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1678,8 +1686,6 @@ const UI_I18N = {
     "Search failed: {message}": "Échec de la recherche : {message}",
     "No results found.": "Aucun résultat trouvé.",
     "Search results for \"{query}\"": "Résultats de recherche pour « {query} »",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Les termes de recherche saisis affichent les résultats Wikipédia sous forme de liste dans l'application — aucune configuration n'est nécessaire, mais seuls les articles Wikipédia sont recherchés, pas le web dans son ensemble. Saisir l'adresse d'un grand site qui refuse d'être affiché dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) l'ouvre plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "Le blocage des publicités n'arrête que les domaines publicitaires connus, pas les publicités d'une page déjà ouverte.",
     "Save with your own note": "Enregistrer avec ma propre note",
     "Your own note": "Votre propre note",
     "Search shows Wikipedia results here. An address opens as a tab.": "La recherche affiche des résultats Wikipédia ici. Une adresse s'ouvre comme onglet.",
@@ -1990,6 +1996,12 @@ const UI_I18N = {
     "Close note": "Fermer la note",
     "What happened today? Thoughts, feelings, reflections…": "Que s'est-il passé aujourd'hui ? Pensées, sentiments, réflexions…",
     "Add a note for this day…": "Ajouter une note pour ce jour…",
+    "Tip": "Astuce",
+    "About search": "À propos de la recherche",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "La recherche ici affiche des résultats Wikipédia, directement dans l'application — aucune configuration nécessaire.",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "Saisissez plutôt une adresse complète, elle s'ouvrira comme un onglet. Les grands sites comme Google, Instagram, Facebook, X, TikTok, YouTube et DuckDuckGo vous renvoient toujours vers votre navigateur habituel, car ils ne se laissent pas afficher par d'autres applications.",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "Le blocage des publicités ici détecte les domaines publicitaires connus, pas les publicités déjà chargées sur une page que vous avez ouverte.",
+    "{text}: nailed it!": "{text} : parfaitement réussi !",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -2306,8 +2318,6 @@ const UI_I18N = {
     "Search failed: {message}": "검색 실패: {message}",
     "No results found.": "결과를 찾을 수 없습니다.",
     "Search results for \"{query}\"": "\"{query}\" 검색 결과",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "입력한 검색어는 위키백과 검색 결과가 앱 내 목록으로 표시됩니다 — 별도 설정은 필요 없지만, 검색 대상은 위키백과 문서로 한정되며 웹 전체가 아닙니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)의 주소를 직접 입력하면 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "광고 차단은 알려진 광고 도메인만 막을 뿐, 이미 연 페이지 안의 광고는 없애지 못합니다.",
     "Save with your own note": "직접 쓴 메모로 저장",
     "Your own note": "직접 쓴 메모",
     "Search shows Wikipedia results here. An address opens as a tab.": "검색은 여기 위키백과 결과로 나옵니다. 주소는 탭으로 열립니다.",
@@ -2618,6 +2628,12 @@ const UI_I18N = {
     "Close note": "메모 닫기",
     "What happened today? Thoughts, feelings, reflections…": "오늘 무슨 일이 있었나요? 생각, 감정, 성찰…",
     "Add a note for this day…": "이 날의 메모를 추가하세요…",
+    "Tip": "팁",
+    "About search": "검색에 대하여",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "여기서 검색하면 위키백과 결과가 앱 안에 바로 보여요 — 별도 설정이 필요 없어요.",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "대신 전체 주소를 입력하면 탭으로 열려요. Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo 같은 대형 사이트는 다른 앱에서 자신을 보여주는 걸 허용하지 않기 때문에, 항상 기본 브라우저로 연결돼요.",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "광고 차단은 알려진 광고 도메인만 잡아낼 뿐, 이미 연 페이지에 로드된 광고는 없애지 못해요.",
+    "{text}: nailed it!": "{text}: 완벽하게 해냈어요!",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -2934,8 +2950,6 @@ const UI_I18N = {
     "Search failed: {message}": "搜索失败：{message}",
     "No results found.": "未找到结果。",
     "Search results for \"{query}\"": "“{query}”的搜索结果",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "输入的搜索词会以列表形式显示维基百科的搜索结果——无需任何设置，但只能搜索维基百科的条目，而非整个网络。如果直接输入拒绝在其他页面中显示的大型网站地址（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo），则会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "广告拦截只会阻止已知的广告域名，无法去除已经打开的页面中的广告。",
     "Save with your own note": "用自己写的备注保存",
     "Your own note": "你自己写的备注",
     "Search shows Wikipedia results here. An address opens as a tab.": "搜索会在这里显示维基百科结果，网址则会作为标签页打开。",
@@ -3246,6 +3260,12 @@ const UI_I18N = {
     "Close note": "关闭备注",
     "What happened today? Thoughts, feelings, reflections…": "今天发生了什么？想法、感受、反思……",
     "Add a note for this day…": "为这一天添加备注……",
+    "Tip": "提示",
+    "About search": "关于搜索",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "这里的搜索会直接在应用内显示维基百科的结果——不需要任何设置。",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "输入完整网址则会作为标签页打开。像 Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo 这样的大型网站，因为不允许被其他应用展示，所以总会转到你的常规浏览器。",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "广告拦截只会识别已知的广告域名，无法清除已经打开的页面中已加载的广告。",
+    "{text}: nailed it!": "{text}：完美完成！",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -3562,8 +3582,6 @@ const UI_I18N = {
     "Search failed: {message}": "Error en la búsqueda: {message}",
     "No results found.": "No se encontraron resultados.",
     "Search results for \"{query}\"": "Resultados de búsqueda de \"{query}\"",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Los términos de búsqueda escritos muestran resultados de Wikipedia como una lista dentro de la app — no requiere configuración, pero solo busca artículos de Wikipedia, no la web en general. Escribir la dirección de un sitio grande que se niega a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) lo abre en tu navegador habitual — es la política del propio sitio, no algo que esta app pueda cambiar.",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "El bloqueo de anuncios solo detiene dominios de anuncios conocidos, no los anuncios de una página que ya abriste.",
     "Save with your own note": "Guardar con mi propia nota",
     "Your own note": "Tu propia nota",
     "Search shows Wikipedia results here. An address opens as a tab.": "La búsqueda muestra resultados de Wikipedia aquí. Una dirección se abre como pestaña.",
@@ -3874,6 +3892,12 @@ const UI_I18N = {
     "Close note": "Cerrar nota",
     "What happened today? Thoughts, feelings, reflections…": "¿Qué pasó hoy? Pensamientos, sentimientos, reflexiones…",
     "Add a note for this day…": "Añade una nota para este día…",
+    "Tip": "Consejo",
+    "About search": "Sobre la búsqueda",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "La búsqueda aquí muestra resultados de Wikipedia, directamente dentro de la app — sin configuración adicional.",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "Escribe una dirección completa y se abrirá como una pestaña. Los sitios grandes como Google, Instagram, Facebook, X, TikTok, YouTube y DuckDuckGo siempre te mandan a tu navegador habitual, porque no permiten que otras apps los muestren.",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "El bloqueo de anuncios aquí detecta dominios de anuncios conocidos, no anuncios que ya se cargaron en una página que abriste.",
+    "{text}: nailed it!": "{text}: ¡perfecto!",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -4200,8 +4224,6 @@ const UI_I18N = {
     "Search failed: {message}": "検索に失敗しました: {message}",
     "No results found.": "結果が見つかりませんでした。",
     "Search results for \"{query}\"": "「{query}」の検索結果",
-    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "検索語を入力すると、Wikipediaの検索結果がアプリ内の一覧として表示されます — 設定は不要ですが、検索できるのはWikipediaの記事のみで、Web全体ではありません。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）のアドレスを直接入力した場合は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
-    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "広告ブロックは既知の広告ドメインを止めるだけで、すでに開いたページ内の広告は消せません。",
     "Save with your own note": "自分のメモで保存",
     "Your own note": "自分で書くメモ",
     "Search shows Wikipedia results here. An address opens as a tab.": "検索はここにWikipediaの結果が出ます。アドレスはタブとして開きます。",
@@ -4512,6 +4534,12 @@ const UI_I18N = {
     "Close note": "メモを閉じる",
     "What happened today? Thoughts, feelings, reflections…": "今日の出来事、気づき、感想など…",
     "Add a note for this day…": "この日のメモを入力…",
+    "Tip": "ヒント",
+    "About search": "検索について",
+    "Search here shows Wikipedia results, right inside the app — no extra setup needed.": "ここでの検索は、アプリの中でそのままWikipediaの結果を表示します — 追加の設定は要りません。",
+    "Type a full address instead and it opens as a tab. Big sites like Google, Instagram, Facebook, X, TikTok, YouTube and DuckDuckGo always send you to your regular browser, since they don't let other apps show them.": "代わりに完全なアドレスを入力すると、タブとして開きます。Google・Instagram・Facebook・X・TikTok・YouTube・DuckDuckGoのような大手サイトは、他のアプリの中に自分を表示させないため、常にいつものブラウザへ送られます。",
+    "Ad blocking here catches known ad domains, not ads already loaded on a page you've opened.": "広告ブロックはここでは既知の広告ドメインだけを検知します。すでに開いたページの中にすでに読み込まれている広告までは消せません。",
+    "{text}: nailed it!": "{text}：よくできました！",
   },
 };
 
@@ -6960,6 +6988,34 @@ function initTipsPanel() {
   });
 
   document.getElementById("tipsCloseBtn").addEventListener("click", closePanel);
+
+  document.addEventListener("click", (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== toggleBtn) closePanel();
+  });
+}
+
+// 検索バー右下の小さな案内。以前は常に文章として表示していたが、常時目に入ると
+// 邪魔になるので、必要なときだけ開ける案内に変えた（内容自体は同じ）。
+function initSearchTipPanel() {
+  const toggleBtn = document.getElementById("searchTipToggleBtn");
+  const panel = document.getElementById("searchTipPanel");
+
+  function closePanel() {
+    panel.hidden = true;
+    toggleBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function openPanel() {
+    panel.hidden = false;
+    toggleBtn.setAttribute("aria-expanded", "true");
+  }
+
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (panel.hidden) openPanel(); else closePanel();
+  });
+
+  document.getElementById("searchTipCloseBtn").addEventListener("click", closePanel);
 
   document.addEventListener("click", (e) => {
     if (!panel.hidden && !panel.contains(e.target) && e.target !== toggleBtn) closePanel();
@@ -11248,7 +11304,8 @@ function wireAspirationAddForm(ids) {
    日/履歴/日記/統計の4画面と1〜5段階の進捗記録という構成をほぼそのまま踏襲した。
    ========================================================================== */
 // 進捗の色（1=黒 2=白 3=黄 4=橙 5=赤）。元アプリの配色をそのまま踏襲。
-const ROUTINE_PROG_COLORS = ["", "#1e1e1e", "#f1f5f9", "#facc15", "#f97316", "#ef4444"];
+// 白（最低）からアプリのメインカラーの緑（最高）へのグラデーション。5段階目は--accentそのもの。
+const ROUTINE_PROG_COLORS = ["", "#ffffff", "#e7f4de", "#cfe8bd", "#b6dd9b", "#9ed17a"];
 // カテゴリ（頑張りたいこと）ごとにグラフ上で見分けられるようにする配色。1色目はアプリのアクセント色。
 const ROUTINE_CAT_PALETTE = [
   "#9ed17a", "#f43f5e", "#f97316", "#38bdf8", "#c084fc",
@@ -11296,6 +11353,7 @@ function getRoutineRecord(dateStr, catId) {
   const day = data[dateStr] || {};
   return day[catId] || { prog: 0, memo: "" };
 }
+// 呼び出し側が「5段階目に届いたか」を判定できるよう、結果の段階を返す。
 function setRoutineProgress(dateStr, catId, val) {
   const data = getRoutineRecords();
   if (!data[dateStr]) data[dateStr] = {};
@@ -11303,6 +11361,7 @@ function setRoutineProgress(dateStr, catId, val) {
   cur.prog = cur.prog === val ? 0 : val; // 同じ段階をもう一度押したら取り消す
   data[dateStr][catId] = cur;
   saveRoutineRecords(data);
+  return cur.prog;
 }
 function routineHistCycleProgress(dateStr, catId) {
   const data = getRoutineRecords();
@@ -11311,6 +11370,7 @@ function routineHistCycleProgress(dateStr, catId) {
   cur.prog = (cur.prog + 1) % 6;
   data[dateStr][catId] = cur;
   saveRoutineRecords(data);
+  return cur.prog;
 }
 function setRoutineMemo(dateStr, catId, memo) {
   const data = getRoutineRecords();
@@ -11427,8 +11487,10 @@ function renderRoutineToday() {
       if (i <= rec.prog) seg.style.background = ROUTINE_PROG_COLORS[i];
       seg.title = routineProgLabel(i);
       seg.addEventListener("click", () => {
-        setRoutineProgress(routineTodayDate, cat.id, i);
+        const result = setRoutineProgress(routineTodayDate, cat.id, i);
         renderRoutineToday();
+        // 最高段階に「届いた」瞬間だけ祝う（外して0に戻すときは祝わない）。
+        if (result === 5) celebrate(tf("{text}: nailed it!", { text: cat.text }));
       });
       segWrap.appendChild(seg);
     }
@@ -11524,8 +11586,9 @@ function renderRoutineHistory() {
         block.appendChild(memoIcon);
       }
       block.addEventListener("click", () => {
-        routineHistCycleProgress(ds, cat.id);
+        const result = routineHistCycleProgress(ds, cat.id);
         renderRoutineHistory();
+        if (result === 5) celebrate(tf("{text}: nailed it!", { text: cat.text }));
       });
       td.appendChild(block);
       tr.appendChild(td);
@@ -12481,6 +12544,7 @@ function init() {
   });
 
   initTipsPanel();
+  initSearchTipPanel();
 
   wireAspirationAddForm({
     btn: "addAspirationBtn",
