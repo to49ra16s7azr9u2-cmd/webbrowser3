@@ -289,6 +289,7 @@ body.scroll-locked {
 .home-panel {
   flex: 1 1 auto;
   min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -316,6 +317,7 @@ body.scroll-locked {
 .home-panel-body {
   flex: 1 1 auto;
   min-height: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -324,29 +326,30 @@ body.scroll-locked {
 
 /* 休憩中でないときは、リングの入れ物ごとボタンの見た目に何も足さない
    （子のサイズをそのまま包むだけ）。休憩が始まったらここに残り時間の
-   円グラフを乗せる。 */
+   進捗バーを乗せる。横長の長方形にしたので、円グラフではなく左から右へ
+   塗り進める帯で残り時間を表す。 */
 .break-ring {
   flex: 0 0 auto;
-  align-self: center;
+  align-self: stretch;
   margin: 10px 0 6px;
-  border-radius: 50%;
+  border-radius: var(--radius-card);
 }
 .break-ring.is-active {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 72px;
   margin: 10px 0 6px;
   padding: 5px;
   box-sizing: border-box;
-  /* --pct（0〜100）を毎秒JSから更新して、円グラフとして塗り進める */
-  background: conic-gradient(var(--accent) calc(var(--pct, 0) * 1%), var(--bg-subtle) 0);
+  /* --pct（0〜100）を毎秒JSから更新して、帯を塗り進める */
+  background: linear-gradient(to right, var(--accent) calc(var(--pct, 0) * 1%), var(--bg-subtle) 0);
   transition: background 1s linear;
 }
 
 .wr-breathe {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  height: 72px;
   margin: 0;
-  border-radius: 50%;
+  border-radius: var(--radius-card);
   border: 1px solid var(--accent);
   background: rgba(158, 209, 122, 0.09); /* color-mix 未対応時の下敷き */
   background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 72%);
@@ -388,25 +391,232 @@ body.scroll-locked {
   text-align: center;
 }
 
-.wr-record {
+/* ==========================================================================
+   Routine Tracker（頑張りたいことを実際にやれたかどうかの記録）
+   統計と今日の採点は、タブの奥に隠さずホーム画面に常時出す
+   （利用者からの要望: 休憩の輪の直下に統計を、その下に今日の採点を並べる）
+   ========================================================================== */
+.routine-standalone-section {
   flex: 0 0 auto;
-  display: flex;
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  padding-top: 12px;
   margin-bottom: 10px;
 }
-.wr-record div { flex: 1 1 0; text-align: center; padding: 14px 4px; }
-.wr-record div + div { border-left: 1px solid var(--border); }
-/* 数字は思い切って大きく太く。ここが「積み上がっている」実感の置き場所 */
-.wr-record b {
-  display: block;
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: var(--tracking-title);
-  color: var(--accent);
+
+.routine-tracker {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-bottom: 10px;
 }
-.wr-record span { font-size: 9px; font-weight: 700; letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-dim); }
+
+.routine-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.routine-tab {
+  flex: 1 1 0;
+  background: var(--bg-subtle);
+  border: none;
+  border-radius: var(--radius-pill);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 6px;
+  cursor: pointer;
+}
+.routine-tab.is-active { background: var(--accent); color: #0a0f0a; }
+
+.routine-view[hidden] { display: none; }
+
+.routine-date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.routine-nav-btn {
+  background: var(--bg-subtle);
+  color: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.routine-date-label { font-size: 12.5px; font-weight: 700; color: var(--text-dim); min-width: 90px; text-align: center; }
+
+.routine-empty { text-align: center; color: var(--text-dim); font-size: 12px; padding: 20px 10px; }
+
+/* ---- Today: カード ---- */
+.routine-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.routine-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.routine-card-name { font-size: 13.5px; font-weight: 700; }
+.routine-memo-btn {
+  flex: 0 0 auto;
+  background: var(--bg-subtle);
+  color: var(--accent-bright);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.routine-segments { display: flex; gap: 3px; }
+.routine-seg {
+  flex: 1 1 0;
+  height: 24px;
+  border-radius: 5px;
+  border: none;
+  background: var(--bg-subtle);
+  cursor: pointer;
+}
+.routine-seg.is-filled { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.routine-seg:active { transform: scale(0.94); }
+.routine-card-info { display: flex; justify-content: flex-end; margin-top: 6px; }
+.routine-stage-label { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+.routine-memo-preview {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- History: 月の表 ---- */
+.routine-history-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius); border: 1px solid var(--border); }
+.routine-history-table { border-collapse: collapse; width: 100%; }
+.routine-history-table thead th {
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 8px 5px;
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.routine-history-table thead th:first-child { position: sticky; left: 0; z-index: 3; min-width: 50px; }
+.routine-history-date {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 6px;
+  text-align: center;
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+  min-width: 50px;
+}
+.routine-history-dow { font-size: 9px; font-weight: 400; color: var(--text-dim); }
+.routine-history-table tr.is-today .routine-history-date { color: var(--accent); }
+.routine-history-cell { padding: 3px; text-align: center; border: 1px solid var(--border); width: 46px; min-width: 46px; }
+.routine-history-block {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 28px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: var(--bg-subtle);
+}
+.routine-history-block:active { transform: scale(0.92); }
+.routine-lvl-1 { background: #1e1e1e; }
+.routine-lvl-2 { background: #f1f5f9; border: 1.5px solid var(--border); }
+.routine-lvl-3 { background: #facc15; }
+.routine-lvl-4 { background: #f97316; }
+.routine-lvl-5 { background: #ef4444; }
+.routine-history-memo { position: absolute; bottom: 0; right: 2px; font-size: 8px; line-height: 1; }
+.routine-history-empty { padding: 20px; text-align: center; color: var(--text-dim); font-size: 12px; }
+
+/* ---- Diary ---- */
+.routine-diary-write { margin-bottom: 12px; }
+.routine-diary-write textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 10px;
+  font: inherit;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 70px;
+}
+.routine-diary-write .btn { margin-top: 6px; }
+.routine-diary-entry {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.routine-diary-entry-date { font-size: 10.5px; color: var(--text-dim); margin-bottom: 4px; }
+.routine-diary-entry-text { font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; }
+
+/* ---- Stats ---- */
+.routine-stats-range { display: flex; gap: 6px; margin-bottom: 12px; }
+.routine-range-btn {
+  flex: 1 1 0;
+  padding: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.routine-range-btn.is-active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+.routine-stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+.routine-stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 5px; text-align: center; }
+.routine-stat-card-val { font-size: 19px; font-weight: 800; color: var(--accent); line-height: 1.1; }
+.routine-stat-card-label { font-size: 9px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+.routine-stat-card-sub { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
+.routine-stat-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 10px; }
+.routine-stat-section-title { font-size: 10.5px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.routine-heatmap-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.routine-heatmap-table { border-collapse: collapse; }
+.routine-hm-cat-label { font-size: 9px; font-weight: 700; padding-right: 6px; white-space: nowrap; text-align: right; padding-bottom: 2px; max-width: 70px; overflow: hidden; text-overflow: ellipsis; }
+.routine-hm-th { font-size: 8px; color: var(--text-dim); text-align: center; padding: 0 1px 4px; width: 18px; }
+.routine-hm-today { color: var(--accent); font-weight: 700; }
+.routine-hm-cell { padding: 1.5px 1px; }
+.routine-hm-sq { width: 16px; height: 16px; border-radius: 3px; }
+.routine-chart-center { display: flex; justify-content: center; }
+.routine-chart-legend { display: flex; flex-wrap: wrap; gap: 5px 10px; margin-top: 8px; }
+.routine-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--text-dim); }
+.routine-legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.routine-need-cats { color: var(--text-dim); font-size: 12px; text-align: center; padding: 12px; }
+.routine-streak-grid { display: flex; flex-direction: column; gap: 8px; }
+.routine-streak-card { background: var(--bg-subtle); border-radius: var(--radius); padding: 10px 12px; }
+.routine-streak-cat { font-size: 11.5px; font-weight: 700; margin-bottom: 8px; }
+.routine-streak-nums { display: flex; margin-bottom: 8px; }
+.routine-streak-item { flex: 1 1 0; text-align: center; }
+.routine-streak-val { font-size: 18px; font-weight: 800; color: var(--text); line-height: 1; }
+.routine-streak-label { font-size: 8.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 2px; }
+.routine-streak-bar-bg { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.routine-streak-bar-fill { height: 100%; border-radius: 3px; }
+.routine-dist-list { display: flex; flex-direction: column; gap: 8px; }
+.routine-dist-row { display: flex; align-items: center; gap: 8px; }
+.routine-dist-cat { font-size: 10.5px; font-weight: 700; width: 58px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.routine-dist-bar { flex: 1 1 0; height: 20px; border-radius: 5px; overflow: hidden; display: flex; background: var(--bg-subtle); }
+.routine-dist-seg { height: 100%; }
+.routine-dist-total { font-size: 10px; color: var(--text-dim); width: 20px; text-align: right; flex-shrink: 0; }
 
 .wr-file-label {
   flex: 0 0 auto;
@@ -422,25 +632,6 @@ body.scroll-locked {
   margin-bottom: 6px;
   cursor: pointer;
 }
-
-/* 待合室から本棚へ橋渡しする一行。未読が無ければ表示自体を消す。 */
-.wr-shelf-summary {
-  flex: 0 0 auto;
-  display: block;
-  width: 100%;
-  text-align: center;
-  background: var(--bg-subtle);
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  color: var(--text);
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 9px 10px;
-  margin-bottom: 14px;
-  cursor: pointer;
-}
-.wr-shelf-summary::after { content: " \2192"; color: var(--text-dim); }
-.wr-shelf-summary[hidden] { display: none; }
 
 .wr-empty {
   flex: 0 0 auto;
@@ -689,6 +880,7 @@ body.scroll-locked {
   color: var(--text-dim);
 }
 .search-bar + .inline-hint { margin: -2px 12px 6px; }
+.inline-hint + .inline-hint { margin-top: -4px; }
 
 /* 週に一度の振り返り。数字ではなく名前を並べる */
 .wr-lookback {
@@ -761,19 +953,6 @@ body.scroll-locked {
 /* 自分で決めてやったことは、読み終えたものと区別できるようにしておく */
 .wr-lookback-list li.is-aspiration { color: var(--text); }
 .wr-lookback-list li.is-aspiration::before { content: "\2605"; }
-
-/* 記録のうち「片付いた」だけは押せる（振り返りをその場で開ける） */
-.wr-record-btn {
-  flex: 1 1 0;
-  text-align: center;
-  padding: 8px 4px;
-  background: none;
-  border: none;
-  border-left: 1px solid var(--border);
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
 
 /* 頑張りたいことの追加欄。1行に詰め込まず2つずつ並べる */
 .aspiration-fields { display: flex; gap: 6px; }
@@ -2168,6 +2347,77 @@ input[type="radio"] {
   flex-direction: column;
   gap: 4px;
 }
+
+/* ---- 検索結果一覧（Wikipedia） ---- */
+.search-results-modal { max-height: 82dvh; }
+.search-results-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.search-result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 9px;
+}
+.search-result-row:has(.search-result-note-editor) { flex-wrap: wrap; }
+.search-result-open-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+.search-result-title { font-size: 13px; font-weight: 700; }
+.search-result-snippet {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.search-result-url { font-size: 10px; color: var(--text-dim); }
+.search-result-actions { flex: 0 0 auto; display: flex; }
+.search-result-save-btn, .search-result-note-btn {
+  font-size: 16px;
+  padding: 3px 5px;
+}
+.search-result-save-btn.is-active { color: var(--accent-strong); }
+.search-result-note-editor {
+  flex: 1 1 100%;
+  width: 100%;
+  margin-top: 6px;
+}
+.search-result-note-editor textarea {
+  width: 100%;
+  resize: vertical;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12px;
+}
+.search-result-note-editor .modal-actions { margin-top: 6px; }
 
 .dictionary-row {
   display: flex;

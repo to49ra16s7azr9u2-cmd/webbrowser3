@@ -99,8 +99,26 @@
       <h2 class="onboarding-title">What do you want your time back for?</h2>
       <p class="modal-desc">Not "less phone" — more of something else. Name one or two things you'd rather be spending it on. This app will remind you of them, not just stop you.</p>
       <ul id="onboardingGoalsList" class="editable-list"></ul>
-      <div class="add-row">
+      <div class="add-row add-row-stacked">
         <input id="onboardingGoalInput" type="text" placeholder="e.g. Practise guitar" maxlength="80" />
+        <div class="aspiration-fields">
+          <select id="onboardingGoalWhen" class="settings-select" aria-label="Time of day">
+            <option value="any">Any time</option>
+            <option value="morning">Morning</option>
+            <option value="afternoon">Afternoon</option>
+            <option value="evening">Evening</option>
+            <option value="night">Late night</option>
+          </select>
+          <input id="onboardingGoalMinutes" type="number" min="1" max="600" placeholder="Minutes" />
+        </div>
+        <div class="field">
+          <span>Days (optional)</span>
+          <div id="onboardingGoalDayRow" class="day-toggle-row" role="group" aria-label="Days"></div>
+        </div>
+        <label class="field">
+          <span>Keep at it until (optional)</span>
+          <input id="onboardingGoalUntil" type="date" />
+        </label>
         <button id="onboardingGoalAddBtn" class="btn btn-small" type="button">Add</button>
       </div>
       <div class="modal-actions">
@@ -111,8 +129,8 @@
 
     <div id="onboardingStepPin" class="onboarding-step" hidden>
       <p class="onboarding-eyebrow">Step 4 of 5</p>
-      <h2 class="onboarding-title">Set up your PINs (optional)</h2>
-      <p class="modal-desc">Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.</p>
+      <h2 class="onboarding-title">Set up your PINs</h2>
+      <p class="modal-desc">A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.</p>
       <label class="field">
         <span>App Lock PIN (opens the app)</span>
         <input id="onboardingPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
@@ -120,7 +138,7 @@
       <label class="field">
         <span>Security question</span>
         <select id="onboardingQuestionInput">
-          <option value="">Select a question (optional)</option>
+          <option value="">Select a question</option>
           <option value="What was your first pet's name?">What was your first pet's name?</option>
           <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
           <option value="What was the name of your first school?">What was the name of your first school?</option>
@@ -138,7 +156,6 @@
         <input id="onboardingScrollPinInput" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off" />
       </label>
       <div class="modal-actions">
-        <button id="onboardingPinSkipBtn" class="btn btn-secondary" type="button">Skip</button>
         <button id="onboardingPinNextBtn" class="btn btn-primary" type="button">Save &amp; Continue</button>
       </div>
     </div>
@@ -217,9 +234,10 @@
       <button id="tipsToggleBtn" class="text-btn" type="button" aria-expanded="false" aria-label="How to use this app">Tips</button>
       <div id="tipsPanel" class="tips-panel" hidden>
         <ul class="tips-list">
-          <li>Search or type an address — it opens as a tab here.</li>
+          <li>Search shows Wikipedia results here. An address opens as a tab.</li>
           <li>One video or one post can show inside. A whole feed can't.</li>
-          <li>Tap the star on a tab to keep that word in your dictionary.</li>
+          <li>Tap the star on a tab, or on a search result, to save it.</li>
+          <li>The pencil on a search result lets you write your own note.</li>
           <li>While scroll is OFF, the apps you ticked in Settings won't open.</li>
           <li>When time runs out, scroll goes OFF and opened tabs close.</li>
           <li>Held items wait before they open — longest for gated apps.</li>
@@ -238,7 +256,8 @@
     </button>
     <input id="searchInput" type="search" name="q" placeholder="Basic search" autocomplete="off" />
   </form>
-  <p class="inline-hint">Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.</p>
+  <p class="inline-hint">Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.</p>
+  <p class="inline-hint">Ad blocking only stops known ad domains, not ads on a page you already opened.</p>
 
   <main class="content" id="browserContent">
     <div id="tabStrip" class="tab-strip" hidden>
@@ -274,9 +293,6 @@
               <button id="wrLookBackDismissBtn" class="btn btn-secondary btn-small" type="button">Good</button>
             </div>
 
-            <button id="wrShelfSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
-            <button id="wrGoalsSummaryBtn" class="wr-shelf-summary" type="button" hidden></button>
-
             <div id="wrBreakRing" class="break-ring">
               <button id="wrStartBtn" class="wr-breathe" type="button">Take a breath</button>
             </div>
@@ -287,10 +303,71 @@
             <input id="wrFilePick" type="file" multiple hidden />
             <p id="wrStorageNote" class="wr-note"></p>
 
-            <div class="wr-record">
-              <div><b id="wrStreak">0</b><span>day streak</span></div>
-              <div><b id="wrToday">0</b><span>pauses today</span></div>
-              <button id="wrFinishedBtn" type="button" class="wr-record-btn"><b id="wrFinished">0</b><span>finished</span></button>
+            <!-- Stats: always visible, right under the break circle -->
+            <div id="routineStatsSection" class="routine-standalone-section">
+              <div class="routine-stats-range">
+                <button class="routine-range-btn" data-range="7" type="button">7 Days</button>
+                <button class="routine-range-btn is-active" data-range="30" type="button">30 Days</button>
+                <button class="routine-range-btn" data-range="90" type="button">90 Days</button>
+              </div>
+              <div id="routineStatsContent"></div>
+            </div>
+
+            <!-- Today: always visible, the day's 1-5 scoring for each aspiration -->
+            <div id="routineTodaySection" class="routine-standalone-section">
+              <div class="routine-date-nav">
+                <button id="routineTodayPrevBtn" type="button" class="routine-nav-btn" aria-label="Previous day">&lsaquo;</button>
+                <span id="routineTodayLabel" class="routine-date-label"></span>
+                <button id="routineTodayNextBtn" type="button" class="routine-nav-btn" aria-label="Next day">&rsaquo;</button>
+              </div>
+              <div id="routineTodayCards"></div>
+            </div>
+
+            <div id="routineTracker" class="routine-tracker">
+              <div class="routine-tabs">
+                <button id="routineTabHistory" class="routine-tab is-active" type="button">History</button>
+                <button id="routineTabDiary" class="routine-tab" type="button">Diary</button>
+              </div>
+
+              <div id="routineViewHistory" class="routine-view">
+                <div class="routine-date-nav">
+                  <button id="routineHistoryPrevBtn" type="button" class="routine-nav-btn" aria-label="Previous month">&lsaquo;</button>
+                  <span id="routineHistoryLabel" class="routine-date-label"></span>
+                  <button id="routineHistoryNextBtn" type="button" class="routine-nav-btn" aria-label="Next month">&rsaquo;</button>
+                </div>
+                <div class="routine-history-wrap">
+                  <table id="routineHistoryTable" class="routine-history-table"><thead></thead><tbody></tbody></table>
+                </div>
+              </div>
+
+              <div id="routineViewDiary" class="routine-view" hidden>
+                <div class="routine-date-nav">
+                  <button id="routineDiaryPrevBtn" type="button" class="routine-nav-btn" aria-label="Previous day">&lsaquo;</button>
+                  <span id="routineDiaryLabel" class="routine-date-label"></span>
+                  <button id="routineDiaryNextBtn" type="button" class="routine-nav-btn" aria-label="Next day">&rsaquo;</button>
+                </div>
+                <div class="routine-diary-write">
+                  <textarea id="routineDiaryInput" rows="3" placeholder="What happened today? Thoughts, feelings, reflections…"></textarea>
+                  <button id="routineDiarySaveBtn" class="btn btn-small" type="button">Save</button>
+                </div>
+                <div id="routineDiaryHistory"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note for a single day's routine entry -->
+        <div id="routineMemoModal" class="modal-overlay" hidden>
+          <div class="modal" role="dialog" aria-modal="true" aria-labelledby="routineMemoModalTitle">
+            <div class="settings-modal-header">
+              <h2 id="routineMemoModalTitle">Note</h2>
+              <button id="closeRoutineMemo" class="modal-close-btn" type="button" aria-label="Close note">&times;</button>
+            </div>
+            <p id="routineMemoLabel" class="modal-desc"></p>
+            <textarea id="routineMemoInput" rows="4" placeholder="Add a note for this day…"></textarea>
+            <div class="modal-actions">
+              <button id="routineMemoCancelBtn" class="btn btn-secondary btn-small" type="button">Cancel</button>
+              <button id="routineMemoSaveBtn" class="btn btn-small" type="button">Save</button>
             </div>
           </div>
         </div>
@@ -476,6 +553,23 @@
         <div id="mainInsightsPageNumbers" class="search-page-numbers"></div>
         <button id="mainInsightsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
       </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search results: Wikipedia API, shown as a list in-app rather than embedding a search engine page -->
+  <div id="searchResultsModal" class="modal-overlay" hidden>
+    <div class="modal settings-modal search-results-modal" role="dialog" aria-modal="true" aria-labelledby="searchResultsModalTitle">
+      <div class="settings-modal-header">
+        <h2 id="searchResultsModalTitle">Search results</h2>
+        <button id="closeSearchResults" class="modal-close-btn" type="button" aria-label="Close search results">&times;</button>
+      </div>
+      <p id="searchResultsStatus" class="modal-desc" hidden></p>
+      <ul id="searchResultsList" class="search-results-list"></ul>
+      <div class="search-pagination">
+        <button id="searchResultsPrevBtn" class="btn btn-secondary btn-small" type="button"><span aria-hidden="true">&lsaquo;</span> Prev</button>
+        <div id="searchResultsPageNumbers" class="search-page-numbers"></div>
+        <button id="searchResultsNextBtn" class="btn btn-secondary btn-small" type="button">Next <span aria-hidden="true">&rsaquo;</span></button>
       </div>
     </div>
   </div>

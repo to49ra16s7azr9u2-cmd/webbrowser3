@@ -64,6 +64,8 @@ const STORAGE_KEYS = {
   pushEnabled: "myhome:pushEnabled",
   pushSubscriptionId: "myhome:pushSubscriptionId",
   analyticsDeviceId: "myhome:analyticsDeviceId",
+  routineRecords: "myhome:routineRecords",
+  routineDiary: "myhome:routineDiary",
 };
 
 /* --------------------------------------------------------------------------
@@ -168,12 +170,9 @@ const UI_I18N = {
     "Turn ON": "Ativar",
     "Unlock with Face ID / Fingerprint": "Desbloquear com Face ID / impressão digital",
     "Choose your language": "Escolha seu idioma",
-    "Set up your PINs (optional)": "Configure seus PINs (opcional)",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Defina um PIN para abrir o MyHome Browser e outro para ativar a rolagem. Deixe em branco para pular. Depois, você pode usar Face ID / impressão digital nos ajustes.",
     "App Lock PIN (opens the app)": "PIN de bloqueio (abre o app)",
     "Scroll PIN (turns scroll ON)": "PIN de rolagem (ativa a rolagem)",
     "Security question": "Pergunta de segurança",
-    "Select a question (optional)": "Selecione uma pergunta (opcional)",
     "What was your first pet's name?": "Qual era o nome do seu primeiro animal de estimação?",
     "What is your mother's maiden name?": "Qual é o nome de solteira da sua mãe?",
     "What was the name of your first school?": "Qual era o nome da sua primeira escola?",
@@ -181,7 +180,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "Qual era seu apelido de infância?",
     "What is your favorite food?": "Qual é a sua comida favorita?",
     "Answer": "Resposta",
-    "Skip": "Pular",
     "Save & Continue": "Salvar e continuar",
     "Which social media do you use?": "Quais redes sociais você usa?",
     "Choose the ones you want quick access to from your dock.": "Escolha aquelas que você quer acessar rapidamente pela barra.",
@@ -253,7 +251,6 @@ const UI_I18N = {
     "App Lock disabled": "Bloqueio do app desativado",
     "Recovery question saved": "Pergunta de recuperação salva",
     "Enter both a question and an answer": "Informe a pergunta e a resposta",
-    "Fill in both the question and answer, or leave both blank": "Preencha a pergunta e a resposta, ou deixe ambas em branco",
     "Setup complete": "Configuração concluída",
     "Scroll turned OFF": "Rolagem desativada",
     "Time's up — scroll switched back OFF": "Tempo esgotado — a rolagem foi desativada",
@@ -414,6 +411,24 @@ const UI_I18N = {
     "Remove from your dictionary": "Remover do seu dicionário",
     "Added to your dictionary": "Salvo no seu dicionário",
     "Removed from your dictionary": "Removido do seu dicionário",
+    "Select a question (optional)": "Selecione uma pergunta (opcional)",
+    "Set up your PINs": "Configure seus PINs",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "Um PIN para abrir o MyHome Browser e outro, separado, para ativar a rolagem — ambos obrigatórios, para que o atrito de que este app depende não vire silenciosamente algo fácil de adivinhar. Depois você pode trocar por Face ID / impressão digital, nos ajustes.",
+    "Select a question": "Selecione uma pergunta",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "Escolha uma pergunta de segurança e responda a ela, para poder redefinir seu PIN se esquecer.",
+    "Search results": "Resultados da pesquisa",
+    "Close search results": "Fechar resultados da pesquisa",
+    "Searching…": "Pesquisando…",
+    "Search failed: {message}": "Falha na pesquisa: {message}",
+    "No results found.": "Nenhum resultado encontrado.",
+    "Search results for \"{query}\"": "Resultados da pesquisa por \"{query}\"",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Os termos de pesquisa digitados mostram resultados da Wikipédia como uma lista dentro do app — não é preciso nenhuma configuração, mas só pesquisa artigos da Wikipédia, não a web em geral. Digitar o endereço de um site grande que se recusa a ser exibido dentro de outra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) o abre no seu navegador normal — essa é a política do próprio site, não algo que este app possa mudar.",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "O bloqueio de anúncios só impede domínios de anúncio conhecidos, não anúncios em uma página que você já abriu.",
+    "Save with your own note": "Salvar com sua própria nota",
+    "Your own note": "Sua própria nota",
+    "Search shows Wikipedia results here. An address opens as a tab.": "A busca mostra resultados da Wikipédia aqui. Um endereço abre como aba.",
+    "Tap the star on a tab, or on a search result, to save it.": "Toque na estrela de uma aba, ou de um resultado, para salvar.",
+    "The pencil on a search result lets you write your own note.": "O lápis num resultado permite escrever sua própria nota.",
     "Scroll is OFF": "A rolagem está DESATIVADA",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Esses apps abrem no seu navegador normal, onde este app não consegue manter a rolagem travada — por isso ficam fechados enquanto a rolagem está desativada.",
     "Not now": "Agora não",
@@ -495,9 +510,7 @@ const UI_I18N = {
     "Limits": "Limites",
     "{time} left": "Resta {time}",
     "Add a shelf": "Adicionar estante",
-    "Search or type an address — it opens as a tab here.": "Busque ou digite um endereço — abre como aba aqui.",
     "One video or one post can show inside. A whole feed can't.": "Um vídeo ou um post cabe aqui. Um feed inteiro não.",
-    "Tap the star on a tab to keep that word in your dictionary.": "Toque na estrela de uma aba para guardar essa palavra.",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "Com a rolagem desativada, os apps marcados não abrem.",
     "When time runs out, scroll goes OFF and opened tabs close.": "Quando o tempo acaba, a rolagem desliga e as abas fecham.",
     "Held items wait before they open — longest for gated apps.": "O que fica retido espera antes de abrir; mais para apps filtrados.",
@@ -505,7 +518,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "As pausas oferecem o que você planejou, sua estante ou uma palavra salva.",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "Afrouxar um limite espera 24 horas. Apertar é imediato.",
     "Add to your home screen to receive from other apps' Share.": "Adicione à tela inicial para receber pelo Compartilhar.",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "Busca pelo Bing. O bloqueio só barra domínios de anúncio conhecidos, não anúncios de uma página já aberta.",
     "Priority and Done decide what a break offers you next.": "Prioridade e Concluído decidem o que a próxima pausa oferece.",
     "Anything you feel like looking at, this holds for a moment first.": "O que você quiser ver fica retido aqui um momento primeiro.",
     "Interrupt me and offer something better to be doing": "Me interromper e oferecer algo melhor para fazer",
@@ -522,7 +534,6 @@ const UI_I18N = {
     "{count} you set out to do": "{count} que você se propôs",
     "This week: {count}": "Esta semana: {count}",
     "{weeks} weeks ago: {count}": "{weeks} semanas atrás: {count}",
-    "Nothing finished in the last two weeks yet.": "Nada concluído nas últimas duas semanas ainda.",
     "Morning": "Manhã",
     "Afternoon": "Tarde",
     "Evening": "Noite",
@@ -580,8 +591,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "Desativar o período de reflexão",
     "Stop requiring scroll ON for those apps": "Parar de exigir rolagem ativada para esses apps",
     "Remove apps from the scroll gate": "Remover apps do filtro de rolagem",
-    "1 thing waiting on your shelf": "1 item esperando na sua estante",
-    "{count} things waiting on your shelf": "{count} itens esperando na sua estante",
     "Added shelf {name}": "Estante {name} adicionada",
     "File": "Arquivo",
     "Later": "Depois",
@@ -685,8 +694,46 @@ const UI_I18N = {
     "Days (optional)": "Dias (opcional)",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Quanto mais você preencher sobre quando, em quais dias e por quanto tempo, mais fácil é realmente começar — e uma pausa que caia nessa janela recorre a isso primeiro.",
     "Goals": "Metas",
-    "1 thing you want to get to": "1 coisa que você quer fazer",
-    "{count} things you want to get to": "{count} coisas que você quer fazer",
+    "Not recorded": "Não registrado",
+    "Not at all": "Nada",
+    "Barely": "Quase nada",
+    "Minimum done": "Mínimo feito",
+    "Pretty good": "Bastante bem",
+    "Nailed it!": "Mandei bem!",
+    "Note": "Nota",
+    "Add something you want to work on, and it'll show up here to track.": "Adicione algo que você quer trabalhar, e vai aparecer aqui para acompanhar.",
+    "Date": "Data",
+    "No records this month": "Nenhum registro neste mês",
+    "Diary saved": "Diário salvo",
+    "Active Days": "Dias ativos",
+    "last {days}d": "últimos {days}d",
+    "Avg Score": "Pontuação média",
+    "out of 5.0": "de 5,0",
+    "Top Category": "Categoria principal",
+    "avg": "média",
+    "no data": "sem dados",
+    "Activity Heatmap": "Mapa de atividade",
+    "Category Balance": "Equilíbrio entre categorias",
+    "Progress Trend": "Tendência de progresso",
+    "Best Day of Week": "Melhor dia da semana",
+    "Streaks & Completion": "Sequências e conclusão",
+    "Level Distribution": "Distribuição de níveis",
+    "Need 2+ categories": "Precisa de 2+ categorias",
+    "Streak": "Sequência",
+    "Best": "Melhor",
+    "Days done": "Dias concluídos",
+    "Rate": "Taxa",
+    "History": "Histórico",
+    "Diary": "Diário",
+    "Stats": "Estatísticas",
+    "7 Days": "7 dias",
+    "30 Days": "30 dias",
+    "90 Days": "90 dias",
+    "Previous day": "Dia anterior",
+    "Next day": "Próximo dia",
+    "Close note": "Fechar nota",
+    "What happened today? Thoughts, feelings, reflections…": "O que aconteceu hoje? Pensamentos, sentimentos, reflexões…",
+    "Add a note for this day…": "Adicione uma nota para este dia…",
   },
   de: {
     "Scroll OFF": "Scrollen AUS",
@@ -751,12 +798,9 @@ const UI_I18N = {
     "Turn ON": "Einschalten",
     "Unlock with Face ID / Fingerprint": "Mit Face ID / Fingerabdruck entsperren",
     "Choose your language": "Sprache wählen",
-    "Set up your PINs (optional)": "PINs einrichten (optional)",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Lege eine PIN zum Öffnen von MyHome Browser fest und eine separate PIN zum Einschalten des Scrollens. Leer lassen, um zu überspringen. Du kannst später in den Einstellungen stattdessen Face ID / Fingerabdruck aktivieren.",
     "App Lock PIN (opens the app)": "App-Sperr-PIN (öffnet die App)",
     "Scroll PIN (turns scroll ON)": "Scroll-PIN (schaltet Scrollen ein)",
     "Security question": "Sicherheitsfrage",
-    "Select a question (optional)": "Frage wählen (optional)",
     "What was your first pet's name?": "Wie hieß dein erstes Haustier?",
     "What is your mother's maiden name?": "Wie lautet der Mädchenname deiner Mutter?",
     "What was the name of your first school?": "Wie hieß deine erste Schule?",
@@ -764,7 +808,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "Wie war dein Spitzname als Kind?",
     "What is your favorite food?": "Was ist dein Lieblingsessen?",
     "Answer": "Antwort",
-    "Skip": "Überspringen",
     "Save & Continue": "Speichern und fortfahren",
     "Which social media do you use?": "Welche sozialen Medien nutzt du?",
     "Choose the ones you want quick access to from your dock.": "Wähle die aus, auf die du schnell über das Dock zugreifen möchtest.",
@@ -836,7 +879,6 @@ const UI_I18N = {
     "App Lock disabled": "App-Sperre deaktiviert",
     "Recovery question saved": "Wiederherstellungsfrage gespeichert",
     "Enter both a question and an answer": "Gib sowohl eine Frage als auch eine Antwort ein",
-    "Fill in both the question and answer, or leave both blank": "Fülle Frage und Antwort aus oder lasse beide leer",
     "Setup complete": "Einrichtung abgeschlossen",
     "Scroll turned OFF": "Scrollen ausgeschaltet",
     "Time's up — scroll switched back OFF": "Zeit um – Scrollen wurde wieder ausgeschaltet",
@@ -997,6 +1039,24 @@ const UI_I18N = {
     "Remove from your dictionary": "Aus dem Wörterbuch entfernen",
     "Added to your dictionary": "Im Wörterbuch gespeichert",
     "Removed from your dictionary": "Aus dem Wörterbuch entfernt",
+    "Select a question (optional)": "Frage wählen (optional)",
+    "Set up your PINs": "PINs einrichten",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "Eine PIN zum Öffnen von MyHome Browser und eine separate PIN zum Einschalten des Scrollens – beide sind erforderlich, damit die Reibung, auf die diese App angewiesen ist, nicht stillschweigend auf etwas Erratbares zurückfällt. Du kannst später in den Einstellungen stattdessen auf Face ID / Fingerabdruck umsteigen.",
+    "Select a question": "Frage wählen",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "Wähle eine Sicherheitsfrage und beantworte sie, damit du deine PIN zurücksetzen kannst, falls du sie vergisst.",
+    "Search results": "Suchergebnisse",
+    "Close search results": "Suchergebnisse schließen",
+    "Searching…": "Suche läuft…",
+    "Search failed: {message}": "Suche fehlgeschlagen: {message}",
+    "No results found.": "Keine Ergebnisse gefunden.",
+    "Search results for \"{query}\"": "Suchergebnisse für „{query}“",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Eingegebene Suchbegriffe zeigen Wikipedia-Ergebnisse als Liste innerhalb der App — keine Einrichtung nötig, durchsucht wird aber nur Wikipedia, nicht das gesamte Web. Die Eingabe der Adresse einer großen Website, die sich weigert, in einer anderen Seite angezeigt zu werden (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo), öffnet diese stattdessen in deinem normalen Browser — das ist die eigene Richtlinie der Website und nichts, was diese App ändern kann.",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "Die Werbeblockierung stoppt nur bekannte Werbedomains, nicht Werbung auf einer bereits geöffneten Seite.",
+    "Save with your own note": "Mit eigener Notiz speichern",
+    "Your own note": "Deine eigene Notiz",
+    "Search shows Wikipedia results here. An address opens as a tab.": "Die Suche zeigt hier Wikipedia-Ergebnisse. Eine Adresse öffnet als Tab.",
+    "Tap the star on a tab, or on a search result, to save it.": "Tippe auf den Stern eines Tabs oder Suchergebnisses zum Speichern.",
+    "The pencil on a search result lets you write your own note.": "Der Stift an einem Ergebnis lässt dich eine eigene Notiz schreiben.",
     "Scroll is OFF": "Scrollen ist AUS",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Diese Apps öffnen sich in deinem normalen Browser, wo diese App das Scrollen nicht sperren kann — solange Scrollen aus ist, bleiben sie also zu.",
     "Not now": "Jetzt nicht",
@@ -1078,9 +1138,7 @@ const UI_I18N = {
     "Limits": "Limits",
     "{time} left": "Noch {time}",
     "Add a shelf": "Regal hinzufügen",
-    "Search or type an address — it opens as a tab here.": "Suche oder Adresse eingeben — öffnet sich hier als Tab.",
     "One video or one post can show inside. A whole feed can't.": "Ein Video oder ein Beitrag geht hier. Ein ganzer Feed nicht.",
-    "Tap the star on a tab to keep that word in your dictionary.": "Tippe den Stern eines Tabs, um das Wort zu behalten.",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "Bei ausgeschaltetem Scrollen öffnen die angehakten Apps nicht.",
     "When time runs out, scroll goes OFF and opened tabs close.": "Ist die Zeit um, geht Scrollen aus und offene Tabs schließen.",
     "Held items wait before they open — longest for gated apps.": "Aufgehobenes wartet vor dem Öffnen — am längsten gesperrte Apps.",
@@ -1088,7 +1146,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "Pausen bieten dein Vorhaben, dein Regal oder ein gespeichertes Wort.",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "Eine Grenze lockern wartet 24 Stunden. Verschärfen wirkt sofort.",
     "Add to your home screen to receive from other apps' Share.": "Zum Startbildschirm hinzufügen, um über Teilen zu empfangen.",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "Sucht über Bing. Werbeblockierung stoppt nur bekannte Werbedomains, nicht Werbung auf einer offenen Seite.",
     "Priority and Done decide what a break offers you next.": "Priorität und Erledigt bestimmen, was die nächste Pause anbietet.",
     "Anything you feel like looking at, this holds for a moment first.": "Was du ansehen willst, wartet hier erst einen Moment.",
     "Interrupt me and offer something better to be doing": "Mich unterbrechen und etwas Besseres vorschlagen",
@@ -1105,7 +1162,6 @@ const UI_I18N = {
     "{count} you set out to do": "{count} von dir vorgenommen",
     "This week: {count}": "Diese Woche: {count}",
     "{weeks} weeks ago: {count}": "Vor {weeks} Wochen: {count}",
-    "Nothing finished in the last two weeks yet.": "In den letzten zwei Wochen noch nichts abgeschlossen.",
     "Morning": "Morgens",
     "Afternoon": "Nachmittags",
     "Evening": "Abends",
@@ -1163,8 +1219,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "Abkühlphase ausschalten",
     "Stop requiring scroll ON for those apps": "Für diese Apps kein eingeschaltetes Scrollen mehr verlangen",
     "Remove apps from the scroll gate": "Apps aus der Scroll-Sperre entfernen",
-    "1 thing waiting on your shelf": "1 Sache wartet in deinem Regal",
-    "{count} things waiting on your shelf": "{count} Sachen warten in deinem Regal",
     "Added shelf {name}": "Regal {name} hinzugefügt",
     "File": "Datei",
     "Later": "Später",
@@ -1268,8 +1322,46 @@ const UI_I18N = {
     "Days (optional)": "Tage (optional)",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Je mehr du zu wann, an welchen Tagen und wie lange ausfüllst, desto leichter fällt der tatsächliche Einstieg — und eine Pause in diesem Zeitfenster greift zuerst darauf zurück.",
     "Goals": "Ziele",
-    "1 thing you want to get to": "1 Sache, die du dir vorgenommen hast",
-    "{count} things you want to get to": "{count} Sachen, die du dir vorgenommen hast",
+    "Not recorded": "Nicht erfasst",
+    "Not at all": "Gar nicht",
+    "Barely": "Kaum",
+    "Minimum done": "Minimum erledigt",
+    "Pretty good": "Ziemlich gut",
+    "Nailed it!": "Perfekt gemacht!",
+    "Note": "Notiz",
+    "Add something you want to work on, and it'll show up here to track.": "Füge etwas hinzu, woran du arbeiten möchtest, und es erscheint hier zur Verfolgung.",
+    "Date": "Datum",
+    "No records this month": "Keine Einträge in diesem Monat",
+    "Diary saved": "Tagebuch gespeichert",
+    "Active Days": "Aktive Tage",
+    "last {days}d": "letzte {days}T",
+    "Avg Score": "Ø-Wert",
+    "out of 5.0": "von 5,0",
+    "Top Category": "Top-Kategorie",
+    "avg": "Ø",
+    "no data": "keine Daten",
+    "Activity Heatmap": "Aktivitäts-Heatmap",
+    "Category Balance": "Kategorie-Balance",
+    "Progress Trend": "Fortschrittstrend",
+    "Best Day of Week": "Bester Wochentag",
+    "Streaks & Completion": "Serien & Abschluss",
+    "Level Distribution": "Stufenverteilung",
+    "Need 2+ categories": "Mind. 2 Kategorien nötig",
+    "Streak": "Serie",
+    "Best": "Beste",
+    "Days done": "Erledigte Tage",
+    "Rate": "Quote",
+    "History": "Verlauf",
+    "Diary": "Tagebuch",
+    "Stats": "Statistik",
+    "7 Days": "7 Tage",
+    "30 Days": "30 Tage",
+    "90 Days": "90 Tage",
+    "Previous day": "Vorheriger Tag",
+    "Next day": "Nächster Tag",
+    "Close note": "Notiz schließen",
+    "What happened today? Thoughts, feelings, reflections…": "Was ist heute passiert? Gedanken, Gefühle, Reflexionen…",
+    "Add a note for this day…": "Notiz für diesen Tag hinzufügen…",
   },
   fr: {
     "Scroll OFF": "Défil. DÉSACT.",
@@ -1334,12 +1426,9 @@ const UI_I18N = {
     "Turn ON": "Activer",
     "Unlock with Face ID / Fingerprint": "Déverrouiller avec Face ID / empreinte",
     "Choose your language": "Choisissez votre langue",
-    "Set up your PINs (optional)": "Configurez vos codes PIN (facultatif)",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Définissez un code PIN pour ouvrir MyHome Browser, et un autre pour activer le défilement. Laissez vide pour ignorer. Vous pourrez utiliser Face ID / l'empreinte à la place plus tard, dans les réglages.",
     "App Lock PIN (opens the app)": "PIN de verrouillage (ouvre l'app)",
     "Scroll PIN (turns scroll ON)": "PIN de défilement (active le défilement)",
     "Security question": "Question de sécurité",
-    "Select a question (optional)": "Sélectionner une question (facultatif)",
     "What was your first pet's name?": "Quel était le nom de votre premier animal de compagnie ?",
     "What is your mother's maiden name?": "Quel est le nom de jeune fille de votre mère ?",
     "What was the name of your first school?": "Quel était le nom de votre première école ?",
@@ -1347,7 +1436,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "Quel était votre surnom d'enfance ?",
     "What is your favorite food?": "Quel est votre plat préféré ?",
     "Answer": "Réponse",
-    "Skip": "Ignorer",
     "Save & Continue": "Enregistrer et continuer",
     "Which social media do you use?": "Quels réseaux sociaux utilisez-vous ?",
     "Choose the ones you want quick access to from your dock.": "Choisissez ceux auxquels vous voulez accéder rapidement depuis le dock.",
@@ -1419,7 +1507,6 @@ const UI_I18N = {
     "App Lock disabled": "Verrouillage de l'app désactivé",
     "Recovery question saved": "Question de récupération enregistrée",
     "Enter both a question and an answer": "Saisissez à la fois une question et une réponse",
-    "Fill in both the question and answer, or leave both blank": "Remplissez la question et la réponse, ou laissez les deux vides",
     "Setup complete": "Configuration terminée",
     "Scroll turned OFF": "Défilement désactivé",
     "Time's up — scroll switched back OFF": "Temps écoulé — le défilement a été désactivé",
@@ -1580,6 +1667,24 @@ const UI_I18N = {
     "Remove from your dictionary": "Retirer de votre dictionnaire",
     "Added to your dictionary": "Enregistré dans votre dictionnaire",
     "Removed from your dictionary": "Retiré de votre dictionnaire",
+    "Select a question (optional)": "Sélectionner une question (facultatif)",
+    "Set up your PINs": "Configurez vos codes PIN",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "Un code PIN pour ouvrir MyHome Browser, et un autre pour activer le défilement — les deux sont obligatoires, afin que la friction dont dépend cette application ne se réduise pas silencieusement à quelque chose de facile à deviner. Vous pourrez passer à Face ID / Empreinte digitale plus tard, dans les paramètres.",
+    "Select a question": "Sélectionner une question",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "Choisissez une question de sécurité et répondez-y, afin de pouvoir réinitialiser votre code PIN si vous l'oubliez.",
+    "Search results": "Résultats de recherche",
+    "Close search results": "Fermer les résultats de recherche",
+    "Searching…": "Recherche en cours…",
+    "Search failed: {message}": "Échec de la recherche : {message}",
+    "No results found.": "Aucun résultat trouvé.",
+    "Search results for \"{query}\"": "Résultats de recherche pour « {query} »",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Les termes de recherche saisis affichent les résultats Wikipédia sous forme de liste dans l'application — aucune configuration n'est nécessaire, mais seuls les articles Wikipédia sont recherchés, pas le web dans son ensemble. Saisir l'adresse d'un grand site qui refuse d'être affiché dans une autre page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) l'ouvre plutôt dans votre navigateur habituel — c'est la politique du site lui-même, pas quelque chose que cette application peut changer.",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "Le blocage des publicités n'arrête que les domaines publicitaires connus, pas les publicités d'une page déjà ouverte.",
+    "Save with your own note": "Enregistrer avec ma propre note",
+    "Your own note": "Votre propre note",
+    "Search shows Wikipedia results here. An address opens as a tab.": "La recherche affiche des résultats Wikipédia ici. Une adresse s'ouvre comme onglet.",
+    "Tap the star on a tab, or on a search result, to save it.": "Touchez l'étoile d'un onglet ou d'un résultat pour l'enregistrer.",
+    "The pencil on a search result lets you write your own note.": "Le crayon d'un résultat permet d'écrire votre propre note.",
     "Scroll is OFF": "Le défilement est désactivé",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Ces applis s'ouvrent dans votre navigateur habituel, où cette appli ne peut pas bloquer le défilement — elles restent donc fermées tant que le défilement est désactivé.",
     "Not now": "Pas maintenant",
@@ -1661,9 +1766,7 @@ const UI_I18N = {
     "Limits": "Limites",
     "{time} left": "{time} restant",
     "Add a shelf": "Ajouter une étagère",
-    "Search or type an address — it opens as a tab here.": "Cherchez ou saisissez une adresse : cela s'ouvre en onglet ici.",
     "One video or one post can show inside. A whole feed can't.": "Une vidéo ou un post s'affiche ici. Un fil entier, non.",
-    "Tap the star on a tab to keep that word in your dictionary.": "Touchez l'étoile d'un onglet pour garder ce mot.",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "Défilement désactivé : les applis cochées ne s'ouvrent pas.",
     "When time runs out, scroll goes OFF and opened tabs close.": "Temps écoulé : le défilement s'arrête et les onglets se ferment.",
     "Held items wait before they open — longest for gated apps.": "Ce qui est mis en attente patiente ; le plus long pour les applis filtrées.",
@@ -1671,7 +1774,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "Les pauses proposent votre projet, votre étagère ou un mot enregistré.",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "Assouplir une limite attend 24 h. Durcir est immédiat.",
     "Add to your home screen to receive from other apps' Share.": "Ajoutez-le à l'écran d'accueil pour recevoir via Partager.",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "Recherche via Bing. Le blocage n'arrête que les domaines publicitaires connus, pas les pubs d'une page déjà ouverte.",
     "Priority and Done decide what a break offers you next.": "La priorité et Terminé décident de ce que la prochaine pause proposera.",
     "Anything you feel like looking at, this holds for a moment first.": "Ce que vous avez envie de regarder patiente ici un instant.",
     "Interrupt me and offer something better to be doing": "M'interrompre et proposer mieux à faire",
@@ -1688,7 +1790,6 @@ const UI_I18N = {
     "{count} you set out to do": "{count} que vous vous étiez fixé",
     "This week: {count}": "Cette semaine : {count}",
     "{weeks} weeks ago: {count}": "Il y a {weeks} semaines : {count}",
-    "Nothing finished in the last two weeks yet.": "Rien de terminé ces deux dernières semaines pour l'instant.",
     "Morning": "Matin",
     "Afternoon": "Après-midi",
     "Evening": "Soir",
@@ -1746,8 +1847,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "Désactiver le délai de réflexion",
     "Stop requiring scroll ON for those apps": "Ne plus exiger le défilement activé pour ces applis",
     "Remove apps from the scroll gate": "Retirer des applis du filtre de défilement",
-    "1 thing waiting on your shelf": "1 chose vous attend sur votre étagère",
-    "{count} things waiting on your shelf": "{count} choses vous attendent sur votre étagère",
     "Added shelf {name}": "Étagère {name} ajoutée",
     "File": "Fichier",
     "Later": "Plus tard",
@@ -1851,8 +1950,46 @@ const UI_I18N = {
     "Days (optional)": "Jours (facultatif)",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Plus vous précisez quand, quels jours et combien de temps, plus il est facile de vraiment commencer — et une pause qui tombe dans ce créneau s'y réfère en premier.",
     "Goals": "Objectifs",
-    "1 thing you want to get to": "1 chose que vous voulez faire",
-    "{count} things you want to get to": "{count} choses que vous voulez faire",
+    "Not recorded": "Non enregistré",
+    "Not at all": "Pas du tout",
+    "Barely": "À peine",
+    "Minimum done": "Minimum fait",
+    "Pretty good": "Plutôt bien",
+    "Nailed it!": "Parfaitement réussi !",
+    "Note": "Note",
+    "Add something you want to work on, and it'll show up here to track.": "Ajoutez quelque chose que vous voulez faire, et ça apparaîtra ici pour le suivre.",
+    "Date": "Date",
+    "No records this month": "Aucun enregistrement ce mois-ci",
+    "Diary saved": "Journal enregistré",
+    "Active Days": "Jours actifs",
+    "last {days}d": "derniers {days}j",
+    "Avg Score": "Score moyen",
+    "out of 5.0": "sur 5,0",
+    "Top Category": "Catégorie principale",
+    "avg": "moy.",
+    "no data": "aucune donnée",
+    "Activity Heatmap": "Carte d'activité",
+    "Category Balance": "Équilibre des catégories",
+    "Progress Trend": "Tendance de progression",
+    "Best Day of Week": "Meilleur jour de la semaine",
+    "Streaks & Completion": "Séries et réussite",
+    "Level Distribution": "Répartition des niveaux",
+    "Need 2+ categories": "Il faut 2 catégories ou plus",
+    "Streak": "Série",
+    "Best": "Meilleure",
+    "Days done": "Jours réussis",
+    "Rate": "Taux",
+    "History": "Historique",
+    "Diary": "Journal",
+    "Stats": "Statistiques",
+    "7 Days": "7 jours",
+    "30 Days": "30 jours",
+    "90 Days": "90 jours",
+    "Previous day": "Jour précédent",
+    "Next day": "Jour suivant",
+    "Close note": "Fermer la note",
+    "What happened today? Thoughts, feelings, reflections…": "Que s'est-il passé aujourd'hui ? Pensées, sentiments, réflexions…",
+    "Add a note for this day…": "Ajouter une note pour ce jour…",
   },
   ko: {
     "Scroll OFF": "스크롤 OFF",
@@ -1917,12 +2054,9 @@ const UI_I18N = {
     "Turn ON": "켜기",
     "Unlock with Face ID / Fingerprint": "Face ID / 지문으로 잠금 해제",
     "Choose your language": "언어를 선택하세요",
-    "Set up your PINs (optional)": "PIN 설정 (선택)",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "MyHome Browser를 여는 PIN과 스크롤을 켜는 PIN을 각각 설정합니다. 비워 두면 건너뜁니다. 나중에 설정에서 Face ID / 지문으로 바꿀 수도 있습니다.",
     "App Lock PIN (opens the app)": "앱 잠금 PIN (앱 열기용)",
     "Scroll PIN (turns scroll ON)": "스크롤 PIN (스크롤 켜기용)",
     "Security question": "보안 질문",
-    "Select a question (optional)": "질문 선택 (선택)",
     "What was your first pet's name?": "처음 키운 반려동물의 이름은?",
     "What is your mother's maiden name?": "어머니의 결혼 전 성은?",
     "What was the name of your first school?": "처음 다닌 학교의 이름은?",
@@ -1930,7 +2064,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "어릴 때 별명은?",
     "What is your favorite food?": "가장 좋아하는 음식은?",
     "Answer": "답",
-    "Skip": "건너뛰기",
     "Save & Continue": "저장하고 계속",
     "Which social media do you use?": "어떤 SNS를 사용하나요?",
     "Choose the ones you want quick access to from your dock.": "독에서 바로 열고 싶은 앱을 선택하세요.",
@@ -2002,7 +2135,6 @@ const UI_I18N = {
     "App Lock disabled": "앱 잠금을 껐습니다",
     "Recovery question saved": "복구 질문을 저장했습니다",
     "Enter both a question and an answer": "질문과 답을 모두 입력하세요",
-    "Fill in both the question and answer, or leave both blank": "질문과 답을 모두 입력하거나 둘 다 비워 두세요",
     "Setup complete": "설정이 완료되었습니다",
     "Scroll turned OFF": "스크롤을 껐습니다",
     "Time's up — scroll switched back OFF": "시간이 다 되어 스크롤을 다시 껐습니다",
@@ -2163,6 +2295,24 @@ const UI_I18N = {
     "Remove from your dictionary": "사전에서 삭제",
     "Added to your dictionary": "사전에 저장했습니다",
     "Removed from your dictionary": "사전에서 삭제했습니다",
+    "Select a question (optional)": "질문 선택 (선택)",
+    "Set up your PINs": "PIN 설정",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "MyHome Browser를 여는 PIN과, 스크롤을 켜는 별도의 PIN 모두 필수입니다 — 그렇지 않으면 이 앱이 의존하는 마찰이 누구나 짐작할 수 있는 값으로 슬며시 대체되어 버립니다. 나중에 설정에서 Face ID / 지문으로 바꿀 수 있습니다.",
+    "Select a question": "질문 선택",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "PIN을 잊어버렸을 때 재설정할 수 있도록, 보안 질문을 선택하고 답을 입력해 주세요.",
+    "Search results": "검색 결과",
+    "Close search results": "검색 결과 닫기",
+    "Searching…": "검색 중…",
+    "Search failed: {message}": "검색 실패: {message}",
+    "No results found.": "결과를 찾을 수 없습니다.",
+    "Search results for \"{query}\"": "\"{query}\" 검색 결과",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "입력한 검색어는 위키백과 검색 결과가 앱 내 목록으로 표시됩니다 — 별도 설정은 필요 없지만, 검색 대상은 위키백과 문서로 한정되며 웹 전체가 아닙니다. 다른 페이지 안에 표시되는 것을 거부하는 대형 사이트(Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo)의 주소를 직접 입력하면 대신 기본 브라우저에서 열립니다 — 이는 해당 사이트 자체의 정책이며 이 앱에서 바꿀 수 있는 부분이 아닙니다.",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "광고 차단은 알려진 광고 도메인만 막을 뿐, 이미 연 페이지 안의 광고는 없애지 못합니다.",
+    "Save with your own note": "직접 쓴 메모로 저장",
+    "Your own note": "직접 쓴 메모",
+    "Search shows Wikipedia results here. An address opens as a tab.": "검색은 여기 위키백과 결과로 나옵니다. 주소는 탭으로 열립니다.",
+    "Tap the star on a tab, or on a search result, to save it.": "탭이나 검색 결과의 별표를 누르면 저장됩니다.",
+    "The pencil on a search result lets you write your own note.": "검색 결과의 연필 아이콘으로 직접 메모를 쓸 수 있습니다.",
     "Scroll is OFF": "스크롤이 꺼져 있습니다",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "이 앱들은 일반 브라우저에서 열리고, 그곳에서는 스크롤 잠금을 유지할 수 없습니다. 그래서 스크롤이 꺼져 있는 동안에는 열리지 않습니다.",
     "Not now": "나중에",
@@ -2244,9 +2394,7 @@ const UI_I18N = {
     "Limits": "제한",
     "{time} left": "{time} 남음",
     "Add a shelf": "선반 추가",
-    "Search or type an address — it opens as a tab here.": "검색어나 주소를 입력하면 탭으로 여기 열립니다.",
     "One video or one post can show inside. A whole feed can't.": "영상 하나, 게시물 하나는 안에 보입니다. 피드 전체는 안 됩니다.",
-    "Tap the star on a tab to keep that word in your dictionary.": "탭의 별을 누르면 그 단어가 사전에 남습니다.",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "스크롤이 꺼져 있는 동안에는 설정에서 체크한 앱이 열리지 않습니다.",
     "When time runs out, scroll goes OFF and opened tabs close.": "시간이 끝나면 스크롤이 꺼지고 열린 탭도 닫힙니다.",
     "Held items wait before they open — longest for gated apps.": "맡긴 것은 열리기까지 기다립니다. 관문을 건 앱이 가장 깁니다.",
@@ -2254,7 +2402,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "휴식은 하고 싶은 일, 선반, 또는 저장한 단어를 권합니다.",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "제한을 느슨하게 하면 24시간 대기, 엄격하게 하면 즉시입니다.",
     "Add to your home screen to receive from other apps' Share.": "홈 화면에 추가하면 다른 앱의 공유에서 받을 수 있습니다.",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "검색은 Bing. 광고 차단은 알려진 광고 도메인만 막고, 이미 연 페이지의 광고는 없애지 못합니다.",
     "Priority and Done decide what a break offers you next.": "우선순위와 '완료'가 다음 휴식에서 무엇을 권할지 정합니다.",
     "Anything you feel like looking at, this holds for a moment first.": "보고 싶어진 것은 먼저 여기서 잠시 두고 결정합니다.",
     "Interrupt me and offer something better to be doing": "끼어들어 더 나은 할 일을 권하기",
@@ -2271,7 +2418,6 @@ const UI_I18N = {
     "{count} you set out to do": "스스로 정한 일 {count}건",
     "This week: {count}": "이번 주: {count}건",
     "{weeks} weeks ago: {count}": "{weeks}주 전: {count}건",
-    "Nothing finished in the last two weeks yet.": "지난 2주 동안 끝낸 것이 아직 없습니다.",
     "Morning": "아침",
     "Afternoon": "낮",
     "Evening": "저녁",
@@ -2329,8 +2475,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "머리를 식히는 시간 끄기",
     "Stop requiring scroll ON for those apps": "그 앱들에 스크롤 ON을 요구하지 않기",
     "Remove apps from the scroll gate": "스크롤 관문에서 앱 제외하기",
-    "1 thing waiting on your shelf": "선반에 1개가 기다리고 있습니다",
-    "{count} things waiting on your shelf": "선반에 {count}개가 기다리고 있습니다",
     "Added shelf {name}": "선반 {name} 추가됨",
     "File": "파일",
     "Later": "나중에 읽기",
@@ -2434,8 +2578,46 @@ const UI_I18N = {
     "Days (optional)": "요일 (선택 사항)",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "언제, 어떤 요일에, 얼마나 오래 할지를 더 많이 채울수록 실제로 시작하기 쉬워지고, 그 시간대에 맞는 휴식이 가장 먼저 이것을 제안합니다.",
     "Goals": "목표",
-    "1 thing you want to get to": "하고 싶은 일 1개",
-    "{count} things you want to get to": "하고 싶은 일 {count}개",
+    "Not recorded": "기록 없음",
+    "Not at all": "전혀 못함",
+    "Barely": "조금 부족",
+    "Minimum done": "최소한 완료",
+    "Pretty good": "꽤 잘함",
+    "Nailed it!": "완벽하게 해냄!",
+    "Note": "메모",
+    "Add something you want to work on, and it'll show up here to track.": "하고 싶은 일을 추가하면 여기에서 기록할 수 있어요.",
+    "Date": "날짜",
+    "No records this month": "이번 달 기록 없음",
+    "Diary saved": "일기가 저장되었습니다",
+    "Active Days": "활동한 날",
+    "last {days}d": "최근 {days}일",
+    "Avg Score": "평균 점수",
+    "out of 5.0": "/ 5.0",
+    "Top Category": "최고 카테고리",
+    "avg": "평균",
+    "no data": "데이터 없음",
+    "Activity Heatmap": "활동 히트맵",
+    "Category Balance": "카테고리 균형",
+    "Progress Trend": "진행 추세",
+    "Best Day of Week": "최고의 요일",
+    "Streaks & Completion": "연속 기록 및 달성률",
+    "Level Distribution": "레벨 분포",
+    "Need 2+ categories": "카테고리가 2개 이상 필요합니다",
+    "Streak": "연속 기록",
+    "Best": "최고 기록",
+    "Days done": "완료한 날",
+    "Rate": "달성률",
+    "History": "기록",
+    "Diary": "일기",
+    "Stats": "통계",
+    "7 Days": "7일",
+    "30 Days": "30일",
+    "90 Days": "90일",
+    "Previous day": "이전 날",
+    "Next day": "다음 날",
+    "Close note": "메모 닫기",
+    "What happened today? Thoughts, feelings, reflections…": "오늘 무슨 일이 있었나요? 생각, 감정, 성찰…",
+    "Add a note for this day…": "이 날의 메모를 추가하세요…",
   },
   zh: {
     "Scroll OFF": "滚动 关闭",
@@ -2500,12 +2682,9 @@ const UI_I18N = {
     "Turn ON": "开启",
     "Unlock with Face ID / Fingerprint": "使用面容 / 指纹解锁",
     "Choose your language": "选择语言",
-    "Set up your PINs (optional)": "设置 PIN（可选）",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "分别设置打开 MyHome Browser 的 PIN 和开启滚动的 PIN。留空即可跳过。之后也可以在设置中改用面容 / 指纹。",
     "App Lock PIN (opens the app)": "应用锁 PIN（用于打开应用）",
     "Scroll PIN (turns scroll ON)": "滚动 PIN（用于开启滚动）",
     "Security question": "安全问题",
-    "Select a question (optional)": "选择一个问题（可选）",
     "What was your first pet's name?": "你第一只宠物叫什么名字？",
     "What is your mother's maiden name?": "你母亲的婚前姓氏是什么？",
     "What was the name of your first school?": "你就读的第一所学校叫什么？",
@@ -2513,7 +2692,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "你小时候的绰号是什么？",
     "What is your favorite food?": "你最喜欢的食物是什么？",
     "Answer": "答案",
-    "Skip": "跳过",
     "Save & Continue": "保存并继续",
     "Which social media do you use?": "你使用哪些社交应用？",
     "Choose the ones you want quick access to from your dock.": "请选择希望在下方栏中快速打开的应用。",
@@ -2585,7 +2763,6 @@ const UI_I18N = {
     "App Lock disabled": "已停用应用锁",
     "Recovery question saved": "找回问题已保存",
     "Enter both a question and an answer": "请同时填写问题和答案",
-    "Fill in both the question and answer, or leave both blank": "问题和答案请同时填写，或同时留空",
     "Setup complete": "设置已完成",
     "Scroll turned OFF": "已关闭滚动",
     "Time's up — scroll switched back OFF": "时间到，滚动已关闭",
@@ -2746,6 +2923,24 @@ const UI_I18N = {
     "Remove from your dictionary": "从词典中删除",
     "Added to your dictionary": "已保存到词典",
     "Removed from your dictionary": "已从词典中删除",
+    "Select a question (optional)": "选择一个问题（可选）",
+    "Set up your PINs": "设置 PIN",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "打开 MyHome Browser 需要一个 PIN，打开滚动需要另一个 PIN——两者都是必填项，这样这个应用所依赖的阻力才不会悄悄退化成一个谁都能猜到的值。之后你可以在设置里改用 Face ID / 指纹。",
+    "Select a question": "选择一个问题",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "请选择一个安全问题并作答，这样万一忘记 PIN 时可以重新设置。",
+    "Search results": "搜索结果",
+    "Close search results": "关闭搜索结果",
+    "Searching…": "搜索中…",
+    "Search failed: {message}": "搜索失败：{message}",
+    "No results found.": "未找到结果。",
+    "Search results for \"{query}\"": "“{query}”的搜索结果",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "输入的搜索词会以列表形式显示维基百科的搜索结果——无需任何设置，但只能搜索维基百科的条目，而非整个网络。如果直接输入拒绝在其他页面中显示的大型网站地址（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo），则会改为在你的常规浏览器中打开——这是该网站自身的政策，本应用无法更改。",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "广告拦截只会阻止已知的广告域名，无法去除已经打开的页面中的广告。",
+    "Save with your own note": "用自己写的备注保存",
+    "Your own note": "你自己写的备注",
+    "Search shows Wikipedia results here. An address opens as a tab.": "搜索会在这里显示维基百科结果，网址则会作为标签页打开。",
+    "Tap the star on a tab, or on a search result, to save it.": "点击标签页或搜索结果上的星标即可保存。",
+    "The pencil on a search result lets you write your own note.": "点击搜索结果上的铅笔图标可以写下自己的备注。",
     "Scroll is OFF": "滚动已关闭",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "这些应用会在你的常规浏览器中打开，本应用无法在那里保持滚动锁定，因此滚动关闭期间它们不会打开。",
     "Not now": "暂时不用",
@@ -2827,9 +3022,7 @@ const UI_I18N = {
     "Limits": "限制",
     "{time} left": "剩余 {time}",
     "Add a shelf": "添加书架",
-    "Search or type an address — it opens as a tab here.": "搜索或输入网址，会以标签页在这里打开。",
     "One video or one post can show inside. A whole feed can't.": "单个视频或单条帖子可以显示在内，整个信息流不行。",
-    "Tap the star on a tab to keep that word in your dictionary.": "点击标签页上的星标，可把该词存入词典。",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "滚动关闭期间，你在设置中勾选的应用不会打开。",
     "When time runs out, scroll goes OFF and opened tabs close.": "时间到后，滚动会关闭，打开的标签页也会关掉。",
     "Held items wait before they open — longest for gated apps.": "寄存的内容要等一会儿才能打开，被设门槛的应用等最久。",
@@ -2837,7 +3030,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "休息会推荐你想做的事、书架，或收藏的词。",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "放宽限制需等24小时，收紧则立即生效。",
     "Add to your home screen to receive from other apps' Share.": "添加到主屏幕后，就能从其他应用的分享中接收内容。",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "搜索使用 Bing。广告拦截只阻止已知广告域名，无法去除已打开页面里的广告。",
     "Priority and Done decide what a break offers you next.": "优先级和「完成」决定下次休息推荐什么。",
     "Anything you feel like looking at, this holds for a moment first.": "想看的东西，会先在这里停一会儿再决定。",
     "Interrupt me and offer something better to be doing": "打断我，并推荐更值得做的事",
@@ -2854,7 +3046,6 @@ const UI_I18N = {
     "{count} you set out to do": "自己定下的 {count} 项",
     "This week: {count}": "本周：{count}",
     "{weeks} weeks ago: {count}": "{weeks} 周前：{count}",
-    "Nothing finished in the last two weeks yet.": "过去两周还没有完成的内容。",
     "Morning": "早晨",
     "Afternoon": "白天",
     "Evening": "傍晚",
@@ -2912,8 +3103,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "关闭冷静期",
     "Stop requiring scroll ON for those apps": "不再要求这些应用需开启滚动",
     "Remove apps from the scroll gate": "从滚动门槛中移除应用",
-    "1 thing waiting on your shelf": "书架上有1项等待处理",
-    "{count} things waiting on your shelf": "书架上有{count}项等待处理",
     "Added shelf {name}": "已添加书架 {name}",
     "File": "文件",
     "Later": "稍后再读",
@@ -3017,8 +3206,46 @@ const UI_I18N = {
     "Days (optional)": "星期（可选）",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "关于何时、哪几天、需要多久，填写得越具体，就越容易真正开始行动——落在那个时间段的休息也会优先推荐它。",
     "Goals": "目标",
-    "1 thing you want to get to": "1件想做的事",
-    "{count} things you want to get to": "{count}件想做的事",
+    "Not recorded": "未记录",
+    "Not at all": "完全没有",
+    "Barely": "几乎没有",
+    "Minimum done": "完成最低限度",
+    "Pretty good": "相当不错",
+    "Nailed it!": "完美完成！",
+    "Note": "备注",
+    "Add something you want to work on, and it'll show up here to track.": "添加你想努力做的事情，它就会出现在这里供你记录。",
+    "Date": "日期",
+    "No records this month": "本月没有记录",
+    "Diary saved": "日记已保存",
+    "Active Days": "活跃天数",
+    "last {days}d": "最近{days}天",
+    "Avg Score": "平均分",
+    "out of 5.0": "满分5.0",
+    "Top Category": "最佳类别",
+    "avg": "平均",
+    "no data": "暂无数据",
+    "Activity Heatmap": "活动热力图",
+    "Category Balance": "类别平衡",
+    "Progress Trend": "进度趋势",
+    "Best Day of Week": "表现最佳的星期",
+    "Streaks & Completion": "连续记录与完成率",
+    "Level Distribution": "等级分布",
+    "Need 2+ categories": "需要2个以上类别",
+    "Streak": "连续",
+    "Best": "最长",
+    "Days done": "完成天数",
+    "Rate": "完成率",
+    "History": "历史",
+    "Diary": "日记",
+    "Stats": "统计",
+    "7 Days": "7天",
+    "30 Days": "30天",
+    "90 Days": "90天",
+    "Previous day": "前一天",
+    "Next day": "后一天",
+    "Close note": "关闭备注",
+    "What happened today? Thoughts, feelings, reflections…": "今天发生了什么？想法、感受、反思……",
+    "Add a note for this day…": "为这一天添加备注……",
   },
   es: {
     "Scroll OFF": "Scroll DESACT.",
@@ -3083,12 +3310,9 @@ const UI_I18N = {
     "Turn ON": "Activar",
     "Unlock with Face ID / Fingerprint": "Desbloquear con Face ID / huella",
     "Choose your language": "Elige tu idioma",
-    "Set up your PINs (optional)": "Configura tus PIN (opcional)",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "Define un PIN para abrir MyHome Browser y otro distinto para activar el scroll. Deja cualquiera en blanco para omitirlo. Más adelante puedes usar Face ID / huella desde Ajustes.",
     "App Lock PIN (opens the app)": "PIN de bloqueo (para abrir la app)",
     "Scroll PIN (turns scroll ON)": "PIN de scroll (para activarlo)",
     "Security question": "Pregunta de seguridad",
-    "Select a question (optional)": "Elige una pregunta (opcional)",
     "What was your first pet's name?": "¿Cómo se llamaba tu primera mascota?",
     "What is your mother's maiden name?": "¿Cuál es el apellido de soltera de tu madre?",
     "What was the name of your first school?": "¿Cómo se llamaba tu primera escuela?",
@@ -3096,7 +3320,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "¿Cuál era tu apodo de niño?",
     "What is your favorite food?": "¿Cuál es tu comida favorita?",
     "Answer": "Respuesta",
-    "Skip": "Omitir",
     "Save & Continue": "Guardar y continuar",
     "Which social media do you use?": "¿Qué redes sociales usas?",
     "Choose the ones you want quick access to from your dock.": "Elige las que quieras tener a mano en el dock.",
@@ -3168,7 +3391,6 @@ const UI_I18N = {
     "App Lock disabled": "Bloqueo de la app desactivado",
     "Recovery question saved": "Pregunta de recuperación guardada",
     "Enter both a question and an answer": "Introduce la pregunta y la respuesta",
-    "Fill in both the question and answer, or leave both blank": "Rellena la pregunta y la respuesta, o deja las dos en blanco",
     "Setup complete": "Configuración completada",
     "Scroll turned OFF": "Scroll desactivado",
     "Time's up — scroll switched back OFF": "Se acabó el tiempo: el scroll se ha desactivado",
@@ -3329,6 +3551,24 @@ const UI_I18N = {
     "Remove from your dictionary": "Quitar de tu diccionario",
     "Added to your dictionary": "Guardado en tu diccionario",
     "Removed from your dictionary": "Quitado de tu diccionario",
+    "Select a question (optional)": "Elige una pregunta (opcional)",
+    "Set up your PINs": "Configura tus PIN",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "Un PIN para abrir MyHome Browser y otro distinto para activar el scroll — ambos obligatorios, para que la fricción de la que depende esta app no termine siendo, en silencio, algo fácil de adivinar. Más adelante puedes cambiar a Face ID / huella en Ajustes.",
+    "Select a question": "Elige una pregunta",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "Elige una pregunta de seguridad y respóndela, para poder restablecer tu PIN si lo olvidas.",
+    "Search results": "Resultados de búsqueda",
+    "Close search results": "Cerrar resultados de búsqueda",
+    "Searching…": "Buscando…",
+    "Search failed: {message}": "Error en la búsqueda: {message}",
+    "No results found.": "No se encontraron resultados.",
+    "Search results for \"{query}\"": "Resultados de búsqueda de \"{query}\"",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "Los términos de búsqueda escritos muestran resultados de Wikipedia como una lista dentro de la app — no requiere configuración, pero solo busca artículos de Wikipedia, no la web en general. Escribir la dirección de un sitio grande que se niega a mostrarse dentro de otra página (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) lo abre en tu navegador habitual — es la política del propio sitio, no algo que esta app pueda cambiar.",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "El bloqueo de anuncios solo detiene dominios de anuncios conocidos, no los anuncios de una página que ya abriste.",
+    "Save with your own note": "Guardar con mi propia nota",
+    "Your own note": "Tu propia nota",
+    "Search shows Wikipedia results here. An address opens as a tab.": "La búsqueda muestra resultados de Wikipedia aquí. Una dirección se abre como pestaña.",
+    "Tap the star on a tab, or on a search result, to save it.": "Toca la estrella de una pestaña o resultado para guardarlo.",
+    "The pencil on a search result lets you write your own note.": "El lápiz de un resultado te permite escribir tu propia nota.",
     "Scroll is OFF": "El scroll está desactivado",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "Estas apps se abren en tu navegador normal, donde esta app no puede mantener bloqueado el scroll, así que permanecen cerradas mientras el scroll está desactivado.",
     "Not now": "Ahora no",
@@ -3410,9 +3650,7 @@ const UI_I18N = {
     "Limits": "Límites",
     "{time} left": "Quedan {time}",
     "Add a shelf": "Añadir un estante",
-    "Search or type an address — it opens as a tab here.": "Busca o escribe una dirección: se abre como pestaña aquí.",
     "One video or one post can show inside. A whole feed can't.": "Un vídeo o una publicación sí caben dentro. Un feed entero no.",
-    "Tap the star on a tab to keep that word in your dictionary.": "Toca la estrella de una pestaña para guardar esa palabra.",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "Con el scroll desactivado, las apps marcadas no se abren.",
     "When time runs out, scroll goes OFF and opened tabs close.": "Al acabarse el tiempo, el scroll se apaga y las pestañas se cierran.",
     "Held items wait before they open — longest for gated apps.": "Lo retenido espera antes de abrirse; más las apps filtradas.",
@@ -3420,7 +3658,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "Las pausas ofrecen lo que te propusiste, tu estante o una palabra guardada.",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "Aflojar un límite espera 24 horas. Endurecerlo es inmediato.",
     "Add to your home screen to receive from other apps' Share.": "Añádelo a la pantalla de inicio para recibir desde Compartir.",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "Usa Bing. El bloqueo solo frena dominios de anuncios conocidos, no los anuncios de una página ya abierta.",
     "Priority and Done decide what a break offers you next.": "La prioridad y Hecho deciden qué te ofrecerá la próxima pausa.",
     "Anything you feel like looking at, this holds for a moment first.": "Lo que te apetezca mirar, esto lo retiene un momento primero.",
     "Interrupt me and offer something better to be doing": "Interrumpirme y ofrecerme algo mejor que hacer",
@@ -3437,7 +3674,6 @@ const UI_I18N = {
     "{count} you set out to do": "{count} que te propusiste",
     "This week: {count}": "Esta semana: {count}",
     "{weeks} weeks ago: {count}": "Hace {weeks} semanas: {count}",
-    "Nothing finished in the last two weeks yet.": "Aún no has terminado nada en las dos últimas semanas.",
     "Morning": "Mañana",
     "Afternoon": "Tarde",
     "Evening": "Noche",
@@ -3495,8 +3731,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "Desactivar el periodo de reflexión",
     "Stop requiring scroll ON for those apps": "Dejar de exigir scroll activado para esas apps",
     "Remove apps from the scroll gate": "Quitar apps del filtro de scroll",
-    "1 thing waiting on your shelf": "1 cosa esperando en tu estante",
-    "{count} things waiting on your shelf": "{count} cosas esperando en tu estante",
     "Added shelf {name}": "Estante {name} añadido",
     "File": "Archivo",
     "Later": "Más tarde",
@@ -3600,8 +3834,46 @@ const UI_I18N = {
     "Days (optional)": "Días (opcional)",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "Cuanto más completes sobre cuándo, qué días y cuánto dura, más fácil será empezar de verdad, y una pausa que caiga en esa franja lo ofrecerá primero.",
     "Goals": "Metas",
-    "1 thing you want to get to": "1 cosa que quieres hacer",
-    "{count} things you want to get to": "{count} cosas que quieres hacer",
+    "Not recorded": "No registrado",
+    "Not at all": "Nada en absoluto",
+    "Barely": "Apenas",
+    "Minimum done": "Mínimo hecho",
+    "Pretty good": "Bastante bien",
+    "Nailed it!": "¡Perfecto!",
+    "Note": "Nota",
+    "Add something you want to work on, and it'll show up here to track.": "Añade algo en lo que quieras trabajar, y aparecerá aquí para hacer seguimiento.",
+    "Date": "Fecha",
+    "No records this month": "Sin registros este mes",
+    "Diary saved": "Diario guardado",
+    "Active Days": "Días activos",
+    "last {days}d": "últimos {days}d",
+    "Avg Score": "Puntuación media",
+    "out of 5.0": "de 5.0",
+    "Top Category": "Categoría principal",
+    "avg": "media",
+    "no data": "sin datos",
+    "Activity Heatmap": "Mapa de actividad",
+    "Category Balance": "Equilibrio de categorías",
+    "Progress Trend": "Tendencia de progreso",
+    "Best Day of Week": "Mejor día de la semana",
+    "Streaks & Completion": "Rachas y cumplimiento",
+    "Level Distribution": "Distribución de niveles",
+    "Need 2+ categories": "Se necesitan 2+ categorías",
+    "Streak": "Racha",
+    "Best": "Mejor",
+    "Days done": "Días completados",
+    "Rate": "Tasa",
+    "History": "Historial",
+    "Diary": "Diario",
+    "Stats": "Estadísticas",
+    "7 Days": "7 días",
+    "30 Days": "30 días",
+    "90 Days": "90 días",
+    "Previous day": "Día anterior",
+    "Next day": "Día siguiente",
+    "Close note": "Cerrar nota",
+    "What happened today? Thoughts, feelings, reflections…": "¿Qué pasó hoy? Pensamientos, sentimientos, reflexiones…",
+    "Add a note for this day…": "Añade una nota para este día…",
   },
   ja: {
     // ---- トップバー / 共通 ----
@@ -3673,12 +3945,9 @@ const UI_I18N = {
     "Unlock with Face ID / Fingerprint": "Face ID / 指紋認証で解除",
     // ---- オンボーディング ----
     "Choose your language": "言語を選んでください",
-    "Set up your PINs (optional)": "PINを設定する（任意）",
-    "Set a PIN to open MyHome Browser, and a separate PIN to turn scroll ON. Leave either blank to skip it. You can turn on Face ID / Fingerprint instead later, in Settings.": "MyHome Browserを開くためのPINと、スクロールをONにするためのPINをそれぞれ設定します。空欄のままにすれば省略できます。あとから設定でFace ID / 指紋認証に切り替えることもできます。",
     "App Lock PIN (opens the app)": "アプリロックPIN（アプリを開く用）",
     "Scroll PIN (turns scroll ON)": "スクロールPIN（スクロールON用）",
     "Security question": "秘密の質問",
-    "Select a question (optional)": "質問を選ぶ（任意）",
     "What was your first pet's name?": "最初に飼ったペットの名前は？",
     "What is your mother's maiden name?": "母親の旧姓は？",
     "What was the name of your first school?": "最初に通った学校の名前は？",
@@ -3686,7 +3955,6 @@ const UI_I18N = {
     "What was your childhood nickname?": "子どもの頃のあだ名は？",
     "What is your favorite food?": "好きな食べ物は？",
     "Answer": "答え",
-    "Skip": "スキップ",
     "Save & Continue": "保存して次へ",
     "Which social media do you use?": "どのSNSを使っていますか？",
     "Choose the ones you want quick access to from your dock.": "ドックからすぐ開けるようにしたいものを選んでください。",
@@ -3761,7 +4029,6 @@ const UI_I18N = {
     "App Lock disabled": "アプリロックを無効にしました",
     "Recovery question saved": "秘密の質問を保存しました",
     "Enter both a question and an answer": "質問と答えの両方を入力してください",
-    "Fill in both the question and answer, or leave both blank": "質問と答えは両方入力するか、両方空欄にしてください",
     "Setup complete": "設定が完了しました",
     "Scroll turned OFF": "スクロールをOFFにしました",
     "Time's up — scroll switched back OFF": "時間になったのでスクロールをOFFに戻しました",
@@ -3922,6 +4189,24 @@ const UI_I18N = {
     "Remove from your dictionary": "辞書から削除",
     "Added to your dictionary": "辞書に保存しました",
     "Removed from your dictionary": "辞書から削除しました",
+    "Select a question (optional)": "質問を選ぶ（任意）",
+    "Set up your PINs": "PINを設定する",
+    "A PIN to open MyHome Browser, and a separate PIN to turn scroll ON — both required, so the friction this app relies on can't quietly default to something guessable. You can switch to Face ID / Fingerprint instead later, in Settings.": "MyHome Browserを開くPINと、スクロールをONにする別のPIN、どちらも必須です。空欄のままだと、このアプリが頼りにしている「一手間」が、誰でも見破れる値のまま静かに骨抜きになってしまうためです。後から設定でFace ID・指紋に切り替えることもできます。",
+    "Select a question": "質問を選ぶ",
+    "Choose a security question and answer it, so you can reset your PIN if you forget it": "PINを忘れたときに再設定できるよう、秘密の質問を選んで答えを入力してください。",
+    "Search results": "検索結果",
+    "Close search results": "検索結果を閉じる",
+    "Searching…": "検索中…",
+    "Search failed: {message}": "検索に失敗しました: {message}",
+    "No results found.": "結果が見つかりませんでした。",
+    "Search results for \"{query}\"": "「{query}」の検索結果",
+    "Typed search terms show Wikipedia results as a list inside the app — no setup needed, but only Wikipedia articles, not the wider web. Typing the address of a big site that refuses to be shown inside another page (Google, Instagram, Facebook, X, TikTok, YouTube, DuckDuckGo) opens it in your regular browser instead — that's the site's own policy, not something this app can change.": "検索語を入力すると、Wikipediaの検索結果がアプリ内の一覧として表示されます — 設定は不要ですが、検索できるのはWikipediaの記事のみで、Web全体ではありません。他のページの中に表示されることを拒否している大手サイト（Google、Instagram、Facebook、X、TikTok、YouTube、DuckDuckGo）のアドレスを直接入力した場合は、代わりに通常のブラウザで開きます。これはそのサイト自身の方針であり、このアプリ側で変えられるものではありません。",
+    "Ad blocking only stops known ad domains, not ads on a page you already opened.": "広告ブロックは既知の広告ドメインを止めるだけで、すでに開いたページ内の広告は消せません。",
+    "Save with your own note": "自分のメモで保存",
+    "Your own note": "自分で書くメモ",
+    "Search shows Wikipedia results here. An address opens as a tab.": "検索はここにWikipediaの結果が出ます。アドレスはタブとして開きます。",
+    "Tap the star on a tab, or on a search result, to save it.": "タブや検索結果の星をタップすると保存できます。",
+    "The pencil on a search result lets you write your own note.": "検索結果の鉛筆マークから、自分の言葉でメモを書けます。",
     "Scroll is OFF": "スクロールはOFFです",
     "These apps open in your normal browser, where this app can't keep scroll locked — so while scroll is OFF they stay closed.": "これらのアプリは通常のブラウザで開くため、このアプリからスクロールを止められません。そのため、スクロールOFFの間は開かないようにしています。",
     "Not now": "いまはやめておく",
@@ -4003,9 +4288,7 @@ const UI_I18N = {
     "Limits": "制限",
     "{time} left": "残り{time}",
     "Add a shelf": "棚を増やす",
-    "Search or type an address — it opens as a tab here.": "検索かアドレスを入力すると、タブとしてここに開きます。",
     "One video or one post can show inside. A whole feed can't.": "動画1本・投稿1件なら中に出せます。フィード全体は無理です。",
-    "Tap the star on a tab to keep that word in your dictionary.": "タブの星を押すと、その言葉を辞書に残せます。",
     "While scroll is OFF, the apps you ticked in Settings won't open.": "スクロールOFFの間は、設定でチェックしたアプリは開きません。",
     "When time runs out, scroll goes OFF and opened tabs close.": "時間が切れるとスクロールはOFFに戻り、開いたタブも閉じます。",
     "Held items wait before they open — longest for gated apps.": "預けたものは開くまで待たされます。ゲート対象ほど長く待ちます。",
@@ -4013,7 +4296,6 @@ const UI_I18N = {
     "Breaks offer what you set out to do, your shelf, or a saved word.": "休憩は、頑張りたいこと・本棚・辞書の言葉のいずれかを差し出します。",
     "Loosening a limit waits 24 hours. Tightening is immediate.": "制限を緩める変更は24時間待ち。厳しくする変更はすぐ効きます。",
     "Add to your home screen to receive from other apps' Share.": "ホーム画面に追加すると、他アプリの共有から受け取れます。",
-    "Runs on Bing. Ad blocking only stops known ad domains, not ads on a page you already opened.": "検索はBing。広告ブロックは既知の広告ドメインを止めるだけで、開いたページ内の広告は消せません。",
     "Priority and Done decide what a break offers you next.": "優先度と「済」が、次に休憩で差し出されるものを決めます。",
     "Anything you feel like looking at, this holds for a moment first.": "見たくなったものは、まずここでひと呼吸おいてから決めます。",
     "Interrupt me and offer something better to be doing": "割り込んで、やった方がいいことを差し出す",
@@ -4030,7 +4312,6 @@ const UI_I18N = {
     "{count} you set out to do": "自分で決めたこと{count}件",
     "This week: {count}": "今週: {count}件",
     "{weeks} weeks ago: {count}": "{weeks}週前: {count}件",
-    "Nothing finished in the last two weeks yet.": "この2週間で片付いたものはまだありません。",
     "Morning": "朝",
     "Afternoon": "昼",
     "Evening": "夕方〜夜",
@@ -4088,8 +4369,6 @@ const UI_I18N = {
     "Turn the cooling-off period off": "頭を冷やす時間を切る",
     "Stop requiring scroll ON for those apps": "アプリにスクロールONを求めるのをやめる",
     "Remove apps from the scroll gate": "スクロールONが必要なアプリを減らす",
-    "1 thing waiting on your shelf": "本棚に1件待っています",
-    "{count} things waiting on your shelf": "本棚に{count}件待っています",
     "Added shelf {name}": "棚「{name}」を追加しました",
     "File": "ファイル",
     "Later": "あとで読む",
@@ -4193,8 +4472,46 @@ const UI_I18N = {
     "Days (optional)": "曜日（任意）",
     "The more of when, which days and how long you fill in, the easier these are to actually start — and a break landing in that window reaches for them first.": "いつ・何曜日・どれくらいの時間かを埋めるほど、実際に始めやすくなります。その条件に合う休憩が来たときに真っ先に差し出されます。",
     "Goals": "頑張りたいこと",
-    "1 thing you want to get to": "頑張りたいことが1件",
-    "{count} things you want to get to": "頑張りたいことが{count}件",
+    "Not recorded": "未記録",
+    "Not at all": "まったくできなかった",
+    "Barely": "物足りない",
+    "Minimum done": "最低限できた",
+    "Pretty good": "まあまあ",
+    "Nailed it!": "よくできた",
+    "Note": "メモ",
+    "Add something you want to work on, and it'll show up here to track.": "頑張りたいことを追加すると、ここに表示されて記録できるようになります。",
+    "Date": "日付",
+    "No records this month": "この月の記録はありません",
+    "Diary saved": "日記を保存しました",
+    "Active Days": "記録日数",
+    "last {days}d": "過去{days}日",
+    "Avg Score": "平均スコア",
+    "out of 5.0": "/ 5.0",
+    "Top Category": "トップ",
+    "avg": "平均",
+    "no data": "データなし",
+    "Activity Heatmap": "アクティビティ",
+    "Category Balance": "カテゴリバランス",
+    "Progress Trend": "進捗トレンド",
+    "Best Day of Week": "曜日別パフォーマンス",
+    "Streaks & Completion": "ストリーク",
+    "Level Distribution": "レベル分布",
+    "Need 2+ categories": "2つ以上のカテゴリが必要です",
+    "Streak": "連続記録",
+    "Best": "最長記録",
+    "Days done": "達成日数",
+    "Rate": "達成率",
+    "History": "履歴",
+    "Diary": "日記",
+    "Stats": "統計",
+    "7 Days": "7日間",
+    "30 Days": "30日間",
+    "90 Days": "90日間",
+    "Previous day": "前の日",
+    "Next day": "次の日",
+    "Close note": "メモを閉じる",
+    "What happened today? Thoughts, feelings, reflections…": "今日の出来事、気づき、感想など…",
+    "Add a note for this day…": "この日のメモを入力…",
   },
 };
 
@@ -4796,35 +5113,17 @@ function initOnboarding() {
      一つでも書かせることで、以降の制限がその目標を守るための道具だと
      位置づけ直す。ここで足したものはそのまま頑張りたいことリストに入る。 */
   function renderOnboardingGoalsList() {
-    const list = document.getElementById("onboardingGoalsList");
-    const items = getAspirations();
-    list.innerHTML = "";
-    items.forEach((a) => {
-      const li = document.createElement("li");
-      const span = document.createElement("span");
-      span.textContent = a.text;
-      li.appendChild(span);
-      const btn = document.createElement("button");
-      btn.className = "remove-btn";
-      btn.type = "button";
-      btn.textContent = "×";
-      btn.setAttribute("aria-label", tf('Remove "{name}"', { name: a.text }));
-      btn.addEventListener("click", () => {
-        saveAspirations(getAspirations().filter((x) => x.id !== a.id));
-        renderOnboardingGoalsList();
-      });
-      li.appendChild(btn);
-      list.appendChild(li);
-    });
+    renderAspirationListInto("onboardingGoalsList", null);
   }
 
-  document.getElementById("onboardingGoalAddBtn").addEventListener("click", () => {
-    const input = document.getElementById("onboardingGoalInput");
-    const value = input.value.trim();
-    if (!value) return;
-    addAspiration(value, {});
-    input.value = "";
-    renderOnboardingGoalsList();
+  wireAspirationAddForm({
+    btn: "onboardingGoalAddBtn",
+    input: "onboardingGoalInput",
+    when: "onboardingGoalWhen",
+    dayRow: "onboardingGoalDayRow",
+    minutes: "onboardingGoalMinutes",
+    until: "onboardingGoalUntil",
+    onAdded: renderOnboardingGoalsList,
   });
 
   function goToPinStep() {
@@ -4841,38 +5140,33 @@ function initOnboarding() {
     renderOnboardingSnsList();
   }
 
-  document.getElementById("onboardingPinSkipBtn").addEventListener("click", goToSnsStep);
-
+  // 未設定のまま次へ進めると、getPin()/getAppLockPin()が既定値の"0000"に
+  // フォールバックし、本来ここにあるはずの摩擦が誰でも見破れる形で消えてしまう。
+  // そのため両方のPINと、復旧用の質問・答えを、ここで必須にする。
   document.getElementById("onboardingPinNextBtn").addEventListener("click", () => {
     const pin = document.getElementById("onboardingPinInput").value.trim();
     const question = document.getElementById("onboardingQuestionInput").value.trim();
     const answer = document.getElementById("onboardingAnswerInput").value.trim();
     const scrollPin = document.getElementById("onboardingScrollPinInput").value.trim();
 
-    if (pin && !/^\d{4}$/.test(pin)) {
+    if (!/^\d{4}$/.test(pin)) {
       showToast(t("App Lock PIN must be exactly 4 digits"));
       return;
     }
-    if (pin && Boolean(question) !== Boolean(answer)) {
-      showToast(t("Fill in both the question and answer, or leave both blank"));
+    if (!question || !answer) {
+      showToast(t("Choose a security question and answer it, so you can reset your PIN if you forget it"));
       return;
     }
-    if (scrollPin && !/^\d{4}$/.test(scrollPin)) {
+    if (!/^\d{4}$/.test(scrollPin)) {
       showToast(t("Scroll PIN must be exactly 4 digits"));
       return;
     }
 
-    if (pin) {
-      saveAppLockPin(pin);
-      saveAppLockEnabled(true);
-      if (question && answer) {
-        saveAppLockQuestion(question);
-        saveAppLockAnswer(answer);
-      }
-    }
-    if (scrollPin) {
-      savePin(scrollPin);
-    }
+    saveAppLockPin(pin);
+    saveAppLockEnabled(true);
+    saveAppLockQuestion(question);
+    saveAppLockAnswer(answer);
+    savePin(scrollPin);
     goToSnsStep();
   });
 
@@ -6574,6 +6868,7 @@ function refreshTranslatedViews() {
   renderWaitingRoomHome();
   renderShelfView();
   renderAspirationList();
+  refreshRoutineTrackerViews();
   renderDayToggleRows();
   renderIfThenList();
   renderPendingChanges();
@@ -8054,17 +8349,36 @@ function normalizeUrl(input) {
   return /^https?:\/\//i.test(input) ? input : `https://${input}`;
 }
 
-// APIキーなしで使える簡易検索として、Bingの検索結果ページを使う。DuckDuckGoは
-// /html/ 版も含めサイト全体でフレーム埋め込みを拒否するため使えなかった
-// （実際にヘッダーを確認: x-frame-options: SAMEORIGIN, frame-ancestors 'self'）。
-function buildSearchUrl(query) {
-  return `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+/* --------------------------------------------------------------------------
+   検索: Wikipedia API (action=query&list=search) を使う。
+   主要な検索エンジンのページ自体をiframeで開こうとするとX-Frame-Options等で
+   軒並み拒否される（DuckDuckGo/Google/Bing含む多くのサイトで確認済み）ため、
+   検索エンジンのページを埋め込むのではなく、JSON APIを直接叩いて結果を
+   アプリ自身のUIに一覧表示する方式にした。Wikipedia APIはCORS対応済み・
+   APIキー不要（ヘッダーで access-control-allow-origin: * を確認済み）なので、
+   ユーザー自身のAPIキー登録が要らない。一方でWikipedia内の記事しか検索
+   できない（一般的なWeb検索ではない）。
+   -------------------------------------------------------------------------- */
+function wikipediaApiUrl(query) {
+  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
+  return `https://${lang}.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=10&srsearch=${encodeURIComponent(query)}`;
+}
+function wikipediaArticleUrl(title) {
+  const lang = LANGUAGES.some((l) => l.code === currentLanguage) ? currentLanguage : "en";
+  return `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`;
+}
+// snippetにはWikipedia側が付けた<span class="searchmatch">等のHTMLが含まれるため、
+// 表示前にプレーンテキストへ落とす（未挿入のdivなのでscriptは実行されない）。
+function stripHtml(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || "";
 }
 
 function resolveNavigationUrl(input) {
   const trimmed = input.trim();
-  if (!trimmed) return null;
-  return looksLikeUrl(trimmed) ? normalizeUrl(trimmed) : buildSearchUrl(trimmed);
+  if (!trimmed || !looksLikeUrl(trimmed)) return null;
+  return normalizeUrl(trimmed);
 }
 
 function getBrowserTabs() {
@@ -8136,10 +8450,24 @@ function toEmbeddableUrl(url) {
   return null;
 }
 
+// アドレス欄・辞書・本棚などからの入力の入口。アドレスらしければ直接開き、
+// そうでなければ検索語として扱い、Wikipediaの結果一覧をアプリ内に出す
+// （検索エンジンのページそのものはiframe埋め込みを拒否するため）。
 function openTab(rawInput) {
   const raw = String(rawInput).trim();
-  const url = resolveNavigationUrl(raw);
-  if (!url) return;
+  if (!raw) return;
+  if (!looksLikeUrl(raw)) {
+    document.getElementById("searchInput").value = "";
+    performSearch(raw);
+    return;
+  }
+  document.getElementById("searchInput").value = "";
+  openResolvedTab(normalizeUrl(raw), "", "");
+}
+
+// URLをタブとして実際に開く共通処理。アドレス欄からの直接入力も、検索結果
+// 一覧からの「開く」も、ここを通る。titleを渡さなければホスト名を使う。
+function openResolvedTab(url, title, query) {
   if (isAdBlockedUrl(url)) {
     showToast(t("Blocked: this looks like an ad or tracking domain"));
     return;
@@ -8148,19 +8476,15 @@ function openTab(rawInput) {
   // 離れずに済む唯一の形なので、スクロールOFF中でもここだけは通す。
   const embed = toEmbeddableUrl(url);
   if (embed) {
-    const label = looksLikeUrl(raw) ? "" : raw;
-    openEmbedTab(embed.url, label || hostnameOf(url), embed.kind);
-    document.getElementById("searchInput").value = "";
+    openEmbedTab(embed.url, title || hostnameOf(url), embed.kind);
     return;
   }
   // アドレス欄や辞書から直接開こうとした場合も、ドックと同じ門をくぐらせる。
   if (isFeedBlocked(url)) {
-    openFeedBlockedModal({ name: hostnameOf(url), url });
-    document.getElementById("searchInput").value = "";
+    openFeedBlockedModal({ name: title || hostnameOf(url), url });
     return;
   }
   if (isNonEmbeddableUrl(url)) {
-    document.getElementById("searchInput").value = "";
     // 枠内に出せないサイトも、アプリの開き方の設定に合わせる。
     if (isOpenAppsInSameWindow()) {
       window.location.href = url;
@@ -8177,14 +8501,12 @@ function openTab(rawInput) {
   }
   // 検索して開いた場合は「調べた言葉」をタブに覚えておく。タブの見出しにも使い、
   // ☆で辞書に保存するときの見出し語の既定値にもなる。
-  const query = looksLikeUrl(raw) ? "" : raw;
   const tabs = getBrowserTabs();
-  const tab = { id: makeTabId(), url, title: query || hostnameOf(url) || url, query };
+  const tab = { id: makeTabId(), url, title: title || query || hostnameOf(url) || url, query: query || "" };
   tabs.push(tab);
   saveBrowserTabs(tabs);
   saveActiveTabId(tab.id);
   tabStripPage = tabStripPageForIndex(tabs.length - 1);
-  document.getElementById("searchInput").value = "";
   renderBrowser();
 }
 
@@ -8199,6 +8521,236 @@ function openEmbedTab(embedUrl, title, kind) {
   tabStripPage = tabStripPageForIndex(tabs.length - 1);
   renderBrowser();
   showToast(kind === "video" ? t("Playing here, without the feed") : t("Showing this post here, without the feed"));
+}
+
+/* --------------------------------------------------------------------------
+   検索結果一覧（Wikipedia API）。結果ページをiframeで開くのではなく、
+   JSON APIから受け取ったタイトル/抜粋/URLをこのアプリ自身の一覧UIで表示する。
+   行をタップすると初めてopenResolvedTab()でタブとして開く。星をタップすれば
+   タブを開かずその場で辞書に保存でき（ワンタッチ）、鉛筆から要約を自分の
+   言葉に書き換えてから保存することも任意でできる。
+   -------------------------------------------------------------------------- */
+let searchResultsPage = 0;
+let searchResultsQuery = "";
+let searchResultsItems = [];
+let searchResultsState = "idle"; // idle | loading | results | empty | error
+let searchResultsErrorMessage = "";
+let searchResultsRequestId = 0;
+let searchResultsNoteEditUrl = null; // 「自分で要約を書く」を開いている行のurl
+const SEARCH_RESULTS_FALLBACK_PER_PAGE = 4;
+const SEARCH_RESULTS_ROW_GAP = 8;
+
+async function performSearch(query) {
+  searchResultsQuery = query;
+  searchResultsPage = 0;
+  searchResultsNoteEditUrl = null;
+  const requestId = ++searchResultsRequestId;
+
+  searchResultsState = "loading";
+  searchResultsItems = [];
+  openSearchResultsModal();
+
+  try {
+    const res = await fetch(wikipediaApiUrl(query));
+    const data = await res.json().catch(() => ({}));
+    if (requestId !== searchResultsRequestId) return; // 別の検索が割り込んでいたら破棄
+
+    if (!res.ok || (data && data.error)) {
+      searchResultsState = "error";
+      searchResultsErrorMessage = (data && data.error && data.error.info) || `HTTP ${res.status}`;
+      searchResultsItems = [];
+    } else {
+      const results = (data.query && data.query.search) || [];
+      searchResultsItems = results.map((item) => ({
+        title: item.title,
+        snippet: stripHtml(item.snippet || ""),
+        url: wikipediaArticleUrl(item.title),
+        displayUrl: hostnameOf(wikipediaArticleUrl(item.title)),
+      }));
+      searchResultsState = searchResultsItems.length ? "results" : "empty";
+    }
+  } catch (e) {
+    if (requestId !== searchResultsRequestId) return;
+    searchResultsState = "error";
+    searchResultsErrorMessage = String((e && e.message) || e);
+    searchResultsItems = [];
+  }
+  renderSearchResults();
+}
+
+function buildSearchResultRow(item) {
+  const li = document.createElement("li");
+  li.className = "search-result-row";
+
+  const open = document.createElement("button");
+  open.type = "button";
+  open.className = "search-result-open-btn";
+  const title = document.createElement("span");
+  title.className = "search-result-title";
+  title.textContent = item.title;
+  const snippet = document.createElement("span");
+  snippet.className = "search-result-snippet";
+  snippet.textContent = item.snippet;
+  const url = document.createElement("span");
+  url.className = "search-result-url";
+  url.textContent = item.displayUrl;
+  open.append(title, snippet, url);
+  open.addEventListener("click", () => {
+    closeSearchResultsModal();
+    openResolvedTab(item.url, item.title, item.title);
+  });
+  li.appendChild(open);
+
+  const actions = document.createElement("span");
+  actions.className = "search-result-actions";
+
+  // ワンタッチ保存: 星をタップした瞬間に、タイトル・Wikipediaの抜粋・URLで
+  // そのまま辞書に入る。タブを開く必要はない。
+  const saved = isWordSaved(item.url);
+  const saveBtn = document.createElement("button");
+  saveBtn.type = "button";
+  saveBtn.className = "icon-btn search-result-save-btn" + (saved ? " is-active" : "");
+  saveBtn.textContent = saved ? "★" : "☆";
+  saveBtn.setAttribute("aria-label", saved ? t("Remove from your dictionary") : t("Save to your dictionary"));
+  saveBtn.addEventListener("click", () => {
+    if (isWordSaved(item.url)) {
+      removeDictEntryByUrl(item.url);
+      showToast(t("Removed from your dictionary"));
+    } else {
+      const result = addDictEntry({ word: item.title, note: item.snippet, url: item.url, group: 0 });
+      if (result.ok) celebrate(t("Added to your dictionary"));
+      else showToast(result.message);
+    }
+    searchResultsNoteEditUrl = null;
+    renderSearchResults();
+  });
+  actions.appendChild(saveBtn);
+
+  if (!saved) {
+    // 任意: Wikipediaの抜粋そのままではなく、自分の言葉で要約を書いてから保存したい場合。
+    const noteBtn = document.createElement("button");
+    noteBtn.type = "button";
+    noteBtn.className = "icon-btn search-result-note-btn";
+    noteBtn.textContent = "✎";
+    noteBtn.setAttribute("aria-label", t("Save with your own note"));
+    noteBtn.addEventListener("click", () => {
+      searchResultsNoteEditUrl = searchResultsNoteEditUrl === item.url ? null : item.url;
+      renderSearchResults();
+    });
+    actions.appendChild(noteBtn);
+  }
+  li.appendChild(actions);
+
+  if (searchResultsNoteEditUrl === item.url) {
+    const editor = document.createElement("div");
+    editor.className = "search-result-note-editor";
+    const textarea = document.createElement("textarea");
+    textarea.rows = 2;
+    textarea.maxLength = 500;
+    textarea.value = item.snippet;
+    textarea.setAttribute("aria-label", t("Your own note"));
+    editor.appendChild(textarea);
+
+    const actionsRow = document.createElement("div");
+    actionsRow.className = "modal-actions";
+    const cancelBtn = document.createElement("button");
+    cancelBtn.type = "button";
+    cancelBtn.className = "btn btn-secondary btn-small";
+    cancelBtn.textContent = t("Cancel");
+    cancelBtn.addEventListener("click", () => {
+      searchResultsNoteEditUrl = null;
+      renderSearchResults();
+    });
+    const saveNoteBtn = document.createElement("button");
+    saveNoteBtn.type = "button";
+    saveNoteBtn.className = "btn btn-small";
+    saveNoteBtn.textContent = t("Save");
+    saveNoteBtn.addEventListener("click", () => {
+      const result = addDictEntry({ word: item.title, note: textarea.value, url: item.url, group: 0 });
+      searchResultsNoteEditUrl = null;
+      if (result.ok) celebrate(t("Added to your dictionary"));
+      else showToast(result.message);
+      renderSearchResults();
+    });
+    actionsRow.append(cancelBtn, saveNoteBtn);
+    editor.appendChild(actionsRow);
+    li.appendChild(editor);
+  }
+
+  return li;
+}
+
+// 一覧に割り当てられている高さに何件入るかを実測して決める（他の一覧と同じ手法）。
+function measureSearchResultsPerPage(list, items) {
+  const available = list.clientHeight;
+  if (!available) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
+  list.appendChild(buildSearchResultRow(items[0]));
+  const rowHeight = list.firstElementChild.getBoundingClientRect().height;
+  list.innerHTML = "";
+  if (!rowHeight) return SEARCH_RESULTS_FALLBACK_PER_PAGE;
+  return Math.max(1, Math.floor((available + SEARCH_RESULTS_ROW_GAP) / (rowHeight + SEARCH_RESULTS_ROW_GAP)));
+}
+
+function renderSearchResults() {
+  const list = document.getElementById("searchResultsList");
+  const pagination = document.querySelector("#searchResultsModal .search-pagination");
+  const statusEl = document.getElementById("searchResultsStatus");
+  document.getElementById("searchResultsModalTitle").textContent =
+    tf('Search results for "{query}"', { query: searchResultsQuery });
+  list.innerHTML = "";
+  statusEl.hidden = true;
+
+  if (searchResultsState === "loading") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = t("Searching…");
+    return;
+  }
+  if (searchResultsState === "error") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = tf("Search failed: {message}", { message: searchResultsErrorMessage });
+    return;
+  }
+  if (searchResultsState === "empty") {
+    pagination.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = t("No results found.");
+    return;
+  }
+
+  const perPage = measureSearchResultsPerPage(list, searchResultsItems);
+  const totalPages = Math.max(1, Math.ceil(searchResultsItems.length / perPage));
+  if (searchResultsPage >= totalPages) searchResultsPage = totalPages - 1;
+  pagination.hidden = totalPages <= 1;
+
+  const start = searchResultsPage * perPage;
+  searchResultsItems.slice(start, start + perPage).forEach((item) => list.appendChild(buildSearchResultRow(item)));
+
+  document.getElementById("searchResultsPrevBtn").disabled = searchResultsPage === 0;
+  document.getElementById("searchResultsNextBtn").disabled = searchResultsPage >= totalPages - 1;
+  const pageNumbers = document.getElementById("searchResultsPageNumbers");
+  pageNumbers.innerHTML = "";
+  for (let i = 0; i < totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "page-number-btn" + (i === searchResultsPage ? " is-active" : "");
+    btn.textContent = String(i + 1);
+    btn.addEventListener("click", () => {
+      searchResultsPage = i;
+      renderSearchResults();
+    });
+    pageNumbers.appendChild(btn);
+  }
+}
+
+function openSearchResultsModal() {
+  renderSearchResults();
+  document.getElementById("searchResultsModal").hidden = false;
+}
+function closeSearchResultsModal() {
+  document.getElementById("searchResultsModal").hidden = true;
+  searchResultsNoteEditUrl = null;
 }
 
 function closeTab(id) {
@@ -9451,34 +10003,12 @@ function wrShowPanel(name) {
 
 function renderWaitingRoomHome() {
   if (wrBridge.today.date !== wrToday()) wrBridge.today = { date: wrToday(), count: 0 };
-  document.getElementById("wrStreak").textContent = wrBridge.streak.count;
-  document.getElementById("wrToday").textContent = wrBridge.today.count;
-  // 「我慢した分」ではなく「片付いた分」を出す。残るのはこちらなので。
-  const finished = wrReadShelf().books.filter((b) => b.done).length;
-  const aspirationDone = getAspirations().reduce((sum, a) => sum + (a.doneCount || 0), 0);
-  document.getElementById("wrFinished").textContent = finished + aspirationDone;
 
   document.getElementById("wrLead").textContent = wrMemoryOnly
     ? t("This device can't keep records (private browsing, perhaps).")
     : t("Anything you feel like looking at, this holds for a moment first.");
 
   renderLookBack();
-
-  const unfinished = wrReadShelf().books.filter((b) => !b.done).length;
-  const summaryBtn = document.getElementById("wrShelfSummaryBtn");
-  summaryBtn.hidden = unfinished === 0;
-  if (unfinished > 0) {
-    summaryBtn.textContent =
-      unfinished === 1 ? t("1 thing waiting on your shelf") : tf("{count} things waiting on your shelf", { count: unfinished });
-  }
-
-  const goalCount = getAspirations().length;
-  const goalsSummaryBtn = document.getElementById("wrGoalsSummaryBtn");
-  goalsSummaryBtn.hidden = goalCount === 0;
-  if (goalCount > 0) {
-    goalsSummaryBtn.textContent =
-      goalCount === 1 ? t("1 thing you want to get to") : tf("{count} things you want to get to", { count: goalCount });
-  }
 
   document.getElementById("wrFileLabel").hidden = !wrHasBox;
   if (wrHasBox) {
@@ -10118,13 +10648,11 @@ function initWaitingRoom() {
   migrateLegacyWallNames();
   if (wrHasBox) FileBox.askPersist();
   wrIntakeShared();
+  initRoutineTracker();
 
   document.getElementById("homeTabWait").addEventListener("click", () => wrShowPanel("wait"));
   document.getElementById("homeTabGoals").addEventListener("click", () => wrShowPanel("goals"));
   document.getElementById("homeTabShelf").addEventListener("click", () => wrShowPanel("shelf"));
-
-  document.getElementById("wrShelfSummaryBtn").addEventListener("click", () => wrShowPanel("shelf"));
-  document.getElementById("wrGoalsSummaryBtn").addEventListener("click", () => wrShowPanel("goals"));
 
   document.getElementById("shelfAddWallBtn").addEventListener("click", () => {
     const shelf = wrReadShelf();
@@ -10520,6 +11048,10 @@ function addAspiration(text, { when, days, place, minutes, until } = {}) {
     doneCount: 0,
   });
   saveAspirations(list);
+  // 頑張りたいことを追加したその場で、Routine Trackerのカードにも即座に反映する
+  // （Routine Trackerの「カテゴリ」は頑張りたいこと一覧を直接読むだけで、
+  // 別に登録し直す必要がない設計にしている）。
+  refreshRoutineTrackerViews();
 }
 
 // 「いつ・どの曜日」まで決まっているものほど実行しやすいので、いまに合うものを先に出す。
@@ -10615,6 +11147,7 @@ function renderAspirationListInto(listId, emptyId) {
       updated.splice(idx, 1);
       saveAspirations(updated);
       renderAspirationList();
+      renderAspirationListInto(listId, emptyId);
     });
     li.appendChild(btn);
     list.appendChild(li);
@@ -10659,6 +11192,7 @@ function buildDayToggleRow(containerId) {
 function renderDayToggleRows() {
   buildDayToggleRow("newAspirationDayRow");
   buildDayToggleRow("wrNewAspirationDayRow");
+  buildDayToggleRow("onboardingGoalDayRow");
 }
 
 function getSelectedDays(containerId) {
@@ -10700,7 +11234,650 @@ function wireAspirationAddForm(ids) {
       if (form) form.hidden = true;
       if (toggle) toggle.setAttribute("aria-expanded", "false");
     }
+    if (ids.onAdded) ids.onAdded();
   });
+}
+
+/* ==========================================================================
+   Routine Tracker（休憩所ホームの「連続日数・今日の回数・片付いた数」の
+   統計行を置き換える本体）。以前ここに置いていた指標は数字だけで、
+   「頑張りたいこと」を実際にやれたかどうかの記録にはならなかった。
+   ここでは頑張りたいこと一覧をそのままカテゴリとして読み、
+   別に登録し直すUIは持たない（追加すればその場でカードが増える）。
+   元にしたのは利用者が別途作っていたRoutineTrackerアプリで、
+   日/履歴/日記/統計の4画面と1〜5段階の進捗記録という構成をほぼそのまま踏襲した。
+   ========================================================================== */
+// 進捗の色（1=黒 2=白 3=黄 4=橙 5=赤）。元アプリの配色をそのまま踏襲。
+const ROUTINE_PROG_COLORS = ["", "#1e1e1e", "#f1f5f9", "#facc15", "#f97316", "#ef4444"];
+// カテゴリ（頑張りたいこと）ごとにグラフ上で見分けられるようにする配色。1色目はアプリのアクセント色。
+const ROUTINE_CAT_PALETTE = [
+  "#9ed17a", "#f43f5e", "#f97316", "#38bdf8", "#c084fc",
+  "#fbbf24", "#2dd4bf", "#f472b6", "#a3e635", "#94a3b8",
+];
+
+// HTML/SVGの文字列に利用者入力（頑張りたいことの文面やメモ）を埋め込む箇所があるため、
+// テキスト・属性値のどちらに使っても安全なように四種類ともエスケープしておく。
+function escapeHtml(str) {
+  return String(str == null ? "" : str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function routineProgLabel(level) {
+  const labels = [
+    t("Not recorded"),
+    t("Not at all"),
+    t("Barely"),
+    t("Minimum done"),
+    t("Pretty good"),
+    t("Nailed it!"),
+  ];
+  return labels[level] || labels[0];
+}
+
+// カテゴリは「頑張りたいこと」一覧をそのまま使う。ここで別のリストを持たせると
+// 追加のたびに二重登録・同期漏れが起きるため、常に生で読みに行く設計にしている。
+function routineCategories() {
+  return getAspirations();
+}
+
+function getRoutineRecords() {
+  const data = loadJSON(STORAGE_KEYS.routineRecords, {});
+  return data && typeof data === "object" ? data : {};
+}
+function saveRoutineRecords(data) {
+  saveJSON(STORAGE_KEYS.routineRecords, data);
+}
+function getRoutineRecord(dateStr, catId) {
+  const data = getRoutineRecords();
+  const day = data[dateStr] || {};
+  return day[catId] || { prog: 0, memo: "" };
+}
+function setRoutineProgress(dateStr, catId, val) {
+  const data = getRoutineRecords();
+  if (!data[dateStr]) data[dateStr] = {};
+  const cur = data[dateStr][catId] || { prog: 0, memo: "" };
+  cur.prog = cur.prog === val ? 0 : val; // 同じ段階をもう一度押したら取り消す
+  data[dateStr][catId] = cur;
+  saveRoutineRecords(data);
+}
+function routineHistCycleProgress(dateStr, catId) {
+  const data = getRoutineRecords();
+  if (!data[dateStr]) data[dateStr] = {};
+  const cur = data[dateStr][catId] || { prog: 0, memo: "" };
+  cur.prog = (cur.prog + 1) % 6;
+  data[dateStr][catId] = cur;
+  saveRoutineRecords(data);
+}
+function setRoutineMemo(dateStr, catId, memo) {
+  const data = getRoutineRecords();
+  if (!data[dateStr]) data[dateStr] = {};
+  const cur = data[dateStr][catId] || { prog: 0, memo: "" };
+  cur.memo = memo;
+  data[dateStr][catId] = cur;
+  saveRoutineRecords(data);
+}
+
+function getRoutineDiary() {
+  const data = loadJSON(STORAGE_KEYS.routineDiary, {});
+  return data && typeof data === "object" ? data : {};
+}
+function saveRoutineDiaryEntry(dateStr, text) {
+  const data = getRoutineDiary();
+  if (text) data[dateStr] = text;
+  else delete data[dateStr];
+  saveJSON(STORAGE_KEYS.routineDiary, data);
+}
+
+function routineTodayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+// 曜日込みの短い日付表示。言語ごとの曜日名はweekdayShortLabelに任せる
+// （元アプリは英語/日本語だけのハードコードだったが、このアプリは8言語対応のため）。
+function fmtRoutineDate(dateStr) {
+  const d = new Date(`${dateStr}T00:00:00`);
+  return `${d.getMonth() + 1}/${d.getDate()} (${weekdayShortLabel(d.getDay())})`;
+}
+function fmtRoutineMonthLabel(monthStr) {
+  const [y, m] = monthStr.split("-").map(Number);
+  return new Date(y, m - 1, 1).toLocaleDateString(currentLanguage, { month: "long", year: "numeric" });
+}
+
+/* ---- 画面状態 ----
+   統計と今日の採点は常時表示（タブで切り替える必要がない）。
+   履歴・日記だけ、場所を取るのでタブの奥にしまってある。 */
+let routineView = "history";
+let routineTodayDate = routineTodayStr();
+let routineHistoryMonth = routineTodayDate.slice(0, 7);
+let routineDiaryDate = routineTodayDate;
+let routineStatsRange = 30;
+let routineMemoContext = null; // { dateStr, catId }
+
+function showRoutineView(view) {
+  routineView = view;
+  ["History", "Diary"].forEach((name) => {
+    const isActive = name.toLowerCase() === view;
+    const tab = document.getElementById(`routineTab${name}`);
+    const panel = document.getElementById(`routineView${name}`);
+    if (tab) tab.classList.toggle("is-active", isActive);
+    if (panel) panel.hidden = !isActive;
+  });
+  refreshRoutineTrackerViews();
+}
+
+// 頑張りたいことの追加・削除があった直後にも呼ばれる。オンボーディング中など
+// まだRoutine TrackerのDOMが無いタイミングから呼ばれても安全に何もしない。
+function refreshRoutineTrackerViews() {
+  if (!document.getElementById("routineTodayCards")) return;
+  renderRoutineStats();
+  renderRoutineToday();
+  if (routineView === "diary") renderRoutineDiary();
+  else renderRoutineHistory();
+}
+
+/* ---- Today ---- */
+function shiftRoutineTodayDate(delta) {
+  const d = new Date(`${routineTodayDate}T00:00:00`);
+  d.setDate(d.getDate() + delta);
+  const next = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  if (next > routineTodayStr()) return; // 未来には進めない
+  routineTodayDate = next;
+  renderRoutineToday();
+}
+
+function renderRoutineToday() {
+  document.getElementById("routineTodayLabel").textContent = fmtRoutineDate(routineTodayDate);
+  const container = document.getElementById("routineTodayCards");
+  container.innerHTML = "";
+  const cats = routineCategories();
+  if (!cats.length) {
+    const empty = document.createElement("p");
+    empty.className = "routine-empty";
+    empty.textContent = t("Add something you want to work on, and it'll show up here to track.");
+    container.appendChild(empty);
+    return;
+  }
+  cats.forEach((cat) => {
+    const rec = getRoutineRecord(routineTodayDate, cat.id);
+    const card = document.createElement("div");
+    card.className = "routine-card";
+
+    const top = document.createElement("div");
+    top.className = "routine-card-top";
+    const name = document.createElement("span");
+    name.className = "routine-card-name";
+    name.textContent = cat.text;
+    const memoBtn = document.createElement("button");
+    memoBtn.type = "button";
+    memoBtn.className = "routine-memo-btn";
+    memoBtn.textContent = `📝 ${t("Note")}`;
+    memoBtn.addEventListener("click", () => openRoutineMemo(routineTodayDate, cat.id));
+    top.append(name, memoBtn);
+
+    const segWrap = document.createElement("div");
+    segWrap.className = "routine-segments";
+    for (let i = 1; i <= 5; i++) {
+      const seg = document.createElement("button");
+      seg.type = "button";
+      seg.className = `routine-seg ${i <= rec.prog ? "is-filled" : "is-empty"}`;
+      if (i <= rec.prog) seg.style.background = ROUTINE_PROG_COLORS[i];
+      seg.title = routineProgLabel(i);
+      seg.addEventListener("click", () => {
+        setRoutineProgress(routineTodayDate, cat.id, i);
+        renderRoutineToday();
+      });
+      segWrap.appendChild(seg);
+    }
+
+    const info = document.createElement("div");
+    info.className = "routine-card-info";
+    const label = document.createElement("span");
+    label.className = "routine-stage-label";
+    label.textContent = routineProgLabel(rec.prog);
+    if (rec.prog > 0) label.style.color = ROUTINE_PROG_COLORS[rec.prog];
+    info.appendChild(label);
+
+    card.append(top, segWrap, info);
+    if (rec.memo) {
+      const memo = document.createElement("div");
+      memo.className = "routine-memo-preview";
+      memo.textContent = `📝 ${rec.memo}`;
+      card.appendChild(memo);
+    }
+    container.appendChild(card);
+  });
+}
+
+/* ---- History ---- */
+function shiftRoutineHistoryMonth(delta) {
+  const [y, m] = routineHistoryMonth.split("-").map(Number);
+  let ny = y;
+  let nm = m + delta;
+  if (nm > 12) { nm = 1; ny++; }
+  if (nm < 1) { nm = 12; ny--; }
+  routineHistoryMonth = `${ny}-${pad2(nm)}`;
+  renderRoutineHistory();
+}
+
+function renderRoutineHistory() {
+  document.getElementById("routineHistoryLabel").textContent = fmtRoutineMonthLabel(routineHistoryMonth);
+  const [y, m] = routineHistoryMonth.split("-").map(Number);
+  const daysInMonth = new Date(y, m, 0).getDate();
+  const table = document.getElementById("routineHistoryTable");
+  const thead = table.querySelector("thead");
+  const tbody = table.querySelector("tbody");
+  const cats = routineCategories();
+  const today = routineTodayStr();
+
+  thead.innerHTML = "";
+  tbody.innerHTML = "";
+  if (!cats.length) {
+    const p = document.createElement("p");
+    p.className = "routine-empty";
+    p.textContent = t("Add something you want to work on, and it'll show up here to track.");
+    tbody.appendChild(document.createElement("tr")).appendChild(document.createElement("td")).appendChild(p);
+    return;
+  }
+
+  const headRow = document.createElement("tr");
+  const dateHeadTh = document.createElement("th");
+  dateHeadTh.textContent = t("Date");
+  headRow.appendChild(dateHeadTh);
+  cats.forEach((cat) => {
+    const th = document.createElement("th");
+    th.textContent = cat.text;
+    headRow.appendChild(th);
+  });
+  thead.appendChild(headRow);
+
+  let rowsAdded = 0;
+  for (let d = daysInMonth; d >= 1; d--) {
+    const ds = `${y}-${pad2(m)}-${pad2(d)}`;
+    if (ds > today) continue;
+    rowsAdded++;
+    const isToday = ds === today;
+    const tr = document.createElement("tr");
+    tr.className = isToday ? "is-today" : "";
+
+    const dateTd = document.createElement("td");
+    dateTd.className = "routine-history-date";
+    const dow = weekdayShortLabel(new Date(`${ds}T00:00:00`).getDay());
+    dateTd.innerHTML = `${m}/${d}<br><span class="routine-history-dow">${escapeHtml(dow)}${isToday ? " ★" : ""}</span>`;
+    tr.appendChild(dateTd);
+
+    cats.forEach((cat) => {
+      const td = document.createElement("td");
+      td.className = "routine-history-cell";
+      const rec = getRoutineRecord(ds, cat.id);
+      const block = document.createElement("button");
+      block.type = "button";
+      block.className = `routine-history-block routine-lvl-${rec.prog}`;
+      block.title = routineProgLabel(rec.prog);
+      if (rec.memo) {
+        const memoIcon = document.createElement("span");
+        memoIcon.className = "routine-history-memo";
+        memoIcon.textContent = "📝";
+        block.appendChild(memoIcon);
+      }
+      block.addEventListener("click", () => {
+        routineHistCycleProgress(ds, cat.id);
+        renderRoutineHistory();
+      });
+      td.appendChild(block);
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  }
+  if (!rowsAdded) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = cats.length + 1;
+    td.className = "routine-history-empty";
+    td.textContent = t("No records this month");
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+}
+
+/* ---- Diary ---- */
+function shiftRoutineDiaryDate(delta) {
+  const d = new Date(`${routineDiaryDate}T00:00:00`);
+  d.setDate(d.getDate() + delta);
+  const next = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  if (next > routineTodayStr()) return;
+  routineDiaryDate = next;
+  renderRoutineDiary();
+}
+
+function renderRoutineDiary() {
+  document.getElementById("routineDiaryLabel").textContent = fmtRoutineDate(routineDiaryDate);
+  const diary = getRoutineDiary();
+  document.getElementById("routineDiaryInput").value = diary[routineDiaryDate] || "";
+
+  const hist = document.getElementById("routineDiaryHistory");
+  hist.innerHTML = "";
+  const entries = Object.entries(diary)
+    .filter(([ds, text]) => text && ds !== routineDiaryDate)
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .slice(0, 30);
+  entries.forEach(([ds, text]) => {
+    const entry = document.createElement("div");
+    entry.className = "routine-diary-entry";
+    const dateEl = document.createElement("div");
+    dateEl.className = "routine-diary-entry-date";
+    dateEl.textContent = fmtRoutineDate(ds);
+    const textEl = document.createElement("div");
+    textEl.className = "routine-diary-entry-text";
+    textEl.textContent = text;
+    entry.append(dateEl, textEl);
+    hist.appendChild(entry);
+  });
+}
+
+function saveRoutineDiaryFromInput() {
+  const text = document.getElementById("routineDiaryInput").value.trim();
+  saveRoutineDiaryEntry(routineDiaryDate, text);
+  showToast(t("Diary saved"));
+  renderRoutineDiary();
+}
+
+/* ---- メモモーダル（Today/Historyどちらからも開ける） ---- */
+function openRoutineMemo(dateStr, catId) {
+  const cat = routineCategories().find((c) => c.id === catId);
+  routineMemoContext = { dateStr, catId };
+  document.getElementById("routineMemoLabel").textContent = `${fmtRoutineDate(dateStr)} ・ ${cat ? cat.text : ""}`;
+  document.getElementById("routineMemoInput").value = getRoutineRecord(dateStr, catId).memo;
+  document.getElementById("routineMemoModal").hidden = false;
+}
+function saveRoutineMemoFromModal() {
+  if (!routineMemoContext) return;
+  const memo = document.getElementById("routineMemoInput").value.trim();
+  setRoutineMemo(routineMemoContext.dateStr, routineMemoContext.catId, memo);
+  closeRoutineMemo();
+  refreshRoutineTrackerViews();
+}
+function closeRoutineMemo() {
+  document.getElementById("routineMemoModal").hidden = true;
+  routineMemoContext = null;
+}
+
+/* ---- Stats ---- */
+function routineLastNDays(n) {
+  const today = routineTodayStr();
+  const days = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(`${today}T00:00:00`);
+    d.setDate(d.getDate() - i);
+    days.push(`${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`);
+  }
+  return days;
+}
+
+function routineArrAvg(arr, ignoreZero) {
+  const a = ignoreZero ? arr.filter((v) => v > 0) : arr;
+  return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+}
+
+function renderRoutineStats() {
+  const container = document.getElementById("routineStatsContent");
+  const cats = routineCategories();
+  container.innerHTML = "";
+  if (!cats.length) {
+    const p = document.createElement("p");
+    p.className = "routine-empty";
+    p.textContent = t("Add something you want to work on, and it'll show up here to track.");
+    container.appendChild(p);
+    return;
+  }
+
+  const days = routineLastNDays(routineStatsRange);
+  const today = routineTodayStr();
+  const catData = {};
+  cats.forEach((c) => { catData[c.id] = days.map((ds) => getRoutineRecord(ds, c.id).prog); });
+
+  function section(title, bodyHtml) {
+    return `<div class="routine-stat-section"><div class="routine-stat-section-title">${escapeHtml(title)}</div>${bodyHtml}</div>`;
+  }
+
+  // 1. サマリーカード
+  const activeDays = days.filter((ds) => cats.some((c) => getRoutineRecord(ds, c.id).prog > 0)).length;
+  const allVals = cats.flatMap((c) => catData[c.id]).filter((v) => v > 0);
+  const overallAvg = allVals.length ? (allVals.reduce((a, b) => a + b, 0) / allVals.length).toFixed(1) : "—";
+  let bestCat = null;
+  let bestAvg = -1;
+  cats.forEach((c) => {
+    const avg = routineArrAvg(catData[c.id], true);
+    if (avg > bestAvg) { bestAvg = avg; bestCat = c; }
+  });
+  const summaryHtml = `<div class="routine-stat-cards">
+    <div class="routine-stat-card"><div class="routine-stat-card-val">${activeDays}</div><div class="routine-stat-card-label">${escapeHtml(t("Active Days"))}</div><div class="routine-stat-card-sub">${tf("last {days}d", { days: routineStatsRange })}</div></div>
+    <div class="routine-stat-card"><div class="routine-stat-card-val">${overallAvg}</div><div class="routine-stat-card-label">${escapeHtml(t("Avg Score"))}</div><div class="routine-stat-card-sub">${escapeHtml(t("out of 5.0"))}</div></div>
+    <div class="routine-stat-card"><div class="routine-stat-card-val" style="font-size:${bestCat && bestCat.text.length > 6 ? "12" : "20"}px">${bestCat ? escapeHtml(bestCat.text) : "—"}</div><div class="routine-stat-card-label">${escapeHtml(t("Top Category"))}</div><div class="routine-stat-card-sub">${bestAvg > 0 ? `${bestAvg.toFixed(1)} ${t("avg")}` : escapeHtml(t("no data"))}</div></div>
+  </div>`;
+
+  // 2. アクティビティ・ヒートマップ
+  const hmDays = days.slice(-42);
+  let hm = `<div class="routine-heatmap-wrap"><table class="routine-heatmap-table"><thead><tr><td class="routine-hm-cat-label"></td>`;
+  hmDays.forEach((ds) => {
+    const dow = weekdayShortLabel(new Date(`${ds}T00:00:00`).getDay()).slice(0, 1);
+    hm += `<td class="routine-hm-th${ds === today ? " routine-hm-today" : ""}">${escapeHtml(dow)}</td>`;
+  });
+  hm += "</tr></thead><tbody>";
+  cats.forEach((cat, ci) => {
+    const color = ROUTINE_CAT_PALETTE[ci % ROUTINE_CAT_PALETTE.length];
+    hm += `<tr><td class="routine-hm-cat-label" style="color:${color}">${escapeHtml(cat.text)}</td>`;
+    hmDays.forEach((ds) => {
+      const prog = getRoutineRecord(ds, cat.id).prog;
+      const bg = prog > 0 ? ROUTINE_PROG_COLORS[prog] : "var(--bg-subtle)";
+      const border = prog === 2 ? "border:1px solid var(--border);" : "";
+      hm += `<td class="routine-hm-cell"><div class="routine-hm-sq" style="background:${bg};${border}" title="${escapeHtml(routineProgLabel(prog))}"></div></td>`;
+    });
+    hm += "</tr>";
+  });
+  hm += "</tbody></table></div>";
+
+  // 3. レーダーチャート（カテゴリのバランス）
+  function drawRadar() {
+    if (cats.length < 2) return `<div class="routine-need-cats">${escapeHtml(t("Need 2+ categories"))}</div>`;
+    const N = cats.length;
+    const R = 72;
+    const cx = 110;
+    const cy = 110;
+    const avgs = cats.map((c) => routineArrAvg(catData[c.id], true) / 5);
+    const pt = (i, r) => {
+      const a = (Math.PI * 2 * i) / N - Math.PI / 2;
+      return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+    };
+    let s = `<svg viewBox="0 0 220 220" style="width:100%;max-width:240px">`;
+    [0.25, 0.5, 0.75, 1].forEach((f) => {
+      const pts = cats.map((_, i) => pt(i, R * f));
+      s += `<polygon points="${pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ")}" fill="none" stroke="var(--border)" stroke-width="1"/>`;
+    });
+    cats.forEach((_, i) => {
+      const e = pt(i, R);
+      s += `<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="var(--border)" stroke-width="1"/>`;
+    });
+    const dpts = cats.map((_, i) => pt(i, R * Math.max(avgs[i], 0.04)));
+    s += `<polygon points="${dpts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ")}" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="2"/>`;
+    dpts.forEach((p) => { s += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="var(--accent)"/>`; });
+    cats.forEach((cat, i) => {
+      const lp = pt(i, R + 20);
+      const anchor = lp.x < cx - 4 ? "end" : lp.x > cx + 4 ? "start" : "middle";
+      const color = ROUTINE_CAT_PALETTE[i % ROUTINE_CAT_PALETTE.length];
+      s += `<text x="${lp.x.toFixed(1)}" y="${(lp.y + 4).toFixed(1)}" text-anchor="${anchor}" font-size="10" fill="${color}" font-weight="700">${escapeHtml(cat.text.slice(0, 9))}</text>`;
+    });
+    s += "</svg>";
+    return s;
+  }
+
+  // 4. 進捗トレンド（折れ線）
+  function drawLine() {
+    const W = 320;
+    const H = 150;
+    const pL = 26;
+    const pR = 8;
+    const pT = 10;
+    const pB = 22;
+    const w = W - pL - pR;
+    const h = H - pT - pB;
+    const N = days.length;
+    const px = (i) => pL + (i / Math.max(N - 1, 1)) * w;
+    const py = (v) => pT + h - (v / 5) * h;
+    let s = `<svg viewBox="0 0 ${W} ${H}" style="width:100%">`;
+    [1, 2, 3, 4, 5].forEach((v) => {
+      const y = py(v).toFixed(1);
+      s += `<line x1="${pL}" y1="${y}" x2="${W - pR}" y2="${y}" stroke="var(--border)" stroke-width="1"/>`;
+      s += `<text x="${pL - 3}" y="${(py(v) + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--text-dim)">${v}</text>`;
+    });
+    days.forEach((ds, i) => {
+      if (i === 0 || i === N - 1 || (N <= 30 && i % 7 === 0) || (N > 30 && i % 14 === 0)) {
+        const d = new Date(`${ds}T00:00:00`);
+        s += `<text x="${px(i).toFixed(1)}" y="${H - 5}" text-anchor="middle" font-size="8" fill="var(--text-dim)">${d.getMonth() + 1}/${d.getDate()}</text>`;
+      }
+    });
+    cats.forEach((cat, ci) => {
+      const color = ROUTINE_CAT_PALETTE[ci % ROUTINE_CAT_PALETTE.length];
+      const vals = catData[cat.id];
+      let path = "";
+      vals.forEach((v, i) => {
+        if (v > 0) {
+          const x = px(i).toFixed(1);
+          const y = py(v).toFixed(1);
+          path += path === "" || vals[i - 1] === 0 ? `M${x},${y}` : `L${x},${y}`;
+        }
+      });
+      if (path) s += `<path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>`;
+      vals.forEach((v, i) => {
+        if (v > 0) s += `<circle cx="${px(i).toFixed(1)}" cy="${py(v).toFixed(1)}" r="2.5" fill="${color}"/>`;
+      });
+    });
+    s += "</svg>";
+    const legend = `<div class="routine-chart-legend">${cats
+      .map((c, ci) => `<span class="routine-legend-item"><span class="routine-legend-dot" style="background:${ROUTINE_CAT_PALETTE[ci % ROUTINE_CAT_PALETTE.length]}"></span>${escapeHtml(c.text)}</span>`)
+      .join("")}</div>`;
+    return s + legend;
+  }
+
+  // 5. 曜日別パフォーマンス
+  function drawDow() {
+    const buckets = Array(7).fill(0).map(() => []);
+    days.forEach((ds, di) => {
+      const dow = new Date(`${ds}T00:00:00`).getDay();
+      cats.forEach((c) => { const v = catData[c.id][di]; if (v > 0) buckets[dow].push(v); });
+    });
+    const avgs = buckets.map((b) => (b.length ? b.reduce((a, x) => a + x, 0) / b.length : 0));
+    const W = 294;
+    const H = 120;
+    const pL = 6;
+    const pT = 14;
+    const pB = 20;
+    const slotW = (W - pL - 6) / 7;
+    const barW = slotW * 0.6;
+    const chartH = H - pT - pB;
+    let s = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:360px">`;
+    avgs.forEach((avg, i) => {
+      const barH = (avg / 5) * chartH;
+      const x = pL + i * slotW + (slotW - barW) / 2;
+      const y = pT + chartH - barH;
+      const lv = Math.round(avg);
+      const color = avg > 0 ? ROUTINE_PROG_COLORS[Math.max(1, lv)] : "var(--bg-subtle)";
+      s += `<rect x="${x.toFixed(1)}" y="${(avg > 0 ? y : pT + chartH - 2).toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(barH, 2).toFixed(1)}" rx="4" fill="${color}"/>`;
+      if (avg > 0) s += `<text x="${(x + barW / 2).toFixed(1)}" y="${(y - 3).toFixed(1)}" text-anchor="middle" font-size="9" fill="var(--text-dim)" font-weight="700">${avg.toFixed(1)}</text>`;
+      s += `<text x="${(x + barW / 2).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" fill="var(--text-dim)">${escapeHtml(weekdayShortLabel(i))}</text>`;
+    });
+    s += "</svg>";
+    return `<div class="routine-chart-center">${s}</div>`;
+  }
+
+  // 6. ストリーク
+  function drawStreaks() {
+    let h = '<div class="routine-streak-grid">';
+    cats.forEach((cat, ci) => {
+      const color = ROUTINE_CAT_PALETTE[ci % ROUTINE_CAT_PALETTE.length];
+      const vals = catData[cat.id];
+      let cur = 0;
+      for (let i = vals.length - 1; i >= 0; i--) { if (vals[i] > 0) cur++; else break; }
+      let best = 0;
+      let run = 0;
+      vals.forEach((v) => { if (v > 0) { run++; best = Math.max(best, run); } else run = 0; });
+      const total = vals.filter((v) => v > 0).length;
+      const pct = vals.length ? Math.round((total / vals.length) * 100) : 0;
+      h += `<div class="routine-streak-card">
+        <div class="routine-streak-cat" style="color:${color}">${escapeHtml(cat.text)}</div>
+        <div class="routine-streak-nums">
+          <div class="routine-streak-item"><div class="routine-streak-val" style="color:${color}">${cur}</div><div class="routine-streak-label">${escapeHtml(t("Streak"))}</div></div>
+          <div class="routine-streak-item"><div class="routine-streak-val">${best}</div><div class="routine-streak-label">${escapeHtml(t("Best"))}</div></div>
+          <div class="routine-streak-item"><div class="routine-streak-val">${total}</div><div class="routine-streak-label">${escapeHtml(t("Days done"))}</div></div>
+          <div class="routine-streak-item"><div class="routine-streak-val">${pct}%</div><div class="routine-streak-label">${escapeHtml(t("Rate"))}</div></div>
+        </div>
+        <div class="routine-streak-bar-bg"><div class="routine-streak-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      </div>`;
+    });
+    return `${h}</div>`;
+  }
+
+  // 7. 段階別の分布
+  function drawDist() {
+    let h = '<div class="routine-dist-list">';
+    cats.forEach((cat, ci) => {
+      const color = ROUTINE_CAT_PALETTE[ci % ROUTINE_CAT_PALETTE.length];
+      const vals = catData[cat.id].filter((v) => v > 0);
+      if (!vals.length) return;
+      const counts = [0, 0, 0, 0, 0, 0];
+      vals.forEach((v) => counts[v]++);
+      h += `<div class="routine-dist-row"><div class="routine-dist-cat" style="color:${color}">${escapeHtml(cat.text)}</div><div class="routine-dist-bar">`;
+      [1, 2, 3, 4, 5].forEach((lv) => {
+        if (!counts[lv]) return;
+        const pct = ((counts[lv] / vals.length) * 100).toFixed(1);
+        const border = lv === 2 ? "border-right:1px solid var(--border);" : "";
+        h += `<div class="routine-dist-seg" style="width:${pct}%;background:${ROUTINE_PROG_COLORS[lv]};${border}" title="${escapeHtml(routineProgLabel(lv))}: ${counts[lv]} (${pct}%)"></div>`;
+      });
+      h += `</div><div class="routine-dist-total">${vals.length}</div></div>`;
+    });
+    return `${h}</div>`;
+  }
+
+  container.innerHTML =
+    summaryHtml +
+    section(t("Activity Heatmap"), hm) +
+    section(t("Category Balance"), `<div class="routine-chart-center">${drawRadar()}</div>`) +
+    section(t("Progress Trend"), drawLine()) +
+    section(t("Best Day of Week"), drawDow()) +
+    section(t("Streaks & Completion"), drawStreaks()) +
+    section(t("Level Distribution"), drawDist());
+}
+
+/* ---- 配線 ---- */
+function initRoutineTracker() {
+  document.getElementById("routineTabHistory").addEventListener("click", () => showRoutineView("history"));
+  document.getElementById("routineTabDiary").addEventListener("click", () => showRoutineView("diary"));
+
+  document.getElementById("routineTodayPrevBtn").addEventListener("click", () => shiftRoutineTodayDate(-1));
+  document.getElementById("routineTodayNextBtn").addEventListener("click", () => shiftRoutineTodayDate(1));
+  document.getElementById("routineHistoryPrevBtn").addEventListener("click", () => shiftRoutineHistoryMonth(-1));
+  document.getElementById("routineHistoryNextBtn").addEventListener("click", () => shiftRoutineHistoryMonth(1));
+  document.getElementById("routineDiaryPrevBtn").addEventListener("click", () => shiftRoutineDiaryDate(-1));
+  document.getElementById("routineDiaryNextBtn").addEventListener("click", () => shiftRoutineDiaryDate(1));
+
+  document.getElementById("routineDiarySaveBtn").addEventListener("click", saveRoutineDiaryFromInput);
+
+  document.querySelectorAll(".routine-range-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      routineStatsRange = Number(btn.dataset.range);
+      document.querySelectorAll(".routine-range-btn").forEach((b) => b.classList.toggle("is-active", b === btn));
+      renderRoutineStats();
+    });
+  });
+
+  document.getElementById("closeRoutineMemo").addEventListener("click", closeRoutineMemo);
+  document.getElementById("routineMemoCancelBtn").addEventListener("click", closeRoutineMemo);
+  document.getElementById("routineMemoSaveBtn").addEventListener("click", saveRoutineMemoFromModal);
+
+  refreshRoutineTrackerViews();
 }
 
 /* ==========================================================================
@@ -10809,15 +11986,6 @@ function renderLookBack() {
   });
 }
 
-function openLookBackOnDemand() {
-  if (!recentlyFinished().length) {
-    showToast(t("Nothing finished in the last two weeks yet."));
-    return;
-  }
-  lookBackForced = true;
-  renderLookBack();
-  document.getElementById("wrLookBack").scrollIntoView({ block: "nearest" });
-}
 
 function dismissLookBack() {
   lookBackForced = false;
@@ -11334,7 +12502,6 @@ function init() {
   renderDayToggleRows();
 
   document.getElementById("wrLookBackDismissBtn").addEventListener("click", dismissLookBack);
-  document.getElementById("wrFinishedBtn").addEventListener("click", openLookBackOnDemand);
 
   document.getElementById("addIfThenBtn").addEventListener("click", () => {
     const triggerInput = document.getElementById("newIfThenTrigger");
@@ -11504,6 +12671,20 @@ function init() {
     const input = document.getElementById("searchInput").value.trim();
     if (!input) return;
     openTab(input);
+  });
+
+  document.getElementById("closeSearchResults").addEventListener("click", closeSearchResultsModal);
+  document.getElementById("searchResultsPrevBtn").addEventListener("click", () => {
+    if (searchResultsPage > 0) {
+      searchResultsPage--;
+      renderSearchResults();
+    }
+  });
+  document.getElementById("searchResultsNextBtn").addEventListener("click", () => {
+    if (!document.getElementById("searchResultsNextBtn").disabled) {
+      searchResultsPage++;
+      renderSearchResults();
+    }
   });
 
   document.getElementById("tabStripPrevBtn").addEventListener("click", () => {
